@@ -13,9 +13,16 @@ namespace Assets.Scripts.Tutorial
         [SerializeField] string PressDText;
         [SerializeField] string CompleteText;
         [SerializeField] string ReturnToMapText;
-        [SerializeField] TextMeshProUGUI textfield;
+        [SerializeField] TextMeshProUGUI tutorialTextfield;
+        [SerializeField] TextMeshProUGUI errorTextfield;
 
         private Enums.TutorialState tutorialState = Enums.TutorialState.Initialize;
+
+        public Enums.TutorialState TutorialState
+        {
+            get { return tutorialState; }
+            private set { tutorialState = value; }
+        }
 
         public void AdvanceState()
         {
@@ -38,6 +45,7 @@ namespace Assets.Scripts.Tutorial
                     break;
                 case Enums.TutorialState.Complete:
                     //TODO: Achievement get: Finished boring tutorial
+                    tutorialState = Enums.TutorialState.ReturnToMap;
                     break;
                 case Enums.TutorialState.ReturnToMap:
                     //TODO: Return to map
@@ -54,10 +62,34 @@ namespace Assets.Scripts.Tutorial
             if (IsInputExpectedInput(key))
             {
                 AdvanceState();
+                errorTextfield.text = string.Empty;
             }
-            else
+            else if (!CanMoveWithKey(key))
             {
-                //TODO: Show temporary popup with pressed key
+                errorTextfield.text = $"Wrong key! {key} was not expected";
+            }
+        }
+
+        public bool CanMoveWithKey(KeyCode key)
+        {
+            switch (TutorialState)
+            {
+                case Enums.TutorialState.Initialize:
+                    return true;
+                case Enums.TutorialState.PressW:
+                    return key == KeyCode.W;
+                case Enums.TutorialState.PressA:
+                    return key == KeyCode.W || key == KeyCode.A;
+                case Enums.TutorialState.PressS:
+                    return key == KeyCode.W || key == KeyCode.A || key == KeyCode.S;
+                case Enums.TutorialState.PressD:
+                    return key == KeyCode.W || key == KeyCode.A || key == KeyCode.S || key == KeyCode.D;
+                case Enums.TutorialState.Complete:
+                    return true;
+                case Enums.TutorialState.ReturnToMap:
+                    return true;
+                default:
+                    return false;
             }
         }
 
@@ -78,7 +110,7 @@ namespace Assets.Scripts.Tutorial
                 case Enums.TutorialState.Complete:
                     return true;
                 case Enums.TutorialState.ReturnToMap:
-                    return true;
+                    return key == KeyCode.Escape;
                 default:
                     return false;
             }
@@ -86,7 +118,7 @@ namespace Assets.Scripts.Tutorial
 
         private void SetCurrentStateText()
         {
-            textfield.text = GetCurrentStateText();
+            tutorialTextfield.text = GetCurrentStateText();
         }
 
         private string GetCurrentStateText()

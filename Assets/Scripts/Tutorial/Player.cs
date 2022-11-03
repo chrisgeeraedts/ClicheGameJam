@@ -5,6 +5,8 @@ namespace Assets.Scripts.Tutorial
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] float movespeed = 1;
+
         private TutorialManager tutorialManager;
 
         private void Start()
@@ -19,29 +21,48 @@ namespace Assets.Scripts.Tutorial
 
         private void HandlePlayerInput()
         {
-            if (!Input.anyKeyDown) return;
+            if (!Input.anyKey) return;
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKey(KeyCode.W))
             {
                 tutorialManager.HandlePlayerInput(KeyCode.W);
+                if (tutorialManager.CanMoveWithKey(KeyCode.W))
+                {
+                    var newPosition = new Vector2(transform.position.x, transform.position.y + movespeed * Time.deltaTime);
+                    transform.position = newPosition;
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKey(KeyCode.A))
             {
+                if (tutorialManager.CanMoveWithKey(KeyCode.A))
+                {
+                    var newPosition = new Vector2(transform.position.x - movespeed * Time.deltaTime, transform.position.y);
+                    transform.position = newPosition;
+                }
                 tutorialManager.HandlePlayerInput(KeyCode.A);
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKey(KeyCode.S))
             {
                 tutorialManager.HandlePlayerInput(KeyCode.S);
+                if (tutorialManager.CanMoveWithKey(KeyCode.S))
+                {
+                    var newPosition = new Vector2(transform.position.x, transform.position.y - movespeed * Time.deltaTime);
+                    transform.position = newPosition;
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKey(KeyCode.D))
             {
                 tutorialManager.HandlePlayerInput(KeyCode.D);
+                if (tutorialManager.CanMoveWithKey(KeyCode.D))
+                {
+                    var newPosition = new Vector2(transform.position.x + movespeed * Time.deltaTime, transform.position.y);
+                    transform.position = newPosition;
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.Mouse0))
+            else if (Input.GetKey(KeyCode.Mouse0))
             {
                 tutorialManager.HandlePlayerInput(KeyCode.Mouse0);
             }
-
         }
     }
 }
