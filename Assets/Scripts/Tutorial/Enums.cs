@@ -12,5 +12,13 @@
             Complete,
             ReturnToMap
         }
+
+        public enum Direction
+        { 
+            Up,
+            Down,
+            Left,
+            Right
+        }
     }
 }

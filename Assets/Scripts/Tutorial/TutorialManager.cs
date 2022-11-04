@@ -15,13 +15,27 @@ namespace Assets.Scripts.Tutorial
         [SerializeField] string ReturnToMapText;
         [SerializeField] TextMeshProUGUI tutorialTextfield;
         [SerializeField] TextMeshProUGUI errorTextfield;
+        [SerializeField] GameObject errorTextPanel;
 
         private Enums.TutorialState tutorialState = Enums.TutorialState.Initialize;
+        private bool invisibleWallsAchievementGot = false;
 
         public Enums.TutorialState TutorialState
         {
             get { return tutorialState; }
             private set { tutorialState = value; }
+        }
+
+        public bool InvisibleWallsAchievementGot
+        {
+            get { return invisibleWallsAchievementGot; }
+        }
+
+        public void TriggerInvisibleWallsAchievement()
+        {
+            invisibleWallsAchievementGot = true;
+            //TODO: Achievement get: World limited by invisible boundaries
+            Debug.Log("Achievement get: World limited by invisible boundaries");
         }
 
         public void AdvanceState()
@@ -45,6 +59,7 @@ namespace Assets.Scripts.Tutorial
                     break;
                 case Enums.TutorialState.Complete:
                     //TODO: Achievement get: Finished boring tutorial
+                    Debug.Log("Achievement get: Finished boring/handholding tutorial");
                     tutorialState = Enums.TutorialState.ReturnToMap;
                     break;
                 case Enums.TutorialState.ReturnToMap:
@@ -63,10 +78,12 @@ namespace Assets.Scripts.Tutorial
             {
                 AdvanceState();
                 errorTextfield.text = string.Empty;
+                errorTextPanel.SetActive(false);
             }
             else if (!CanMoveWithKey(key))
             {
                 errorTextfield.text = $"Wrong key! {key} was not expected";
+                errorTextPanel.SetActive(true);
             }
         }
 
