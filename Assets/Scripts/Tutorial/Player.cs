@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using static Assets.Scripts.Tutorial.Enums;
+using static Assets.Scripts.Shared.Enums;
 
 namespace Assets.Scripts.Tutorial
 {
