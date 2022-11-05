@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Assets.Scripts.Shared.Enums;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Map
 {
@@ -13,17 +15,106 @@ namespace Assets.Scripts.Map
         [SerializeField] GameObject mapParentObject;
         [SerializeField] GameObject mapNodePrefab;
 
-        private bool mapIsGenerated = false;
+        private bool isInitialized = false;
         private List<int> unusedMinigameInfoIndexes;
+        private int selectedX, selectedY;
+        private GameObject[,] minigameGrid;
 
         private void Start()
         {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            if (isInitialized) return;
+
+            minigameGrid = new GameObject[mapWidth, mapHeight];
             GenerateMap();
+            SelectFirstMapNode();
+
+            isInitialized = true;
+        }
+
+        private void SelectFirstMapNode()
+        {
+            minigameGrid[0, 0].GetComponent<MapNode>().SetSelected(true);
+        }
+
+        private void Update()
+        {
+            HandlePlayerInput();
+        }
+
+        private void HandlePlayerInput()
+        {
+            if (Input.GetKeyDown(KeyCode.W)) MoveSelectedMapNode(Direction.Up);
+            if (Input.GetKeyDown(KeyCode.A)) MoveSelectedMapNode(Direction.Left);
+            if (Input.GetKeyDown(KeyCode.S)) MoveSelectedMapNode(Direction.Down);
+            if (Input.GetKeyDown(KeyCode.D)) MoveSelectedMapNode(Direction.Right);
+            if (Input.GetKeyDown(KeyCode.Return)) StartSelectedGame();
+        }
+
+        private void StartSelectedGame()
+        {
+            var selectedNode = minigameGrid[selectedX, selectedY].GetComponent<MapNode>();
+            SceneManager.LoadScene(selectedNode.MinigameInfo.SceneName);
+        }
+
+        private void MoveSelectedMapNode(Direction direction)
+        {
+            if (MoveIsImpossible(direction)) return;
+
+            SetCurrentMapModeSelected(false);
+            ApplyMove(direction);
+            SetCurrentMapModeSelected(true);
+        }
+
+        private void SetCurrentMapModeSelected(bool isSelected)
+        {
+            minigameGrid[selectedX, selectedY].GetComponent<MapNode>().SetSelected(isSelected);
+        }
+
+        private void ApplyMove(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    selectedY++;
+                    break;
+                case Direction.Down:
+                    selectedY--;
+                    break;
+                case Direction.Left:
+                    selectedX--;
+                    break;
+                case Direction.Right:
+                    selectedX++;
+                    break;
+                default:
+                    throw new Exception($"Unable to handle direction {direction}");
+            }
+        }
+
+        private bool MoveIsImpossible(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    return selectedY >= mapHeight - 1;
+                case Direction.Down:
+                    return selectedY <= 0;
+                case Direction.Left:
+                    return selectedX <= 0;
+                case Direction.Right:
+                    return selectedX >= mapWidth - 1;
+                default:
+                    throw new Exception($"Unable to handle direction {direction}");
+            }
         }
 
         private void GenerateMap()
         {
-            if (mapIsGenerated) return;
             FillUnusedMinigameinfoIndexes();
 
             for (int x = 0; x < mapWidth; x++)
@@ -34,10 +125,9 @@ namespace Assets.Scripts.Map
                     var minigameInfo = GetRandomMinigameInfo();
                     mapNode.GetComponent<MapNode>().SetInfo(minigameInfo, x);
                     mapNode.transform.localPosition = new Vector2(x * xIncrement, y * yIncrement);
+                    minigameGrid[x, y] = mapNode;
                 }
             }
-
-            mapIsGenerated = true;
         }
 
         private MinigameInfo GetRandomMinigameInfo()
