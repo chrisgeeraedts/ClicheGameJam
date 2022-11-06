@@ -14,6 +14,8 @@ namespace Assets.Scripts.Map
         [SerializeField] float xIncrement, yIncrement;
         [SerializeField] GameObject mapParentObject;
         [SerializeField] GameObject mapNodePrefab;
+        [SerializeField] AudioSource cursorMoved;
+        [SerializeField] AudioSource mapSelected;
 
         private bool isInitialized = false;
         private List<int> unusedMinigameInfoIndexes;
@@ -53,10 +55,12 @@ namespace Assets.Scripts.Map
             if (Input.GetKeyDown(KeyCode.S)) MoveSelectedMapNode(Direction.Down);
             if (Input.GetKeyDown(KeyCode.D)) MoveSelectedMapNode(Direction.Right);
             if (Input.GetKeyDown(KeyCode.Return)) StartSelectedGame();
+            if (Input.GetKeyDown(KeyCode.Space)) StartSelectedGame();
         }
 
         private void StartSelectedGame()
         {
+            mapSelected.Play();
             var selectedNode = minigameGrid[selectedX, selectedY].GetComponent<MapNode>();
             SceneManager.LoadScene(selectedNode.MinigameInfo.SceneName);
         }
@@ -68,6 +72,7 @@ namespace Assets.Scripts.Map
             SetCurrentMapModeSelected(false);
             ApplyMove(direction);
             SetCurrentMapModeSelected(true);
+            cursorMoved.Play();
         }
 
         private void SetCurrentMapModeSelected(bool isSelected)

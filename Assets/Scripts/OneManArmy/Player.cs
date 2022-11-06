@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using UnityEngine.Rendering.Universal;
 
 namespace Assets.Scripts.OneManArmy
 {
@@ -14,11 +16,13 @@ namespace Assets.Scripts.OneManArmy
         public AudioSource deathAudio;
         public GameObject MinigameManager;
         public GameObject ChatBubble;
+        private Animator animator;
 
 
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
         }
 
         private bool isDead = false;
@@ -29,9 +33,21 @@ namespace Assets.Scripts.OneManArmy
             {
                 RotateToMouse();
                 HandlePlayerInput();
+                HandlePlayerAnimations();
             }
 
-            ChatBubble.transform.position = new Vector3(transform.position.x+1.5f, transform.position.y+1.5f, transform.position.z);
+            ChatBubble.transform.position = new Vector3(transform.position.x+0.7f, transform.position.y+0.7f, transform.position.z);
+        }
+
+        private void HandlePlayerAnimations()
+        {
+            if(rb.velocity.magnitude > 0)
+            {
+                animator.SetBool("IsMoving", true);
+            }
+            else{
+                animator.SetBool("IsMoving", false);
+            }
         }
 
         private void RotateToMouse()
@@ -82,6 +98,7 @@ namespace Assets.Scripts.OneManArmy
             if(damageTaken < damageMax)
             {
                 damageTakenAudio.Play();
+                animator.SetBool("IsTakingDamage", true);
                 Debug.Log("I GOT HIT!");
                 MinigameManager.GetComponent<MinigameManager>().PlayerTakenDamage(damageTaken);
             }
@@ -92,7 +109,14 @@ namespace Assets.Scripts.OneManArmy
                 isDead = true;
                 MinigameManager.GetComponent<MinigameManager>().PlayerDied();
             }
+        }
 
+
+        private IEnumerator RecoveredFromDamage()
+        {
+            yield return new WaitForSeconds(1f);
+            
+                animator.SetBool("IsTakingDamage", false);
         }
     }
 }

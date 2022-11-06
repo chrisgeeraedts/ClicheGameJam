@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 namespace Assets.Scripts.OneManArmy
 {
     public class MinigameManager : MonoBehaviour
@@ -122,13 +124,19 @@ namespace Assets.Scripts.OneManArmy
         {
             if(Completed)
             {
-                // get escape key press
-                // Go back to map
+                 if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    Debug.Log("Escape key was pressed"); // Go to other scene
+                    SceneManager.LoadScene("Map");
+                }
             }
         }
 
         private void Win()
-        {
+        {            
+            GameMusic.Stop();
+            WinMusic.Play();
+
             GameWinTextElement.enabled = true;
             Completed = true;
             foreach (GameObject zombie in activeZombies)
@@ -143,7 +151,11 @@ namespace Assets.Scripts.OneManArmy
 
         private void Lose()
         {
-            // DEFEAT                
+            GameMusic.Stop();
+            DeathMusic.Play();
+            HealthImage5_6.SetActive(false);
+            HealthImage6_6.SetActive(true);
+
             GameLossTextElement.enabled = true;
             Completed = true;
             foreach (GameObject zombie in activeZombies)
@@ -158,12 +170,7 @@ namespace Assets.Scripts.OneManArmy
 
         public void PlayerDied()
         {
-                GameMusic.Stop();
-                DeathMusic.Play();
-                HealthImage5_6.SetActive(false);
-                HealthImage6_6.SetActive(true);
-                Lose();
-
+            Lose();
         }
 
         public void PlayerTakenDamage(int damageTakenTotal)
@@ -179,7 +186,10 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage5_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
-                PlayerChatTextElement.text = "And my body? Incredible how I am still doing all of this!";
+                PlayerChatTextElement.text = "And my torso? Incredible how I am still doing all of this!";
+
+                //TODO: ARCHIEVEMENT
+
                 if(!PopupIsOpen)    
                 {
                     HideChatBubble();
