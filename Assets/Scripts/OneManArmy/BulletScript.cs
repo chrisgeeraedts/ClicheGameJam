@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    private float lifetime = 5f;
+    private float lifetime = 2f;
     private AudioSource gunAudioHit;
 
     void Start()
@@ -25,13 +25,13 @@ public class BulletScript : MonoBehaviour
             DamageEnemy(collision.gameObject); 
             gunAudioHit = GetComponent<AudioSource>();
             gunAudioHit.Play();
-            transform.localScale = new Vector3(0,0,0);
+            Destroy(gameObject);
         }   
         if(collision.gameObject.CompareTag("BulletWall"))
         { 
             gunAudioHit = GetComponent<AudioSource>();
             gunAudioHit.Play();
-            transform.localScale = new Vector3(0,0,0);
+            Destroy(gameObject);
         }   
     }
 

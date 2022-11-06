@@ -13,6 +13,7 @@ namespace Assets.Scripts.OneManArmy
         public AudioSource damageTakenAudio;
         public AudioSource deathAudio;
         public GameObject MinigameManager;
+        public GameObject ChatBubble;
 
 
         private void Start()
@@ -29,6 +30,8 @@ namespace Assets.Scripts.OneManArmy
                 RotateToMouse();
                 HandlePlayerInput();
             }
+
+            ChatBubble.transform.position = new Vector3(transform.position.x+1.5f, transform.position.y+1.5f, transform.position.z);
         }
 
         private void RotateToMouse()
@@ -58,7 +61,7 @@ namespace Assets.Scripts.OneManArmy
         public float fireForce;
         private void OnFire()
         {
-            Debug.Log("shoot");
+            //Debug.Log("shoot");
             gunAudio.Play();
             GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
             projectile.GetComponent<Rigidbody2D>().AddForce(firePoint.up * fireForce, ForceMode2D.Impulse);
