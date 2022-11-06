@@ -14,8 +14,8 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - 
+  - BottomImage
+  - TopImage
   - 
   - 
   - 
@@ -51,4 +51,10 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 2550951461
+    locked: 0
+  - name: Bottom Image
+    uniqueID: 3129782263
+    locked: 0
+  - name: Top Image
+    uniqueID: 1831269273
     locked: 0

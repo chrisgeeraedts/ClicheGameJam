@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: One Man Army Minigame Info
   m_EditorClassIdentifier: 
   minigameName: One Man Army
-  sceneName: OneManArmy
+  sceneName: OneManArmyScene
   mapSprite: {fileID: 21300000, guid: e0f5d5ec7eeeb9442a871951ab8ba53f, type: 3}
