@@ -16,6 +16,11 @@ namespace Assets.Scripts.OneManArmy
             isReady = true;
         }
 
+        public void StopEnemy()
+        {
+            isReady = false;
+        }
+
         public int MaxHealth;
         public int CurrentHealth;
 
@@ -36,23 +41,34 @@ namespace Assets.Scripts.OneManArmy
         // Update is called once per frame
         void FixedUpdate()
         {
-            Vector3 direction = (_playerToBeTargeted.transform.position - transform.position).normalized;
-            rb.velocity = direction * movementSpeed;
+            if(isReady)
+            {    
+                Vector3 direction = (_playerToBeTargeted.transform.position - transform.position).normalized;
+                rb.velocity = direction * movementSpeed;
                         direction.z = 0;
         
-            Vector3 neutralDir = transform.up;
-            float angle = Vector3.SignedAngle(neutralDir, direction, Vector3.forward) + 90f;
-            direction = Quaternion.AngleAxis(angle, Vector3.forward) * neutralDir;
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+                Vector3 neutralDir = transform.up;
+                float angle = Vector3.SignedAngle(neutralDir, direction, Vector3.forward) + 90f;
+                direction = Quaternion.AngleAxis(angle, Vector3.forward) * neutralDir;
+                transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+            }
+            else
+            {
+                rb.velocity = Vector3.zero;
+            }
+
         }
 
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.gameObject.CompareTag("Player"))
-            {
-                DamagePlayer();
-            }   
+            if(isReady)
+            { 
+                if(collision.gameObject.CompareTag("Player"))
+                {
+                    DamagePlayer();
+                }   
+            }
         }
 
         private void DamagePlayer()

@@ -21,9 +21,10 @@ namespace Assets.Scripts.OneManArmy
         }
 
         private bool isDead = false;
+        private bool isCompleted = false;
         private void Update()
         {
-            if(!isDead)
+            if(!isDead && !isCompleted)
             {
                 RotateToMouse();
                 HandlePlayerInput();
@@ -66,6 +67,11 @@ namespace Assets.Scripts.OneManArmy
 
         private int damageTaken = 0;
         private int damageMax = 6;
+
+        public void Complete()
+        {
+            
+        }
 
         public void TakeDamage()
         {            
