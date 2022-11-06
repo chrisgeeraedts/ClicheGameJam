@@ -10,6 +10,9 @@ namespace Assets.Scripts.OneManArmy
         private Vector2 moveInput;
         private Rigidbody2D rb;
         public AudioSource gunAudio;
+        public AudioSource damageTakenAudio;
+        public AudioSource deathAudio;
+        public GameObject MinigameManager;
 
 
         private void Start()
@@ -17,10 +20,14 @@ namespace Assets.Scripts.OneManArmy
             rb = GetComponent<Rigidbody2D>();
         }
 
+        private bool isDead = false;
         private void Update()
         {
-            RotateToMouse();
-            HandlePlayerInput();
+            if(!isDead)
+            {
+                RotateToMouse();
+                HandlePlayerInput();
+            }
         }
 
         private void RotateToMouse()
@@ -57,9 +64,26 @@ namespace Assets.Scripts.OneManArmy
         }
 
 
+        private int damageTaken = 0;
+        private int damageMax = 6;
+
         public void TakeDamage()
         {            
-            Debug.Log("I GOT HIT!");
+            damageTaken++;
+            if(damageTaken < damageMax)
+            {
+                damageTakenAudio.Play();
+                Debug.Log("I GOT HIT!");
+                MinigameManager.GetComponent<MinigameManager>().PlayerTakenDamage(damageTaken);
+            }
+            else
+            {
+                deathAudio.Play();
+                Debug.Log("I DIED!");
+                isDead = true;
+                MinigameManager.GetComponent<MinigameManager>().PlayerDied();
+            }
+
         }
     }
 }

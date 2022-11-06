@@ -7,7 +7,7 @@ public class BulletScript : MonoBehaviour
     private float lifetime = 5f;
     private AudioSource gunAudioHit;
 
-    void OnStart()
+    void Start()
     {        
          StartCoroutine(Destroy());
     }
@@ -15,7 +15,7 @@ public class BulletScript : MonoBehaviour
     private IEnumerator Destroy()
     {
         yield return new WaitForSeconds(lifetime);   
-        Destroy (gameObject);
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -25,9 +25,14 @@ public class BulletScript : MonoBehaviour
             DamageEnemy(collision.gameObject); 
             gunAudioHit = GetComponent<AudioSource>();
             gunAudioHit.Play();
+            transform.localScale = new Vector3(0,0,0);
         }   
-
-        transform.localScale = new Vector3(0,0,0);
+        if(collision.gameObject.CompareTag("BulletWall"))
+        { 
+            gunAudioHit = GetComponent<AudioSource>();
+            gunAudioHit.Play();
+            transform.localScale = new Vector3(0,0,0);
+        }   
     }
 
     private void DamageEnemy(GameObject collidedEnemy)

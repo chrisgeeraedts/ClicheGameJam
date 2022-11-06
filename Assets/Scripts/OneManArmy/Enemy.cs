@@ -6,57 +6,76 @@ namespace Assets.Scripts.OneManArmy
 {
     public class Enemy : MonoBehaviour
     {
-        public void InitEnemy(int maxHealth)
+        private bool isReady = false;
+        public void InitEnemy(int maxHealth, GameObject playerToBeTargeted, GameObject miniGameManager)
         {
             MaxHealth = maxHealth;
+            CurrentHealth = MaxHealth;
+            _playerToBeTargeted = playerToBeTargeted;
+            _miniGameManager = miniGameManager;
+            isReady = true;
         }
 
         public int MaxHealth;
         public int CurrentHealth;
 
-        [SerializeField] GameObject playerToBeTargeted;
+        GameObject _playerToBeTargeted;
+        GameObject _miniGameManager;
         [SerializeField] float movementSpeed;
+        AudioSource enemyAudioHit;
 
-        Rigidbody2D rg;
+        Rigidbody2D rb;
 
         // Start is called before the first frame update
         void Awake()
         {
-            rg = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
+            enemyAudioHit = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
         void FixedUpdate()
         {
-                Vector3 direction = (playerToBeTargeted.transform.position - transform.position).normalized;
-                rg.velocity = direction * movementSpeed;
-
-            
-                direction.z = 0;
+            Vector3 direction = (_playerToBeTargeted.transform.position - transform.position).normalized;
+            rb.velocity = direction * movementSpeed;
+                        direction.z = 0;
         
-                Vector3 neutralDir = transform.up;
-                float angle = Vector3.SignedAngle(neutralDir, direction, Vector3.forward) + 90f;
-                direction = Quaternion.AngleAxis(angle, Vector3.forward) * neutralDir;
-                transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+            Vector3 neutralDir = transform.up;
+            float angle = Vector3.SignedAngle(neutralDir, direction, Vector3.forward) + 90f;
+            direction = Quaternion.AngleAxis(angle, Vector3.forward) * neutralDir;
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
         }
 
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(true)
+            if(collision.gameObject.CompareTag("Player"))
             {
                 DamagePlayer();
-            }
+            }   
         }
 
         private void DamagePlayer()
         {
-            playerToBeTargeted.GetComponent<Assets.Scripts.OneManArmy.Player>().TakeDamage();
+            _playerToBeTargeted.GetComponent<Assets.Scripts.OneManArmy.Player>().TakeDamage();
         }
 
         public void TakeDamage()
         {            
             Debug.Log("ZOMBIE GOT HIT!");
+            CurrentHealth+=-1;
+            if (CurrentHealth == 0)
+            {
+                Killed();
+            }
+        }
+
+        public void Killed()
+        {
+            // play audio            
+            _miniGameManager.GetComponent<MinigameManager>().KilledZombie();
+            
+            Destroy(gameObject);
         }
     }
 }
