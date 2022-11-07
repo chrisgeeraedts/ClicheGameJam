@@ -20,8 +20,6 @@ namespace Assets.Scripts.Map
 
         private void Start()
         {
-            minigameGrid = new GameObject[mapWidth, mapHeight]; //TODO: Store mapWidth/Height only in 1 location, manager OR visualizer
-
             if (MapManager.GetInstance() == null) return;
             Initialize();
         }
@@ -40,9 +38,11 @@ namespace Assets.Scripts.Map
 
         private void GenerateMap(MinigameInfo[,] minigames)
         {
-            for (int x = 0; x < mapWidth; x++)
+            minigameGrid = new GameObject[minigames.GetLength(0), minigames.GetLength(1)]; //TODO: Store mapWidth/Height only in 1 location, manager OR visualizer
+
+            for (int x = 0; x < minigames.GetLength(0); x++)
             {
-                for (int y = 0; y < mapHeight; y++)
+                for (int y = 0; y < minigames.GetLength(1); y++)
                 {
                     var mapNode = Instantiate(mapNodePrefab, mapParentObject.transform, false);
                     var minigameInfo = minigames[x,y];
