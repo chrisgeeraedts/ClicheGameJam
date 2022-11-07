@@ -116,6 +116,7 @@ namespace Assets.Scripts.OneManArmy
             if(zombiesDestroyed >= ZombieKillGoal)
             {
                 // WIN
+                GlobalAchievementManager.Instance.SetAchievementCompleted(1);
                 Win();
             }
         }
@@ -189,6 +190,7 @@ namespace Assets.Scripts.OneManArmy
                 PlayerChatTextElement.text = "And my torso? Incredible how I am still doing all of this!";
 
                 //TODO: ARCHIEVEMENT
+                GlobalAchievementManager.Instance.SetAchievementCompleted(9);
 
                 if(!PopupIsOpen)    
                 {

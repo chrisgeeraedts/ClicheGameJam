@@ -2,14 +2,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
 {
+    public TMP_Text TitleTextElement;
+    public TMP_Text DescriptionTextElement;
+    public UnityEngine.UI.Image ImageElement;
+    public Canvas PopupCanvas;
+
     public List<Achievement> _achievements;
+    private bool isActive = false;
 
     void Start()
     {
-        // Placeholder list untill singleton structure is ready.
+        if(gameObject.GetComponent<Animator>() != null)
+        {
+            GetComponent<Animator>().enabled = false;
+        }
+        
+
         _achievements = new List<Achievement>();
         _achievements.Add(new Achievement(0, "Red Barrels", "Isn't it weird that all red barrels in games always explode? Who puts them there?", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/Barrel"));
         _achievements.Add(new Achievement(1, "One Man Army", "You are always the hero, the big guy, the one man army that can take on legions of enemies.", "Found in [<color=#fede34>One Man Army Minigame</color>]", false, "Achievement/OneManArmy"));
@@ -20,7 +32,7 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
         _achievements.Add(new Achievement(6, "Woodchopping Hands", "Hit a tree, get wood, hit more, get more wood", "Found in [<color=#fede34>Wood chopping Minigame</color>]", false, "Achievement/Wood"));
         _achievements.Add(new Achievement(7, "Oblivious Guards", "Guard npc's never see anything important, let alone that massive explosion. Must have been the wind.", "Found in [<color=#fede34>Sneaking Minigame</color>]", false, "Achievement/Guard"));
         _achievements.Add(new Achievement(8, "Eating Apples", "Oh no, i'm almost dead. Let me just eat 30 apples to heal up!", "Found in [<color=#fede34>???</color>]", false, "Achievement/Apple"));
-        _achievements.Add(new Achievement(9, "[PLACEHOLDER]", "[PLACEHOLDER]", "[PLACEHOLDER]", false, "Achievement/Barrel"));
+        _achievements.Add(new Achievement(9, "Health Does not matter", "So, I took massive amounts of damage, yet I can still run, shoot and jump like nothing happend?", "Found in [<color=#fede34>One Man Army Minigame</color>]", false, "Achievement/Escort"));
         _achievements.Add(new Achievement(10, "[PLACEHOLDER]", "[PLACEHOLDER]", "[PLACEHOLDER]", false, "Achievement/Barrel"));
         _achievements.Add(new Achievement(11, "[PLACEHOLDER]", "[PLACEHOLDER]", "[PLACEHOLDER]", false, "Achievement/Barrel"));
         _achievements.Add(new Achievement(12, "[PLACEHOLDER]", "[PLACEHOLDER]", "[PLACEHOLDER]", false, "Achievement/Barrel"));
@@ -45,6 +57,11 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
         _achievements.Add(new Achievement(31, "[PLACEHOLDER]", "[PLACEHOLDER]", "[PLACEHOLDER]", false, "Achievement/Barrel"));
         _achievements.Add(new Achievement(32, "[PLACEHOLDER]", "[PLACEHOLDER]", "[PLACEHOLDER]", false, "Achievement/Barrel"));
         _achievements.Add(new Achievement(33, "[PLACEHOLDER]", "[PLACEHOLDER]", "[PLACEHOLDER]", false, "Achievement/Barrel"));
+
+        // Ensure we always have a 'achievement popup game object to use'
+        DontDestroyOnLoad(this.gameObject);
+
+        isActive = true;
     }
 
     public List<Achievement> GetAllAchievements()
@@ -54,7 +71,40 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
 
     public void SetAchievementCompleted(int achievementId)
     {
-        _achievements[achievementId].Achieved = true;
+        if(!isActive)
+        {
+            Debug.LogWarning("GlobalAchievementManager was not initialized - load this scene from the correct starting scene!");
+            return;
+        }
+        else
+        {
+            // Check if we actually have this achievement
+            if (_achievements.Count >= achievementId)
+            {
+                // Find camera in active Scene to set
+                Camera mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<Camera>();
+                Debug.Log(mainCamera);
+                PopupCanvas.worldCamera = mainCamera;
+
+                // Store achievement data
+                _achievements[achievementId].Achieved = true;
+
+                // Prepare popup
+                TitleTextElement.text = _achievements[achievementId].Name;
+                DescriptionTextElement.text = _achievements[achievementId].Description;
+                ImageElement.sprite = (Sprite)Resources.Load<Sprite>(_achievements[achievementId].ImageName + "_YES");
+
+                // Show achievement popup
+                GetComponent<Animator>().enabled = true;
+                GetComponent<Animator>().Play("AchievementPopupAnimation");
+                GetComponent<AudioSource>().Play();
+            }
+            else
+            {
+                Debug.LogWarning("Setting unknown achievement!");
+                return;
+            }
+        }
     }
 }
 

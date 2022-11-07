@@ -15,11 +15,9 @@ public class AchievementListScript : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {GlobalAchievementManager.Instance.SetAchievementCompleted(1);
+    {
         // Load what achievements we did and did not do (singleton list somewhere?)
-        Achievements = GlobalAchievementManager.Instance.GetAllAchievements();
-
-    
+        Achievements = GlobalAchievementManager.Instance.GetAllAchievements();    
 
         int totalAchievements = Achievements.Count;
         int completedAchievements = 0;

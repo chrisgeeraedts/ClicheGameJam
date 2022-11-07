@@ -8,7 +8,7 @@ public class AchievementManager : MonoBehaviour
     // Start is called before the first frame update
     public void GoBack()
     {
-        SceneManager.UnloadScene("AchievementsScene");
+        SceneManager.UnloadSceneAsync("AchievementsScene");
     }
     
     // Update is called once per frame

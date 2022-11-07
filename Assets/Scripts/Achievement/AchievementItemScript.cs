@@ -6,7 +6,6 @@ using TMPro;
 
 public class AchievementItemScript : MonoBehaviour
 {
-    private bool initialized = false;
     public TMP_Text TitleTextElement;
     public TMP_Text DescriptionTextElement;
     public TMP_Text LocationTextElement;
@@ -34,16 +33,5 @@ public class AchievementItemScript : MonoBehaviour
             Destroy(AchievedBackgroundYesElement);
             ImageElement.sprite = (Sprite)Resources.Load<Sprite>(achievement.ImageName + "_NO");
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
