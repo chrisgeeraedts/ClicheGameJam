@@ -183,8 +183,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Defeat - you fail to be a true One Man Army! \nPress [Escape] to go back!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
+  m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -793,7 +793,7 @@ MonoBehaviour:
   DeathMusic: {fileID: 1568597852}
   WinMusic: {fileID: 1978828150}
   ZombieHealth: 2
-  ZombieKillGoal: 100
+  ZombieKillGoal: 5
   zombieMax: 25
 --- !u!1 &464698917
 GameObject:
@@ -941,8 +941,8 @@ MonoBehaviour:
 
     Survive the hordes!'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
+  m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7344,8 +7344,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Aaaah, my leg!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
+  m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7607,7 +7607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 370.50003, y: 2.000061}
+  m_AnchoredPosition: {x: 359.1, y: -6.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1388219745
@@ -7632,8 +7632,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Kills:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
+  m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9885,8 +9885,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Victory - you are truly a One Man Army! \nPress [Escape] to go back!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
+  m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17836,7 +17836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 432, y: 2}
+  m_AnchoredPosition: {x: 420.59998, y: -6.500066}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2080938983
@@ -17861,8 +17861,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
+  m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
