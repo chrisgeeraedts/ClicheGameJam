@@ -5,15 +5,24 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Scenes/MainMenuScene.unity
+    guid: a7a85dad6ef8146439f58dc9fb9cd1c4
+  - enabled: 1
+    path: Assets/Scenes/AchievementsScene.unity
+    guid: a84e2a3ba78ad6b45865ee5eb03d5511
+  - enabled: 1
+    path: Assets/Scenes/StoryScene.unity
+    guid: 21034a4ddd4bd1c4fb3c12fd3e4fdcde
+  - enabled: 1
     path: Assets/Scenes/Map.unity
     guid: 77f795361f5d5574ba2b8f4303489371
   - enabled: 1
-    path: Assets/Scenes/OneManArmyScene.unity
-    guid: 604720a7c9993c04ca61a0c450a58022
-  - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: b4f2c2d5421cea34b9117fc5053f26c3
+  - enabled: 1
+    path: Assets/Scenes/OneManArmyScene.unity
+    guid: 604720a7c9993c04ca61a0c450a58022
   - enabled: 1
     path: Assets/Scenes/EscortScene.unity
     guid: 2fb0141d1a7291c4188d73d1cce7d6f6

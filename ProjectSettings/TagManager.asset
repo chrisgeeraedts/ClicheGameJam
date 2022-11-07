@@ -79,3 +79,9 @@ TagManager:
   - name: Platform_NPC
     uniqueID: 1877996139
     locked: 0
+  - name: Menu_Background
+    uniqueID: 2222083917
+    locked: 0
+  - name: Menu_Title
+    uniqueID: 1919470435
+    locked: 0

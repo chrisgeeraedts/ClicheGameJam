@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 880, y: 100}
+  m_SizeDelta: {x: 774, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8267548537029455901
 CanvasRenderer:
@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -379.7, y: -0.99995}
+  m_AnchoredPosition: {x: -328.36066, y: -0.99995}
   m_SizeDelta: {x: 73.327, y: 76.217}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4780987061886623952
@@ -188,7 +188,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.000030518}
-  m_SizeDelta: {x: 880, y: 100}
+  m_SizeDelta: {x: 774, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6951597241597158430
 CanvasRenderer:
@@ -263,7 +263,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -157.5232, y: -5.8}
+  m_AnchoredPosition: {x: -103.8, y: -5.8}
   m_SizeDelta: {x: 358.577, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6743030214923335537
@@ -321,8 +321,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -398,8 +398,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -165.4, y: -25.999989}
-  m_SizeDelta: {x: 336.81, y: 50}
+  m_AnchoredPosition: {x: -135.73099, y: -25.999989}
+  m_SizeDelta: {x: 288.7016, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6743030215383476079
 CanvasRenderer:
@@ -457,8 +457,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -534,7 +534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -379.7394, y: -0.3716}
+  m_AnchoredPosition: {x: -328.4, y: -0.3716}
   m_SizeDelta: {x: 61.525, y: 62.8268}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6743030215930298261
@@ -610,8 +610,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 179.18384, y: -0.99994}
-  m_SizeDelta: {x: 305.1215, y: 102}
+  m_AnchoredPosition: {x: 163.56233, y: -0.99994}
+  m_SizeDelta: {x: 249.7968, y: 102}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6743030216065519857
 CanvasRenderer:
@@ -669,8 +669,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -852,7 +852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 378.4, y: -2}
+  m_AnchoredPosition: {x: 328.7, y: -2}
   m_SizeDelta: {x: 72.831, y: 72.0547}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5196442894814108831
@@ -876,7 +876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -928,7 +928,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 378.4, y: -2}
+  m_AnchoredPosition: {x: 328.7, y: -2}
   m_SizeDelta: {x: 72.831, y: 72.0547}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1719593427522023528
