@@ -11,7 +11,6 @@ namespace Assets.Scripts.Map
 
         private MinigameInfo minigameInfo;
         private int level;
-        private bool isSelected = false;
 
         public void SetInfo(MinigameInfo minigameInfo, int level)
         {

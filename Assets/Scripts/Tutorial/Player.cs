@@ -75,6 +75,10 @@ namespace Assets.Scripts.Tutorial
             {
                 tutorialManager.HandlePlayerInput(KeyCode.Mouse0);
             }
+            else if (Input.GetKey(KeyCode.Escape))
+            {
+                tutorialManager.HandlePlayerInput(KeyCode.Escape);
+            }
         }
 
         private void SwitchPlayerSprite(Direction direction)
