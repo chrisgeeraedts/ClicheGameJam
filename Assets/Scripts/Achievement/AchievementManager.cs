@@ -8,13 +8,17 @@ public class AchievementManager : MonoBehaviour
     // Start is called before the first frame update
     public void GoBack()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.UnloadScene("AchievementsScene");
     }
     
     // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GoBack();
+        }
+        if (Input.GetKeyDown(KeyCode.B))
         {
             GoBack();
         }

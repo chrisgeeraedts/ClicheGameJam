@@ -82,6 +82,9 @@ TagManager:
   - name: Menu_Background
     uniqueID: 2222083917
     locked: 0
+  - name: Menu_Menu
+    uniqueID: 823199879
+    locked: 0
   - name: Menu_Title
     uniqueID: 1919470435
     locked: 0

@@ -36,7 +36,8 @@ namespace Assets.Scripts.OneManArmy
 
         
         [SerializeField] int ZombieHealth = 2;
-        [SerializeField] int ZombieKillGoal = 20;
+        [SerializeField] int ZombieKillGoal = 100;
+        [SerializeField] int zombieMax = 25;
 
         // Start is called before the first frame update
         void Start()
@@ -104,7 +105,6 @@ namespace Assets.Scripts.OneManArmy
 
         private int zombiesDestroyed = 0;
         private int zombiesSpawned = 0;
-        private int zombieMax = 50;
 
         private bool Completed = false;
 

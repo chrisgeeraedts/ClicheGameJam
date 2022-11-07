@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 34402642}
   - component: {fileID: 34402641}
   m_Layer: 5
-  m_Name: VersionText
+  m_Name: EscapeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 370, y: 237}
+  m_AnchoredPosition: {x: 351.7, y: 212}
   m_SizeDelta: {x: 193.4207, y: 30.5041}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &34402641
@@ -388,13 +388,13 @@ MonoBehaviour:
     lemons, make lemonade. But you dont want lemonade, cause you are the <color=#fede34>hero</color>
     - and no-one tells you what to do! \n\nAlso, this <color=#fede34>evil dude</color>
     kidnapped your <color=#fede34>girlfriend</color>, who is actually a <color=#fede34>princess</color>!\n\n\nOh,
-    and he wants to <color=#fede34>blow up the world</color>! Stop him, by adventuring
-    through his maze of <color=#fede34>gaming cliche's</color>, and collect some
-    sweet <color=#fede34>achievements</color> in the meantime.\n\n\nBe aware tho,
-    all the <color=#fede34>red barrels </color>will explode! And watch out for <color=#fede34>arrows
-    coming at your knees</color>. Oh, and make sure the princess is actually in the
-    <color=#fede34>correct castle</color>!\n\n\nA game filled with cliche's... and
-    other stuff.\n\n\n<color=#fede34>Enjoy!</color>\n\n"
+    and he wants to \n<color=#fede34>blow up the world</color>! \n\nStop him, by
+    adventuring through his maze of <color=#fede34>gaming cliche's</color>, \nand
+    collect some sweet \n<color=#fede34>achievements</color> \nin the meantime.\n\n\nBe
+    aware tho, all the <color=#fede34>red barrels </color>will explode! And watch
+    out for <color=#fede34>arrows coming at your knees</color>. Oh, and make sure
+    the princess is actually in the <color=#fede34>correct castle</color>!\n\n\nA
+    game filled with cliche's... and other stuff.\n\n\n<color=#fede34>Enjoy!</color>\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
