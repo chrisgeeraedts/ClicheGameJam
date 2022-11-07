@@ -125,7 +125,7 @@ namespace Assets.Scripts.OneManArmy
         {
             if(Completed)
             {
-                 if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     Debug.Log("Escape key was pressed"); // Go to other scene
                     SceneManager.LoadScene("Map");

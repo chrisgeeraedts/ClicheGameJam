@@ -11,8 +11,6 @@ public class AchievementListScript : MonoBehaviour
     public GameObject AchievementListItemPrefab;
     public TMP_Text CounterTextElement;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -33,12 +31,6 @@ public class AchievementListScript : MonoBehaviour
         }
 
         CounterTextElement.text = "<color=#fede34>" + completedAchievements + "</color> out of <color=#fede34>" + totalAchievements + "</color> completed";
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
 

@@ -18,6 +18,8 @@ namespace Assets.Scripts.OneManArmy
         public GameObject ChatBubble;
         private Animator animator;
 
+        private bool _immune = false;
+
 
         private void Start()
         {
@@ -25,11 +27,12 @@ namespace Assets.Scripts.OneManArmy
             animator = GetComponent<Animator>();
         }
 
+        public bool IsActive = true;
         private bool isDead = false;
         private bool isCompleted = false;
         private void Update()
         {
-            if(!isDead && !isCompleted)
+            if(!isDead && !isCompleted && IsActive)
             {
                 RotateToMouse();
                 HandlePlayerInput();
@@ -77,10 +80,13 @@ namespace Assets.Scripts.OneManArmy
         public float fireForce;
         private void OnFire()
         {
-            //Debug.Log("shoot");
-            gunAudio.Play();
-            GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
-            projectile.GetComponent<Rigidbody2D>().AddForce(firePoint.up * fireForce, ForceMode2D.Impulse);
+            if(!isDead && !isCompleted && IsActive)
+            {
+                //Debug.Log("shoot");
+                gunAudio.Play();
+                GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
+                projectile.GetComponent<Rigidbody2D>().AddForce(firePoint.up * fireForce, ForceMode2D.Impulse);
+            }
         }
 
 
@@ -93,30 +99,38 @@ namespace Assets.Scripts.OneManArmy
         }
 
         public void TakeDamage()
-        {            
-            damageTaken++;
-            if(damageTaken < damageMax)
+        {          
+            if(!_immune)
             {
-                damageTakenAudio.Play();
-                animator.SetBool("IsTakingDamage", true);
-                Debug.Log("I GOT HIT!");
-                MinigameManager.GetComponent<MinigameManager>().PlayerTakenDamage(damageTaken);
+                damageTaken++;
+                if(damageTaken < damageMax)
+                {
+                    damageTakenAudio.Play();
+                    animator.SetBool("IsTakingDamage", true);
+                    Debug.Log("I GOT HIT!");
+                    MinigameManager.GetComponent<MinigameManager>().PlayerTakenDamage(damageTaken);
+                    _immune = true;
+                    StartCoroutine(RecoveredFromDamage());
+                }
+                else
+                {
+                    deathAudio.Play();
+                    Debug.Log("I DIED!");
+                    isDead = true;
+                    MinigameManager.GetComponent<MinigameManager>().PlayerDied();
+                }    
             }
             else
             {
-                deathAudio.Play();
-                Debug.Log("I DIED!");
-                isDead = true;
-                MinigameManager.GetComponent<MinigameManager>().PlayerDied();
+                Debug.Log("I GOT HIT BUT WAS IMMUNE");
             }
         }
 
 
         private IEnumerator RecoveredFromDamage()
         {
-            yield return new WaitForSeconds(1f);
-            
-                animator.SetBool("IsTakingDamage", false);
+            yield return new WaitForSeconds(1f);   
+            _immune = false;         
         }
     }
 }
