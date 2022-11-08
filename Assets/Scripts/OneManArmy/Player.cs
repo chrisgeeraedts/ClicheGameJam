@@ -51,10 +51,6 @@ namespace Assets.Scripts.OneManArmy
                 float horizontal = Input.GetAxisRaw("Horizontal");
                 float vertical = Input.GetAxisRaw("Vertical");
                 rb.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
-                //Vector2 velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
-                //rb.MovePosition(rb.position+velocity * moveSpeed * Time.fixedDeltaTime);
-
-                //HandlePlayerInput();
 
                 if (Input.GetMouseButtonDown(0))
                 {

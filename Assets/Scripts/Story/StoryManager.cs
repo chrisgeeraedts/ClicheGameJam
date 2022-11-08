@@ -14,7 +14,7 @@ public class StoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("Map");
         }

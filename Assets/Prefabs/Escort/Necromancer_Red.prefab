@@ -5436,7 +5436,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1375798345
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -10376,7 +10376,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1375798345
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 6
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -11176,7 +11176,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1375798345
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f7f681cd213d9a7488500ce745f2d4f8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -11691,7 +11691,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1375798345
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 543fff9c6bee69649a543666c301ca86, type: 3}
   m_Color: {r: 0.8773585, g: 0.10346207, b: 0.10346207, a: 1}
@@ -11701,7 +11701,7 @@ SpriteRenderer:
   m_Size: {x: 4.26, y: 3.84}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1801889900
@@ -11824,11 +11824,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2364679399696692599}
-  - component: {fileID: 1276119531889409319}
   - component: {fileID: 8127278166528728455}
   - component: {fileID: 9001719155041534623}
   - component: {fileID: 2884692987283472405}
-  - component: {fileID: 4494742375182855230}
   - component: {fileID: 1637588657}
   m_Layer: 8
   m_Name: Necromancer_Red
@@ -11857,35 +11855,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1276119531889409319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 275148858543175968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e74bb1a6283a3f1438f8727d1f8d1ab9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_speed: 8
-  m_jumpForce: 20
-  SpellCastFx: {fileID: 399869885}
-  Attack1Fx: {fileID: 255503015}
-  Attack2Fx: {fileID: 1623155180}
-  Attack3Fx: {fileID: 1159612906}
-  Attack4Fx: {fileID: 6069275}
-  Attack5Fx: {fileID: 1729459407}
-  HurtFx: {fileID: 1732318567}
-  DeathFx: {fileID: 627051655}
-  JumpFx: {fileID: 72382225}
-  LandFx: {fileID: 376736593}
-  StepFx: {fileID: 790648863}
-  SwapDirectionDust: {fileID: 393968432}
-  LandingDust: {fileID: 487227436}
-  SpellLeft: {fileID: 1801889902}
-  WeaponLight: {fileID: 1145342936}
 --- !u!95 &8127278166528728455
 Animator:
   serializedVersion: 4
@@ -11945,7 +11914,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1375798345
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 3b290abebd884514c9e1bf1db2d6a845, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -11979,26 +11948,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &4494742375182855230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 275148858543175968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b06a91a4ac0f94c9af31f273f23539, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_sourceColors:
-  - {r: 0.1764706, g: 0.023529414, b: 0.08627451, a: 1}
-  - {r: 0.41960788, g: 0.08627451, b: 0.07450981, a: 1}
-  - {r: 0.5921569, g: 0.1137255, b: 0.0627451, a: 1}
-  m_newColors:
-  - {r: 0.1764706, g: 0.023529414, b: 0.08627451, a: 1}
-  - {r: 0.41960788, g: 0.08627451, b: 0.07450981, a: 1}
-  - {r: 0.5921569, g: 0.1137255, b: 0.0627451, a: 1}
 --- !u!70 &1637588657
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -12025,7 +11974,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8947665191417191656}
   - component: {fileID: 6876841184734871919}
-  - component: {fileID: 8266974739442747655}
   m_Layer: 8
   m_Name: GroundSensor
   m_TagString: Untagged
@@ -12064,15 +12012,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.1}
   serializedVersion: 2
   m_Radius: 0.05
---- !u!114 &8266974739442747655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6169600498781584563}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cc89266a3cf23143b2e086065880e6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

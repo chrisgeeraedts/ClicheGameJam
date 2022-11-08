@@ -84,17 +84,21 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
             // Check if we actually have this achievement
             if (_achievements.Count > achievementId)
             {
-                AchievementUpdated = true;
+                // check if we havent already completed it!
+                if(_achievements[achievementId].Achieved == false)
+                {
+                    AchievementUpdated = true;
 
-                // Find camera in active Scene to set
-                Camera mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<Camera>();
-                PopupCanvas.worldCamera = mainCamera;
+                    // Find camera in active Scene to set
+                    Camera mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<Camera>();
+                    PopupCanvas.worldCamera = mainCamera;
 
-                // Store achievement data
-                _achievements[achievementId].Achieved = true;
+                    // Store achievement data
+                    _achievements[achievementId].Achieved = true;
 
-                // Add to stack to show
-                AchievementsToShow.Add(_achievements[achievementId]);
+                    // Add to stack to show
+                    AchievementsToShow.Add(_achievements[achievementId]);
+                }
             }
             else
             {

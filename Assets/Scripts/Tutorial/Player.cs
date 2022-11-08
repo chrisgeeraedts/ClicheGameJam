@@ -21,11 +21,12 @@ namespace Assets.Scripts.Tutorial
             tutorialManager = FindObjectOfType<TutorialManager>();
             _renderer = GetComponent<SpriteRenderer>();
             GetComponent<Rigidbody2D>().gravityScale = 0f;
+            SetPlayerActive(true);
         }
 
         private void Update()
         {
-            if(_isActive)
+            if(IsPlayerActive())
             {
                 HandlePlayerInput();
             }

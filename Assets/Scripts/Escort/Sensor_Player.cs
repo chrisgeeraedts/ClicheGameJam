@@ -24,7 +24,6 @@ namespace Assets.Scripts.Escort
         void OnTriggerEnter2D(Collider2D other)
         {         
             m_ColCount++;
-            Debug.Log("COLIDED: " + m_ColCount.ToString());
         }
 
         void OnTriggerExit2D(Collider2D other)

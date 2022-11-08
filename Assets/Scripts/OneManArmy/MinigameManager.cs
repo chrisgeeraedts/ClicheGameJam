@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -26,7 +27,7 @@ namespace Assets.Scripts.OneManArmy
 
         
         [SerializeField] TMP_Text ScoreTextElement;
-        [SerializeField] TMP_Text TitleTextElement;
+        [SerializeField] Image TitleTextElement;
         [SerializeField] TMP_Text GameWinTextElement;
         [SerializeField] TMP_Text GameLossTextElement;
 
@@ -61,7 +62,7 @@ namespace Assets.Scripts.OneManArmy
 
         IEnumerator HideTitle()
         {
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(5f);
             Destroy(TitleTextElement);
         }
 
