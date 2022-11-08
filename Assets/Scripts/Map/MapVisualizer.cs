@@ -38,7 +38,7 @@ namespace Assets.Scripts.Map
 
         private void GenerateMap(MinigameInfo[,] minigames)
         {
-            minigameGrid = new GameObject[minigames.GetLength(0), minigames.GetLength(1)]; //TODO: Store mapWidth/Height only in 1 location, manager OR visualizer
+            minigameGrid = new GameObject[minigames.GetLength(0), minigames.GetLength(1)]; 
 
             for (int x = 0; x < minigames.GetLength(0); x++)
             {

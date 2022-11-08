@@ -18,8 +18,8 @@ namespace Assets.Scripts.Map
             this.level = level;
         }
 
-        public int Level { get { return level; } }
-        public MinigameInfo MinigameInfo { get { return minigameInfo; } }
+        public int Level { get => level; }
+        public MinigameInfo MinigameInfo { get => minigameInfo; }
 
         private void Start()
         {
