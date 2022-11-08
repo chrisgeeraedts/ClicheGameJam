@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Shared;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -26,13 +27,13 @@ public class MainMenuManager : MonoBehaviour
     public void NavigateToMap()
     {
         buttonClickAudioSource.Play();
-        SceneManager.LoadScene("StoryScene");
+        SceneManager.LoadScene(Constants.SceneNames.StoryScene);
     }
 
     public void NavigationToAchievements()
     {
         buttonClickAudioSource.Play();
-        SceneManager.LoadScene("AchievementsScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
     }
 
     public void ExitGame()

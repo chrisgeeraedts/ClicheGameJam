@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Shared;
 
 public class StoryManager : MonoBehaviour
 {
@@ -16,13 +17,13 @@ public class StoryManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("Map");
+            SceneManager.LoadScene(Constants.SceneNames.MapScene);
         }
     }
 
     IEnumerator GoToGame()
     {
         yield return new WaitForSeconds(35f);
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene(Constants.SceneNames.MapScene);
     }
 }

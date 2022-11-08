@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Shared;
 
 namespace Assets.Scripts.Tutorial
 {
@@ -63,7 +64,7 @@ namespace Assets.Scripts.Tutorial
                     tutorialState = Enums.TutorialState.ReturnToMap;
                     break;
                 case Enums.TutorialState.ReturnToMap:
-                    SceneManager.LoadScene("Map");
+                    SceneManager.LoadScene(Constants.SceneNames.MapScene);
                     break;
                 default:
                     break;

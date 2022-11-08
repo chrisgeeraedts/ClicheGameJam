@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Shared;
 
 public class AchievementManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public void GoBack()
     {
-        SceneManager.UnloadSceneAsync("AchievementsScene");
+        SceneManager.UnloadSceneAsync(Constants.SceneNames.AchievementsScene);
     }
     
     // Update is called once per frame

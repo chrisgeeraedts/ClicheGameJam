@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Assets.Scripts.Shared;
 public class MenuScript : MonoBehaviour
 {
     private bool isOpen;
@@ -87,11 +87,11 @@ public class MenuScript : MonoBehaviour
     public void CloseMenuAndExitRun()
     {
         isOpen = false;
-        SceneManager.LoadScene("MainMenuScene");
+        SceneManager.LoadScene(Constants.SceneNames.MainMenuScene);
     }
 
     public void OpenAchievements()
     {       
-        SceneManager.LoadScene("AchievementsScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
     }
 }

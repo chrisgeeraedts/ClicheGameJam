@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Shared;
 
 namespace Assets.Scripts.OneManArmy
 {
@@ -129,7 +130,7 @@ namespace Assets.Scripts.OneManArmy
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     Debug.Log("Escape key was pressed"); // Go to other scene
-                    SceneManager.LoadScene("Map");
+                    SceneManager.LoadScene(Constants.SceneNames.MapScene);
                 }
             }
         }
