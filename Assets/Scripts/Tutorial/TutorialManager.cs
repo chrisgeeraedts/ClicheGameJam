@@ -57,12 +57,12 @@ namespace Assets.Scripts.Tutorial
                     tutorialState = Enums.TutorialState.Complete;
                     break;
                 case Enums.TutorialState.Complete:
-                    //TODO: Achievement get: Finished boring tutorial
-                    Debug.Log("Achievement get: Finished boring/handholding tutorial");
+                    //TODO: Achievement get: Finished boring tutorial                    
+                    GlobalAchievementManager.Instance.SetAchievementCompleted(23);
                     tutorialState = Enums.TutorialState.ReturnToMap;
                     break;
                 case Enums.TutorialState.ReturnToMap:
-                    //TODO: Return to map
+                    SceneManager.LoadScene("Map");
                     break;
                 default:
                     break;
