@@ -7,9 +7,9 @@ public class MenuScript : MonoBehaviour
 {
     private bool isOpen;
     public GameObject MenuObject;
-    public GameObject AchievementsElement;
     public GameObject MinigameCanvas;
     public GameObject PlayerElement;
+    public AudioSource AudioToPause;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,19 +56,37 @@ public class MenuScript : MonoBehaviour
     public void CloseMenuAndContinue()
     {
         isOpen = false; 
-        //Time.timeScale = 1;
+        Time.timeScale = 1;
         MenuObject.SetActive(false);
         MinigameCanvas.SetActive(true);
-        PlayerElement.GetComponent<Assets.Scripts.OneManArmy.Player>().IsActive = true;
+        if (PlayerElement != null)
+        {            
+            Assets.Scripts.Shared.IPlayer playerScript =             
+                PlayerElement.GetComponent(typeof(Assets.Scripts.Shared.IPlayer)) as Assets.Scripts.Shared.IPlayer;
+            playerScript.SetPlayerActive(true);
+        }
+        if(AudioToPause != null)
+        {
+            AudioToPause.Play();
+        }
     }
 
     public void PauseAndOpenMenu()
     {
         isOpen = true;
-        //Time.timeScale = 0;
+        Time.timeScale = 0;
         MenuObject.SetActive(true);
-        MinigameCanvas.SetActive(false);
-        PlayerElement.GetComponent<Assets.Scripts.OneManArmy.Player>().IsActive = false;
+        MinigameCanvas.SetActive(false); 
+        if (PlayerElement != null)
+        {   
+            Assets.Scripts.Shared.IPlayer playerScript =             
+                PlayerElement.GetComponent(typeof(Assets.Scripts.Shared.IPlayer)) as Assets.Scripts.Shared.IPlayer;
+            playerScript.SetPlayerActive(false);
+        } 
+        if(AudioToPause != null)
+        {
+            AudioToPause.Stop();
+        }
     }
 
     public void CloseMenuAndExitRun()

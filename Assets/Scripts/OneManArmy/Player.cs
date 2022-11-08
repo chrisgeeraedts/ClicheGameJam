@@ -5,8 +5,19 @@ using UnityEngine.Rendering.Universal;
 
 namespace Assets.Scripts.OneManArmy
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, Assets.Scripts.Shared.IPlayer
     {
+        private bool _isActive;
+        public void SetPlayerActive(bool active)
+        {
+            _isActive = active;
+        }
+        public bool IsPlayerActive()
+        {
+            return _isActive;
+        }
+
+
         [SerializeField] private float moveSpeed = 1;
 
         private Vector2 moveInput;
@@ -25,6 +36,7 @@ namespace Assets.Scripts.OneManArmy
         {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
+            SetPlayerActive(true);
         }
 
         public bool IsActive = true;
@@ -32,10 +44,23 @@ namespace Assets.Scripts.OneManArmy
         private bool isCompleted = false;
         private void Update()
         {
-            if(!isDead && !isCompleted && IsActive)
+            if(!isDead && !isCompleted && IsPlayerActive())
             {
                 RotateToMouse();
-                HandlePlayerInput();
+
+                float horizontal = Input.GetAxisRaw("Horizontal");
+                float vertical = Input.GetAxisRaw("Vertical");
+                rb.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
+                //Vector2 velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
+                //rb.MovePosition(rb.position+velocity * moveSpeed * Time.fixedDeltaTime);
+
+                //HandlePlayerInput();
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    OnFire();
+                }
+
                 HandlePlayerAnimations();
             }
 
@@ -80,7 +105,7 @@ namespace Assets.Scripts.OneManArmy
         public float fireForce;
         private void OnFire()
         {
-            if(!isDead && !isCompleted && IsActive)
+            if(!isDead && !isCompleted && IsPlayerActive())
             {
                 //Debug.Log("shoot");
                 gunAudio.Play();
@@ -106,8 +131,6 @@ namespace Assets.Scripts.OneManArmy
                 if(damageTaken < damageMax)
                 {
                     damageTakenAudio.Play();
-                    animator.SetBool("IsTakingDamage", true);
-                    Debug.Log("I GOT HIT!");
                     MinigameManager.GetComponent<MinigameManager>().PlayerTakenDamage(damageTaken);
                     _immune = true;
                     StartCoroutine(RecoveredFromDamage());
@@ -115,14 +138,13 @@ namespace Assets.Scripts.OneManArmy
                 else
                 {
                     deathAudio.Play();
-                    Debug.Log("I DIED!");
                     isDead = true;
                     MinigameManager.GetComponent<MinigameManager>().PlayerDied();
                 }    
             }
             else
             {
-                Debug.Log("I GOT HIT BUT WAS IMMUNE");
+                // hit but immune
             }
         }
 

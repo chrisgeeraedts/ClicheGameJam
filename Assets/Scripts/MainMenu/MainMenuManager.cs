@@ -41,12 +41,5 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
     }
 
-    //DEBUG - REMOVE
-    private int achievement;
-    public void GetAchievement()
-    {
-        
-        GlobalAchievementManager.Instance.SetAchievementCompleted(achievement);
-        achievement++;
-    }
+   
 }

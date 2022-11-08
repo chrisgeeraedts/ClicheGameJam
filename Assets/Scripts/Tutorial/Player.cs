@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using Assets.Scripts.Shared;
 using static Assets.Scripts.Shared.Enums;
 
 namespace Assets.Scripts.Tutorial
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IPlayer
     {
         [SerializeField] float movespeed = 1;
         [SerializeField] Sprite playerIdle;
@@ -24,7 +25,10 @@ namespace Assets.Scripts.Tutorial
 
         private void Update()
         {
-            HandlePlayerInput();
+            if(_isActive)
+            {
+                HandlePlayerInput();
+            }
         }
 
         private void HandlePlayerInput()
@@ -96,6 +100,16 @@ namespace Assets.Scripts.Tutorial
                 default:
                     break;
             }
+        }
+
+        private bool _isActive;
+        public void SetPlayerActive(bool active)
+        {
+            _isActive = active;
+        }
+        public bool IsPlayerActive()
+        {
+            return _isActive;
         }
     }
 }

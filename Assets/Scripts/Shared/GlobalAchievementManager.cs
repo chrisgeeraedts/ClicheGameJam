@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Assets.Scripts.Shared;
 
 public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
 {
@@ -13,15 +14,10 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
 
     public List<Achievement> _achievements;
     private bool isActive = false;
+    public bool AchievementUpdated;
 
-    void Start()
+    void LoadData()
     {
-        if(gameObject.GetComponent<Animator>() != null)
-        {
-            GetComponent<Animator>().enabled = false;
-        }
-        
-
         _achievements = new List<Achievement>();
         _achievements.Add(new Achievement(0, "Red Barrels", "Isn't it weird that all red barrels in games always explode? Who puts them there?", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/Barrel"));
         _achievements.Add(new Achievement(1, "One Man Army", "You are always the hero, the big guy, the one man army that can take on legions of enemies.", "Found in [<color=#fede34>One Man Army Minigame</color>]", false, "Achievement/OneManArmy"));
@@ -47,7 +43,18 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
         _achievements.Add(new Achievement(21, "Breakable Vazes", "Lets just go around the world and break random pottery.", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(22, "Block Puzzles", "The most cliche puzzle in any game", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(23, "Tutorials", "Why do games still have to teach players how to move? WASD has not changed for decades", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
+    }
 
+    void Start()
+    {
+        AchievementUpdated = false;
+        if(gameObject.GetComponent<Animator>() != null)
+        {
+            GetComponent<Animator>().enabled = false;
+        }
+        
+        LoadData();
+        
         // Ensure we always have a 'achievement popup game object to use'
         DontDestroyOnLoad(this.gameObject);
 
@@ -58,6 +65,10 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
 
     public List<Achievement> GetAllAchievements()
     {
+        if(_achievements == null)
+        {            
+            LoadData();
+        }
         return _achievements;
     }
 
@@ -71,8 +82,10 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
         else
         {
             // Check if we actually have this achievement
-            if (_achievements.Count >= achievementId)
+            if (_achievements.Count > achievementId)
             {
+                AchievementUpdated = true;
+
                 // Find camera in active Scene to set
                 Camera mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<Camera>();
                 PopupCanvas.worldCamera = mainCamera;

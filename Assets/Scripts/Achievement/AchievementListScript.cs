@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Assets.Scripts.Shared;
 
 public class AchievementListScript : MonoBehaviour
 {
@@ -15,8 +16,29 @@ public class AchievementListScript : MonoBehaviour
     void Start()
     {
         // Load what achievements we did and did not do (singleton list somewhere?)
+        LoadAndShowAchievements();
+    }
+
+    void Update() 
+    {
+        if (GlobalAchievementManager.Instance.AchievementUpdated)
+        {
+            LoadAndShowAchievements();
+            GlobalAchievementManager.Instance.AchievementUpdated = false;
+        }
+    }
+
+    void LoadAndShowAchievements()
+    {
+        // Destroy all children objects
+        foreach (Transform child in this.gameObject.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        // Reload new achievements from Global
         Achievements = GlobalAchievementManager.Instance.GetAllAchievements();    
 
+        // Set UI elements
         int totalAchievements = Achievements.Count;
         int completedAchievements = 0;
         foreach (Achievement achievement in Achievements)
@@ -32,23 +54,4 @@ public class AchievementListScript : MonoBehaviour
 
         CounterTextElement.text = "<color=#fede34>" + completedAchievements + "</color> out of <color=#fede34>" + totalAchievements + "</color> completed";
     }
-}
-
-public class Achievement
-{
-    public Achievement(int id, string name, string description, string location, bool achieved, string imageName)
-    {
-        Id = id;
-        Name = name;
-        Description = description;
-        Location = location;
-        Achieved = achieved;
-        ImageName= imageName;
-    }
-    public int Id;
-    public string Name;
-    public string Description;
-    public string Location;
-    public bool Achieved;
-    public string ImageName;
 }
