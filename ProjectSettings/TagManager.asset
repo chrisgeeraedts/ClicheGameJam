@@ -70,6 +70,9 @@ TagManager:
   - name: Platform_Front_2
     uniqueID: 2218083011
     locked: 0
+  - name: Platform_Background_Parallax
+    uniqueID: 3832229415
+    locked: 0
   - name: Platform_Background_1
     uniqueID: 1215680681
     locked: 0

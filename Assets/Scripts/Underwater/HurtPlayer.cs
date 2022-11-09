@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HurtPlayer : MonoBehaviour {
 
-	private PlayerController thePlayer;
+	private Player thePlayer;
 
 	// Use this for initialization
 	void Start () {
-		thePlayer = FindObjectOfType<PlayerController> ();	
+		thePlayer = FindObjectOfType<Player> ();	
 	}
 
 	void OnTriggerEnter2D(Collider2D other){

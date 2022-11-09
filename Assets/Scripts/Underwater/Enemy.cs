@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-	private PlayerController thePlayer;
+	private Player thePlayer;
 	public GameObject death;
 
 	public float speed = 0.3f;
@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		thePlayer = FindObjectOfType<PlayerController> ();	
+		thePlayer = FindObjectOfType<Player> ();	
 		myRigidbody = GetComponent<Rigidbody2D> ();
 
 		turnTimer = 0;

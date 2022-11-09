@@ -41,6 +41,4 @@ public class MainMenuManager : MonoBehaviour
         buttonClickAudioSource.Play();
         Application.Quit();
     }
-
-   
 }

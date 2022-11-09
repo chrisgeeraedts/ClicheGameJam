@@ -49,5 +49,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5847917ad0091174782ff868e3ccad15, type: 2}
   - {fileID: 11400000, guid: f4ef35a6a702287459b2cb0798ce9060, type: 2}
   - {fileID: 11400000, guid: 1b773aeb38224a444ae9e0681db8685b, type: 2}
+  - {fileID: 11400000, guid: 8808a1d3a9d0eb6448542b89931ec9fe, type: 2}
   mapWidth: 5
   mapHeight: 3

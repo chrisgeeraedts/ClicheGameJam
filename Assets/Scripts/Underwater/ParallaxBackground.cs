@@ -7,6 +7,9 @@ public class ParallaxBackground : MonoBehaviour {
 	public float backgroundSize;
 	public float parallaxSpeed;
 
+	public bool horizontalParallax;
+	public bool verticalParallax;
+
 	private Transform cameraTransform;
 	private Transform[] layers;
 	private float viewZone = 10;
@@ -32,8 +35,15 @@ public class ParallaxBackground : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		parallaxHor ();
-		parallaxVer ();
+		if(horizontalParallax)
+		{
+			parallaxHor();
+		}
+
+		if(verticalParallax)
+		{
+			parallaxVer ();
+		}
 
 
 		if(cameraTransform.position.x < (layers[leftIndex].transform.position.x + viewZone) ){
