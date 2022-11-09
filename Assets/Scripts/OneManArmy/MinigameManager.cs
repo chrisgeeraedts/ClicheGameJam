@@ -57,6 +57,7 @@ namespace Assets.Scripts.OneManArmy
             HealthImage6_6.SetActive(false);
             ScoreTextElement.text = "<color=#fede34>" + 0 + "</color>/" + ZombieKillGoal.ToString();                    
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
+            StartCoroutine(HideTitle());
         }
 
         IEnumerator HideTitle()

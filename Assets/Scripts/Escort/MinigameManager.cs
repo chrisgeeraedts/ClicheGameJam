@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Assets.Scripts.Shared;
 
 namespace Assets.Scripts.Escort
 {
@@ -18,8 +19,8 @@ namespace Assets.Scripts.Escort
         [SerializeField] AudioSource WinMusic;
         
         [SerializeField] Image TitleTextElement;
-        [SerializeField] TMP_Text GameWinTextElement;
-        [SerializeField] TMP_Text GameLossTextElement;
+        [SerializeField] Image GameWinTextElement;
+        [SerializeField] Image GameLossTextElement;
         [SerializeField] GameObject FrustrationMeter;
 
 
@@ -35,7 +36,14 @@ namespace Assets.Scripts.Escort
         // Update is called once per frame
         void Update()
         {
-
+            if(Completed)
+            {
+                if (Input.GetKeyDown(KeyCode.R))
+                {                    
+                    Time.timeScale = 1;
+                    SceneManager.LoadScene(Constants.SceneNames.MapScene);
+                }
+            }
         }
 
         public void WaterHit()

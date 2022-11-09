@@ -52,8 +52,14 @@ public class MenuScript : MonoBehaviour
     {
         isOpen = false; 
         Time.timeScale = 1;
-        MenuObject.SetActive(false);
-        MinigameCanvas.SetActive(true);
+        if(MenuObject != null)
+        {
+            MenuObject.SetActive(false);
+        }
+        if(MenuObject != null)
+        {
+            MinigameCanvas.SetActive(true);
+        }        
         if (PlayerElement != null)
         {            
             Assets.Scripts.Shared.IPlayer playerScript =             
@@ -70,8 +76,14 @@ public class MenuScript : MonoBehaviour
     {
         isOpen = true;
         Time.timeScale = 0;
-        MenuObject.SetActive(true);
-        MinigameCanvas.SetActive(false); 
+        if(MenuObject != null)
+        {
+            MenuObject.SetActive(true);
+        }
+        if(MenuObject != null)
+        {
+            MinigameCanvas.SetActive(false);
+        }  
         if (PlayerElement != null)
         {   
             Assets.Scripts.Shared.IPlayer playerScript =             
