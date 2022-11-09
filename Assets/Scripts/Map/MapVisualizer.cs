@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using static Assets.Scripts.Shared.Enums;
 
 namespace Assets.Scripts.Map
@@ -12,8 +11,9 @@ namespace Assets.Scripts.Map
         [SerializeField] float xIncrement, yIncrement;
         [SerializeField] GameObject mapParentObject;
         [SerializeField] GameObject mapNodePrefab;
-        [SerializeField] AudioSource cursorMoved;
-        [SerializeField] AudioSource mapSelected;
+        [SerializeField] AudioSource cursorMovedSound;
+        [SerializeField] AudioSource mapSelectedSound;
+        [SerializeField] AudioSource lockedMapSelectedSound;
 
         private int selectedX, selectedY;
         private GameObject[,] minigameGrid;
@@ -33,29 +33,37 @@ namespace Assets.Scripts.Map
         {
             var minigames = MapManager.GetInstance().GetMinigames();
             GenerateMap(minigames);
-            SelectFirstMapNode(); //TODO: Select last finished node from MapManager
+            SelectLastActiveNode(); 
         }
 
         private void GenerateMap(MinigameInfo[,] minigames)
         {
-            minigameGrid = new GameObject[minigames.GetLength(0), minigames.GetLength(1)]; 
+            minigameGrid = new GameObject[minigames.GetLength(0), minigames.GetLength(1)];
+            var maxStageUnlocked = MapManager.GetInstance().MaxStageUnlocked;
 
             for (int x = 0; x < minigames.GetLength(0); x++)
             {
                 for (int y = 0; y < minigames.GetLength(1); y++)
                 {
-                    var mapNode = Instantiate(mapNodePrefab, mapParentObject.transform, false);
+                    var mapNodeGameObject = Instantiate(mapNodePrefab, mapParentObject.transform, false);
+                    mapNodeGameObject.transform.localPosition = new Vector2(x * xIncrement, y * yIncrement);
+
                     var minigameInfo = minigames[x,y];
-                    mapNode.GetComponent<MapNode>().SetInfo(minigameInfo, x);
-                    mapNode.transform.localPosition = new Vector2(x * xIncrement, y * yIncrement);
-                    minigameGrid[x, y] = mapNode;
+                    var mapNode = mapNodeGameObject.GetComponent<MapNode>();
+                    mapNode.SetLocked(x > maxStageUnlocked);
+                    mapNode.SetWon(minigameInfo.IsWon);
+                    mapNode.SetInfo(minigameInfo);
+                    
+                    minigameGrid[x, y] = mapNodeGameObject;
                 }
             }
         }
 
-        private void SelectFirstMapNode()
+        private void SelectLastActiveNode()
         {
-            minigameGrid[0, 0].GetComponent<MapNode>().SetSelected(true);
+            var x = MapManager.GetInstance().MinigameStartedX;
+            var y = MapManager.GetInstance().MinigameStartedY;
+            minigameGrid[x, y].GetComponent<MapNode>().SetSelected(true);
         }
 
         private void Update()
@@ -75,22 +83,28 @@ namespace Assets.Scripts.Map
 
         private void StartSelectedGame()
         {
-            mapSelected.Play();
-            var selectedNode = minigameGrid[selectedX, selectedY].GetComponent<MapNode>();
-            SceneManager.LoadScene(selectedNode.MinigameInfo.SceneName);
+            if (MapManager.GetInstance().CanStartGame(selectedX))
+            {
+                mapSelectedSound.Play();
+                MapManager.GetInstance().StartMinigame(selectedX, selectedY);
+            }
+            else
+            {
+                lockedMapSelectedSound.Play();
+            }
         }
 
         private void MoveSelectedMapNode(Direction direction)
         {
             if (MoveIsImpossible(direction)) return;
 
-            SetCurrentMapModeSelected(false);
+            SetCurrentMapNodeSelected(false);
             ApplyMove(direction);
-            SetCurrentMapModeSelected(true);
-            cursorMoved.Play();
+            SetCurrentMapNodeSelected(true);
+            cursorMovedSound.Play();
         }
 
-        private void SetCurrentMapModeSelected(bool isSelected)
+        private void SetCurrentMapNodeSelected(bool isSelected)
         {
             minigameGrid[selectedX, selectedY].GetComponent<MapNode>().SetSelected(isSelected);
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Map
@@ -10,15 +11,20 @@ namespace Assets.Scripts.Map
         [SerializeField] List<MinigameInfo> minigameInfos;
         [SerializeField] int mapWidth, mapHeight;
 
-        private bool isInitialized = false;
         private List<int> unusedMinigameInfoIndexes;
         private MinigameInfo[,] minigames;
+        private int maxStageUnlocked = 0;
         private static MapManager instance;
+        private int minigameStartedX, minigameStartedY;
 
         public static MapManager GetInstance()
         {
             return instance;
         }
+
+        public int MaxStageUnlocked => maxStageUnlocked;
+        public int MinigameStartedX => minigameStartedX;
+        public int MinigameStartedY => minigameStartedY;
 
         public MinigameInfo[,] GetMinigames()
         {
@@ -29,6 +35,29 @@ namespace Assets.Scripts.Map
             }
 
             return minigames;
+        }
+
+        public void StartMinigame(int x, int y)
+        {
+            if (!CanStartGame(x)) return;
+
+            minigameStartedX = x;
+            minigameStartedY = y;
+            var currentMinigame = minigames[minigameStartedX, minigameStartedY];
+            SceneManager.LoadScene(currentMinigame.SceneName); //TODO: Unload current scene?
+        }
+
+        public bool CanStartGame(int x)
+        {
+            return x <= maxStageUnlocked;
+        }
+
+        public void FinishMinigame(bool isWon)
+        {
+            var currentMinigame = minigames[minigameStartedX, minigameStartedY];
+            currentMinigame.FinishGame(isWon);
+
+            if (isWon && minigameStartedX >= maxStageUnlocked) maxStageUnlocked = minigameStartedX + 1;
         }
 
         private void GenerateMinigames()
@@ -72,9 +101,6 @@ namespace Assets.Scripts.Map
         private void Start()
         {
             SetupSingleton();
-            if (!gameObject.activeSelf) return;
-
-            Initialize();
         }
 
         private void SetupSingleton()
@@ -89,23 +115,6 @@ namespace Assets.Scripts.Map
                 instance = this;
                 DontDestroyOnLoad(gameObject);
             }
-        }
-
-        private void Initialize()
-        {
-            Debug.Log("Initializing");
-            if (isInitialized) return;
-
-            isInitialized = true;
-            var mapVisualizer = FindObjectOfType<MapVisualizer>();
-            if (mapVisualizer != null)
-            {
-                //TODO: Move MapManager to Menu Scene.
-                //MapManager is then instantiated before MapVisualizer and can safely be accessed in MapVisualizer's Start() without need for this hacky workaround
-                mapVisualizer.DrawMap();
-            }
-            
-            Debug.Log("initialized");
         }
     }
 }

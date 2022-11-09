@@ -52,11 +52,17 @@ TagManager:
   - name: Enemy
     uniqueID: 2550951461
     locked: 0
-  - name: Bottom Image
+  - name: Image_0
     uniqueID: 3129782263
     locked: 0
-  - name: Top Image
+  - name: Image_1
     uniqueID: 1831269273
+    locked: 0
+  - name: Image_2
+    uniqueID: 2801221497
+    locked: 0
+  - name: Image_3
+    uniqueID: 2539146665
     locked: 0
   - name: Platform_Front_1
     uniqueID: 501176501
