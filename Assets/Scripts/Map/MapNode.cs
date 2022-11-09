@@ -5,20 +5,19 @@ namespace Assets.Scripts.Map
 {
     public class MapNode : MonoBehaviour
     {
-        [SerializeField] GameObject imageHolder;
+        [SerializeField] GameObject minigameImageHolder;
         [SerializeField] TextMeshProUGUI textField;
-        [SerializeField] GameObject selectionHolder;
+        [SerializeField] GameObject selectionHightlightHolder;
+        [SerializeField] GameObject minigameLockedHolder;
+        [SerializeField] GameObject minigameWonHolder;
 
         private MinigameInfo minigameInfo;
-        private int level;
 
-        public void SetInfo(MinigameInfo minigameInfo, int level)
+        public void SetInfo(MinigameInfo minigameInfo)
         {
             this.minigameInfo = minigameInfo;
-            this.level = level;
         }
 
-        public int Level { get => level; }
         public MinigameInfo MinigameInfo { get => minigameInfo; }
 
         private void Start()
@@ -28,12 +27,22 @@ namespace Assets.Scripts.Map
 
         public void SetSelected(bool isSelected)
         {
-            selectionHolder.SetActive(isSelected);
+            selectionHightlightHolder.SetActive(isSelected);
+        }
+
+        public void SetLocked(bool isLocked)
+        {
+            minigameLockedHolder.SetActive(isLocked);
+        }
+
+        public void SetWon(bool isWon)
+        {
+            minigameWonHolder.SetActive(isWon);
         }
 
         private void SetMinigameInfo()
         {
-            imageHolder.GetComponent<SpriteRenderer>().sprite = minigameInfo.MapSprite;
+            minigameImageHolder.GetComponent<SpriteRenderer>().sprite = minigameInfo.MapSprite;
             textField.text = minigameInfo.MinigameName;
         }
     }

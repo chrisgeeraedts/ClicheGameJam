@@ -9,12 +9,18 @@ namespace Assets.Scripts.Map
         [SerializeField] string sceneName;
         [SerializeField] Sprite mapSprite;
         private bool isWon;
-        private bool isLost;
+        private bool isFinished;
 
         public string MinigameName => minigameName;
         public string SceneName => sceneName;
         public Sprite MapSprite => mapSprite;
         public bool IsWon => isWon;
-        public bool IsLost => isLost;
+        public bool IsFinished => isFinished;
+
+        public void FinishGame(bool isWon)
+        {
+            isFinished = true;
+            this.isWon = isWon;
+        }
     }
 }
