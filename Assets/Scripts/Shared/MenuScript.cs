@@ -14,7 +14,7 @@ public class MenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if(isOpen)
             {
@@ -87,6 +87,7 @@ public class MenuScript : MonoBehaviour
     public void CloseMenuAndExitRun()
     {
         isOpen = false;
+        Time.timeScale = 1;
         SceneManager.LoadScene(Constants.SceneNames.MainMenuScene);
     }
 

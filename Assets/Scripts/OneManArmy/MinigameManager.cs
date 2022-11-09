@@ -29,8 +29,8 @@ namespace Assets.Scripts.OneManArmy
         
         [SerializeField] TMP_Text ScoreTextElement;
         [SerializeField] Image TitleTextElement;
-        [SerializeField] TMP_Text GameWinTextElement;
-        [SerializeField] TMP_Text GameLossTextElement;
+        [SerializeField] Image GameWinTextElement;
+        [SerializeField] Image GameLossTextElement;
 
         [SerializeField] AudioSource GameMusic;
         [SerializeField] AudioSource DeathMusic;
@@ -55,16 +55,18 @@ namespace Assets.Scripts.OneManArmy
             HealthImage4_6.SetActive(false);
             HealthImage5_6.SetActive(false);
             HealthImage6_6.SetActive(false);
-            ScoreTextElement.text = "0/" + ZombieKillGoal.ToString();
-            SpawnZombie();
-            StartSpawningZombies();
-            StartCoroutine(HideTitle());
+            ScoreTextElement.text = "<color=#fede34>" + 0 + "</color>/" + ZombieKillGoal.ToString();                    
+            Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
         }
 
         IEnumerator HideTitle()
         {
             yield return new WaitForSeconds(5f);
             Destroy(TitleTextElement);
+            Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(true);
+            SpawnZombie();
+            StartSpawningZombies(); 
+            StartCoroutine(HideTitle());     
         }
 
         void StartSpawningZombies()
@@ -113,12 +115,12 @@ namespace Assets.Scripts.OneManArmy
         public void KilledZombie()
         {
             zombiesDestroyed++;
-            ScoreTextElement.text = zombiesDestroyed.ToString() + "/" + ZombieKillGoal.ToString();
+            ScoreTextElement.text = "<color=#fede34>" + zombiesDestroyed.ToString() + "</color>/" + ZombieKillGoal.ToString();
 
             if(zombiesDestroyed >= ZombieKillGoal)
             {
                 // WIN
-                GlobalAchievementManager.Instance.SetAchievementCompleted(1);
+                GlobalAchievementManager.GetInstance().SetAchievementCompleted(1);
                 Win();
             }
         }
@@ -127,9 +129,9 @@ namespace Assets.Scripts.OneManArmy
         {
             if(Completed)
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    Debug.Log("Escape key was pressed"); // Go to other scene
+                if (Input.GetKeyDown(KeyCode.R))
+                {                    
+                    Time.timeScale = 1;
                     SceneManager.LoadScene(Constants.SceneNames.MapScene);
                 }
             }
@@ -150,6 +152,7 @@ namespace Assets.Scripts.OneManArmy
                 }
             }
             Player.GetComponent<Player>().Complete();
+            Time.timeScale = 0;
         }
 
         private void Lose()
@@ -169,6 +172,7 @@ namespace Assets.Scripts.OneManArmy
                 }
             }
             Player.GetComponent<Player>().Complete();
+            Time.timeScale = 0;
         }
 
         public void PlayerDied()
@@ -192,7 +196,7 @@ namespace Assets.Scripts.OneManArmy
                 PlayerChatTextElement.text = "And my torso? Incredible how I am still doing all of this!";
 
                 //TODO: ARCHIEVEMENT
-                GlobalAchievementManager.Instance.SetAchievementCompleted(9);
+                GlobalAchievementManager.GetInstance().SetAchievementCompleted(9);
 
                 if(!PopupIsOpen)    
                 {

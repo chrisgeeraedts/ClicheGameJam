@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 using Assets.Scripts.Shared;
 
-public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
+public class GlobalAchievementManager : MonoBehaviour
 {
     public TMP_Text TitleTextElement;
     public TMP_Text DescriptionTextElement;
@@ -15,6 +15,37 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
     public List<Achievement> _achievements;
     private bool isActive = false;
     public bool AchievementUpdated;
+
+    private static GlobalAchievementManager instance;
+    private bool isInitialized = false;
+    private void Start()
+    {
+        SetupSingleton();
+        if (!gameObject.activeSelf) return;
+
+        Initialize();
+    }
+
+    public static GlobalAchievementManager GetInstance()
+    {
+        return instance;
+    }
+
+    private void SetupSingleton()
+    {
+        if (instance != null)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+
 
     void LoadData()
     {
@@ -45,8 +76,13 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
         _achievements.Add(new Achievement(23, "Tutorials", "Why do games still have to teach players how to move? WASD has not changed for decades", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
     }
 
-    void Start()
+    void Initialize()
     {
+        Debug.Log("Initializing achievements");
+        if (isInitialized) return;
+
+        isInitialized = true;
+
         AchievementUpdated = false;
         if(gameObject.GetComponent<Animator>() != null)
         {
@@ -54,13 +90,11 @@ public class GlobalAchievementManager : Singleton<GlobalAchievementManager>
         }
         
         LoadData();
-        
-        // Ensure we always have a 'achievement popup game object to use'
-        DontDestroyOnLoad(this.gameObject);
 
         AchievementsToShow = new List<Achievement>();
         StartCoroutine(ShowAchievementPopups());
         isActive = true;
+        Debug.Log("Completed initializing achievements");
     }
 
     public List<Achievement> GetAllAchievements()

@@ -27,8 +27,9 @@ namespace Assets.Scripts.Escort
         void Start()
         {
             GameWinTextElement.enabled = false;
-            GameLossTextElement.enabled = false;
+            GameLossTextElement.enabled = false;            
             StartCoroutine(HideTitle());
+            Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
         }
 
         // Update is called once per frame
@@ -40,7 +41,7 @@ namespace Assets.Scripts.Escort
         public void WaterHit()
         {
             Debug.Log("Water hit!");
-            GlobalAchievementManager.Instance.SetAchievementCompleted(12); // heroes cant swim
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(12); // heroes cant swim
             Lose();
         }
 
@@ -94,7 +95,7 @@ namespace Assets.Scripts.Escort
             GameWinTextElement.enabled = true;
             Completed = true;
 
-            GlobalAchievementManager.Instance.SetAchievementCompleted(2); // escort quests
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(2); // escort quests
         }
 
         private void Lose()
@@ -109,7 +110,8 @@ namespace Assets.Scripts.Escort
         IEnumerator HideTitle()
         {
             yield return new WaitForSeconds(5f);
-            Destroy(TitleTextElement);
+            Destroy(TitleTextElement); 
+            Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(true);
         }
     }
 }

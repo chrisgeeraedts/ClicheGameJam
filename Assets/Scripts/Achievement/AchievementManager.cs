@@ -31,7 +31,7 @@ public class AchievementManager : MonoBehaviour
     public void GetAchievement()
     {
         
-        GlobalAchievementManager.Instance.SetAchievementCompleted(achievement);
+        GlobalAchievementManager.GetInstance().SetAchievementCompleted(achievement);
         achievement++;
     }
 }

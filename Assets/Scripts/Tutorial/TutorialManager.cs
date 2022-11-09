@@ -35,8 +35,7 @@ namespace Assets.Scripts.Tutorial
         public void TriggerInvisibleWallsAchievement()
         {
             invisibleWallsAchievementGot = true;
-            //TODO: Achievement get: World limited by invisible boundaries
-            Debug.Log("Achievement get: World limited by invisible boundaries");
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(5);
         }
 
         public void AdvanceState()
@@ -58,9 +57,8 @@ namespace Assets.Scripts.Tutorial
                 case Enums.TutorialState.PressD:
                     tutorialState = Enums.TutorialState.Complete;
                     break;
-                case Enums.TutorialState.Complete:
-                    //TODO: Achievement get: Finished boring tutorial                    
-                    GlobalAchievementManager.Instance.SetAchievementCompleted(23);
+                case Enums.TutorialState.Complete:                   
+                    GlobalAchievementManager.GetInstance().SetAchievementCompleted(23);
                     tutorialState = Enums.TutorialState.ReturnToMap;
                     break;
                 case Enums.TutorialState.ReturnToMap:

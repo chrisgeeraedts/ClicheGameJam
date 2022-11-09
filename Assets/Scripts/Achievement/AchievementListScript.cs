@@ -21,10 +21,10 @@ public class AchievementListScript : MonoBehaviour
 
     void Update() 
     {
-        if (GlobalAchievementManager.Instance.AchievementUpdated)
+        if (GlobalAchievementManager.GetInstance().AchievementUpdated)
         {
             LoadAndShowAchievements();
-            GlobalAchievementManager.Instance.AchievementUpdated = false;
+            GlobalAchievementManager.GetInstance().AchievementUpdated = false;
         }
     }
 
@@ -36,7 +36,7 @@ public class AchievementListScript : MonoBehaviour
         }
 
         // Reload new achievements from Global
-        Achievements = GlobalAchievementManager.Instance.GetAllAchievements();    
+        Achievements = GlobalAchievementManager.GetInstance().GetAllAchievements();    
 
         // Set UI elements
         int totalAchievements = Achievements.Count;
