@@ -78,7 +78,6 @@ namespace Assets.Scripts.OneManArmy
 
         public void TakeDamage()
         {            
-            Debug.Log("ZOMBIE GOT HIT!");
             CurrentHealth+=-1;
             if (CurrentHealth == 0)
             {

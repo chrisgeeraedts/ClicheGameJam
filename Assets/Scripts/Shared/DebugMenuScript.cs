@@ -48,4 +48,11 @@ public class DebugMenuScript : MonoBehaviour
     {
         SceneManager.LoadScene(Constants.SceneNames.StoryScene);
     }
+    public void GetAchievements()
+    {
+        for(int i = 0; i < 23; i++)
+        {
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(i);
+        }
+    }
 }
