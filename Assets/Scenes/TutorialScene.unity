@@ -787,7 +787,7 @@ MonoBehaviour:
   PressSText: Press S to move backward
   PressDText: Press D to move to the right
   CompleteText: Well done, you have completed the tutorial !
-  ReturnToMapText: Well done, you have completed the tutorial ! Press Escape to return
+  ReturnToMapText: Well done, you have completed the tutorial ! Press Space to return
     to the map
   tutorialTextfield: {fileID: 525112970}
   errorTextfield: {fileID: 1125514296}
@@ -805,7 +805,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &703817585
 GameObject:
