@@ -34,8 +34,6 @@ namespace Assets.Scripts.Tutorial
 
         private void HandlePlayerInput()
         {
-            if (!Input.anyKey) return;
-
             if (Input.GetKey(KeyCode.W))
             {
                 tutorialManager.HandlePlayerInput(KeyCode.W);
@@ -80,9 +78,13 @@ namespace Assets.Scripts.Tutorial
             {
                 tutorialManager.HandlePlayerInput(KeyCode.Mouse0);
             }
-            else if (Input.GetKey(KeyCode.Escape))
+            else if (Input.GetKey(KeyCode.Space))
             {
-                tutorialManager.HandlePlayerInput(KeyCode.Escape);
+                tutorialManager.HandlePlayerInput(KeyCode.Space);
+            }
+            else if (Input.anyKey)
+            {
+                tutorialManager.HandlePlayerInput(KeyCode.Z);
             }
         }
 

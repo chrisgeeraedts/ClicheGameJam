@@ -31,14 +31,12 @@ namespace Assets.Scripts.OneManArmy
 
         Rigidbody2D rb;
 
-        // Start is called before the first frame update
         void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             enemyAudioHit = GetComponent<AudioSource>();
         }
 
-        // Update is called once per frame
         void FixedUpdate()
         {
             if(isReady)

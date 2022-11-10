@@ -2689,7 +2689,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Developed by <color=#fede34>Njitram</color> and <color=#fede34>cg-gaming</color>
+  m_text: Developed by <color=#fede34>NjitRam</color> and <color=#fede34>cg-gaming</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
@@ -4703,7 +4703,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 20.50003, y: 23}
+  m_AnchoredPosition: {x: 20.5, y: 23}
   m_SizeDelta: {x: 329.27844, y: 29.179688}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1349438703

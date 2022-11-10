@@ -128,7 +128,7 @@ namespace Assets.Scripts.Tutorial
                 case Enums.TutorialState.Complete:
                     return true;
                 case Enums.TutorialState.ReturnToMap:
-                    return key == KeyCode.Escape;
+                    return key == KeyCode.Space;
                 default:
                     return false;
             }
