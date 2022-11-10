@@ -27,7 +27,7 @@ namespace Assets.Scripts.OneManArmy
         public GameObject zombie;
         private List<GameObject> activeZombies;
 
-        
+
         [SerializeField] TMP_Text ScoreTextElement;
         [SerializeField] Image TitleTextElement;
         [SerializeField] Image GameWinTextElement;
@@ -37,12 +37,11 @@ namespace Assets.Scripts.OneManArmy
         [SerializeField] AudioSource DeathMusic;
         [SerializeField] AudioSource WinMusic;
 
-        
+
         [SerializeField] int ZombieHealth = 2;
         [SerializeField] int ZombieKillGoal = 100;
         [SerializeField] int zombieMax = 25;
 
-        // Start is called before the first frame update
         void Start()
         {
             activeZombies = new List<GameObject>();
@@ -56,7 +55,7 @@ namespace Assets.Scripts.OneManArmy
             HealthImage4_6.SetActive(false);
             HealthImage5_6.SetActive(false);
             HealthImage6_6.SetActive(false);
-            ScoreTextElement.text = "<color=#fede34>" + 0 + "</color>/" + ZombieKillGoal.ToString();                    
+            ScoreTextElement.text = "<color=#fede34>" + 0 + "</color>/" + ZombieKillGoal.ToString();
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
             StartCoroutine(HideTitle());
         }
@@ -67,8 +66,7 @@ namespace Assets.Scripts.OneManArmy
             Destroy(TitleTextElement);
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(true);
             SpawnZombie();
-            StartSpawningZombies(); 
-            StartCoroutine(HideTitle());     
+            StartSpawningZombies();
         }
 
         void StartSpawningZombies()
@@ -79,28 +77,27 @@ namespace Assets.Scripts.OneManArmy
         float spawnModifier = 4; // go down to spawn faster
         IEnumerator StartSpawningZombiesAsync()
         {
-            while(!Completed)
+            while (!Completed && !zombieLimitReached)
             {
-                if(zombiesSpawned < zombieMax)
+                if (zombiesSpawned < zombieMax)
                 {
                     yield return new WaitForSeconds(spawnModifier);
-                    if(spawnModifier > 0.2f)
+                    if (spawnModifier > 0.2f)
                     {
-                        spawnModifier = spawnModifier * 0.92f;
+                        spawnModifier = Mathf.Max(0.5f, spawnModifier * 0.92f);
                     }
                     SpawnZombie();
                 }
-                
+
+                zombieLimitReached = zombiesSpawned + 1 >= zombieMax;
             }
         }
 
         void SpawnZombie()
-        {       
+        {
             zombiesSpawned++;
-            // select spawnpoint
             int spawnPointIndex = Random.Range(0, 6);
             GameObject spawnPoint = SpawnPoints[spawnPointIndex];
-            //Debug.Log("Spawning zombie at " + spawnPointIndex + " Spawning speed is now: " + spawnModifier);
 
             GameObject zombieGameObject = Instantiate(zombie, spawnPoint.transform.position, spawnPoint.transform.rotation);
             zombieGameObject.GetComponent<Enemy>().InitEnemy(ZombieHealth, Player, gameObject);
@@ -113,15 +110,15 @@ namespace Assets.Scripts.OneManArmy
         private int zombiesSpawned = 0;
 
         private bool Completed = false;
+        private bool zombieLimitReached = false;
 
         public void KilledZombie()
         {
             zombiesDestroyed++;
             ScoreTextElement.text = "<color=#fede34>" + zombiesDestroyed.ToString() + "</color>/" + ZombieKillGoal.ToString();
 
-            if(zombiesDestroyed >= ZombieKillGoal)
+            if (zombiesDestroyed >= ZombieKillGoal)
             {
-                // WIN
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(1);
                 Win();
             }
@@ -129,10 +126,10 @@ namespace Assets.Scripts.OneManArmy
 
         void Update()
         {
-            if(Completed)
+            if (Completed)
             {
                 if (Input.GetKeyDown(KeyCode.R))
-                {                    
+                {
                     Time.timeScale = 1;
                     SceneManager.LoadScene(Constants.SceneNames.MapScene);
                 }
@@ -149,8 +146,9 @@ namespace Assets.Scripts.OneManArmy
             Completed = true;
             foreach (GameObject zombie in activeZombies)
             {
-                if(zombie != null)
+                if (zombie != null)
                 {
+                    zombie.SetActive(false);
                     Destroy(zombie);
                 }
             }
@@ -170,7 +168,7 @@ namespace Assets.Scripts.OneManArmy
             Completed = true;
             foreach (GameObject zombie in activeZombies)
             {
-                if(zombie != null)
+                if (zombie != null)
                 {
                     zombie.GetComponent<Enemy>().StopEnemy();
                 }
@@ -186,12 +184,12 @@ namespace Assets.Scripts.OneManArmy
 
         public void PlayerTakenDamage(int damageTakenTotal)
         {
-            if(damageTakenTotal == 6)
+            if (damageTakenTotal == 6)
             {
                 HealthImage5_6.SetActive(false);
                 HealthImage6_6.SetActive(true);
             }
-            if(damageTakenTotal == 5)
+            if (damageTakenTotal == 5)
             {
                 HealthImage4_6.SetActive(false);
                 HealthImage5_6.SetActive(true);
@@ -199,87 +197,86 @@ namespace Assets.Scripts.OneManArmy
                 PlayerChatBubble.SetActive(true);
                 PlayerChatTextElement.text = "And my torso? Incredible how I am still doing all of this!";
 
-                //TODO: ARCHIEVEMENT
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(9);
 
-                if(!PopupIsOpen)    
+                if (!PopupIsOpen)
                 {
                     HideChatBubble();
-                }  
+                }
                 else
                 {
                     NewPopupHasOpened = true;
                 }
-                PopupIsOpen = true;   
+                PopupIsOpen = true;
             }
-            if(damageTakenTotal == 4)
+            if (damageTakenTotal == 4)
             {
                 HealthImage3_6.SetActive(false);
                 HealthImage4_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
                 PlayerChatTextElement.text = "Both of my arms as well! How am I holding a weapon?!?";
-                if(!PopupIsOpen)    
+                if (!PopupIsOpen)
                 {
                     HideChatBubble();
-                } 
+                }
                 else
                 {
                     NewPopupHasOpened = true;
-                } 
-                PopupIsOpen = true;   
+                }
+                PopupIsOpen = true;
             }
-            if(damageTakenTotal == 3)
+            if (damageTakenTotal == 3)
             {
                 HealthImage2_6.SetActive(false);
                 HealthImage3_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
                 PlayerChatTextElement.text = "My arm! Aaah!";
-                if(!PopupIsOpen)    
+                if (!PopupIsOpen)
                 {
                     HideChatBubble();
-                }  
+                }
                 else
                 {
                     NewPopupHasOpened = true;
                 }
-                PopupIsOpen = true;   
+                PopupIsOpen = true;
             }
-            if(damageTakenTotal == 2)
+            if (damageTakenTotal == 2)
             {
                 HealthImage1_6.SetActive(false);
                 HealthImage2_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
                 PlayerChatTextElement.text = "Both my legs! How am I still walking?!?";
-                if(!PopupIsOpen)    
+                if (!PopupIsOpen)
                 {
                     HideChatBubble();
-                }  
+                }
                 else
                 {
                     NewPopupHasOpened = true;
                 }
-                PopupIsOpen = true;   
+                PopupIsOpen = true;
             }
-            if(damageTakenTotal == 1)
+            if (damageTakenTotal == 1)
             {
                 HealthImage0_6.SetActive(false);
                 HealthImage1_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
-                PlayerChatTextElement.text = "Aaaah, my leg!";       
-                if(!PopupIsOpen)    
+                PlayerChatTextElement.text = "Aaaah, my leg!";
+                if (!PopupIsOpen)
                 {
                     HideChatBubble();
-                }  
+                }
                 else
                 {
                     NewPopupHasOpened = true;
                 }
-                PopupIsOpen = true;   
-            }            
+                PopupIsOpen = true;
+            }
         }
 
 
@@ -295,12 +292,13 @@ namespace Assets.Scripts.OneManArmy
         IEnumerator HideChatBubbleAsync()
         {
             yield return new WaitForSeconds(3f);
-            if(!NewPopupHasOpened)
+            if (!NewPopupHasOpened)
             {
-                PlayerChatBubble.SetActive(false); 
-                PopupIsOpen = false;      
+                PlayerChatBubble.SetActive(false);
+                PopupIsOpen = false;
             }
-            else{
+            else
+            {
                 NewPopupHasOpened = false;
                 HideChatBubble();
             }
