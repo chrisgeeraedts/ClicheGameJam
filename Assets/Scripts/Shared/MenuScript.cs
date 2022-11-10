@@ -56,7 +56,7 @@ public class MenuScript : MonoBehaviour
         {
             MenuObject.SetActive(false);
         }
-        if(MenuObject != null)
+        if(MinigameCanvas != null)
         {
             MinigameCanvas.SetActive(true);
         }        
@@ -80,7 +80,7 @@ public class MenuScript : MonoBehaviour
         {
             MenuObject.SetActive(true);
         }
-        if(MenuObject != null)
+        if(MinigameCanvas != null)
         {
             MinigameCanvas.SetActive(false);
         }  

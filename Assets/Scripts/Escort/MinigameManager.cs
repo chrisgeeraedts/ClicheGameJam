@@ -18,17 +18,15 @@ namespace Assets.Scripts.Escort
         [SerializeField] AudioSource DeathMusic;
         [SerializeField] AudioSource WinMusic;
         
-        [SerializeField] Image TitleTextElement;
-        [SerializeField] Image GameWinTextElement;
-        [SerializeField] Image GameLossTextElement;
+        
+        public GameObject MissionTexts;
         [SerializeField] GameObject FrustrationMeter;
 
 
         // Start is called before the first frame update
         void Start()
         {
-            GameWinTextElement.enabled = false;
-            GameLossTextElement.enabled = false;            
+            MissionTexts.GetComponent<MissionTextScript>().ShowTitle();
             StartCoroutine(HideTitle());
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
         }
@@ -100,10 +98,10 @@ namespace Assets.Scripts.Escort
             GameMusic.Stop();
             WinMusic.Play();
             
-            GameWinTextElement.enabled = true;
             Completed = true;
 
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(2); // escort quests
+            MissionTexts.GetComponent<MissionTextScript>().DoWin(); 
         }
 
         private void Lose()
@@ -111,14 +109,14 @@ namespace Assets.Scripts.Escort
             GameMusic.Stop();
             DeathMusic.Play();
 
-            GameLossTextElement.enabled = true;
-            Completed = true;            
+            Completed = true;          
+            MissionTexts.GetComponent<MissionTextScript>().DoLoss(); 
         }
 
         IEnumerator HideTitle()
         {
             yield return new WaitForSeconds(5f);
-            Destroy(TitleTextElement); 
+            MissionTexts.GetComponent<MissionTextScript>().HideTitle(); 
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(true);
         }
     }

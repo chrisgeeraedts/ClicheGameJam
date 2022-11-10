@@ -29,9 +29,7 @@ namespace Assets.Scripts.OneManArmy
 
 
         [SerializeField] TMP_Text ScoreTextElement;
-        [SerializeField] Image TitleTextElement;
-        [SerializeField] Image GameWinTextElement;
-        [SerializeField] Image GameLossTextElement;
+        public GameObject MissionTexts;
 
         [SerializeField] AudioSource GameMusic;
         [SerializeField] AudioSource DeathMusic;
@@ -44,9 +42,8 @@ namespace Assets.Scripts.OneManArmy
 
         void Start()
         {
+            MissionTexts.GetComponent<MissionTextScript>().ShowTitle();
             activeZombies = new List<GameObject>();
-            GameWinTextElement.enabled = false;
-            GameLossTextElement.enabled = false;
             PlayerChatBubble.SetActive(false);
             HealthImage0_6.SetActive(true);
             HealthImage1_6.SetActive(false);
@@ -63,7 +60,7 @@ namespace Assets.Scripts.OneManArmy
         IEnumerator HideTitle()
         {
             yield return new WaitForSeconds(5f);
-            Destroy(TitleTextElement);
+            MissionTexts.GetComponent<MissionTextScript>().HideTitle();
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(true);
             SpawnZombie();
             StartSpawningZombies();
@@ -142,7 +139,7 @@ namespace Assets.Scripts.OneManArmy
             GameMusic.Stop();
             WinMusic.Play();
 
-            GameWinTextElement.enabled = true;
+            MissionTexts.GetComponent<MissionTextScript>().DoWin();
             Completed = true;
             foreach (GameObject zombie in activeZombies)
             {
@@ -164,7 +161,7 @@ namespace Assets.Scripts.OneManArmy
             HealthImage5_6.SetActive(false);
             HealthImage6_6.SetActive(true);
 
-            GameLossTextElement.enabled = true;
+            MissionTexts.GetComponent<MissionTextScript>().DoLoss();
             Completed = true;
             foreach (GameObject zombie in activeZombies)
             {

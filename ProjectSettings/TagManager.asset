@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Zombie
   - BulletWall
+  - NPCCollider
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - 
   - BottomImage
   - TopImage
-  - 
+  - CollisionWalls
   - 
   - 
   - 
@@ -91,6 +92,12 @@ TagManager:
   - name: Menu_Background
     uniqueID: 2222083917
     locked: 0
+  - name: MenuPortal
+    uniqueID: 2965985943
+    locked: 0
+  - name: Menu_Background_Front
+    uniqueID: 1190677343
+    locked: 0
   - name: Menu_Menu
     uniqueID: 823199879
     locked: 0
@@ -102,4 +109,7 @@ TagManager:
     locked: 0
   - name: Achievement_UI
     uniqueID: 1725363337
+    locked: 0
+  - name: FADE-KEEPTOP
+    uniqueID: 3668811869
     locked: 0
