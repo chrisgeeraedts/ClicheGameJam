@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
+using Assets.Scripts.Map;
 
 namespace Assets.Scripts.OneManArmy
 {
@@ -139,7 +140,8 @@ namespace Assets.Scripts.OneManArmy
         }
 
         private void Win()
-        {            
+        {
+            MapManager.GetInstance().FinishMinigame(true);
             GameMusic.Stop();
             WinMusic.Play();
 
@@ -158,6 +160,7 @@ namespace Assets.Scripts.OneManArmy
 
         private void Lose()
         {
+            MapManager.GetInstance().FinishMinigame(false);
             GameMusic.Stop();
             DeathMusic.Play();
             HealthImage5_6.SetActive(false);
