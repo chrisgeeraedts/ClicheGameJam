@@ -18,8 +18,8 @@ TagManager:
   - BottomImage
   - TopImage
   - CollisionWalls
-  - 
-  - 
+  - LaserLines
+  - Minigames
   - 
   - 
   - 
@@ -53,18 +53,6 @@ TagManager:
   - name: Enemy
     uniqueID: 2550951461
     locked: 0
-  - name: Image_0
-    uniqueID: 3129782263
-    locked: 0
-  - name: Image_1
-    uniqueID: 1831269273
-    locked: 0
-  - name: Image_2
-    uniqueID: 2801221497
-    locked: 0
-  - name: Image_3
-    uniqueID: 2539146665
-    locked: 0
   - name: Platform_Front_1
     uniqueID: 501176501
     locked: 0
@@ -83,11 +71,29 @@ TagManager:
   - name: Platform_Walls
     uniqueID: 3015406031
     locked: 0
+  - name: MapLine
+    uniqueID: 1732153449
+    locked: 0
+  - name: MapMiniGames
+    uniqueID: 974783759
+    locked: 0
   - name: Platform_Player
     uniqueID: 2093915581
     locked: 0
   - name: Platform_NPC
     uniqueID: 1877996139
+    locked: 0
+  - name: Image_0
+    uniqueID: 3129782263
+    locked: 0
+  - name: Image_1
+    uniqueID: 1831269273
+    locked: 0
+  - name: Image_2
+    uniqueID: 2801221497
+    locked: 0
+  - name: Image_3
+    uniqueID: 2539146665
     locked: 0
   - name: Menu_Background
     uniqueID: 2222083917

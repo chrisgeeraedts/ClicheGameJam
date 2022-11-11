@@ -43,7 +43,6 @@ public class MainMenuHeroScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(phase);
         if(phase == 0)
         {
             animator.runtimeAnimatorController = FallingController;  

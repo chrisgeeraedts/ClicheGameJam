@@ -678,7 +678,7 @@ MonoBehaviour:
   DeathMusic: {fileID: 1568597852}
   WinMusic: {fileID: 1978828150}
   ZombieHealth: 2
-  ZombieKillGoal: 10
+  ZombieKillGoal: 1
   zombieMax: 25
 --- !u!1 &464698917
 GameObject:
@@ -8408,11 +8408,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7496956264779255916, guid: bb659c87cd72d834e8ceb826d745d027, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7496956266540435156, guid: bb659c87cd72d834e8ceb826d745d027, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb659c87cd72d834e8ceb826d745d027, type: 3}
