@@ -39,12 +39,12 @@ namespace Assets.Scripts.OneManArmy
             SetPlayerActive(true);
         }
 
-        public bool IsActive = true;
         private bool isDead = false;
-        private bool isCompleted = false;
         private void Update()
         {
-            if(!isDead && !isCompleted && IsPlayerActive())
+
+
+            if(!isDead && IsPlayerActive())
             {
                 RotateToMouse();
 
@@ -99,9 +99,8 @@ namespace Assets.Scripts.OneManArmy
         public float fireForce;
         private void OnFire()
         {
-            if(!isDead && !isCompleted && IsPlayerActive())
+            if(!isDead && IsPlayerActive())
             {
-                //Debug.Log("shoot");
                 gunAudio.Play();
                 GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
                 projectile.GetComponent<Rigidbody2D>().AddForce(firePoint.up * fireForce, ForceMode2D.Impulse);

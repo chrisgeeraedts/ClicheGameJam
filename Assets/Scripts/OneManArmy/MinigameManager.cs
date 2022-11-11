@@ -40,6 +40,11 @@ namespace Assets.Scripts.OneManArmy
         [SerializeField] int ZombieKillGoal = 100;
         [SerializeField] int zombieMax = 25;
 
+        private int zombiesDestroyed = 0;
+        private int zombiesSpawned = 0;
+        private bool completed = false;
+        private bool zombieLimitReached = false;
+
         void Start()
         {
             MissionTexts.GetComponent<MissionTextScript>().ShowTitle();
@@ -74,7 +79,7 @@ namespace Assets.Scripts.OneManArmy
         float spawnModifier = 4; // go down to spawn faster
         IEnumerator StartSpawningZombiesAsync()
         {
-            while (!Completed && !zombieLimitReached)
+            while (!completed && !zombieLimitReached)
             {
                 if (zombiesSpawned < zombieMax)
                 {
@@ -101,14 +106,6 @@ namespace Assets.Scripts.OneManArmy
             activeZombies.Add(zombieGameObject);
         }
 
-
-
-        private int zombiesDestroyed = 0;
-        private int zombiesSpawned = 0;
-
-        private bool Completed = false;
-        private bool zombieLimitReached = false;
-
         public void KilledZombie()
         {
             zombiesDestroyed++;
@@ -123,7 +120,7 @@ namespace Assets.Scripts.OneManArmy
 
         void Update()
         {
-            if (Completed)
+            if (completed)
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
@@ -140,7 +137,7 @@ namespace Assets.Scripts.OneManArmy
             WinMusic.Play();
 
             MissionTexts.GetComponent<MissionTextScript>().DoWin();
-            Completed = true;
+            completed = true;
             foreach (GameObject zombie in activeZombies)
             {
                 if (zombie != null)
@@ -149,7 +146,7 @@ namespace Assets.Scripts.OneManArmy
                     Destroy(zombie);
                 }
             }
-            Player.GetComponent<Player>().Complete();
+            Player.GetComponent<Player>().SetPlayerActive(false);
             Time.timeScale = 0;
         }
 
@@ -162,7 +159,7 @@ namespace Assets.Scripts.OneManArmy
             HealthImage6_6.SetActive(true);
 
             MissionTexts.GetComponent<MissionTextScript>().DoLoss();
-            Completed = true;
+            completed = true;
             foreach (GameObject zombie in activeZombies)
             {
                 if (zombie != null)
@@ -170,7 +167,7 @@ namespace Assets.Scripts.OneManArmy
                     zombie.GetComponent<Enemy>().StopEnemy();
                 }
             }
-            Player.GetComponent<Player>().Complete();
+            Player.GetComponent<Player>().SetPlayerActive(false);
             Time.timeScale = 0;
         }
 
