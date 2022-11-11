@@ -152,7 +152,7 @@ public class MainMenuHeroScript : MonoBehaviour
 
     public void StartGameAnimation()
     {        
-        transform.position = Positions[6].transform.position;
+        transform.position = Positions[5].transform.position;
         phase = 7;
         PortalAnimator.SetBool("PortalVisible", true);        
     }
