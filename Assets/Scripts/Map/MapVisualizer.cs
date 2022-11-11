@@ -61,9 +61,9 @@ namespace Assets.Scripts.Map
 
         private void SelectLastActiveNode()
         {
-            var x = MapManager.GetInstance().MinigameStartedX;
-            var y = MapManager.GetInstance().MinigameStartedY;
-            minigameGrid[x, y].GetComponent<MapNode>().SetSelected(true);
+            selectedX= MapManager.GetInstance().MinigameStartedX;
+            selectedY = MapManager.GetInstance().MinigameStartedY;
+            minigameGrid[selectedX, selectedY].GetComponent<MapNode>().SetSelected(true);
         }
 
         private void Update()
