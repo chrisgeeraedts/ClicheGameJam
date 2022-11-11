@@ -23,7 +23,7 @@ public class StoryManager : MonoBehaviour
 
     IEnumerator GoToGame()
     {
-        yield return new WaitForSeconds(35f);
+        yield return new WaitForSeconds(40);
         SceneManager.LoadScene(Constants.SceneNames.MapScene);
     }
 }
