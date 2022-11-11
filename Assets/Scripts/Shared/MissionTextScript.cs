@@ -51,8 +51,7 @@ namespace Assets.Scripts.Shared
         }
         public void DoWin()
         {
-        if(
-            Toggled)
+            if(Toggled)
             {
                 Particles.SetActive(true);
                 GameWinTextElement.enabled = true;

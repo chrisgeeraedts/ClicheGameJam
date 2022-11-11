@@ -12,7 +12,7 @@ namespace Assets.Scripts.Escort
 
         void OnTriggerEnter2D(Collider2D col)
         {
-            Debug.Log("milestone hit!");
+            Debug.Log("milestone hit: " + MilestoneId);
             Debug.Log(MinigameManager.GetComponent<MinigameManager>());
             MinigameManager.GetComponent<MinigameManager>().MilestoneHit(MilestoneId);
             Destroy(gameObject);

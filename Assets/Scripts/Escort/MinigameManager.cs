@@ -61,7 +61,6 @@ namespace Assets.Scripts.Escort
             if(milestone == 0)
             {
                 // Escort me, dont go to fast!
-
                 FrustrationMeter.GetComponent<ProgressBar>().SetFill(0.1f);
             }
             if(milestone == 1)

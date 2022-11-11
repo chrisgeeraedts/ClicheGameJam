@@ -59,8 +59,6 @@ namespace Assets.Scripts.OneManArmy
 
                 HandlePlayerAnimations();
             }
-
-            ChatBubble.transform.position = new Vector3(transform.position.x+0.7f, transform.position.y+0.7f, transform.position.z);
         }
 
         private void HandlePlayerAnimations()
