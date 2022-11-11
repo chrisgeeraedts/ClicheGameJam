@@ -91,7 +91,7 @@ public class MenuScript : MonoBehaviour
         } 
         if(AudioToPause != null)
         {
-            AudioToPause.Stop();
+            AudioToPause.Pause();
         }
     }
 

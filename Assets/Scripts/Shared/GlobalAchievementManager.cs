@@ -74,6 +74,11 @@ public class GlobalAchievementManager : MonoBehaviour
         _achievements.Add(new Achievement(21, "Breakable Vazes", "Lets just go around the world and break random pottery.", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(22, "Block Puzzles", "The most cliche puzzle in any game", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(23, "Tutorials", "Why do games still have to teach players how to move? WASD has not changed for decades", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
+        _achievements.Add(new Achievement(24, "KONAMI Code", "[PLACEHOLDER]]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
+        _achievements.Add(new Achievement(25, "Falling platforms", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
+        _achievements.Add(new Achievement(26, "Pre-boss savepoint", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
+        _achievements.Add(new Achievement(27, "Mobile game adds", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
+        _achievements.Add(new Achievement(28, "Lootboxes", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
     }
 
     void Initialize()
