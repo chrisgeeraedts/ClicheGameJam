@@ -12,6 +12,12 @@
             public static string TutorialScene = "TutorialScene";
             public static string OneManArmyScene = "OneManArmyScene";
             public static string UnderwaterScene = "UnderwaterScene";
+            public static string BulletFunScene = "BulletFunScene";
+        }
+
+        public static class TagNames
+        {
+            public static string Player = "Player";
         }
     }
 }
