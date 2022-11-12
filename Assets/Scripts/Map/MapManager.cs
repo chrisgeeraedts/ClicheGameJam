@@ -15,7 +15,8 @@ namespace Assets.Scripts.Map
     public class MapManager : MonoBehaviour
     {
         [SerializeField] List<MinigameInfo> minigameInfos;
-        [SerializeField] int mapWidth, mapHeight;
+        [SerializeField] int mapWidth = 4;
+        [SerializeField] int mapHeight = 3;
 
         private List<int> unusedMinigameInfoIndexes;
         private MinigameInfo[,] minigames;
@@ -25,6 +26,8 @@ namespace Assets.Scripts.Map
         private int maxStageUnlocked = 0;
         private static MapManager instance;
         private int minigameStartedX, minigameStartedY;
+
+        private bool isInitialized = false;
 
         public static MapManager GetInstance()
         {
@@ -52,11 +55,12 @@ namespace Assets.Scripts.Map
 
             minigameStartedX = x;
             minigameStartedY = y;
-            if(minigames != null)
+            if(!isInitialized)
             {
-                var currentMinigame = minigames[minigameStartedX, minigameStartedY];
-                SceneManager.LoadScene(currentMinigame.SceneName); //TODO: Unload current scene?
+                GetMinigames();
             }
+            var currentMinigame = minigames[minigameStartedX, minigameStartedY];
+            SceneManager.LoadScene(currentMinigame.SceneName); //TODO: Unload current scene?
         }
 
         public bool CanStartGame(int x)
@@ -66,6 +70,10 @@ namespace Assets.Scripts.Map
 
         public void FinishMinigame(bool isWon)
         {
+            if(!isInitialized)
+            {
+                GetMinigames();
+            }
             var currentMinigame = minigames[minigameStartedX, minigameStartedY];
             currentMinigame.FinishGame(isWon);
 
@@ -89,6 +97,8 @@ namespace Assets.Scripts.Map
                     minigames[x, y] = minigameInfo;
                 }
             }
+
+            isInitialized = true;
         }
 
         private MinigameInfo GetRandomMinigameInfo()

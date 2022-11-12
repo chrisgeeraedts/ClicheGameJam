@@ -1297,7 +1297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FillImage: {fileID: 2106622966}
   ProgressText: {fileID: 1778190058}
-  FillSpeed: 0.05
+  FillSpeed: -0.05
 --- !u!222 &841304658
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2363,7 +2363,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2093915581
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5659b073e19871d4da7394b6456da365, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3292,7 +3292,7 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.07045734, y: -1.3923094}
+  - {x: 0.03907597, y: -1.3639119}
   - {x: 0.34367728, y: -1.3021626}
   - {x: 4.378588, y: -1.3634882}
   - {x: 5.584185, y: -0.69226193}

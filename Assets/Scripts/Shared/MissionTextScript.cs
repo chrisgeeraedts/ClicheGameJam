@@ -13,7 +13,7 @@ namespace Assets.Scripts.Shared
         public Image GameWinTextElement;
         public Image GameLossTextElement;
         public GameObject Particles;
-        private AudioSource audioSource;
+        public AudioSource audioSource;
         
         public bool Toggled;
 
@@ -24,11 +24,10 @@ namespace Assets.Scripts.Shared
             {
                 Particles.SetActive(false);
                 TitleTextElement.enabled = false;
-                TitleTextElement.sprite  = MissionTextSprite;
+                TitleTextElement.GetComponent<Image>().sprite  = MissionTextSprite;
+                 TitleTextElement.GetComponent<Image>().enabled = true;
                 GameWinTextElement.enabled = false;
                 GameLossTextElement.enabled = false;
-
-                audioSource = GetComponent<AudioSource>();
             }
         }
 
@@ -36,16 +35,20 @@ namespace Assets.Scripts.Shared
         {
             if(Toggled)
             {
-                GetComponent<Animator>().SetBool("ShouldShow", true);
-                audioSource.time = 0.55f;
-                audioSource.Play();
                 TitleTextElement.enabled = true;
+                GetComponent<Animator>().SetBool("ShouldShow", true);
+                if(audioSource != null)
+                {
+                    audioSource.time = 0.55f;
+                    audioSource.Play();
+                }
             }
         }
         public void HideTitle()
         {
             if(Toggled)
             {
+                Debug.Log(TitleTextElement.enabled);
                 TitleTextElement.enabled = false;
             }
         }

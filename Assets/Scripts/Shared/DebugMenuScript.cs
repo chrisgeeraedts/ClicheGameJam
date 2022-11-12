@@ -48,6 +48,10 @@ public class DebugMenuScript : MonoBehaviour
     {
         SceneManager.LoadScene(Constants.SceneNames.StoryScene);
     }
+    public void NavigateTo_Barrel()
+    {
+        SceneManager.LoadScene(Constants.SceneNames.BulletFunScene);
+    }
     public void GetAchievements()
     {
         for(int i = 0; i < 23; i++)

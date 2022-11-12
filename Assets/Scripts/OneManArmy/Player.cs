@@ -30,6 +30,7 @@ namespace Assets.Scripts.OneManArmy
         {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
+            animator.SetBool("IsMoving", false);
             SetPlayerActive(true);
         }
 

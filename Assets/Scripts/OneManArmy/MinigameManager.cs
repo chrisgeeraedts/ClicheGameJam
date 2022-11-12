@@ -13,8 +13,6 @@ namespace Assets.Scripts.OneManArmy
         public GameObject zombie;
         public GameObject MissionTexts;
 
-        [SerializeField] GameObject PlayerChatBubble;
-        [SerializeField] TMP_Text PlayerChatTextElement;
         [SerializeField] GameObject Player;
         [SerializeField] GameObject HealthImage0_6;
         [SerializeField] GameObject HealthImage1_6;
@@ -44,7 +42,6 @@ namespace Assets.Scripts.OneManArmy
         {
             MissionTexts.GetComponent<MissionTextScript>().ShowTitle();
             activeZombies = new List<GameObject>();
-            PlayerChatBubble.SetActive(false);
             HealthImage0_6.SetActive(true);
             HealthImage1_6.SetActive(false);
             HealthImage2_6.SetActive(false);
@@ -188,7 +185,6 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage4_6.SetActive(false);
                 HealthImage5_6.SetActive(true);
 
-                PlayerChatBubble.SetActive(true);
                 Say("And my torso? Incredible how I am still doing all of this!", 3f);
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(9);
             }
@@ -197,7 +193,6 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage3_6.SetActive(false);
                 HealthImage4_6.SetActive(true);
 
-                PlayerChatBubble.SetActive(true);
                 Say("Both of my arms as well! How am I holding a weapon?!?", 3f);
             }
             if (damageTakenTotal == 3)
@@ -205,7 +200,6 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage2_6.SetActive(false);
                 HealthImage3_6.SetActive(true);
 
-                PlayerChatBubble.SetActive(true);
                 Say("My arm! Aaah!", 3f);
             }
             if (damageTakenTotal == 2)
@@ -213,7 +207,6 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage1_6.SetActive(false);
                 HealthImage2_6.SetActive(true);
 
-                PlayerChatBubble.SetActive(true);
                 Say("Both my legs! How am I still walking?!?", 3f);
             }
             if (damageTakenTotal == 1)
@@ -221,35 +214,10 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage0_6.SetActive(false);
                 HealthImage1_6.SetActive(true);
 
-                PlayerChatBubble.SetActive(true);
                 Say("Aaaah, my leg!", 3f);
             }
         }
 
-
-        void HideChatBubble()
-        {
-            StartCoroutine(HideChatBubbleAsync());
-        }
-
-        private bool PopupIsOpen = false;
-        private bool NewPopupHasOpened = false;
-
-
-        IEnumerator HideChatBubbleAsync()
-        {
-            yield return new WaitForSeconds(3f);
-            if (!NewPopupHasOpened)
-            {
-                PlayerChatBubble.SetActive(false);
-                PopupIsOpen = false;
-            }
-            else
-            {
-                NewPopupHasOpened = false;
-                HideChatBubble();
-            }
-        }
 
         private int chatBubbleLevel = 0;
         private GameObject activeBubble;
@@ -261,7 +229,7 @@ namespace Assets.Scripts.OneManArmy
             }
             // Create a new chatbubble
             GameObject chatBubble = Instantiate(chatBubblePrefab, new Vector3(Player.transform.position.x + 0.6f, Player.transform.position.y + 1.71f, 0), Quaternion.identity);
-            chatBubble.GetComponent<ChatBubbleScript>().Say(text, chatBubbleLevel, gameObject, showDuration);
+            chatBubble.GetComponent<ChatBubbleScript>().Say(text, chatBubbleLevel, Player, showDuration);
             activeBubble = chatBubble;
             chatBubbleLevel++;
         }

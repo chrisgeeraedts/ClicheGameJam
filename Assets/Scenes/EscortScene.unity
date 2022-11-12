@@ -644,7 +644,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1877996139
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.16313633, g: 0.23420736, b: 0.735849, a: 0.77254903}
@@ -1255,7 +1255,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1877996139
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e5cfa9c48ee4d4b7694945b4c8f1c595, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -26300,7 +26300,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1877996139
-  m_SortingLayer: 13
+  m_SortingLayer: 14
   m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -28717,6 +28717,10 @@ PrefabInstance:
       propertyPath: Particles
       value: 
       objectReference: {fileID: 3289570142035427070}
+    - target: {fileID: 6141096176242093261, guid: bb659c87cd72d834e8ceb826d745d027, type: 3}
+      propertyPath: MissionTextSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f003518dcee2e4e4dbef24cb2d0989f9, type: 3}
     - target: {fileID: 7317562020079058328, guid: bb659c87cd72d834e8ceb826d745d027, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
