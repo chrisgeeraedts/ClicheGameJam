@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
+using Assets.Scripts.Map;
 
 namespace Assets.Scripts.OneManArmy
 {
