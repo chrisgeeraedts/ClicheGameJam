@@ -125,7 +125,7 @@ namespace Assets.Scripts.OneManArmy
 
         private void Win()
         {
-            //MapManager.GetInstance().FinishMinigame(true);
+            MapManager.GetInstance().FinishMinigame(true);
             GameMusic.Stop();
             WinMusic.Play();
 
@@ -144,7 +144,7 @@ namespace Assets.Scripts.OneManArmy
 
         private void Lose()
         {
-            //MapManager.GetInstance().FinishMinigame(false);
+            MapManager.GetInstance().FinishMinigame(false);
             GameMusic.Stop();
             DeathMusic.Play();
             HealthImage5_6.SetActive(false);
