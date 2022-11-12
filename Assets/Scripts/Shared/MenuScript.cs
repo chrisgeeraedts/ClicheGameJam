@@ -12,7 +12,6 @@ public class MenuScript : MonoBehaviour
     public GameObject[] NPCElements;
     public AudioSource AudioToPause;
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))

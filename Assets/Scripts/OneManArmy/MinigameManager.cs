@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
@@ -11,9 +10,11 @@ namespace Assets.Scripts.OneManArmy
 {
     public class MinigameManager : MonoBehaviour
     {
+        public GameObject zombie;
+        public GameObject MissionTexts;
+
         [SerializeField] GameObject PlayerChatBubble;
         [SerializeField] TMP_Text PlayerChatTextElement;
-
         [SerializeField] GameObject Player;
         [SerializeField] GameObject HealthImage0_6;
         [SerializeField] GameObject HealthImage1_6;
@@ -22,23 +23,21 @@ namespace Assets.Scripts.OneManArmy
         [SerializeField] GameObject HealthImage4_6;
         [SerializeField] GameObject HealthImage5_6;
         [SerializeField] GameObject HealthImage6_6;
-
         [SerializeField] GameObject[] SpawnPoints;
-        public GameObject zombie;
-        private List<GameObject> activeZombies;
-
-
         [SerializeField] TMP_Text ScoreTextElement;
-        public GameObject MissionTexts;
-
         [SerializeField] AudioSource GameMusic;
         [SerializeField] AudioSource DeathMusic;
         [SerializeField] AudioSource WinMusic;
-
-
         [SerializeField] int ZombieHealth = 2;
         [SerializeField] int ZombieKillGoal = 100;
         [SerializeField] int zombieMax = 25;
+
+        private List<GameObject> activeZombies;
+        private int zombiesDestroyed = 0;
+        private int zombiesSpawned = 0;
+        private bool completed = false;
+        private bool zombieLimitReached = false;
+        private float spawnModifier = 4; // go down to spawn faster
 
         void Start()
         {
@@ -53,7 +52,7 @@ namespace Assets.Scripts.OneManArmy
             HealthImage5_6.SetActive(false);
             HealthImage6_6.SetActive(false);
             ScoreTextElement.text = "<color=#fede34>" + 0 + "</color>/" + ZombieKillGoal.ToString();
-            Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
+            Player.GetComponent<IPlayer>().SetPlayerActive(false);
             StartCoroutine(HideTitle());
         }
 
@@ -61,7 +60,7 @@ namespace Assets.Scripts.OneManArmy
         {
             yield return new WaitForSeconds(5f);
             MissionTexts.GetComponent<MissionTextScript>().HideTitle();
-            Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(true);
+            Player.GetComponent<IPlayer>().SetPlayerActive(true);
             SpawnZombie();
             StartSpawningZombies();
         }
@@ -71,10 +70,9 @@ namespace Assets.Scripts.OneManArmy
             StartCoroutine(StartSpawningZombiesAsync());
         }
 
-        float spawnModifier = 4; // go down to spawn faster
         IEnumerator StartSpawningZombiesAsync()
         {
-            while (!Completed && !zombieLimitReached)
+            while (!completed && !zombieLimitReached)
             {
                 if (zombiesSpawned < zombieMax)
                 {
@@ -92,6 +90,8 @@ namespace Assets.Scripts.OneManArmy
 
         void SpawnZombie()
         {
+            if (completed) return;
+
             zombiesSpawned++;
             int spawnPointIndex = Random.Range(0, 6);
             GameObject spawnPoint = SpawnPoints[spawnPointIndex];
@@ -100,14 +100,6 @@ namespace Assets.Scripts.OneManArmy
             zombieGameObject.GetComponent<Enemy>().InitEnemy(ZombieHealth, Player, gameObject);
             activeZombies.Add(zombieGameObject);
         }
-
-
-
-        private int zombiesDestroyed = 0;
-        private int zombiesSpawned = 0;
-
-        private bool Completed = false;
-        private bool zombieLimitReached = false;
 
         public void KilledZombie()
         {
@@ -123,11 +115,10 @@ namespace Assets.Scripts.OneManArmy
 
         void Update()
         {
-            if (Completed)
+            if (completed)
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
-                    Time.timeScale = 1;
                     SceneManager.LoadScene(Constants.SceneNames.MapScene);
                 }
             }
@@ -140,7 +131,7 @@ namespace Assets.Scripts.OneManArmy
             WinMusic.Play();
 
             MissionTexts.GetComponent<MissionTextScript>().DoWin();
-            Completed = true;
+            completed = true;
             foreach (GameObject zombie in activeZombies)
             {
                 if (zombie != null)
@@ -149,8 +140,7 @@ namespace Assets.Scripts.OneManArmy
                     Destroy(zombie);
                 }
             }
-            Player.GetComponent<Player>().Complete();
-            Time.timeScale = 0;
+            Player.GetComponent<Player>().SetGameFinished(true);
         }
 
         private void Lose()
@@ -162,7 +152,7 @@ namespace Assets.Scripts.OneManArmy
             HealthImage6_6.SetActive(true);
 
             MissionTexts.GetComponent<MissionTextScript>().DoLoss();
-            Completed = true;
+            completed = true;
             foreach (GameObject zombie in activeZombies)
             {
                 if (zombie != null)
@@ -170,8 +160,7 @@ namespace Assets.Scripts.OneManArmy
                     zombie.GetComponent<Enemy>().StopEnemy();
                 }
             }
-            Player.GetComponent<Player>().Complete();
-            Time.timeScale = 0;
+            Player.GetComponent<Player>().SetGameFinished(true);
         }
 
         public void PlayerDied()

@@ -787,7 +787,7 @@ MonoBehaviour:
   PressSText: Press S to move backward
   PressDText: Press D to move to the right
   CompleteText: Well done, you have completed the tutorial !
-  ReturnToMapText: Well done, you have completed the tutorial ! Press Space to return
+  ReturnToMapText: Well done, you have completed the tutorial ! Press R to return
     to the map
   tutorialTextfield: {fileID: 525112970}
   errorTextfield: {fileID: 1125514296}

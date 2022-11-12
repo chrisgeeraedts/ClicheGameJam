@@ -78,9 +78,9 @@ namespace Assets.Scripts.Tutorial
             {
                 tutorialManager.HandlePlayerInput(KeyCode.Mouse0);
             }
-            else if (Input.GetKey(KeyCode.Space))
+            else if (Input.GetKey(KeyCode.R))
             {
-                tutorialManager.HandlePlayerInput(KeyCode.Space);
+                tutorialManager.HandlePlayerInput(KeyCode.R);
             }
             else if (Input.anyKey)
             {
