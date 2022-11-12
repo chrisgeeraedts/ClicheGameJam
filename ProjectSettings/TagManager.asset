@@ -72,8 +72,11 @@ TagManager:
   - name: Platform_Walls
     uniqueID: 3015406031
     locked: 0
-  - name: MapLine
-    uniqueID: 1732153449
+  - name: MapBackground
+    uniqueID: 878930825
+    locked: 0
+  - name: MapLines
+    uniqueID: 348810269
     locked: 0
   - name: MapMiniGames
     uniqueID: 974783759

@@ -2,21 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static Assets.Scripts.Shared.Enums;
+using UnityEngine.SceneManagement;
+using Assets.Scripts.Shared;
 
 namespace Assets.Scripts.Map
 {
     public class MapVisualizer : MonoBehaviour
     {
         [SerializeField] int mapWidth, mapHeight;
-        [SerializeField] float xIncrement, yIncrement;
         [SerializeField] GameObject mapParentObject;
         [SerializeField] GameObject mapNodePrefab;
         [SerializeField] AudioSource cursorMovedSound;
         [SerializeField] AudioSource mapSelectedSound;
         [SerializeField] AudioSource lockedMapSelectedSound;
 
+        public GameObject LineHero_1;
+        public GameObject Line1_2;
+        public GameObject Line2_3;
+        public GameObject Line3_4;
+        public GameObject Line4_Boss;
+
         private int selectedX, selectedY;
-        private GameObject[,] minigameGrid;
+        private int minigamePositionGridIndex;
+        public GameObject[] minigamePositionGrid;
+        private GameObject[,] minigameGrid;        
 
         private void Start()
         {
@@ -29,8 +38,27 @@ namespace Assets.Scripts.Map
             Initialize();
         }
 
+        public int GetActiveStage()
+        {
+            return MapManager.GetInstance().MaxStageUnlocked;
+        }
+
+
         private void Initialize()
         {
+            LineHero_1.GetComponent<LineLaserScript>().Hide();
+            Line1_2.GetComponent<LineLaserScript>().Hide();
+            Line2_3.GetComponent<LineLaserScript>().Hide();
+            Line3_4.GetComponent<LineLaserScript>().Hide();
+            Line4_Boss.GetComponent<LineLaserScript>().Hide();
+
+            for (int i = 0; i < minigamePositionGrid.Length; i++)
+            {
+                minigamePositionGrid[i].SetActive(false);
+            }
+
+            
+
             var minigames = MapManager.GetInstance().GetMinigames();
             GenerateMap(minigames);
             SelectLastActiveNode(); 
@@ -46,8 +74,8 @@ namespace Assets.Scripts.Map
                 for (int y = 0; y < minigames.GetLength(1); y++)
                 {
                     var mapNodeGameObject = Instantiate(mapNodePrefab, mapParentObject.transform, false);
-                    mapNodeGameObject.transform.localPosition = new Vector2(x * xIncrement, y * yIncrement);
-
+                    mapNodeGameObject.transform.position =  minigamePositionGrid[minigamePositionGridIndex].transform.position;
+                    Debug.Log("Create minigame at " + mapNodeGameObject.transform.localPosition.x + " x " + mapNodeGameObject.transform.localPosition.y);
                     var minigameInfo = minigames[x,y];
                     var mapNode = mapNodeGameObject.GetComponent<MapNode>();
                     mapNode.SetLocked(x > maxStageUnlocked);
@@ -55,6 +83,7 @@ namespace Assets.Scripts.Map
                     mapNode.SetInfo(minigameInfo);
                     
                     minigameGrid[x, y] = mapNodeGameObject;
+                    minigamePositionGridIndex++;
                 }
             }
         }
@@ -73,9 +102,9 @@ namespace Assets.Scripts.Map
 
         private void HandlePlayerInput()
         {
-            if (Input.GetKeyDown(KeyCode.W)) MoveSelectedMapNode(Direction.Up);
+            if (Input.GetKeyDown(KeyCode.W)) MoveSelectedMapNode(Direction.Down);
             if (Input.GetKeyDown(KeyCode.A)) MoveSelectedMapNode(Direction.Left);
-            if (Input.GetKeyDown(KeyCode.S)) MoveSelectedMapNode(Direction.Down);
+            if (Input.GetKeyDown(KeyCode.S)) MoveSelectedMapNode(Direction.Up);
             if (Input.GetKeyDown(KeyCode.D)) MoveSelectedMapNode(Direction.Right);
             if (Input.GetKeyDown(KeyCode.Return)) StartSelectedGame();
             if (Input.GetKeyDown(KeyCode.Space)) StartSelectedGame();
@@ -128,10 +157,24 @@ namespace Assets.Scripts.Map
                 default:
                     throw new Exception($"Unable to handle direction {direction}");
             }
+            if(GetActiveStage() == 0)
+            {
+                LineHero_1.GetComponent<LineLaserScript>().EndGameObject = minigameGrid[selectedX, selectedY];
+                LineHero_1.GetComponent<LineLaserScript>().Toggled = true;
+                LineHero_1.GetComponent<LineLaserScript>().Show();
+            }
+            if(GetActiveStage() == 1)
+            {
+                //Line1_2.GetComponent<LineLaserScript>().StartGameObject = minigameGrid[selectedX, selectedY];
+                //Line1_2.GetComponent<LineLaserScript>().EndGameObject = minigameGrid[selectedX, selectedY];
+                //Line1_2.GetComponent<LineLaserScript>().Show();
+            }
+            
         }
 
         private bool MoveIsImpossible(Direction direction)
         {
+            Debug.Log("Active: " + GetActiveStage() + " | " + selectedX + " = " + (selectedX >= GetActiveStage() - 1).ToString());
             switch (direction)
             {
                 case Direction.Up:
@@ -139,12 +182,17 @@ namespace Assets.Scripts.Map
                 case Direction.Down:
                     return selectedY <= 0;
                 case Direction.Left:
-                    return selectedX <= 0;
+                    return selectedX <= 0 || selectedX < GetActiveStage();
                 case Direction.Right:
-                    return selectedX >= mapWidth - 1;
+                    return selectedX >= mapWidth - 1 || selectedX >= GetActiveStage() - 1;
                 default:
                     throw new Exception($"Unable to handle direction {direction}");
             }
+        }
+
+        public void OpenAchievements()
+        {
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
         }
     }
 }

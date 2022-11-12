@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Assets.Scripts.Shared;
 
 public class GameSceneChanger : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class GameSceneChanger : MonoBehaviour
     private FadeStatus currentFadeStatus = FadeStatus.none;
     private float fadeTimer;
     private string sceneToLoad;
+    private LoadSceneMode sceneModeToLoad;
 
     void Start()
     {
@@ -45,6 +47,14 @@ public class GameSceneChanger : MonoBehaviour
     public void ChangeScene(string _name)
     {
         sceneToLoad = _name;
+        sceneModeToLoad = LoadSceneMode.Single;
+        currentFadeStatus = FadeStatus.fading_out;
+    }
+
+    public void ChangeScene(string _name, LoadSceneMode mode)
+    {
+        sceneToLoad = _name;
+        sceneModeToLoad = mode;
         currentFadeStatus = FadeStatus.fading_out;
     }
 
@@ -60,7 +70,7 @@ public class GameSceneChanger : MonoBehaviour
 
                 if (currentFadeStatus == FadeStatus.fading_out)
                 {
-                    SceneManager.LoadScene(sceneToLoad);
+                    SceneManager.LoadScene(sceneToLoad, sceneModeToLoad);
                     fadeImage.color = Color.black;
                 }
                 else

@@ -32,6 +32,7 @@ namespace Assets.Scripts.OneManArmy
         [SerializeField] int ZombieKillGoal = 100;
         [SerializeField] int zombieMax = 25;
 
+        public GameObject chatBubblePrefab;
         private List<GameObject> activeZombies;
         private int zombiesDestroyed = 0;
         private int zombiesSpawned = 0;
@@ -119,7 +120,14 @@ namespace Assets.Scripts.OneManArmy
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
-                    SceneManager.LoadScene(Constants.SceneNames.MapScene);
+                    if(GameSceneChanger.Instance != null)
+                    {
+                        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene(Constants.SceneNames.MapScene);
+                    }
                 }
             }
         }
@@ -181,19 +189,8 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage5_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
-                PlayerChatTextElement.text = "And my torso? Incredible how I am still doing all of this!";
-
+                Say("And my torso? Incredible how I am still doing all of this!", 3f);
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(9);
-
-                if (!PopupIsOpen)
-                {
-                    HideChatBubble();
-                }
-                else
-                {
-                    NewPopupHasOpened = true;
-                }
-                PopupIsOpen = true;
             }
             if (damageTakenTotal == 4)
             {
@@ -201,16 +198,7 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage4_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
-                PlayerChatTextElement.text = "Both of my arms as well! How am I holding a weapon?!?";
-                if (!PopupIsOpen)
-                {
-                    HideChatBubble();
-                }
-                else
-                {
-                    NewPopupHasOpened = true;
-                }
-                PopupIsOpen = true;
+                Say("Both of my arms as well! How am I holding a weapon?!?", 3f);
             }
             if (damageTakenTotal == 3)
             {
@@ -218,16 +206,7 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage3_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
-                PlayerChatTextElement.text = "My arm! Aaah!";
-                if (!PopupIsOpen)
-                {
-                    HideChatBubble();
-                }
-                else
-                {
-                    NewPopupHasOpened = true;
-                }
-                PopupIsOpen = true;
+                Say("My arm! Aaah!", 3f);
             }
             if (damageTakenTotal == 2)
             {
@@ -235,16 +214,7 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage2_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
-                PlayerChatTextElement.text = "Both my legs! How am I still walking?!?";
-                if (!PopupIsOpen)
-                {
-                    HideChatBubble();
-                }
-                else
-                {
-                    NewPopupHasOpened = true;
-                }
-                PopupIsOpen = true;
+                Say("Both my legs! How am I still walking?!?", 3f);
             }
             if (damageTakenTotal == 1)
             {
@@ -252,16 +222,7 @@ namespace Assets.Scripts.OneManArmy
                 HealthImage1_6.SetActive(true);
 
                 PlayerChatBubble.SetActive(true);
-                PlayerChatTextElement.text = "Aaaah, my leg!";
-                if (!PopupIsOpen)
-                {
-                    HideChatBubble();
-                }
-                else
-                {
-                    NewPopupHasOpened = true;
-                }
-                PopupIsOpen = true;
+                Say("Aaaah, my leg!", 3f);
             }
         }
 
@@ -288,6 +249,21 @@ namespace Assets.Scripts.OneManArmy
                 NewPopupHasOpened = false;
                 HideChatBubble();
             }
+        }
+
+        private int chatBubbleLevel = 0;
+        private GameObject activeBubble;
+        public void Say(string text, float showDuration)
+        {
+            if(activeBubble != null)
+            {
+                Destroy(activeBubble);
+            }
+            // Create a new chatbubble
+            GameObject chatBubble = Instantiate(chatBubblePrefab, new Vector3(Player.transform.position.x + 0.6f, Player.transform.position.y + 1.71f, 0), Quaternion.identity);
+            chatBubble.GetComponent<ChatBubbleScript>().Say(text, chatBubbleLevel, gameObject, showDuration);
+            activeBubble = chatBubble;
+            chatBubbleLevel++;
         }
     }
 }

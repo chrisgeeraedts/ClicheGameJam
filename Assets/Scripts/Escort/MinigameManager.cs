@@ -83,8 +83,8 @@ namespace Assets.Scripts.Escort
             if(Completed)
             {
                 if (Input.GetKeyDown(KeyCode.R))
-                {                    
-                    SceneManager.LoadScene(Constants.SceneNames.MapScene);
+                {    
+                    GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
                 }
             }
             else

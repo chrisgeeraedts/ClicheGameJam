@@ -119,11 +119,11 @@ public class MenuScript : MonoBehaviour
     {
         isOpen = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene(Constants.SceneNames.MainMenuScene);
+        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MainMenuScene);
     }
 
     public void OpenAchievements()
     {       
-        SceneManager.LoadScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
+        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
     }
 }

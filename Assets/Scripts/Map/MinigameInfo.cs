@@ -10,6 +10,7 @@ namespace Assets.Scripts.Map
         [SerializeField] Sprite mapSprite;
         private bool isWon;
         private bool isFinished;
+        private bool wasLastFinished;
 
         public string MinigameName => minigameName;
         public string SceneName => sceneName;

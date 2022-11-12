@@ -6,6 +6,12 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Map
 {
+    public class FinishedMinigameInfoXY
+    {
+        public int X;
+        public int Y;
+    }
+
     public class MapManager : MonoBehaviour
     {
         [SerializeField] List<MinigameInfo> minigameInfos;
@@ -13,6 +19,9 @@ namespace Assets.Scripts.Map
 
         private List<int> unusedMinigameInfoIndexes;
         private MinigameInfo[,] minigames;
+        
+        private List<FinishedMinigameInfoXY> FirstFinishedMinigames;
+
         private int maxStageUnlocked = 0;
         private static MapManager instance;
         private int minigameStartedX, minigameStartedY;
@@ -43,8 +52,11 @@ namespace Assets.Scripts.Map
 
             minigameStartedX = x;
             minigameStartedY = y;
-            var currentMinigame = minigames[minigameStartedX, minigameStartedY];
-            SceneManager.LoadScene(currentMinigame.SceneName); //TODO: Unload current scene?
+            if(minigames != null)
+            {
+                var currentMinigame = minigames[minigameStartedX, minigameStartedY];
+                SceneManager.LoadScene(currentMinigame.SceneName); //TODO: Unload current scene?
+            }
         }
 
         public bool CanStartGame(int x)
@@ -57,7 +69,12 @@ namespace Assets.Scripts.Map
             var currentMinigame = minigames[minigameStartedX, minigameStartedY];
             currentMinigame.FinishGame(isWon);
 
-            if (isWon && minigameStartedX >= maxStageUnlocked) maxStageUnlocked = minigameStartedX + 1;
+            if (isWon && minigameStartedX >= maxStageUnlocked) 
+            {
+                maxStageUnlocked = minigameStartedX + 1;
+
+                // SAVE THE COMPLETED GAME FOR THE ROUTE SOMEHOW
+            }
         }
 
         private void GenerateMinigames()

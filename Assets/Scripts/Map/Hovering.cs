@@ -6,37 +6,17 @@ public class Hovering : MonoBehaviour
 {
     public float MaxUp;
     public float Speed;
-    private float StartY;
-    private float CurrentY;
-    private float TargetY;
-    private float ActiveTargetY;
 
-    public Rigidbody body;
+    private Vector3 pos1;
+    private Vector3 pos2;
+ 
+    void Start()
+    {
+        pos1 = new Vector3(transform.position.x, transform.position.y-MaxUp,0);
+        pos2 = new Vector3(transform.position.x, transform.position.y+MaxUp,0);
+    }
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    body = GetComponent<Rigidbody2D>();
-    //    StartY = gameObject.transform.position.y;
-    //    TargetY = StartY + MaxUp;
-    //    CurrentY = StartY;
-    //}
-//
-    //bool goingUp = true;
-    //// Update is called once per frame
-    //void FixedUpdate()
-    //{   
-    //    if(CurrentY == StartY) {
-    //        ActiveTargetY = TargetY;
-    //    }
-    //    else if (CurrentY == TargetY) {
-    //        ActiveTargetY = StartY;
-    //    }
-//
-    //    // check if we hit the top
-//
-//
-    //    Vector3 targetDirection = (currentPos - targetPos).normalized;
-    //    body.MovePosition(currentPos + targetDirection * Time.deltaTime);
-    //}
+     void Update() {
+         transform.position = Vector3.Lerp (pos1, pos2, Mathf.PingPong(Time.time*Speed, 5f*Speed));
+     }
 }
