@@ -115,7 +115,7 @@ namespace Assets.Scripts.Map
             }
         }
 
-        private void Start()
+        private void Awake()
         {
             SetupSingleton();
         }

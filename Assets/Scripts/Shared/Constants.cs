@@ -18,6 +18,12 @@
         public static class TagNames
         {
             public static string Player = "Player";
+            public static string Bullet = "Bullet";
+        }
+
+        public static class LayerNames
+        {
+            public static string Ground = "Ground";
         }
     }
 }

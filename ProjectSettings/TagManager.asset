@@ -8,6 +8,8 @@ TagManager:
   - BulletWall
   - NPCCollider
   - NPC
+  - Undefined
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - CollisionWalls
   - LaserLines
   - Minigames
-  - 
+  - Ground
   - 
   - 
   - 

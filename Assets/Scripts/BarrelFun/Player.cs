@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Shared;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,10 +14,12 @@ namespace Assets.Scripts.BarrelFun
         [SerializeField] private float bulletOffset = 0.6f;
         private Rigidbody2D rigidBody;
         private bool facingRight = true;
+        private CapsuleCollider2D feetCollider;
 
         private void Awake()
         {
             rigidBody = GetComponent<Rigidbody2D>();
+            feetCollider = GetComponent<CapsuleCollider2D>();
         }
         private void Update()
         {
@@ -56,7 +59,7 @@ namespace Assets.Scripts.BarrelFun
 
         private bool CanJump()
         {
-            return true;
+            return feetCollider.IsTouchingLayers(LayerMask.GetMask(Constants.LayerNames.Ground));
         }
 
         private void HandleHorizontalMovement()
