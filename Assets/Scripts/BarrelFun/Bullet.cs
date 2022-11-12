@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Shared;
+using UnityEngine;
 
 namespace Assets.Scripts.BarrelFun
 {
@@ -26,6 +27,14 @@ namespace Assets.Scripts.BarrelFun
                 gameObject.SetActive(false);
                 Destroy(gameObject);
             }
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.tag == Constants.TagNames.Player) return;
+
+            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }
