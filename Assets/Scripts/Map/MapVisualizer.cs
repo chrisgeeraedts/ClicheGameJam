@@ -46,12 +46,14 @@ namespace Assets.Scripts.Map
 
         private void Initialize()
         {
-            LineHero_1.GetComponent<LineLaserScript>().Hide();
+            // Disable lines initially
+            //LineHero_1.GetComponent<LineLaserScript>().Hide();
             Line1_2.GetComponent<LineLaserScript>().Hide();
             Line2_3.GetComponent<LineLaserScript>().Hide();
             Line3_4.GetComponent<LineLaserScript>().Hide();
             Line4_Boss.GetComponent<LineLaserScript>().Hide();
 
+            // Disable placeholder gameobjects
             for (int i = 0; i < minigamePositionGrid.Length; i++)
             {
                 minigamePositionGrid[i].SetActive(false);

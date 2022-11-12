@@ -60,7 +60,7 @@ namespace Assets.Scripts.Map
                 GetMinigames();
             }
             var currentMinigame = minigames[minigameStartedX, minigameStartedY];
-            SceneManager.LoadScene(currentMinigame.SceneName); //TODO: Unload current scene?
+            GameSceneChanger.Instance.ChangeScene(currentMinigame.SceneName);
         }
 
         public bool CanStartGame(int x)
@@ -81,7 +81,7 @@ namespace Assets.Scripts.Map
             {
                 maxStageUnlocked = minigameStartedX + 1;
 
-                // SAVE THE COMPLETED GAME FOR THE ROUTE SOMEHOW
+                //TODO: SAVE THE COMPLETED GAME FOR THE ROUTE SOMEWHERE
             }
         }
 
