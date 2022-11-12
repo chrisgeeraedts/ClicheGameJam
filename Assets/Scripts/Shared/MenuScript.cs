@@ -9,6 +9,7 @@ public class MenuScript : MonoBehaviour
     public GameObject MenuObject;
     public GameObject MinigameCanvas;
     public GameObject PlayerElement;
+    public GameObject[] NPCElements;
     public AudioSource AudioToPause;
 
     void Update()
@@ -65,6 +66,16 @@ public class MenuScript : MonoBehaviour
                 PlayerElement.GetComponent(typeof(Assets.Scripts.Shared.IPlayer)) as Assets.Scripts.Shared.IPlayer;
             playerScript.SetPlayerActive(true);
         }
+        if(NPCElements != null)
+        {
+            for(int i = 0; i < NPCElements.Length; i++)
+            {
+                Assets.Scripts.Shared.INPC npcScript = 
+                    NPCElements[i].GetComponent(typeof(Assets.Scripts.Shared.INPC)) as Assets.Scripts.Shared.INPC;
+                npcScript.SetNPCActive(true);
+            }
+        }
+        
         if(AudioToPause != null)
         {
             AudioToPause.Play();
@@ -89,6 +100,15 @@ public class MenuScript : MonoBehaviour
                 PlayerElement.GetComponent(typeof(Assets.Scripts.Shared.IPlayer)) as Assets.Scripts.Shared.IPlayer;
             playerScript.SetPlayerActive(false);
         } 
+        if(NPCElements != null)
+        {
+            for(int i = 0; i < NPCElements.Length; i++)
+            {
+                Assets.Scripts.Shared.INPC npcScript = 
+                    NPCElements[i].GetComponent(typeof(Assets.Scripts.Shared.INPC)) as Assets.Scripts.Shared.INPC;
+                npcScript.SetNPCActive(false);
+            }
+        }
         if(AudioToPause != null)
         {
             AudioToPause.Pause();

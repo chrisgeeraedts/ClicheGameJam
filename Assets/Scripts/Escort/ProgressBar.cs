@@ -31,7 +31,7 @@ namespace Assets.Scripts.Escort
 			{
 				currentFill = currentFill + FillSpeed * Time.deltaTime;
 				FillImage.GetComponent<Image>().fillAmount = currentFill;
-				ProgressText.text = String.Format("{0:0.##}", (currentFill * 100))  + "%";
+				ProgressText.text = String.Format("{0:0.##}", (currentFill * 100))  + "% frustrated";
 			}
 		}
 	}

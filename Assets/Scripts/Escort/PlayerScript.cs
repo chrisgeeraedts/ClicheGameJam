@@ -21,7 +21,7 @@ namespace Assets.Scripts.Escort
         private bool                m_grounded = false;
         private float               m_delayToIdle = 0.0f;
 
-        public GameObject chatBubble;
+        public GameObject chatBubblePrefab;
 
         public AudioSource SpellCastFx;
         public AudioSource Attack1Fx;
@@ -46,7 +46,6 @@ namespace Assets.Scripts.Escort
         // Use this for initialization
         void Start ()
         {
-            chatBubble.SetActive(false);
             m_animator = GetComponent<Animator>();
             m_body2d = GetComponent<Rigidbody2D>();
             m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Player>();        
@@ -127,10 +126,19 @@ namespace Assets.Scripts.Escort
 
             }
         }
-
-        public void Say(string text)
+        private int chatBubbleLevel = 0;
+        private GameObject activeBubble;
+        public void Say(string text, float showDuration)
         {
-            chatBubble.SetActive(true);
+            if(activeBubble != null)
+            {
+                Destroy(activeBubble);
+            }
+            // Create a new chatbubble
+            GameObject chatBubble = Instantiate(chatBubblePrefab, new Vector3(gameObject.transform.position.x + 0.6f, gameObject.transform.position.y + 1.71f, 0), Quaternion.identity);
+            chatBubble.GetComponent<ChatBubbleScript>().Say(text, chatBubbleLevel, gameObject, showDuration);
+            activeBubble = chatBubble;
+            chatBubbleLevel++;
         }
 
         void FlipCharacter(float moveInput)
