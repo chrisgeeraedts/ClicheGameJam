@@ -14,6 +14,8 @@ namespace Assets.Scripts.Map
 
     public class MapManager : MonoBehaviour
     {
+        [SerializeField] int DamageWhenMinigameLost;
+
         public float HeroMaxHP;
         public float HeroHP;
 
@@ -97,6 +99,11 @@ namespace Assets.Scripts.Map
                 maxStageUnlocked = minigameStartedX + 1;
 
                 //TODO: SAVE THE COMPLETED GAME FOR THE ROUTE SOMEWHERE
+            }
+
+            if(!isWon)
+            {
+                HeroHP = HeroHP - DamageWhenMinigameLost;
             }
         }
 

@@ -19,6 +19,7 @@ public class MapColumnScript : MonoBehaviour
 
     public void SetCompletedStage(bool completed)
     {
+        Completed = completed;
         // enable light on number
         NumberLightElement.SetActive(completed);
 
