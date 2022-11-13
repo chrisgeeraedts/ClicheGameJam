@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using static Assets.Scripts.Shared.Enums;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
@@ -9,6 +11,11 @@ namespace Assets.Scripts.Map
 {
     public class MapVisualizer : MonoBehaviour
     {
+        [SerializeField] GameObject HeroHealthBarElement;
+        [SerializeField] GameObject BossHealthBarElement;
+        [SerializeField] TMP_Text HeroHealthTextElement;
+        [SerializeField] TMP_Text BossHealthTextElement;
+
         [SerializeField] int mapWidth, mapHeight;
         [SerializeField] GameObject mapParentObject;
         [SerializeField] GameObject mapNodePrefab;
@@ -59,8 +66,6 @@ namespace Assets.Scripts.Map
                 minigamePositionGrid[i].SetActive(false);
             }
 
-            
-
             var minigames = MapManager.GetInstance().GetMinigames();
             GenerateMap(minigames);
             SelectLastActiveNode(); 
@@ -100,6 +105,15 @@ namespace Assets.Scripts.Map
         private void Update()
         {
             HandlePlayerInput();
+            SetHealthbars();
+        }
+
+        private void SetHealthbars()
+        {
+            HeroHealthBarElement.GetComponent<Image>().fillAmount = MapManager.GetInstance().GetHeroHPForFill();
+            HeroHealthTextElement.text = string.Format("{0:0}", MapManager.GetInstance().HeroHP) + "/" + MapManager.GetInstance().HeroMaxHP;
+            BossHealthBarElement.GetComponent<Image>().fillAmount = MapManager.GetInstance().GetBossHPForFill();
+            BossHealthTextElement.text = string.Format("{0:0}", MapManager.GetInstance().BossHP) + "/" + MapManager.GetInstance().BossMaxHP;
         }
 
         private void HandlePlayerInput()

@@ -14,6 +14,21 @@ namespace Assets.Scripts.Map
 
     public class MapManager : MonoBehaviour
     {
+        public float HeroMaxHP;
+        public float HeroHP;
+
+        public float BossMaxHP;
+        public float BossHP;
+
+        public float GetHeroHPForFill()
+        {
+            return (1/HeroMaxHP)*HeroHP;
+        }
+        public float GetBossHPForFill()
+        {
+            return (1/BossMaxHP)*BossHP;
+        }
+
         [SerializeField] List<MinigameInfo> minigameInfos;
         [SerializeField] int mapWidth = 4;
         [SerializeField] int mapHeight = 3;
