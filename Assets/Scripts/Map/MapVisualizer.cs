@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,10 @@ namespace Assets.Scripts.Map
 {
     public class MapVisualizer : MonoBehaviour
     {
+        [SerializeField]  GameObject Hero;
+        [SerializeField] RuntimeAnimatorController HeroDeathAnimation;
+        [SerializeField] AudioSource HeroDeathAudio;
+
         [SerializeField] Image HeroHealthBarElement;
         [SerializeField] Image BossHealthBarElement;
         [SerializeField] TMP_Text HeroHealthTextElement;
@@ -45,9 +50,39 @@ namespace Assets.Scripts.Map
         public void DrawMap()
         {
             Initialize();
+            CheckAlive();
         }
 
+        private void CheckAlive()
+        {
+            if(MapManager.GetInstance().HeroHP <= 0)
+            {
+                // Game over!                
+                SetHealthbars();
+                DoGameOver();                
+            }
+        }
+        
+        private bool allowInput = true;
+        public void DoGameOver()
+        {
+            //Block other input
+            allowInput = false;
 
+            // HeroDeathAnimation
+            Hero.GetComponent<Animator>().runtimeAnimatorController = HeroDeathAnimation;
+            HeroDeathAudio.Play();                 
+            StartCoroutine(StartGameOverActual());
+        }
+
+        IEnumerator StartGameOverActual()
+        {  
+            yield return new WaitForSeconds(2f);    
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
+        }       
+
+        
+        
 
         private void Initialize()
         {
@@ -110,8 +145,11 @@ namespace Assets.Scripts.Map
 
         private void Update()
         {
-            HandlePlayerInput();
-            SetHealthbars();
+            if(allowInput)
+            {
+                HandlePlayerInput();
+                SetHealthbars();
+            }
         }
 
         private void SetHealthbars()
@@ -205,17 +243,12 @@ namespace Assets.Scripts.Map
                 case Direction.Down:
                     return selectedY <= 0;
                 case Direction.Left:
-                    return selectedX <= 0 || selectedX < MapManager.GetInstance().MaxStageUnlocked;
+                    return selectedX <= 0;
                 case Direction.Right:
                     return selectedX >= mapWidth - 1 || selectedX >= MapManager.GetInstance().MaxStageUnlocked;
                 default:
                     throw new Exception($"Unable to handle direction {direction}");
             }
-        }
-
-        public void OpenAchievements()
-        {
-            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
         }
     }
 }

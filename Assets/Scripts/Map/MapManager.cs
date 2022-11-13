@@ -46,6 +46,12 @@ namespace Assets.Scripts.Map
         private int coins;
         private bool isInitialized = false;
 
+        public void ResetMap()
+        {
+            Destroy(gameObject);
+        }
+
+
         public static MapManager GetInstance()
         {
             return instance;
@@ -121,8 +127,6 @@ namespace Assets.Scripts.Map
             coins -= numberOfCoins;
             return true;
         }
-
-
 
         private void GenerateMinigames()
         {

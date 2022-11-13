@@ -675,7 +675,7 @@ MonoBehaviour:
   DeathMusic: {fileID: 1568597852}
   WinMusic: {fileID: 1978828150}
   ZombieHealth: 2
-  ZombieKillGoal: 1
+  ZombieKillGoal: 100
   zombieMax: 25
   chatBubblePrefab: {fileID: 8166235304881799674, guid: d7fc757c9e5ef8b42a144e195f3b8e58, type: 3}
 --- !u!1 &464698917

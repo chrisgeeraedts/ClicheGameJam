@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
+using Assets.Scripts.Map;
+
 public class MenuScript : MonoBehaviour
 {
     private bool isOpen;
@@ -119,6 +121,7 @@ public class MenuScript : MonoBehaviour
     {
         isOpen = false;
         Time.timeScale = 1;
+        MapManager.GetInstance().ResetMap();
         GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MainMenuScene);
     }
 

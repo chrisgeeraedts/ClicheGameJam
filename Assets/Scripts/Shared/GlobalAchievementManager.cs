@@ -79,7 +79,8 @@ public class GlobalAchievementManager : MonoBehaviour
         _achievements.Add(new Achievement(26, "Pre-boss savepoint", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(27, "Mobile game adds", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(28, "Lootboxes", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
-        _achievements.Add(new Achievement(29, "Hidden collectibles", "[PLACEHOLDER]", "Found in [<color=#fede34>Barrel Fun</color>]", false, "Achievement/PLACEHOLDER"));
+        _achievements.Add(new Achievement(29, "Hidden collectibles", "[PLACEHOLDER]", "Found in [<color=#fede34>Barrel Fun</color>]", false, "Achievement/Collectables"));
+        _achievements.Add(new Achievement(30, "Death is not the end", "Strange, it's like nothing happend. Yet I feel like I learned something...", "Found in [<color=#fede34>Restart after dying</color>]", false, "Achievement/Death"));
     }
 
     void Initialize()

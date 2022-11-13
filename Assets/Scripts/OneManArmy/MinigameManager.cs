@@ -102,6 +102,7 @@ namespace Assets.Scripts.OneManArmy
         public void KilledZombie()
         {
             zombiesDestroyed++;
+            zombiesSpawned--;
             ScoreTextElement.text = "<color=#fede34>" + zombiesDestroyed.ToString() + "</color>/" + ZombieKillGoal.ToString();
 
             if (zombiesDestroyed >= ZombieKillGoal)

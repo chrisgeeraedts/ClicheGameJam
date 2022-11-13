@@ -13,6 +13,7 @@
             public static string OneManArmyScene = "OneManArmyScene";
             public static string UnderwaterScene = "UnderwaterScene";
             public static string BulletFunScene = "BulletFunScene";
+            public static string GameOverScene = "GameOverScene";
         }
 
         public static class TagNames
