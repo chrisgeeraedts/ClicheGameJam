@@ -70,16 +70,19 @@ namespace Assets.Scripts.OneManArmy
 
         IEnumerator StartSpawningZombiesAsync()
         {
-            while (!completed && !zombieLimitReached)
+            while (!completed)
             {
-                if (zombiesSpawned < zombieMax)
+                if(!zombieLimitReached)
                 {
-                    yield return new WaitForSeconds(spawnModifier);
-                    if (spawnModifier > 0.2f)
+                    if (zombiesSpawned < zombieMax)
                     {
-                        spawnModifier = Mathf.Max(0.5f, spawnModifier * 0.92f);
+                        yield return new WaitForSeconds(spawnModifier);
+                        if (spawnModifier > 0.2f)
+                        {
+                            spawnModifier = Mathf.Max(0.5f, spawnModifier * 0.92f);
+                        }
+                        SpawnZombie();
                     }
-                    SpawnZombie();
                 }
 
                 zombieLimitReached = zombiesSpawned + 1 >= zombieMax;
