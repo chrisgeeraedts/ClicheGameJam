@@ -1207,7 +1207,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -15216,8 +15216,8 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 47.86531, y: 10.330573}
       - {x: -11.056035, y: 9.873166}
-      - {x: -11.20513, y: -4.5094323}
-      - {x: 47.293365, y: -5.500662}
+      - {x: -10.898671, y: -1.2150006}
+      - {x: 48.909428, y: -1.1216569}
       - {x: 48.552795, y: 10.166741}
 --- !u!1 &943306876
 GameObject:
@@ -15771,8 +15771,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press <color=#fede34>Tab</color> for menu
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
+  m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16315,6 +16315,7 @@ GameObject:
   - component: {fileID: 1202237722}
   - component: {fileID: 1202237726}
   - component: {fileID: 1202237725}
+  - component: {fileID: 1202237727}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -16381,7 +16382,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1202237721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.9344587, y: -1.9576405, z: -10.044094}
+  m_LocalPosition: {x: -4.7113137, y: 1.1807472, z: -10.044094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16455,6 +16456,18 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1202237727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202237721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3caf221e767cf74cabfc7158af81e99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1234187152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3956999986589601474, guid: 68334e4c4684ecb448a5eaa3f0dbbf00, type: 3}
@@ -27681,7 +27694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 22.999992, y: -190}
+  m_AnchoredPosition: {x: 22.999992, y: 185.1}
   m_SizeDelta: {x: 456.22, y: 37.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1925822535

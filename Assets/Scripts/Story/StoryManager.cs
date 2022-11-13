@@ -17,13 +17,13 @@ public class StoryManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(Constants.SceneNames.MapScene);
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
         }
     }
 
     IEnumerator GoToGame()
     {
         yield return new WaitForSeconds(40);
-        SceneManager.LoadScene(Constants.SceneNames.MapScene);
+        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
     }
 }

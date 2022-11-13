@@ -57,6 +57,7 @@ namespace Assets.Scripts.Map
         {
             if(MapManager.GetInstance().HeroHP <= 0)
             {
+                Debug.Log("WE ARE DEAD");
                 // Game over!                
                 SetHealthbars();
                 DoGameOver();                
@@ -104,6 +105,23 @@ namespace Assets.Scripts.Map
             SelectLastActiveNode(); 
         }
 
+        void TaskOnClick(int x, int y){
+                Debug.Log ("CLICK: [" + x +"," + y + "]");
+                SetCurrentMapNodeSelected(false);       
+                selectedX = x;
+                selectedY = y;
+                SetCurrentMapNodeSelected(true);
+                StartSelectedGame();
+        }
+
+        void TaskOnMouseEnter(object sender, MouseEnterEventArgs e){                
+                Debug.Log ("ENTERED: [" + e.X +"," + e.Y + "]");
+                SetCurrentMapNodeSelected(false);       
+                selectedX = e.X;
+                selectedY = e.Y;
+                SetCurrentMapNodeSelected(true);
+        }
+
         private void GenerateMap(MinigameInfo[,] minigames)
         {
             minigameGrid = new GameObject[minigames.GetLength(0), minigames.GetLength(1)];
@@ -115,10 +133,20 @@ namespace Assets.Scripts.Map
                 for (int y = 0; y < minigames.GetLength(1); y++)
                 {
                     var mapNodeGameObject = Instantiate(mapNodePrefab, mapParentObject.transform, false);
+                    Button btn = mapNodeGameObject.GetComponent<MapNode>().MinigameButton;
+
+                    int button_x = x;
+                    int button_y = y;
+		            btn.onClick.AddListener(delegate{TaskOnClick(button_x, button_y);});
+		            mapNodeGameObject.GetComponent<MapNode>().OnMouseEntered += TaskOnMouseEnter;
+		            //btn.OnPointerEnter.AddListener(delegate{TaskOnMouseEnter(button_x, button_y);});
+
                     mapNodeGameObject.transform.position =  minigamePositionGrid[minigamePositionGridIndex].transform.position;
                     Debug.Log("Create minigame at " + mapNodeGameObject.transform.localPosition.x + " x " + mapNodeGameObject.transform.localPosition.y);
                     var minigameInfo = minigames[x,y];
                     var mapNode = mapNodeGameObject.GetComponent<MapNode>();
+                    mapNode.X = x;
+                    mapNode.Y = y;
                     mapNode.SetLocked(x > maxStageUnlocked);
                     mapNode.SetWon(minigameInfo.IsWon);
                     mapNode.SetInfo(minigameInfo);
@@ -149,6 +177,7 @@ namespace Assets.Scripts.Map
             {
                 HandlePlayerInput();
                 SetHealthbars();
+                CheckAlive();
             }
         }
 
@@ -217,19 +246,6 @@ namespace Assets.Scripts.Map
                 default:
                     throw new Exception($"Unable to handle direction {direction}");
             }
-            if(MapManager.GetInstance().MaxStageUnlocked  == 0)
-            {
-                LineHero_1.GetComponent<LineLaserScript>().EndGameObject = minigameGrid[selectedX, selectedY];
-                LineHero_1.GetComponent<LineLaserScript>().Toggled = true;
-                LineHero_1.GetComponent<LineLaserScript>().Show();
-            }
-            if(MapManager.GetInstance().MaxStageUnlocked == 1)
-            {
-                //Line1_2.GetComponent<LineLaserScript>().StartGameObject = minigameGrid[selectedX, selectedY];
-                //Line1_2.GetComponent<LineLaserScript>().EndGameObject = minigameGrid[selectedX, selectedY];
-                //Line1_2.GetComponent<LineLaserScript>().Show();
-            }
-            
         }
 
         private bool MoveIsImpossible(Direction direction)

@@ -14,6 +14,7 @@
             public static string UnderwaterScene = "UnderwaterScene";
             public static string BulletFunScene = "BulletFunScene";
             public static string GameOverScene = "GameOverScene";
+            public static string CreditsScene = "CreditsScene";
         }
 
         public static class TagNames

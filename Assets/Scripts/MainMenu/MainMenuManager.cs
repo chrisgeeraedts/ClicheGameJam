@@ -20,6 +20,10 @@ public class MainMenuManager : MonoBehaviour
         {
             NavigationToAchievements();
         }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            NavigationToCredits();
+        }
         else if (Input.GetKeyDown(KeyCode.E))
         {
             ExitGame();
@@ -47,6 +51,12 @@ public class MainMenuManager : MonoBehaviour
     {
         buttonClickAudioSource.Play();
         SceneManager.LoadScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
+    }
+
+    public void NavigationToCredits()
+    {
+        buttonClickAudioSource.Play();
+        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.CreditsScene);
     }
 
     public void ExitGame()

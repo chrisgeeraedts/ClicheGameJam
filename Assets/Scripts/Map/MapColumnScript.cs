@@ -23,19 +23,15 @@ public class MapColumnScript : MonoBehaviour
         // enable light on number
         NumberLightElement.SetActive(completed);
 
-        Debug.Log("Stage "+ Stage +" Current Color: " + BackgroundElement.GetComponent<Image>().color.ToString());
         // change color of background
         if(completed)
         {
-            Debug.Log("Stage "+ Stage +" Target Color: " + completedColor.ToString());
             BackgroundElement.GetComponent<Image>().color = completedColor;
         }
         else
         {
-            Debug.Log("Stage "+ Stage +" Target Color: " + IncompleteColor.ToString());
             BackgroundElement.GetComponent<Image>().color = IncompleteColor;
         }
-        Debug.Log("Stage "+ Stage +" Current Color: " + BackgroundElement.GetComponent<Image>().color.ToString());
     }
 
     private void SetCorrectStageNumber(int stageNumber)

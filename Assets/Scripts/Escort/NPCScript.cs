@@ -58,6 +58,14 @@ public class NPCScript : MonoBehaviour, INPC
         {
             rb.velocity = new Vector2(Vector2.right.x * m_speed, rb.velocity.y);
         }
+        if(rb.velocity.magnitude > 0)
+        {
+            animator.runtimeAnimatorController = Moving; 
+        }
+        else
+        {            
+            animator.runtimeAnimatorController = Idle; 
+        }
     }
 
     public GameObject chatBubblePrefab;
