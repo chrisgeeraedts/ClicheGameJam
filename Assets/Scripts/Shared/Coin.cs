@@ -1,18 +1,21 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Map;
+using UnityEngine;
 
 namespace Assets.Scripts.Shared
 {
     public class Coin : MonoBehaviour
     {
         [SerializeField] AudioClip coinPickupClip;
+        [SerializeField] bool isHidden = false;
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag != Constants.TagNames.Player) return;
 
-            Debug.Log("Coin picked up");
+            if (isHidden) GlobalAchievementManager.GetInstance().SetAchievementCompleted(29);
+
             AudioSource.PlayClipAtPoint(coinPickupClip, transform.position);
-            //TODO: Keep track of coins
+            MapManager.GetInstance().GainCoins(1);
             gameObject.SetActive(false);
             Destroy(gameObject);
         }
