@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UnderwaterScene.unity
     guid: e08243922417842828467f43d5971f1e
+  - enabled: 1
+    path: Assets/Scenes/ShopScene.unity
+    guid: a3405d928f03f3940ae190a0b8b86347
   m_configObjects: {}
