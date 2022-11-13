@@ -57,6 +57,7 @@ namespace Assets.Scripts.Map
         {
             if(MapManager.GetInstance().HeroHP <= 0)
             {
+                Debug.Log("WE ARE DEAD");
                 // Game over!                
                 SetHealthbars();
                 DoGameOver();                
@@ -176,6 +177,7 @@ namespace Assets.Scripts.Map
             {
                 HandlePlayerInput();
                 SetHealthbars();
+                CheckAlive();
             }
         }
 
