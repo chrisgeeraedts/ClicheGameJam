@@ -26,7 +26,7 @@ namespace Assets.Scripts.Map
         private int maxStageUnlocked = 0;
         private static MapManager instance;
         private int minigameStartedX, minigameStartedY;
-
+        private int coins;
         private bool isInitialized = false;
 
         public static MapManager GetInstance()
@@ -84,6 +84,23 @@ namespace Assets.Scripts.Map
                 //TODO: SAVE THE COMPLETED GAME FOR THE ROUTE SOMEWHERE
             }
         }
+
+        public void GainCoins(int numberOfCoins)
+        {
+            coins += numberOfCoins;
+
+            Debug.Log($"Player now has {coins} coins");
+        }
+
+        public bool SpendCoins(int numberOfCoins)
+        {
+            if (coins < numberOfCoins) return false;
+
+            coins -= numberOfCoins;
+            return true;
+        }
+
+
 
         private void GenerateMinigames()
         {

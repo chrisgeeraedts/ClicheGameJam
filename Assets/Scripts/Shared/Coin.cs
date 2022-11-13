@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Map;
+using UnityEngine;
 
 namespace Assets.Scripts.Shared
 {
@@ -10,9 +11,8 @@ namespace Assets.Scripts.Shared
         {
             if (collision.gameObject.tag != Constants.TagNames.Player) return;
 
-            Debug.Log("Coin picked up");
             AudioSource.PlayClipAtPoint(coinPickupClip, transform.position);
-            //TODO: Keep track of coins
+            MapManager.GetInstance().GainCoins(1);
             gameObject.SetActive(false);
             Destroy(gameObject);
         }
