@@ -20,7 +20,7 @@ namespace Assets.Scripts.BarrelFun
 
         private void Explode()
         {
-            Debug.Log("BOOM!");
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(0);
             AudioSource.PlayClipAtPoint(explosionClip, transform.position);
             gameObject.SetActive(false);
             Destroy(gameObject);

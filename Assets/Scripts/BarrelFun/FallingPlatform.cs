@@ -62,6 +62,7 @@ namespace Assets.Scripts.BarrelFun
             yield return new WaitForSeconds(fallingDelay);
 
             isFalling = true;
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(25);
         }
     }
 }

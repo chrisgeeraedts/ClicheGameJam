@@ -6,10 +6,13 @@ namespace Assets.Scripts.Shared
     public class Coin : MonoBehaviour
     {
         [SerializeField] AudioClip coinPickupClip;
+        [SerializeField] bool isHidden = false;
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag != Constants.TagNames.Player) return;
+
+            if (isHidden) GlobalAchievementManager.GetInstance().SetAchievementCompleted(29);
 
             AudioSource.PlayClipAtPoint(coinPickupClip, transform.position);
             MapManager.GetInstance().GainCoins(1);
