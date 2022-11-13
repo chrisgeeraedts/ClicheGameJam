@@ -15,6 +15,7 @@
             public static string BulletFunScene = "BulletFunScene";
             public static string GameOverScene = "GameOverScene";
             public static string CreditsScene = "CreditsScene";
+            public static string WebGLExitScene = "WebGLExitScene";
         }
 
         public static class TagNames

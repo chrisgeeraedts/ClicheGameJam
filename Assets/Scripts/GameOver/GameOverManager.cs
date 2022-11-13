@@ -42,7 +42,14 @@ public class GameOverManager : MonoBehaviour
     public void ExitGame()
     {
         buttonClickAudioSource.Play();
-        Application.Quit();
+        if(Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.WebGLExitScene);
+        }
+        else
+        {
+            Application.Quit();
+        }
     }
 
     // Update is called once per frame

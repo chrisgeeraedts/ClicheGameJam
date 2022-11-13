@@ -50,7 +50,7 @@ public class MainMenuManager : MonoBehaviour
     public void NavigationToAchievements()
     {
         buttonClickAudioSource.Play();
-        SceneManager.LoadScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
+        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
     }
 
     public void NavigationToCredits()
@@ -62,6 +62,14 @@ public class MainMenuManager : MonoBehaviour
     public void ExitGame()
     {        
         buttonClickAudioSource.Play();
-        Application.Quit();
+        Debug.Log(Application.platform);
+        if(Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.WebGLExitScene);
+        }
+        else
+        {
+            Application.Quit();
+        }
     }
 }
