@@ -440,7 +440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Version <color=#fede34>0.4.1</color>
+  m_text: Version <color=#fede34>0.4.2</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
@@ -11109,7 +11109,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Developed by <color=#fede34>NjitRam</color> and <color=#fede34>cg-gaming</color>
+  m_text: Developed by <color=#fede34>NjitRam</color> and <color=#fede34>CG-Gaming</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
