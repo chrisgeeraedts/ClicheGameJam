@@ -84,7 +84,15 @@ namespace Assets.Scripts.Escort
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {    
-                    GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+                    if(GameSceneChanger.Instance != null)
+                    {
+                        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene(Constants.SceneNames.MapScene);
+                    }
+                    
                 }
             }
             else

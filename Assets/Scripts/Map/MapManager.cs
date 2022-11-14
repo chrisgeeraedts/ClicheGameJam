@@ -111,14 +111,10 @@ namespace Assets.Scripts.Map
                 //TODO: SAVE THE COMPLETED GAME FOR THE ROUTE SOMEWHERE
             }
 
+            LastGameWasLost = !isWon;
             if(!isWon)
             {
                 HeroHP = HeroHP - DamageWhenMinigameLost;
-                //LastGameWasLost = false;
-            }
-            else
-            {
-                //LastGameWasLost = true;
             }
         }
 

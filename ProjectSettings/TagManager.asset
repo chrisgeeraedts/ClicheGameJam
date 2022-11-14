@@ -122,6 +122,9 @@ TagManager:
   - name: Achievement_UI
     uniqueID: 1725363337
     locked: 0
+  - name: BossLaser
+    uniqueID: 1516319601
+    locked: 0
   - name: FADE-KEEPTOP
     uniqueID: 3668811869
     locked: 0

@@ -16,6 +16,7 @@ namespace Assets.Scripts.Map
         [SerializeField] GameObject Boss;
         [SerializeField] RuntimeAnimatorController HeroDeathAnimation;
         [SerializeField] AudioSource HeroDeathAudio;
+        [SerializeField] AudioSource HeroDamageAudio;
         [SerializeField] RuntimeAnimatorController BossIdleAnimation;
         [SerializeField] RuntimeAnimatorController BossSpellcastAnimation;
 
@@ -31,6 +32,10 @@ namespace Assets.Scripts.Map
         [SerializeField] AudioSource mapSelectedSound;
         [SerializeField] AudioSource lockedMapSelectedSound;
         [SerializeField] AudioSource BossSpellCast;
+        [SerializeField] GameObject BossSpellBeam;
+        
+        [SerializeField] AudioSource MusicAudio;
+        [SerializeField] AudioSource GameOverAudio;
 
         public GameObject LineHero_1;
         public GameObject Line1_2;
@@ -74,6 +79,11 @@ namespace Assets.Scripts.Map
             //Block other input
             allowInput = false;
 
+            // give game over music
+            MusicAudio.Stop();
+            GameOverAudio.Play();
+            HeroDeathAudio.Play();
+
             // HeroDeathAnimation
             Hero.GetComponent<Animator>().runtimeAnimatorController = HeroDeathAnimation;
             Boss.GetComponent<Animator>().runtimeAnimatorController = BossSpellcastAnimation;
@@ -83,7 +93,7 @@ namespace Assets.Scripts.Map
 
         IEnumerator StartGameOverActual()
         {  
-            yield return new WaitForSeconds(3f);    
+            yield return new WaitForSeconds(1f); 
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
         }  
   
@@ -181,7 +191,6 @@ namespace Assets.Scripts.Map
             if(allowInput)
             {
                 HandlePlayerInput();
-                SetHealthbars();
                 CheckAlive();
                 CheckSpellcastBoss();
             }
@@ -189,6 +198,8 @@ namespace Assets.Scripts.Map
 
         public void DoSpelLCast()
         {
+            // DEBUG PURPOSES
+            MapManager.GetInstance().HeroHP = MapManager.GetInstance().HeroHP - 1;
             MapManager.GetInstance().LastGameWasLost = true;
         }
 
@@ -207,7 +218,9 @@ namespace Assets.Scripts.Map
         IEnumerator BossSpellAudio()
         {  
             yield return new WaitForSeconds(0.5f);    
-            BossSpellCast.Play();  
+            BossSpellCast.Play(); 
+            SetHealthbars();
+            HeroDamageAudio.Play();
         }      
 
 
