@@ -12,9 +12,12 @@ namespace Assets.Scripts.Map
 {
     public class MapVisualizer : MonoBehaviour
     {
-        [SerializeField]  GameObject Hero;
+        [SerializeField] GameObject Hero;
+        [SerializeField] GameObject Boss;
         [SerializeField] RuntimeAnimatorController HeroDeathAnimation;
         [SerializeField] AudioSource HeroDeathAudio;
+        [SerializeField] RuntimeAnimatorController BossIdleAnimation;
+        [SerializeField] RuntimeAnimatorController BossSpellcastAnimation;
 
         [SerializeField] Image HeroHealthBarElement;
         [SerializeField] Image BossHealthBarElement;
@@ -27,6 +30,7 @@ namespace Assets.Scripts.Map
         [SerializeField] AudioSource cursorMovedSound;
         [SerializeField] AudioSource mapSelectedSound;
         [SerializeField] AudioSource lockedMapSelectedSound;
+        [SerializeField] AudioSource BossSpellCast;
 
         public GameObject LineHero_1;
         public GameObject Line1_2;
@@ -72,16 +76,17 @@ namespace Assets.Scripts.Map
 
             // HeroDeathAnimation
             Hero.GetComponent<Animator>().runtimeAnimatorController = HeroDeathAnimation;
-            HeroDeathAudio.Play();                 
+            Boss.GetComponent<Animator>().runtimeAnimatorController = BossSpellcastAnimation;
+            
             StartCoroutine(StartGameOverActual());
         }
 
         IEnumerator StartGameOverActual()
         {  
-            yield return new WaitForSeconds(2f);    
+            yield return new WaitForSeconds(3f);    
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
-        }       
-
+        }  
+  
         
         
 
@@ -178,7 +183,38 @@ namespace Assets.Scripts.Map
                 HandlePlayerInput();
                 SetHealthbars();
                 CheckAlive();
+                CheckSpellcastBoss();
             }
+        }
+
+        public void DoSpelLCast()
+        {
+            MapManager.GetInstance().LastGameWasLost = true;
+        }
+
+        public void CheckSpellcastBoss()
+        {
+            if(MapManager.GetInstance().LastGameWasLost)
+            {                    
+                MapManager.GetInstance().LastGameWasLost = false;
+                Boss.GetComponent<Animator>().runtimeAnimatorController = BossSpellcastAnimation;      
+                       
+                StartCoroutine(BossSpellAudio());
+                StartCoroutine(ReturnBossIdle());
+            }
+        }
+
+        IEnumerator BossSpellAudio()
+        {  
+            yield return new WaitForSeconds(0.5f);    
+            BossSpellCast.Play();  
+        }      
+
+
+        IEnumerator ReturnBossIdle()
+        {  
+            yield return new WaitForSeconds(1.5f);    
+            Boss.GetComponent<Animator>().runtimeAnimatorController = BossIdleAnimation;
         }
 
         private void SetHealthbars()

@@ -59,7 +59,6 @@ namespace Assets.Scripts.Map
         {
             if(MinigameButton.interactable && !minigameInfo.IsFinished)
             {
-                Debug.Log ("The cursor entered the selectable UI element.");
                 //SetSelected(true);
                 OnMouseEntered?.Invoke(this, new MouseEnterEventArgs(X, Y));
             }
@@ -69,7 +68,6 @@ namespace Assets.Scripts.Map
         {
             if(MinigameButton.interactable && !minigameInfo.IsFinished)
             {
-                Debug.Log ("The cursor exited the selectable UI element.");
                 //SetSelected(false);
             }
             

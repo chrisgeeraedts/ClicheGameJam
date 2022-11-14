@@ -242,11 +242,11 @@ namespace Assets.Scripts.Escort
 
         private void Win()
         {            
+            Completed = true;
             MapManager.GetInstance().FinishMinigame(true);
             GameMusic.Stop();
             WinMusic.Play();
             
-            Completed = true;
 
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
             NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCActive(false);
@@ -257,11 +257,11 @@ namespace Assets.Scripts.Escort
 
         private void Lose()
         {
+            Completed = true;     
             MapManager.GetInstance().FinishMinigame(false);
             GameMusic.Stop();
             DeathMusic.Play();
-
-            Completed = true;       
+  
             
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
             NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCActive(false);

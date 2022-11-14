@@ -127,6 +127,7 @@ public class MenuScript : MonoBehaviour
 
     public void OpenAchievements()
     {       
+        Time.timeScale = 1;
         GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
     }
 }

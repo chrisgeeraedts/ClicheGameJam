@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
+using Assets.Scripts.Shared;
 
 namespace Assets.Scripts.Map
 {
@@ -21,6 +22,8 @@ namespace Assets.Scripts.Map
 
         public float BossMaxHP;
         public float BossHP;
+
+        public bool LastGameWasLost = true;
 
         public float GetHeroHPForFill()
         {
@@ -111,6 +114,11 @@ namespace Assets.Scripts.Map
             if(!isWon)
             {
                 HeroHP = HeroHP - DamageWhenMinigameLost;
+                //LastGameWasLost = false;
+            }
+            else
+            {
+                //LastGameWasLost = true;
             }
         }
 
@@ -172,6 +180,12 @@ namespace Assets.Scripts.Map
         private void Awake()
         {
             SetupSingleton();
+        }
+
+        public void Exit()
+        {
+            ResetMap();
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MainMenuScene);
         }
 
         private void SetupSingleton()

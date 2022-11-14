@@ -39,8 +39,6 @@ namespace Assets.Scripts.Escort
         public ParticleSystem SwapDirectionDust;
         public ParticleSystem LandingDust;
         private float SpellBaseIntensity;
-        public Light2D SpellLeft;
-        public Light2D WeaponLight;
 
         private FacingDirection facingDirection;
 

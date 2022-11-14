@@ -104,9 +104,12 @@ namespace Assets.Scripts.BarrelFun
             MissionTexts.GetComponent<MissionTextScript>().DoLoss(); 
         }
 
-        public void DeathHit()
+        public void DeathHit(Collider2D col)
         {
-            Lose();
+            if (col.gameObject.tag == "Player")
+            {
+                Lose();     
+            }
         }
     }
 }
