@@ -54,7 +54,6 @@ namespace Assets.Scripts.OneManArmy
             {
                 rb.velocity = Vector3.zero;
             }
-
         }
 
 

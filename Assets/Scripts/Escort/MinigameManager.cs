@@ -63,7 +63,7 @@ namespace Assets.Scripts.Escort
             if(distance > maxDistancePlayerAndNpc)
             {
                 // if too large, add to frustratie meter
-                frustrationCount += frustrationIncrement;
+                frustrationCount += frustrationIncrement * Time.deltaTime;
                 FrustrationMeter.GetComponent<ProgressBar>().SetFill(frustrationCount);                
                 NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(true);
                 if(!showingHurryPopup)

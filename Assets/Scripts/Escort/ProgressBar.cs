@@ -27,12 +27,12 @@ namespace Assets.Scripts.Escort
 
 		float currentFill;
 		public void Update() {
-			if(currentFill < _fillAmount)
-			{
-				currentFill = currentFill + FillSpeed * Time.deltaTime;
-				FillImage.GetComponent<Image>().fillAmount = currentFill;
-				ProgressText.text = String.Format("{0:0.##}", (currentFill * 100))  + "% frustrated";
-			}
+			//if(currentFill < _fillAmount)
+			//{
+				//currentFill = currentFill + FillSpeed * Time.deltaTime;
+				FillImage.GetComponent<Image>().fillAmount = _fillAmount;
+				ProgressText.text = String.Format("{0:0.##}", (_fillAmount * 100))  + "% frustrated";
+			//}
 		}
 	}
 }
