@@ -3,13 +3,14 @@ using System.Collections;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 
-public enum FacingDirection
-{
-    Left,
-    Right
-}
 namespace Assets.Scripts.Escort
 {
+    public enum FacingDirection
+    {
+        Left,
+        Right
+    }
+
     public class PlayerScript : MonoBehaviour, Assets.Scripts.Shared.IPlayer {
 
         [SerializeField] float      m_speed = 4.0f;
