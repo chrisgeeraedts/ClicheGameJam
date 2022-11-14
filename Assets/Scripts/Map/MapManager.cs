@@ -60,6 +60,7 @@ namespace Assets.Scripts.Map
         public int MaxStageUnlocked => maxStageUnlocked;
         public int MinigameStartedX => minigameStartedX;
         public int MinigameStartedY => minigameStartedY;
+        public int Coins => coins;
 
         public MinigameInfo[,] GetMinigames()
         {
