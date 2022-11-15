@@ -102,7 +102,7 @@ namespace Assets.Scripts.Map
 
         IEnumerator StartGameOverActual()
         {  
-            yield return new WaitForSeconds(1f); 
+            yield return new WaitForSeconds(2f); 
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
         }  
   
