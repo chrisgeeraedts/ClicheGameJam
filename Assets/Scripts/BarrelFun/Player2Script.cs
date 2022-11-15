@@ -13,40 +13,31 @@ namespace Assets.Scripts.BarrelFun
     }
 
     public class Player2Script : MonoBehaviour, Assets.Scripts.Shared.IPlayer {
-
         [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private float jumpSpeed = 10f;
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private float bulletSpeed = 10f;
         [SerializeField] private GameObject ShootStartPoint;
         [SerializeField] private AudioSource GunFireAudio;
+        [SerializeField] private BoxCollider2D feetCollider;
         
-
-
         private Animator            m_animator;
         private Rigidbody2D         m_body2d;
         private Sensor_Player       m_groundSensor;
         private bool                m_grounded = false;
         private float               m_delayToIdle = 0.0f;
         private bool facingRight = true;
-        private CapsuleCollider2D feetCollider;
-
- 
         private float SpellBaseIntensity;
-
         private FacingDirection facingDirection;
 
-        // Use this for initialization
-        void Start ()
+        void Awake ()
         {
             m_animator = GetComponent<Animator>();
             m_body2d = GetComponent<Rigidbody2D>();
             m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Player>();        
             facingDirection = FacingDirection.Right;
-            feetCollider = GetComponent<CapsuleCollider2D>();
         }
 
-        // Update is called once per frame
         void Update ()
         {
             if(IsPlayerActive())
@@ -57,10 +48,8 @@ namespace Assets.Scripts.BarrelFun
                 HandleShoot();
 
 
-
-
-
-               //Check if character just landed on the ground
+                /* DISABLED CODE
+                //Check if character just landed on the ground
                 if (!m_grounded && m_groundSensor.State())
                 {
                     //LandFx.Play(0);
@@ -74,30 +63,32 @@ namespace Assets.Scripts.BarrelFun
                 {
                     m_grounded = false;
                     m_animator.SetBool("Grounded", m_grounded);
-                } 
+                }
 
-                if(m_body2d.velocity.magnitude > 0)
+                if (m_body2d.velocity.magnitude > 0)
                 {
                     m_delayToIdle = 0.05f;
                     m_animator.SetInteger("AnimState", 1);
                 }
-                else{
+                else
+                {
                     m_animator.SetInteger("AnimState", 0);
                 }
 
                 // Jump         
                 if (Input.GetKeyDown("space") && m_grounded)
-                {    
+                {
                     HandleJump();
                 }//Idle
                 else
-                {            
+                {
                     //StepFx.Stop();
                     // Prevents flickering transitions to idle
                     m_delayToIdle -= Time.deltaTime;
-                        if(m_delayToIdle < 0)
-                            m_animator.SetInteger("AnimState", 0);
+                    if (m_delayToIdle < 0)
+                        m_animator.SetInteger("AnimState", 0);
                 }
+                /DISABLED CODE */
             }
         }
        
@@ -118,12 +109,10 @@ namespace Assets.Scripts.BarrelFun
 
         private void HandleJump()
         {
-
             if (!CanJump()) return;
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-
                 m_animator.SetTrigger("Jump");
                 m_grounded = false;
                 m_animator.SetBool("Grounded", m_grounded);
