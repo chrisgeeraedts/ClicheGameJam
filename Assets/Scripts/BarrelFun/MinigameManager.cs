@@ -10,6 +10,7 @@ namespace Assets.Scripts.BarrelFun
     public class MinigameManager : MonoBehaviour
     {
         public Player2Script Player;
+        public Animator PlayerAnimator;
         public MissionTextScript MissionTexts;
         public Assets.Scripts.BarrelFun.ProgressBar timeMeter;
         public int PlaytimeInSeconds;
@@ -17,10 +18,12 @@ namespace Assets.Scripts.BarrelFun
         private bool timerStarted = false;
         public GameObject FinishedGameDoor;
         private bool Completed = false;
+        [SerializeField] RuntimeAnimatorController HeroTeleportingAnimation;
 
         [SerializeField] AudioSource GameMusic;
         [SerializeField] AudioSource DeathMusic;
         [SerializeField] AudioSource WinMusic;
+        [SerializeField] AudioSource TeleportAudio;
 
         // Start is called before the first frame update
         void Start()
@@ -66,7 +69,22 @@ namespace Assets.Scripts.BarrelFun
         }
 
         void OnTriggerEnter2D(Collider2D col)
+        {           
+            if(!Completed && col.gameObject.tag == "Player")
+            {
+                Completed = true; 
+                Player.SetPlayerActive(false);
+                TeleportAudio.Play();                
+                StartCoroutine(DoWinAnimations());
+            }
+            
+        }
+
+        IEnumerator DoWinAnimations()
         {
+            // player teleporting animation
+            PlayerAnimator.runtimeAnimatorController = HeroTeleportingAnimation;
+            yield return new WaitForSeconds(3f);            
             Win();
         }
 
@@ -81,10 +99,10 @@ namespace Assets.Scripts.BarrelFun
         private void Win()
         {            
             MapManager.GetInstance().FinishMinigame(true);
+            
             GameMusic.Stop();
             WinMusic.Play();
             
-            Completed = true;
 
             Player.SetPlayerActive(false);
 
@@ -93,7 +111,7 @@ namespace Assets.Scripts.BarrelFun
 
         private void Lose()
         {
-            MapManager.GetInstance().FinishMinigame(false);
+            //MapManager.GetInstance().FinishMinigame(false);
             GameMusic.Stop();
             DeathMusic.Play();
 

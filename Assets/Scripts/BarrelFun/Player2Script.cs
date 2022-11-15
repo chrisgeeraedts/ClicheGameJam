@@ -45,7 +45,6 @@ namespace Assets.Scripts.BarrelFun
             feetCollider = GetComponent<CapsuleCollider2D>();
         }
 
-
         // Update is called once per frame
         void Update ()
         {

@@ -56,20 +56,26 @@ TagManager:
   - name: Enemy
     uniqueID: 2550951461
     locked: 0
-  - name: Platform_Front_1
-    uniqueID: 501176501
-    locked: 0
-  - name: Platform_Front_2
-    uniqueID: 2218083011
-    locked: 0
   - name: Platform_Background_Parallax
     uniqueID: 3832229415
+    locked: 0
+  - name: Platform_Background_Lights
+    uniqueID: 2620315651
     locked: 0
   - name: Platform_Background_1
     uniqueID: 1215680681
     locked: 0
   - name: Platform_Background_2
     uniqueID: 128822747
+    locked: 0
+  - name: Platform_HiddenBehindFront
+    uniqueID: 573996137
+    locked: 0
+  - name: Platform_Front_2
+    uniqueID: 2218083011
+    locked: 0
+  - name: Platform_Front_1
+    uniqueID: 501176501
     locked: 0
   - name: Platform_Walls
     uniqueID: 3015406031
@@ -85,6 +91,9 @@ TagManager:
     locked: 0
   - name: Platform_Player
     uniqueID: 2093915581
+    locked: 0
+  - name: Platform_InfrontOfPlayer
+    uniqueID: 425357679
     locked: 0
   - name: Platform_NPC
     uniqueID: 1877996139
