@@ -91,22 +91,25 @@ namespace Assets.Scripts.Map
             // give game over music
             MusicAudio.Stop();
             GameOverAudio.Play();
-            HeroDeathAudio.Play();
-
-            // HeroDeathAnimation
-            Hero.GetComponent<Animator>().runtimeAnimatorController = HeroDeathAnimation;
-            Boss.GetComponent<Animator>().runtimeAnimatorController = BossSpellcastAnimation;
             
             StartCoroutine(StartGameOverActual());
         }
 
         IEnumerator StartGameOverActual()
         {  
-            yield return new WaitForSeconds(2f); 
-            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
+            yield return new WaitForSeconds(2f);  
+            // HeroDeathAnimation
+            HeroDeathAudio.Play();
+            Hero.GetComponent<Animator>().runtimeAnimatorController = HeroDeathAnimation;
+            Boss.GetComponent<Animator>().runtimeAnimatorController = BossSpellcastAnimation;
+            yield return new WaitForSeconds(1f);  
+            ShowGameoverScreen();
         }  
   
-        
+        private void ShowGameoverScreen()
+        {  
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
+        }  
         
 
         private void Initialize()
