@@ -96,7 +96,7 @@ namespace Assets.Scripts.BarrelFun
         IEnumerator DoWinAnimations()
         {
             // player teleporting animation
-            PlayerAnimator.SetTrigger("Teleport");
+            PlayerAnimator.runtimeAnimatorController = HeroTeleportingAnimation;
             yield return new WaitForSeconds(3f);            
             Win();
         }

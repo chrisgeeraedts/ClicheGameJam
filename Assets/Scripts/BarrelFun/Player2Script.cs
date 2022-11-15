@@ -57,49 +57,6 @@ namespace Assets.Scripts.BarrelFun
                 {
                     m_animator.SetInteger("AnimState", 0);
                 }
-
-
-                /* DISABLED CODE
-                //Check if character just landed on the ground
-                if (!m_grounded && m_groundSensor.State())
-                {
-                    //LandFx.Play(0);
-                    //CreateLandingDust();
-                    m_grounded = true;
-                    m_animator.SetBool("Grounded", m_grounded);
-                }
-
-                //Check if character just started falling
-                if (m_grounded && !m_groundSensor.State())
-                {
-                    m_grounded = false;
-                    m_animator.SetBool("Grounded", m_grounded);
-                }
-
-                if (m_body2d.velocity.magnitude > 0)
-                {
-                    m_delayToIdle = 0.05f;
-                    m_animator.SetInteger("AnimState", 1);
-                }
-                else
-                {
-                    m_animator.SetInteger("AnimState", 0);
-                }
-
-                // Jump         
-                if (Input.GetKeyDown("space") && m_grounded)
-                {
-                    HandleJump();
-                }//Idle
-                else
-                {
-                    //StepFx.Stop();
-                    // Prevents flickering transitions to idle
-                    m_delayToIdle -= Time.deltaTime;
-                    if (m_delayToIdle < 0)
-                        m_animator.SetInteger("AnimState", 0);
-                }
-                /DISABLED CODE */
             }
         }
        
@@ -174,85 +131,73 @@ namespace Assets.Scripts.BarrelFun
         }
 
 
-
-
-
-
-
-
-
-void FlipCharacter(float moveInput)
-    {
-        if (moveInput > 0)
+        void FlipCharacter(float moveInput)
         {
-            if(facingDirection == FacingDirection.Right)
+
+            if (moveInput > 0)
             {
-                transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                if(facingDirection == FacingDirection.Right)
+                {
+                    transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                }
+                else
+                {
+                    transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                }
+                facingDirection = FacingDirection.Right;
             }
-            else
+            else if (moveInput < 0)            
             {
-                transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                if(facingDirection == FacingDirection.Right)
+                {
+                    transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                }
+                else
+                {
+                    transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                }
+                facingDirection = FacingDirection.Left;
             }
-            facingDirection = FacingDirection.Right;
+
+            
         }
-        else if (moveInput < 0)            
-        {
-            if(facingDirection == FacingDirection.Right)
-            {
-                transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            }
-            else
-            {
-                transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            }
-            facingDirection = FacingDirection.Left;
-        }
-    }
 
-    void MoveCharacter(float moveInput)
-    {
-        
-        if (moveInput > 0)
+        void MoveCharacter(float moveInput)
         {
-            if(facingDirection == FacingDirection.Right)
+            
+            if (moveInput > 0)
             {
-                m_body2d.velocity = new Vector2(moveInput * m_speed, m_body2d.velocity.y);
+                if(facingDirection == FacingDirection.Right)
+                {
+                    m_body2d.velocity = new Vector2(moveInput * m_speed, m_body2d.velocity.y);
+                }
+                else
+                {
+                    m_body2d.velocity = new Vector2(-moveInput * m_speed, m_body2d.velocity.y);
+                }
             }
-            else
+            else if (moveInput < 0)            
             {
-                m_body2d.velocity = new Vector2(-moveInput * m_speed, m_body2d.velocity.y);
-            }
-        }
-        else if (moveInput < 0)            
-        {
-            if(facingDirection == FacingDirection.Right)
-            {
-                m_body2d.velocity = new Vector2(-moveInput * m_speed, m_body2d.velocity.y);
-            }
-            else
-            {
-                m_body2d.velocity = new Vector2(moveInput * m_speed, m_body2d.velocity.y);
+                if(facingDirection == FacingDirection.Right)
+                {
+                    m_body2d.velocity = new Vector2(-moveInput * m_speed, m_body2d.velocity.y);
+                }
+                else
+                {
+                    m_body2d.velocity = new Vector2(moveInput * m_speed, m_body2d.velocity.y);
+                }
             }
         }
-    }
 
-    void Jump()
-    {
+        void Jump()
+        {
 
-        m_animator.SetTrigger("Jump");
-        m_grounded = false;
-        m_animator.SetBool("Grounded", m_grounded);
-        m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
-        m_groundSensor.Disable(0.2f);
-    }
-
-
-
-
-
-
-
-
+            m_animator.SetTrigger("Jump");
+            m_grounded = false;
+            m_animator.SetBool("Grounded", m_grounded);
+            m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+            m_groundSensor.Disable(0.2f);
+        }
 
         private bool _isActive;
         public void SetPlayerActive(bool active)
