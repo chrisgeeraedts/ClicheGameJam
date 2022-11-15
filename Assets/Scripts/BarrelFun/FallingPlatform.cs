@@ -37,9 +37,11 @@ namespace Assets.Scripts.BarrelFun
 
         private void Fall()
         {
+            
             if (!isFalling) return;
             if (maxFallingSpeedReached) return;
 
+            GetComponent<Hovering>().enabled = false;
             var newFallingSpeed = rigidBody.velocity.y + (fallingSpeedIncrease * Time.deltaTime);
             rigidBody.velocity = new Vector2(0, newFallingSpeed);
 

@@ -40,6 +40,15 @@ namespace Assets.Scripts.BarrelFun
         // Update is called once per frame
         void Update()
         {
+
+            if(Completed)
+            {
+                if (Input.GetKeyDown(KeyCode.R))
+                {    
+                    GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+                }
+            }
+
             if(!Completed)
             {
                 if(CurrentTimeInSeconds <= 0)
@@ -49,21 +58,12 @@ namespace Assets.Scripts.BarrelFun
 
                 if(Time.time>=nextUpdate)  // If the next update is reached
                 {
-                    Debug.Log(CurrentTimeInSeconds);
                     float progressValue = (float)(CurrentTimeInSeconds/60f);
-                    Debug.Log(progressValue);
                     nextUpdate=Mathf.FloorToInt(Time.time)+1;    
                     TimeSpan time = TimeSpan.FromSeconds(CurrentTimeInSeconds);
 
                     timeMeter.SetFill(progressValue, time.ToString(@"mm\:ss"));
                     CurrentTimeInSeconds = CurrentTimeInSeconds - 1;
-                }
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.R))
-                {    
-                    GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
                 }
             }
         }
@@ -74,6 +74,7 @@ namespace Assets.Scripts.BarrelFun
             {
                 Completed = true; 
                 Player.SetPlayerActive(false);
+                TeleportAudio.time = 2f;
                 TeleportAudio.Play();                
                 StartCoroutine(DoWinAnimations());
             }
@@ -111,7 +112,7 @@ namespace Assets.Scripts.BarrelFun
 
         private void Lose()
         {
-            //MapManager.GetInstance().FinishMinigame(false);
+            MapManager.GetInstance().FinishMinigame(false);
             GameMusic.Stop();
             DeathMusic.Play();
 

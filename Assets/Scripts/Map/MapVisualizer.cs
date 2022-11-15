@@ -127,10 +127,35 @@ namespace Assets.Scripts.Map
             var minigames = MapManager.GetInstance().GetMinigames();
             GenerateMap(minigames);
             SelectLastActiveNode(); 
+
+
+            // ugly fix to show proper health on re-opening the map
+            if(MapManager.GetInstance().LastGameWasLost)
+            {         
+                // set HP to 1 damage round higher
+                MapManager.GetInstance().HeroHP = MapManager.GetInstance().HeroHP + MapManager.GetInstance().HeroDamageWhenMinigameLost;
+                HeroHealthBarElement.fillAmount = MapManager.GetInstance().GetHeroHPForFill();
+                HeroHealthTextElement.text = string.Format("{0:0}", MapManager.GetInstance().HeroHP) + "/" + MapManager.GetInstance().HeroMaxHP;
+
+                // set HP back to proper
+                MapManager.GetInstance().HeroHP = MapManager.GetInstance().HeroHP - MapManager.GetInstance().HeroDamageWhenMinigameLost;
+            }
+            
+            if(MapManager.GetInstance().LastGameWasWon)
+            {         
+                
+                // set HP to 1 damage round higher
+                MapManager.GetInstance().BossHP = MapManager.GetInstance().BossHP + MapManager.GetInstance().BossDamageWhenMinigameWon;
+                BossHealthBarElement.fillAmount = MapManager.GetInstance().GetBossHPForFill();
+                BossHealthTextElement.text = string.Format("{0:0}", MapManager.GetInstance().BossHP) + "/" + MapManager.GetInstance().BossMaxHP;
+
+                // set HP back to proper
+                MapManager.GetInstance().HeroHP = MapManager.GetInstance().BossHP - MapManager.GetInstance().BossDamageWhenMinigameWon;
+            }
         }
 
         void TaskOnClick(int x, int y){
-                Debug.Log ("CLICK: [" + x +"," + y + "]");
+                minigameGrid[selectedX, selectedY].GetComponent<MapNode>().DisableButton();
                 SetCurrentMapNodeSelected(false);       
                 selectedX = x;
                 selectedY = y;
@@ -138,8 +163,7 @@ namespace Assets.Scripts.Map
                 StartSelectedGame();
         }
 
-        void TaskOnMouseEnter(object sender, MouseEnterEventArgs e){                
-                Debug.Log ("ENTERED: [" + e.X +"," + e.Y + "]");
+        void TaskOnMouseEnter(object sender, MouseEnterEventArgs e){   
                 SetCurrentMapNodeSelected(false);       
                 selectedX = e.X;
                 selectedY = e.Y;
@@ -360,7 +384,6 @@ namespace Assets.Scripts.Map
 
         private bool MoveIsImpossible(Direction direction)
         {
-            Debug.Log("Active: " +MapManager.GetInstance().MaxStageUnlocked + " | " + selectedX + " = " + (selectedX >= MapManager.GetInstance().MaxStageUnlocked - 1).ToString());
             
             switch (direction)
             {

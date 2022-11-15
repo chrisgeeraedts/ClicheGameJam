@@ -116,10 +116,13 @@ namespace Assets.Scripts.Map
             if(!isWon)
             {
                 HeroHP = HeroHP - HeroDamageWhenMinigameLost;
+                Debug.Log("HERO TOOK " + HeroDamageWhenMinigameLost + " damage");
             }
             else
+            
             {
                 BossHP = BossHP - BossDamageWhenMinigameWon;
+                Debug.Log("BOSS TOOK " + BossDamageWhenMinigameWon + " damage");
             }
         }
 

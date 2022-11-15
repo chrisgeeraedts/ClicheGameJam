@@ -20,6 +20,11 @@ namespace Assets.Scripts.Map
 
         private MinigameInfo minigameInfo;
 
+        public void DisableButton()
+        {
+            MinigameButton.interactable = false;
+        }
+
         public void SetInfo(MinigameInfo minigameInfo)
         {
             this.minigameInfo = minigameInfo;
