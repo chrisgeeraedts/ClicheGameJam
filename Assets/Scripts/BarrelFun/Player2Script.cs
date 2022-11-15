@@ -19,6 +19,7 @@ namespace Assets.Scripts.BarrelFun
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private float bulletSpeed = 10f;
         [SerializeField] private GameObject ShootStartPoint;
+        [SerializeField] private AudioSource GunFireAudio;
         
 
 
@@ -97,59 +98,6 @@ namespace Assets.Scripts.BarrelFun
                         if(m_delayToIdle < 0)
                             m_animator.SetInteger("AnimState", 0);
                 }
-
-
-               //if(!Input.anyKey && !m_grounded && m_groundSensor.State()){
-               //    StopMovement();                
-               //}
-
-               //// Flip
-               //FlipCharacter(Input.GetAxis("Horizontal"));
-
-               //// Move
-               //MoveCharacter(Input.GetAxis("Horizontal"));
-
-               ////Check if character just landed on the ground
-               //if (!m_grounded && m_groundSensor.State())
-               //{
-               //    m_grounded = true;
-               //    m_animator.SetBool("Grounded", m_grounded);
-               //}
-
-               ////Check if character just started falling
-               //if (m_grounded && !m_groundSensor.State())
-               //{
-               //    m_grounded = false;
-               //    m_animator.SetBool("Grounded", m_grounded);
-               //} 
-
-               //if(m_body2d.velocity.magnitude > 0)
-               //{
-               //    m_delayToIdle = 0.05f;
-               //    m_animator.SetInteger("AnimState", 1);
-               //}
-               //else{
-               //    m_animator.SetInteger("AnimState", 0);
-               //}
-               //
-               ////Set AirSpeed in animator
-               //m_animator.SetFloat("AirSpeedY", m_body2d.velocity.y);
-
-
-               //// Jump
-               //if (Input.GetKeyDown("space") && m_grounded)
-               //{    
-               //    Jump();
-               //}
-
-               //else
-               //{      
-               //    // Prevents flickering transitions to idle
-               //    m_delayToIdle -= Time.deltaTime;
-               //        if(m_delayToIdle < 0)
-               //            m_animator.SetInteger("AnimState", 0);
-               //}
-
             }
         }
        
@@ -158,8 +106,10 @@ namespace Assets.Scripts.BarrelFun
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(0))
             {
                 //var xOffset = facingRight ? bulletOffset : -bulletOffset;
-                var bulletSpawnPoint = ShootStartPoint.transform.position;
+                var bulletSpawnPoint = ShootStartPoint.transform.position;                
+                m_animator.SetTrigger("Attack");
                 var instance = Instantiate(bulletPrefab, bulletSpawnPoint, Quaternion.identity);
+                GunFireAudio.Play();
                 var rb = instance.GetComponent<Rigidbody2D>();
                 var horizontal = facingRight ? bulletSpeed : -bulletSpeed;
                 rb.velocity = new Vector2(horizontal, 0);
@@ -225,52 +175,6 @@ namespace Assets.Scripts.BarrelFun
                 facingDirection = FacingDirection.Left;
             }
         }
-//
-        //void MoveCharacter(float moveInput)
-        //{
-        //    
-        //    if (moveInput > 0)
-        //    {
-        //        if(facingDirection == FacingDirection.Right)
-        //        {
-        //            m_body2d.velocity = new Vector2(moveInput * m_speed, m_body2d.velocity.y);
-        //        }
-        //        else
-        //        {
-        //            m_body2d.velocity = new Vector2(-moveInput * m_speed, m_body2d.velocity.y);
-        //        }
-        //    }
-        //    else if (moveInput < 0)            
-        //    {
-        //        if(facingDirection == FacingDirection.Right)
-        //        {
-        //            m_body2d.velocity = new Vector2(-moveInput * m_speed, m_body2d.velocity.y);
-        //        }
-        //        else
-        //        {
-        //            m_body2d.velocity = new Vector2(moveInput * m_speed, m_body2d.velocity.y);
-        //        }
-        //    }
-        //}
-//
-        //void Jump()
-        //{
-        //    m_animator.SetTrigger("Jump");
-        //    m_grounded = false;
-        //    m_animator.SetBool("Grounded", m_grounded);
-        //    m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
-        //    m_groundSensor.Disable(0.2f);
-        //}
-//
-        //void Attack()
-        //{
-        //    
-        //}
-//
-        //void StopMovement()
-        //{
-        //    m_body2d.velocity = Vector3.zero;
-        //}
 
         private bool _isActive;
         public void SetPlayerActive(bool active)
