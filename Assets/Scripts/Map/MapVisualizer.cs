@@ -249,12 +249,18 @@ namespace Assets.Scripts.Map
             if(MapManager.GetInstance().LastGameWasLost)
             {                    
                 MapManager.GetInstance().LastGameWasLost = false;
-                Boss.GetComponent<Animator>().runtimeAnimatorController = BossSpellcastAnimation;      
-                       
-                StartCoroutine(BossSpellAudio());
-                StartCoroutine(ReturnBossIdle());
+                StartCoroutine(DoBossAttack());
             }
         }
+
+        IEnumerator DoBossAttack()
+        {  
+            yield return new WaitForSeconds(1.0f); // wait some time before boss attacks             
+            Boss.GetComponent<Animator>().runtimeAnimatorController = BossSpellcastAnimation;      
+                   
+            StartCoroutine(BossSpellAudio());
+            StartCoroutine(ReturnBossIdle());
+        }   
 
         public void CheckSpellcastHero()
         {
@@ -262,14 +268,20 @@ namespace Assets.Scripts.Map
             if(MapManager.GetInstance().LastGameWasWon)
             {                    
                 MapManager.GetInstance().LastGameWasWon = false;
-                Hero.GetComponent<Animator>().runtimeAnimatorController = HeroSpellcastAnimation;      
-                       
-                StartCoroutine(HeroSpellAudio());
-                StartCoroutine(BossTakeDamage());
-                StartCoroutine(ReturnBossIdleAfterDamage());
-                StartCoroutine(ReturnHeroIdle());
+                StartCoroutine(DoHeroAttack());
             }
         }
+
+        IEnumerator DoHeroAttack()
+        {  
+            yield return new WaitForSeconds(1.0f); // wait some time before boss attacks 
+            Hero.GetComponent<Animator>().runtimeAnimatorController = HeroSpellcastAnimation;      
+                   
+            StartCoroutine(HeroSpellAudio());
+            StartCoroutine(BossTakeDamage());
+            StartCoroutine(ReturnBossIdleAfterDamage());
+            StartCoroutine(ReturnHeroIdle());
+        }  
 
         IEnumerator BossSpellAudio()
         {  
