@@ -15,6 +15,8 @@ namespace Assets.Scripts.BarrelFun
     public class Player2Script : MonoBehaviour, Assets.Scripts.Shared.IPlayer {
         [SerializeField] private float moveSpeed = 10f;
         [SerializeField] private float jumpSpeed = 10f;
+        [SerializeField] private float m_speed = 10f;
+        [SerializeField] private float m_jumpForce = 10f;
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private float bulletSpeed = 10f;
         [SerializeField] private GameObject ShootStartPoint;
@@ -30,8 +32,7 @@ namespace Assets.Scripts.BarrelFun
         private float SpellBaseIntensity;
         private FacingDirection facingDirection;
 
-        void Awake ()
-        {
+        void Awake(){
             m_animator = GetComponent<Animator>();
             m_body2d = GetComponent<Rigidbody2D>();
             m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Player>();        
@@ -46,6 +47,16 @@ namespace Assets.Scripts.BarrelFun
                 FlipCharacter(Input.GetAxis("Horizontal"));
                 HandleJump();
                 HandleShoot();
+
+                if (m_body2d.velocity.magnitude > 0)
+                {
+                    m_delayToIdle = 0.05f;
+                    m_animator.SetInteger("AnimState", 1);
+                }
+                else
+                {
+                    m_animator.SetInteger("AnimState", 0);
+                }
 
 
                 /* DISABLED CODE
@@ -92,6 +103,29 @@ namespace Assets.Scripts.BarrelFun
             }
         }
        
+        public void StopMovement()
+        {
+            m_body2d.velocity = Vector3.zero;
+        }
+
+        public void ToggleGravity(bool toggle)
+        {
+            if(toggle)
+            {
+                m_body2d.gravityScale = 1f;
+            }
+            else
+            {
+                m_body2d.gravityScale = 0f;
+            }
+            
+        }
+
+        public void Reposition(Vector3 newPos)
+        {
+            gameObject.transform.position = newPos;
+        }
+
         private void HandleShoot()
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(0))
@@ -123,7 +157,9 @@ namespace Assets.Scripts.BarrelFun
 
         private bool CanJump()
         {
-            return feetCollider.IsTouchingLayers(LayerMask.GetMask(Constants.LayerNames.Ground));
+            bool canJump = feetCollider.IsTouchingLayers(LayerMask.GetMask(Constants.LayerNames.Ground));
+            m_animator.SetBool("Grounded", canJump);
+            return canJump;
         }
 
         private void HandleHorizontalMovement()
@@ -137,33 +173,86 @@ namespace Assets.Scripts.BarrelFun
             }
         }
 
-        void FlipCharacter(float moveInput)
+
+
+
+
+
+
+
+
+void FlipCharacter(float moveInput)
+    {
+        if (moveInput > 0)
         {
-            if (moveInput > 0)
+            if(facingDirection == FacingDirection.Right)
             {
-                if(facingDirection == FacingDirection.Right)
-                {
-                    transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                }
-                else
-                {
-                    transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                }
-                facingDirection = FacingDirection.Right;
+                transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
             }
-            else if (moveInput < 0)            
+            else
             {
-                if(facingDirection == FacingDirection.Right)
-                {
-                    transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                }
-                else
-                {
-                    transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                }
-                facingDirection = FacingDirection.Left;
+                transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+            facingDirection = FacingDirection.Right;
+        }
+        else if (moveInput < 0)            
+        {
+            if(facingDirection == FacingDirection.Right)
+            {
+                transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+            else
+            {
+                transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+            facingDirection = FacingDirection.Left;
+        }
+    }
+
+    void MoveCharacter(float moveInput)
+    {
+        
+        if (moveInput > 0)
+        {
+            if(facingDirection == FacingDirection.Right)
+            {
+                m_body2d.velocity = new Vector2(moveInput * m_speed, m_body2d.velocity.y);
+            }
+            else
+            {
+                m_body2d.velocity = new Vector2(-moveInput * m_speed, m_body2d.velocity.y);
             }
         }
+        else if (moveInput < 0)            
+        {
+            if(facingDirection == FacingDirection.Right)
+            {
+                m_body2d.velocity = new Vector2(-moveInput * m_speed, m_body2d.velocity.y);
+            }
+            else
+            {
+                m_body2d.velocity = new Vector2(moveInput * m_speed, m_body2d.velocity.y);
+            }
+        }
+    }
+
+    void Jump()
+    {
+
+        m_animator.SetTrigger("Jump");
+        m_grounded = false;
+        m_animator.SetBool("Grounded", m_grounded);
+        m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+        m_groundSensor.Disable(0.2f);
+    }
+
+
+
+
+
+
+
+
 
         private bool _isActive;
         public void SetPlayerActive(bool active)

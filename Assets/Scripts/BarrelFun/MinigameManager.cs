@@ -83,6 +83,9 @@ namespace Assets.Scripts.BarrelFun
             {
                 Completed = true; 
                 Player.SetPlayerActive(false);
+                Player.StopMovement();
+                Player.ToggleGravity(false);
+                Player.Reposition(new Vector3(18.83f, 41f, 0f));
                 TeleportAudio.time = 2f;
                 TeleportAudio.Play();                
                 StartCoroutine(DoWinAnimations());
@@ -93,7 +96,7 @@ namespace Assets.Scripts.BarrelFun
         IEnumerator DoWinAnimations()
         {
             // player teleporting animation
-            PlayerAnimator.runtimeAnimatorController = HeroTeleportingAnimation;
+            PlayerAnimator.SetTrigger("Teleport");
             yield return new WaitForSeconds(3f);            
             Win();
         }
