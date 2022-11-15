@@ -2,6 +2,7 @@ using System;
 using System.Collections; 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
 using Assets.Scripts.Map;
 
@@ -45,7 +46,15 @@ namespace Assets.Scripts.BarrelFun
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {    
-                    GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+                    if(GameSceneChanger.Instance != null)
+                    {
+                        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene(Constants.SceneNames.MapScene);
+                    }
+                    
                 }
             }
 

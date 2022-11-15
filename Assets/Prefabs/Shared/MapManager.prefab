@@ -44,10 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0e8947fb7d06344a0abf991c3bb9c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeroMaxHP: 20
-  HeroHP: 20
-  BossMaxHP: 20
-  BossHP: 20
+  BossDamageWhenMinigameWon: 100
+  HeroDamageWhenMinigameLost: 50
+  HeroMaxHP: 200
+  HeroHP: 200
+  BossMaxHP: 1400
+  BossHP: 1400
+  LastGameWasLost: 0
+  LastGameWasWon: 0
   minigameInfos:
   - {fileID: 11400000, guid: 33b4ad98878400c4287307bcbfda017e, type: 2}
   - {fileID: 11400000, guid: 5847917ad0091174782ff868e3ccad15, type: 2}

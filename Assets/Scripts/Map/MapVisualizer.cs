@@ -153,7 +153,7 @@ namespace Assets.Scripts.Map
                 BossHealthTextElement.text = string.Format("{0:0}", MapManager.GetInstance().BossHP) + "/" + MapManager.GetInstance().BossMaxHP;
 
                 // set HP back to proper
-                MapManager.GetInstance().HeroHP = MapManager.GetInstance().BossHP - MapManager.GetInstance().BossDamageWhenMinigameWon;
+                MapManager.GetInstance().BossHP = MapManager.GetInstance().BossHP - MapManager.GetInstance().BossDamageWhenMinigameWon;
             }
         }
 
