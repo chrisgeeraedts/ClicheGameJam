@@ -51,32 +51,34 @@ namespace Assets.Scripts.Escort
             if(frustrationCount >= 1f && !Completed)
             {
                 Lose();
-            }
+            }    
 
-            // calculate distance between player and npc
-            float distance = Vector3.Distance (Player.transform.position, NPC.transform.position);
+            if(!Completed)
+            { 
+                // calculate distance between player and npc
+                float distance = Vector3.Distance (Player.transform.position, NPC.transform.position);
 
-            // debug            
-            Distance.text = distance.ToString();
-            Number.text = frustrationCount.ToString();
+                // debug            
+                Distance.text = distance.ToString();
+                Number.text = frustrationCount.ToString();
 
-            if(distance > maxDistancePlayerAndNpc)
-            {
-                // if too large, add to frustratie meter
-                frustrationCount += frustrationIncrement * Time.deltaTime;
-                FrustrationMeter.GetComponent<ProgressBar>().SetFill(frustrationCount);                
-                NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(true);
-                if(!showingHurryPopup)
+                if(distance > maxDistancePlayerAndNpc)
                 {
-                    showingHurryPopup = true;
-                    ShowHurryPopup();
+                    // if too large, add to frustratie meter
+                    frustrationCount += frustrationIncrement * Time.deltaTime;
+                    FrustrationMeter.GetComponent<ProgressBar>().SetFill(frustrationCount);                
+                    NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(true);
+                    if(!showingHurryPopup)
+                    {
+                        showingHurryPopup = true;
+                        ShowHurryPopup();
+                    }
                 }
-            }
-            else{ 
+
                 if(NPC.GetComponent<Assets.Scripts.Shared.INPC>().IsNPCPaused())      
                 {
                     NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(false);
-                }                           
+                } 
             }
             
 
@@ -193,7 +195,8 @@ namespace Assets.Scripts.Escort
             {
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(12); // heroes cant swim
             }
-            Lose();
+
+            Lose(); // of player or npc hits, lose
         }
 
         public void MilestoneHit(int milestone, Collider2D col)
@@ -265,6 +268,7 @@ namespace Assets.Scripts.Escort
 
         private void Lose()
         {
+            Debug.Log("LOST");
             Completed = true;     
             MapManager.GetInstance().FinishMinigame(false);
             GameMusic.Stop();

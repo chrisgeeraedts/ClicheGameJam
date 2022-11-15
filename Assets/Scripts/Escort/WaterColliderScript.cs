@@ -12,6 +12,7 @@ namespace Assets.Scripts.Escort
         {
             Debug.Log(MinigameManager.GetComponent<MinigameManager>());
             MinigameManager.GetComponent<MinigameManager>().WaterHit(col);
+            Destroy(gameObject);
         }
     }
 }

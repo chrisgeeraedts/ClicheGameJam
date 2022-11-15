@@ -12,13 +12,20 @@ namespace Assets.Scripts.Map
 {
     public class MapVisualizer : MonoBehaviour
     {
+        [SerializeField] GameObject DamageTextPrefab;
+        [SerializeField] GameObject HeroDamageTextSpawnPoint;
+        [SerializeField] GameObject BossDamageTextSpawnPoint;
         [SerializeField] GameObject Hero;
         [SerializeField] GameObject Boss;
         [SerializeField] RuntimeAnimatorController HeroDeathAnimation;
         [SerializeField] AudioSource HeroDeathAudio;
         [SerializeField] AudioSource HeroDamageAudio;
+        [SerializeField] AudioSource BossDamageAudio;
         [SerializeField] RuntimeAnimatorController BossIdleAnimation;
         [SerializeField] RuntimeAnimatorController BossSpellcastAnimation;
+        [SerializeField] RuntimeAnimatorController BossTakeDamageAnimation;
+        [SerializeField] RuntimeAnimatorController HeroIdleAnimation;
+        [SerializeField] RuntimeAnimatorController HeroSpellcastAnimation;
 
         [SerializeField] Image HeroHealthBarElement;
         [SerializeField] Image BossHealthBarElement;
@@ -32,7 +39,9 @@ namespace Assets.Scripts.Map
         [SerializeField] AudioSource mapSelectedSound;
         [SerializeField] AudioSource lockedMapSelectedSound;
         [SerializeField] AudioSource BossSpellCast;
+        [SerializeField] AudioSource HeroSpellCast;
         [SerializeField] GameObject BossSpellBeam;
+        [SerializeField] GameObject HeroSpellBeam;
         
         [SerializeField] AudioSource MusicAudio;
         [SerializeField] AudioSource GameOverAudio;
@@ -157,7 +166,6 @@ namespace Assets.Scripts.Map
 		            //btn.OnPointerEnter.AddListener(delegate{TaskOnMouseEnter(button_x, button_y);});
 
                     mapNodeGameObject.transform.position =  minigamePositionGrid[minigamePositionGridIndex].transform.position;
-                    Debug.Log("Create minigame at " + mapNodeGameObject.transform.localPosition.x + " x " + mapNodeGameObject.transform.localPosition.y);
                     var minigameInfo = minigames[x,y];
                     var mapNode = mapNodeGameObject.GetComponent<MapNode>();
                     mapNode.X = x;
@@ -193,18 +201,27 @@ namespace Assets.Scripts.Map
                 HandlePlayerInput();
                 CheckAlive();
                 CheckSpellcastBoss();
+                CheckSpellcastHero();
             }
         }
 
-        public void DoSpelLCast()
+        public void DoBossSpelLCast()
         {
             // DEBUG PURPOSES
-            MapManager.GetInstance().HeroHP = MapManager.GetInstance().HeroHP - 1;
+            MapManager.GetInstance().HeroHP = MapManager.GetInstance().HeroHP - MapManager.GetInstance().HeroDamageWhenMinigameLost;
             MapManager.GetInstance().LastGameWasLost = true;
+        }
+
+        public void DoHeroSpelLCast()
+        {
+            // DEBUG PURPOSES
+            MapManager.GetInstance().BossHP = MapManager.GetInstance().BossHP - MapManager.GetInstance().BossDamageWhenMinigameWon;
+            MapManager.GetInstance().LastGameWasWon = true;
         }
 
         public void CheckSpellcastBoss()
         {
+            //Debug.Log(MapManager.GetInstance().LastGameWasLost);
             if(MapManager.GetInstance().LastGameWasLost)
             {                    
                 MapManager.GetInstance().LastGameWasLost = false;
@@ -215,12 +232,29 @@ namespace Assets.Scripts.Map
             }
         }
 
+        public void CheckSpellcastHero()
+        {
+            //Debug.Log(MapManager.GetInstance().LastGameWasWon);
+            if(MapManager.GetInstance().LastGameWasWon)
+            {                    
+                MapManager.GetInstance().LastGameWasWon = false;
+                Hero.GetComponent<Animator>().runtimeAnimatorController = HeroSpellcastAnimation;      
+                       
+                StartCoroutine(HeroSpellAudio());
+                StartCoroutine(BossTakeDamage());
+                StartCoroutine(ReturnBossIdleAfterDamage());
+                StartCoroutine(ReturnHeroIdle());
+            }
+        }
+
         IEnumerator BossSpellAudio()
         {  
             yield return new WaitForSeconds(0.5f);    
             BossSpellCast.Play(); 
             SetHealthbars();
-            HeroDamageAudio.Play();
+            HeroDamageAudio.Play();        
+            var damageText = Instantiate(DamageTextPrefab, HeroDamageTextSpawnPoint.transform, false);    
+            damageText.GetComponent<DamageNumberScript>().ShowText(MapManager.GetInstance().HeroDamageWhenMinigameLost);
         }      
 
 
@@ -228,6 +262,33 @@ namespace Assets.Scripts.Map
         {  
             yield return new WaitForSeconds(1.5f);    
             Boss.GetComponent<Animator>().runtimeAnimatorController = BossIdleAnimation;
+        }
+
+        IEnumerator HeroSpellAudio()
+        {     
+            HeroSpellCast.Play(); 
+            yield return new WaitForSeconds(0.5f); 
+            SetHealthbars();
+        }      
+
+        IEnumerator BossTakeDamage()
+        {   
+            yield return new WaitForSeconds(0.5f); 
+            Boss.GetComponent<Animator>().runtimeAnimatorController = BossTakeDamageAnimation;
+            BossDamageAudio.Play();
+            var damageText = Instantiate(DamageTextPrefab, BossDamageTextSpawnPoint.transform, false);
+            damageText.GetComponent<DamageNumberScript>().ShowText(MapManager.GetInstance().BossDamageWhenMinigameWon);
+        }
+        IEnumerator ReturnBossIdleAfterDamage()
+        {  
+            yield return new WaitForSeconds(1f);    
+            Boss.GetComponent<Animator>().runtimeAnimatorController = BossIdleAnimation;
+        }
+
+        IEnumerator ReturnHeroIdle()
+        {  
+            yield return new WaitForSeconds(0.5f);    
+            Hero.GetComponent<Animator>().runtimeAnimatorController = HeroIdleAnimation;
         }
 
         private void SetHealthbars()
