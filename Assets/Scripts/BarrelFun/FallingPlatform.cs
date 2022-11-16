@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Shared;
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,10 +13,12 @@ namespace Assets.Scripts.BarrelFun
         private bool isFalling = false;
         private bool maxFallingSpeedReached = false;
         private Rigidbody2D rigidBody;
+        private CapsuleCollider2D topCollider;
 
         private void Awake()
         {
             rigidBody = GetComponent<Rigidbody2D>();
+            topCollider = GetComponent<CapsuleCollider2D>();
         }
 
         private void Update()
@@ -37,7 +38,6 @@ namespace Assets.Scripts.BarrelFun
 
         private void Fall()
         {
-            
             if (!isFalling) return;
             if (maxFallingSpeedReached) return;
 
@@ -54,6 +54,7 @@ namespace Assets.Scripts.BarrelFun
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.tag != Constants.TagNames.Player) return;
+            if (!topCollider.IsTouchingLayers(LayerMask.GetMask(Constants.LayerNames.Player))) return;
             if (isFalling) return;
 
             StartCoroutine(TriggerFalling());
