@@ -76,7 +76,6 @@ namespace Assets.Scripts.OneManArmy
                 {
                     if (zombiesSpawned < zombieMax)
                     {
-                        yield return new WaitForSeconds(spawnModifier);
                         if (spawnModifier > 0.2f)
                         {
                             spawnModifier = Mathf.Max(0.5f, spawnModifier * 0.92f);
@@ -85,7 +84,8 @@ namespace Assets.Scripts.OneManArmy
                     }
                 }
 
-                zombieLimitReached = zombiesSpawned + 1 >= zombieMax;
+                yield return new WaitForSeconds(spawnModifier);
+                zombieLimitReached = zombiesSpawned >= zombieMax;
             }
         }
 

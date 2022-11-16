@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using Assets.Scripts.Shared;
+using Assets.Scripts.Shop;
 
 namespace Assets.Scripts.Map
 {
@@ -130,7 +131,8 @@ namespace Assets.Scripts.Map
         {
             coins += numberOfCoins;
 
-            Debug.Log($"Player now has {coins} coins");
+            var shopManager = FindObjectOfType<ShopManager>();
+            shopManager?.UpdateCoinsText(coins);
         }
 
         public bool SpendCoins(int numberOfCoins)
@@ -138,6 +140,9 @@ namespace Assets.Scripts.Map
             if (coins < numberOfCoins) return false;
 
             coins -= numberOfCoins;
+
+            var shopManager = FindObjectOfType<ShopManager>();
+            shopManager?.UpdateCoinsText(coins);
             return true;
         }
 
