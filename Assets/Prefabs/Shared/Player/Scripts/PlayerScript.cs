@@ -46,7 +46,6 @@ namespace Assets.Scripts.Shared
 
         // Base
         [SerializeField] private Animator Base_Animator;
-        [SerializeField] private Animator Base_Animator;
         [SerializeField] private Rigidbody2D Base_RigidBody2D;      
 
         // Movement
