@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour,  Assets.Scripts.Shared.IPlayer
+public class Player : MonoBehaviour, Assets.Scripts.Shared.IPlayer
 {
-	private bool _isActive;
     public void SetPlayerActive(bool active)
     {
         _isActive = active;
@@ -14,73 +13,92 @@ public class Player : MonoBehaviour,  Assets.Scripts.Shared.IPlayer
         return _isActive;
     }
 
-	public float moveSpeed;
-	public bool rushing = false;
-	private float speedMod = 0;
+    public float moveSpeed;
+    public bool rushing = false;
+    public GameObject bubbles;
 
-	float timeLeft = 2f;
+    private float speedMod = 0;
+    private float timeLeft = 2f;
+    private Rigidbody2D myRigidBody;
+    private Animator myAnim;
+    private bool _isActive;
 
-	private Rigidbody2D myRigidBody;
+    // Use this for initialization
+    void Start()
+    {
+        myRigidBody = GetComponent<Rigidbody2D>();
+        myAnim = GetComponent<Animator>();
+    }
 
-	private Animator myAnim;
+    // Update is called once per frame
+    void Update()
+    {
 
-	public GameObject bubbles;
+        resetBoostTime();
+        controllerManager();
+    }
 
-	// Use this for initialization
-	void Start (){
-		myRigidBody = GetComponent<Rigidbody2D> ();	
-		myAnim = GetComponent<Animator> ();
-	}
-	
-	// Update is called once per frame
-	void Update (){
+    void controllerManager()
+    {
+        if (Input.GetAxisRaw("Horizontal") > 0f)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+            movePlayer();
+        }
+        else if (Input.GetAxisRaw("Horizontal") < 0f)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+            movePlayer();
+        }
+        else if (Input.GetAxisRaw("Vertical") > 0f)
+        {
+            myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, moveSpeed, 0f);
+        }
+        else if (Input.GetAxis("Vertical") < 0f)
+        {
+            myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, -moveSpeed, 0f);
+        }
 
-		resetBoostTime ();
-		controllerManager ();
-	}
+        if (Input.GetButtonDown("Jump") && !rushing)
+        {
+            rushing = true;
+            speedMod = 2;
+            Instantiate(bubbles, gameObject.transform.position, gameObject.transform.rotation);
+            movePlayer();
+        }
+    }
 
-	void controllerManager (){
-		if (Input.GetAxisRaw ("Horizontal") > 0f) {
-			transform.localScale = new Vector3(1f,1f,1f);
-			movePlayer ();
-		} else if (Input.GetAxisRaw ("Horizontal") < 0f) {			
-			transform.localScale = new Vector3(-1f,1f,1f);
-			movePlayer ();
-		} else if (Input.GetAxisRaw ("Vertical") > 0f) {
-			myRigidBody.velocity = new Vector3 (myRigidBody.velocity.x, moveSpeed, 0f);
-		} else if (Input.GetAxis ("Vertical") < 0f) {
-			myRigidBody.velocity = new Vector3 (myRigidBody.velocity.x, -moveSpeed, 0f);
-		}
+    void movePlayer()
+    {
+        if (transform.localScale.x == 1)
+        {
+            myRigidBody.velocity = new Vector3(moveSpeed + speedMod, myRigidBody.velocity.y, 0f);
+        }
+        else
+        {
+            myRigidBody.velocity = new Vector3(-(moveSpeed + speedMod), myRigidBody.velocity.y, 0f);
+        }
+    }
 
-		if(Input.GetButtonDown("Jump") && !rushing ){
-			rushing = true;
-			speedMod = 2;
-			Instantiate (bubbles, gameObject.transform.position, gameObject.transform.rotation);
-			movePlayer ();
-		}	
-	}
+    void resetBoostTime()
+    {
+        if (timeLeft <= 0)
+        {
+            timeLeft = 2f;
+            rushing = false;
+            speedMod = 0;
+        }
+        else if (rushing)
+        {
+            timeLeft -= Time.deltaTime;
+        }
+    }
 
-	void movePlayer(){
-		if (transform.localScale.x == 1) {
-			myRigidBody.velocity = new Vector3 (moveSpeed + speedMod, myRigidBody.velocity.y, 0f);	
-		} else {
-			myRigidBody.velocity = new Vector3 (- (moveSpeed + speedMod), myRigidBody.velocity.y, 0f);
-		}	
-	}
-
-	void resetBoostTime(){
-		if (timeLeft <= 0) {
-			timeLeft = 2f;
-			rushing = false;
-			speedMod = 0;
-		} else if(rushing) {
-			timeLeft -= Time.deltaTime;
-		}	
-	}
-
-	public void hurt(){
-		if(!rushing){
-			// take damage
-		}
-	}
+    public void hurt()
+    {
+        if (!rushing)
+        {
+            // take damage
+        }
+    }
 }
