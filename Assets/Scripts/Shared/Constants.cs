@@ -27,6 +27,7 @@
         public static class LayerNames
         {
             public static string Ground = "Ground";
+            public static string Player = "Player";
         }
     }
 }
