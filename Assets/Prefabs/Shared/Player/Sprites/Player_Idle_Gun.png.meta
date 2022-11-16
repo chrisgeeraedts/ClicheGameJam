@@ -1,36 +1,12 @@
 fileFormatVersion: 2
-guid: 0e3502a80399d164ea01f1868f65acbf
+guid: 22583e28a1c75a148a971dedb7cf7e96
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 4723107735738678597
-    second: Idle_0
-  - first:
-      213: -7385789195546760866
-    second: Idle_1
-  - first:
-      213: 3234629978573100161
-    second: Idle_2
-  - first:
-      213: 6373048116405451881
-    second: Idle_3
-  - first:
-      213: 7264182050183361747
-    second: Idle_4
-  - first:
-      213: -2834552850196481573
-    second: Idle_5
-  - first:
-      213: 3278449094680734212
-    second: Idle_6
-  - first:
-      213: 3384493420599841878
-    second: Idle_7
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -57,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -86,8 +62,8 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
-  cookieLightType: 1
+  applyGammaDecoding: 0
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -103,42 +79,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Lumin
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -173,173 +113,197 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle_0
+      name: Full_GunIdle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 160
         height: 111
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32f2ec9d0d6ecf94d9406967304a60a3
-      internalID: 4723107735738678597
+      spriteID: 91e5313ac21085d43aa5c04b9f42ca02
+      internalID: 2005803399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_1
+      name: Full_GunIdle_1
       rect:
         serializedVersion: 2
         x: 160
         y: 0
         width: 160
         height: 111
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b29ac0d780337be419e82c568bc69371
-      internalID: -7385789195546760866
+      spriteID: 3194bf06c372725499deffacef7f6ab5
+      internalID: 730219552
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_2
+      name: Full_GunIdle_2
       rect:
         serializedVersion: 2
         x: 320
         y: 0
         width: 160
         height: 111
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d49aec8808318664fbe5c7856e2ce08c
-      internalID: 3234629978573100161
+      spriteID: e16108c352cefed47bc074d7f183ed33
+      internalID: 77874607
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_3
+      name: Full_GunIdle_3
       rect:
         serializedVersion: 2
         x: 480
         y: 0
         width: 160
         height: 111
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f725bf2c84ea6e49a77223bf0c1b75a
-      internalID: 6373048116405451881
+      spriteID: 5259c15073940b0448f9e7fb313e09a8
+      internalID: 1164970497
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_4
+      name: Full_GunIdle_4
       rect:
         serializedVersion: 2
         x: 640
         y: 0
         width: 160
         height: 111
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 194581878ea0a9d4fa0ae8405617e14c
-      internalID: 7264182050183361747
+      spriteID: c5a4139c07b1ab2429d829df52e05cec
+      internalID: 1013233027
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_5
+      name: Full_GunIdle_5
       rect:
         serializedVersion: 2
         x: 800
         y: 0
         width: 160
         height: 111
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2b85d891cf8b4b41aa4902c55aa4e92
-      internalID: -2834552850196481573
+      spriteID: 809f5a4c6610ce9418406e4a9e25926c
+      internalID: 622735522
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_6
+      name: Full_GunIdle_6
       rect:
         serializedVersion: 2
         x: 960
         y: 0
         width: 160
         height: 111
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31c270ccf5459604a877667e7dece47e
-      internalID: 3278449094680734212
+      spriteID: 6966f70ed310c644ab7cc4b988a4a272
+      internalID: -838210735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_7
+      name: Full_GunIdle_7
       rect:
         serializedVersion: 2
         x: 1120
         y: 0
         width: 160
         height: 111
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cbf6c11187c1c5049ba7a2147ae4a23e
-      internalID: 3384493420599841878
+      spriteID: 23dee4c477c4bd3498a24452f008bda8
+      internalID: 897807007
       vertices: []
       indices: 
       edges: []
@@ -355,14 +319,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Idle_4: 7264182050183361747
-      Idle_1: -7385789195546760866
-      Idle_3: 6373048116405451881
-      Idle_5: -2834552850196481573
-      Idle_0: 4723107735738678597
-      Idle_6: 3278449094680734212
-      Idle_7: 3384493420599841878
-      Idle_2: 3234629978573100161
+      Full_GunIdle_7: 897807007
+      Full_GunIdle_4: 1013233027
+      Full_GunIdle_5: 622735522
+      Full_GunIdle_6: -838210735
+      Full_GunIdle_1: 730219552
+      Full_GunIdle_0: 2005803399
+      Full_GunIdle_2: 77874607
+      Full_GunIdle_3: 1164970497
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

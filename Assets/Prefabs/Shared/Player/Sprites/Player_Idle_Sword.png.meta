@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0e3502a80399d164ea01f1868f65acbf
+guid: dd9a6bcc59a0c4b43af8bef266bee68e
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -185,7 +185,7 @@ TextureImporter:
         width: 160
         height: 111
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5389551, y: 0.32753506}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -206,7 +206,7 @@ TextureImporter:
         width: 160
         height: 111
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5361725, y: 0.35159993}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -227,7 +227,7 @@ TextureImporter:
         width: 160
         height: 111
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5389549, y: 0.34758914}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -248,7 +248,7 @@ TextureImporter:
         width: 160
         height: 111
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5417374, y: 0.3395675}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -269,7 +269,7 @@ TextureImporter:
         width: 160
         height: 111
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5445198, y: 0.3355567}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -290,7 +290,7 @@ TextureImporter:
         width: 160
         height: 111
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5445198, y: 0.3315459}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -311,7 +311,7 @@ TextureImporter:
         width: 160
         height: 111
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5445198, y: 0.3355567}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -332,7 +332,7 @@ TextureImporter:
         width: 160
         height: 111
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.5333893, y: 0.3435783}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
