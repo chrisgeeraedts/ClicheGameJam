@@ -292,5 +292,10 @@ namespace Assets.Scripts.Escort
         {
             return _isActive;
         }
+
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
     }
 }

@@ -42,6 +42,10 @@ namespace Assets.Scripts.OneManArmy
         {
             return _isActive;
         }
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
 
         public void SetGameFinished(bool finished)
         {

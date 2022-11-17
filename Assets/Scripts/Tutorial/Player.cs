@@ -118,5 +118,9 @@ namespace Assets.Scripts.Tutorial
         {
             return _isActive;
         }
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
     }
 }

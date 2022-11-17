@@ -12,6 +12,10 @@ public class Player : MonoBehaviour, Assets.Scripts.Shared.IPlayer
     {
         return _isActive;
     }
+	public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
 
     public float moveSpeed;
     public bool rushing = false;

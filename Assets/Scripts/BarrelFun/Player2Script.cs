@@ -209,5 +209,10 @@ namespace Assets.Scripts.BarrelFun
         {
             return _isActive;
         }
+        
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
     }
 }

@@ -8,5 +8,11 @@ namespace Assets.Scripts.Shared
     {
         void SetPlayerActive(bool active);
         bool IsPlayerActive();
+        GameObject GetGameObject();
+    }
+
+    public interface ISpeaker
+    {
+        void Say(string message);
     }
 }

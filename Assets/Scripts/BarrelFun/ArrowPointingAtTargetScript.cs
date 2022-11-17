@@ -27,13 +27,6 @@ public class ArrowPointingAtTargetScript : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
                 transform.position = Player.transform.position;
             }
-            
-
-            
-        }
-        else
-        {
-            //rb.velocity = Vector3.zero;
         }
     }
 }
