@@ -16184,19 +16184,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1419648067}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5579518188172553407}
-        m_TargetAssemblyTypeName: Assets.Scripts.Map.MapManager, Assembly-CSharp
-        m_MethodName: Exit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1419648067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18556,6 +18544,7 @@ MonoBehaviour:
   Line2_3: {fileID: 1372699855}
   Line3_4: {fileID: 946031892}
   Line4_Boss: {fileID: 2011575828}
+  ExitButton: {fileID: 1419648064}
   Stages:
   - {fileID: 6277958879565158357}
   - {fileID: 1772760112}
@@ -69410,17 +69399,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c0854d03442bbb47b33261a75a5c89c, type: 3}
---- !u!114 &5579518188172553407 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5579518189132436754, guid: 3c0854d03442bbb47b33261a75a5c89c, type: 3}
-  m_PrefabInstance: {fileID: 5579518188172553406}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb0e8947fb7d06344a0abf991c3bb9c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &5796359563786194341
 Transform:
   m_ObjectHideFlags: 0

@@ -36,7 +36,6 @@ namespace Assets.Scripts.Shared
 
         void Update()
         {
-            Debug.Log(m_ColCount + "|" + m_DisableTimer);
             m_DisableTimer -= Time.deltaTime;
         }
 

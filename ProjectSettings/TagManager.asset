@@ -10,6 +10,9 @@ TagManager:
   - NPC
   - Undefined
   - Bullet
+  - Water
+  - WaterExit
+  - WaterEnter
   layers:
   - Default
   - TransparentFX

@@ -10,8 +10,8 @@ namespace Assets.Scripts.BarrelFun
 
         void OnTriggerEnter2D(Collider2D col)
         {
-            Debug.Log(MinigameManager.GetComponent<MinigameManager>());
             MinigameManager.GetComponent<MinigameManager>().DeathHit(col);
+            Destroy(gameObject);
         }
     }
 }

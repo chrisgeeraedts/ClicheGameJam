@@ -61,10 +61,7 @@ namespace Assets.Scripts.Escort
                 FlipCharacter(Input.GetAxis("Horizontal"));
 
                 // Move
-                if (!isCastingSpell && spellCompleted)
-                {
-                    MoveCharacter(Input.GetAxis("Horizontal"));
-                }
+                MoveCharacter(Input.GetAxis("Horizontal"));
 
                 //Check if character just landed on the ground
                 if (!m_grounded && m_groundSensor.State())
@@ -105,12 +102,6 @@ namespace Assets.Scripts.Escort
                 if(Input.GetMouseButtonDown(0))
                 {    
                     Attack();
-                }
-
-                // Spell
-                if(Input.GetMouseButtonDown(1))
-                {    
-                    Spell();
                 }
                 
                 //Idle
@@ -209,12 +200,6 @@ namespace Assets.Scripts.Escort
             m_groundSensor.Disable(0.2f);
         }
 
-        void Spell()
-        {
-            CancelActions();
-            CastSpell();
-        }
-
         void Attack()
         {
             DoAttack();
@@ -246,22 +231,6 @@ namespace Assets.Scripts.Escort
             }
         }
 
-        bool isCastingSpell = false;
-        bool spellCompleted = true;
-        void CastSpell()
-        {
-            if(!isCastingSpell && spellCompleted)
-            {
-                CancelActions();
-                StopMovement();
-
-                isCastingSpell = true;
-                m_animator.SetTrigger("Spellcast");
-                StartCoroutine(SpellFinish());
-            }
-        }
-
-    
         AudioSource targetAttackAudio;
         void PlayAttackAudio()
         {
@@ -286,15 +255,6 @@ namespace Assets.Scripts.Escort
             yield return new WaitForSeconds(0.5f);  
             isAttacking = false;
             attackCompleted = true; 
-        }
-
-        IEnumerator SpellFinish()
-        {      
-            Debug.Log("CASTING SPELL");
-            SpellCastFx.Play();
-            yield return new WaitForSeconds(1.3f);   
-            isCastingSpell = false;
-            spellCompleted = true; 
         }
 
 

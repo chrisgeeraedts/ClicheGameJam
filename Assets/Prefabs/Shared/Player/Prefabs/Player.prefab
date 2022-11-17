@@ -148,28 +148,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27549faf240edc042a023bea11941ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Options_CanFireGun: 1
+  Options_CanFireGun: 0
   Options_CanFireHeavyGun: 0
   Options_CanAttackMelee: 0
   Options_CanAttackHeavyMelee: 0
   Options_CanJump: 1
-  Options_CanSwim: 0
   Base_Animator: {fileID: 9205982733476571650}
   Base_RigidBody2D: {fileID: 2811266613572810640}
-  PlayerMovementMode: 0
   Movement_Speed: 12
   Movement_JumpForce: 16
   Movement_GroundSensor: {fileID: 956131364}
   Movement_FeetCollider: {fileID: 1084203039442610486}
+  Movement_LandGravity: 2
+  LandController: {fileID: 9100000, guid: 27b42d284ff4da64092eafe8a2e82fce, type: 2}
+  Swimming_Speed: 3
+  WaterController: {fileID: 9100000, guid: 5444b2030ffca544c8926310ff5195ac, type: 2}
+  Swimming_WaterGravity: 0
+  Swimming_Bubbles_Prefab: {fileID: 1801604868145782, guid: e969aaa734be044efad60bd50e7fb070, type: 3}
   Attacking_Gun_BulletPrefab: {fileID: 4959113931770922728, guid: 64ce0ce75c1eae34ba87e68c9f8d4ff4, type: 3}
   Attacking_Gun_ShootStartPoint: {fileID: 7342564035175392500}
-  AudioSources_Attacking_GunFire: []
+  AudioSources_Attacking_GunFire:
+  - {fileID: 2580934080277757824}
   Attacking_Gun_BulletSpeed: 20
   Attacking_Sword_Cooldown: 0.5
   Attacking_HeavySword_Cooldown: 0.7
   Attacking_Gun_Cooldown: 0.2
-  AudioSources_Attacking_MeleeAttack: []
-  PlayerEquipment: 1
+  AudioSources_Attacking_MeleeAttack:
+  - {fileID: 1084203041093131554}
+  PlayerEquipment: 0
   Particles_SwapDirectionDust: {fileID: 1084203041223134389}
   Particles_LandingDust: {fileID: 1084203041398273961}
 --- !u!61 &1084203039442610486
@@ -831,7 +837,7 @@ GameObject:
   - component: {fileID: 1084203041093131555}
   - component: {fileID: 1084203041093131554}
   m_Layer: 8
-  m_Name: Player_Attack_1
+  m_Name: Player_Attack_Sword_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10711,7 +10717,7 @@ GameObject:
   - component: {fileID: 4541448823449619385}
   - component: {fileID: 2580934080277757824}
   m_Layer: 8
-  m_Name: Gun_Fire
+  m_Name: Player_Attack_Gun_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

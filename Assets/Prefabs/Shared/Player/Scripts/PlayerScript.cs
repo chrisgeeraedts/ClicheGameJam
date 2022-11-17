@@ -34,33 +34,42 @@ namespace Assets.Scripts.Shared
         Swimming
     }
 
-    public class PlayerScript : MonoBehaviour, Assets.Scripts.Shared.IPlayer {
-
-        // Options        
+    public class PlayerScript : MonoBehaviour, Assets.Scripts.Shared.IPlayer 
+    {    
         [SerializeField] private bool Options_CanFireGun = false;
         [SerializeField] private bool Options_CanFireHeavyGun = false;
         [SerializeField] private bool Options_CanAttackMelee = false;
         [SerializeField] private bool Options_CanAttackHeavyMelee = false;
         [SerializeField] private bool Options_CanJump = false;
-        [SerializeField] private bool Options_CanSwim = false;
 
-        // Base
         [SerializeField] private Animator Base_Animator;
         [SerializeField] private Rigidbody2D Base_RigidBody2D;      
 
-        // Movement
-        [SerializeField] private PlayerMovementMode PlayerMovementMode;
+        #region Movement        
+        private bool Movement_FacingRight = true;
+        private bool _movementLocked;    
+        private PlayerMovementMode PlayerMovementMode;
+        #endregion
+
+        #region Walking
         [SerializeField] private float Movement_Speed = 10f;
         [SerializeField] private float Movement_JumpForce = 10f;  
         [SerializeField] private PlayerSensor Movement_GroundSensor;
         [SerializeField] private BoxCollider2D Movement_FeetCollider;
+        [SerializeField] float Movement_LandGravity;
         private bool Movement_Grounded = false;
         private float Movement_DelayToIdle = 0.0f;
-        private bool Movement_FacingRight = true;
         private FacingDirection Movement_FacingDirection;
-        private bool _movementLocked;        
+        [SerializeField] RuntimeAnimatorController LandController; 
+        #endregion
 
-        // Attacking
+        #region Swimming        
+        [SerializeField] private float Swimming_Speed = 3f;
+        [SerializeField] RuntimeAnimatorController WaterController;
+        [SerializeField] float Swimming_WaterGravity;
+        [SerializeField] GameObject Swimming_Bubbles_Prefab;
+        #endregion
+
         #region GunAttack 
         [SerializeField] private GameObject Attacking_Gun_BulletPrefab;
         [SerializeField] private GameObject Attacking_Gun_ShootStartPoint;
@@ -93,22 +102,24 @@ namespace Assets.Scripts.Shared
             Base_RigidBody2D = GetComponent<Rigidbody2D>();
             Movement_GroundSensor = transform.Find("GroundSensor").GetComponent<PlayerSensor>();        
             Movement_FacingDirection = FacingDirection.Right;
+            StartSpawningWaterBubbles();
         }
 
         void Update ()
         {
             if(IsPlayerActive())
             {
-                Base_Animator.SetBool(PlayerConstants.Animation_GunEquiped, PlayerEquipment == PlayerEquipment.Gun);
+                // Set config correct
+                HandleSetup();
+
                 
                 if(PlayerMovementMode == PlayerMovementMode.Walking)
                 {
-                    HandleHorizontalMovement();
+                    HandleMovementLand();
                 }
                 else if(PlayerMovementMode == PlayerMovementMode.Swimming)
-                {
-                    HandleHorizontalMovement();
-                    HandleVerticalMovement();
+                {                    
+                    HandleMovementWater();
                 }
                 
                 FlipCharacter(Input.GetAxis("Horizontal"));
@@ -119,7 +130,11 @@ namespace Assets.Scripts.Shared
                 //Check if character just landed on the ground
                 if (!Movement_Grounded && Movement_GroundSensor.State())
                 {
-                    CreateLandingDust();
+                    if(PlayerMovementMode == PlayerMovementMode.Walking)
+                    {
+                        CreateLandingDust();
+                    }
+                    
                     Movement_Grounded = true;
                     Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
                 }
@@ -142,21 +157,53 @@ namespace Assets.Scripts.Shared
                 }
             }
         }
+
+        private void HandleSetup()
+        {
+            Base_Animator.SetBool(PlayerConstants.Animation_GunEquiped, PlayerEquipment == PlayerEquipment.Gun);
+            if(PlayerMovementMode == PlayerMovementMode.Swimming && Base_Animator.runtimeAnimatorController != WaterController)
+            {
+                SetSwimmingMode();
+            }
+            else if(PlayerMovementMode == PlayerMovementMode.Walking && Base_Animator.runtimeAnimatorController != LandController)
+            {
+                SetWalkingMode();
+            }
+        }
        
         public void SetSwimmingMode()
         {
-            //gravity
-            //movement speed
-            //jump speed
-            //change animation controller
+            Base_Animator.runtimeAnimatorController = WaterController; 
+            Debug.Log("Activating Water Mode");
         }
 
         public void SetWalkingMode()
         {
-            //gravity
-            //movement speed
-            //jump speed
-            //change animation controller
+            Base_Animator.runtimeAnimatorController = LandController; 
+            Debug.Log("Activating Land Mode");
+        }
+
+        
+
+        public void StartSpawningWaterBubbles()
+        {
+            StartCoroutine(SpawnBubbles());
+        }
+
+        private IEnumerator SpawnBubbles() {
+            while(true) {
+                if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                {
+                    CreateSwimmingBubbles();
+                }
+                yield return new WaitForSeconds(Random.Range(3, 6));
+            }
+        }
+
+
+        public void CreateSwimmingBubbles()
+        {
+            Instantiate(Swimming_Bubbles_Prefab, gameObject.transform.position, gameObject.transform.rotation);
         }
 
         public void StopMovement()
@@ -172,6 +219,7 @@ namespace Assets.Scripts.Shared
         public void UnlockMovement()
         {
            _movementLocked = false;
+                Debug.Log("UNLOCKED");
         }
 
         public void ToggleGravity(bool toggle)
@@ -198,51 +246,61 @@ namespace Assets.Scripts.Shared
             {      
                 if(!isAttacking && attackCompleted)
                 {
-                    isAttacking = true;  
-                    if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireGun)
+                    if(PlayerMovementMode == PlayerMovementMode.Walking)
                     {
-                        Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
-                        var bulletInstance = Instantiate(
-                            Attacking_Gun_BulletPrefab, 
-                            Attacking_Gun_ShootStartPoint.transform.position, 
-                            Quaternion.identity);
+                        if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireGun)
+                        {
+                            isAttacking = true;  
+                            Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
+                            var bulletInstance = Instantiate(
+                                Attacking_Gun_BulletPrefab, 
+                                Attacking_Gun_ShootStartPoint.transform.position, 
+                                Quaternion.identity);
 
-                        // select random audio source
-                        int randomAudioNumber = Random.Range(0, AudioSources_Attacking_GunFire.Length);
-                        AudioSources_Attacking_GunFire[randomAudioNumber].Play();
-                        var bulletRigidBody = bulletInstance.GetComponent<Rigidbody2D>();
-                        var horizontal = Movement_FacingRight ? Attacking_Gun_BulletSpeed : -Attacking_Gun_BulletSpeed;
-                        bulletRigidBody.velocity = new Vector2(horizontal, 0);
+                            // select random audio source
+                            int randomAudioNumber = Random.Range(0, AudioSources_Attacking_GunFire.Length);
+                            AudioSources_Attacking_GunFire[randomAudioNumber].Play();
+                            var bulletRigidBody = bulletInstance.GetComponent<Rigidbody2D>();
+                            var horizontal = Movement_FacingRight ? Attacking_Gun_BulletSpeed : -Attacking_Gun_BulletSpeed;
+                            bulletRigidBody.velocity = new Vector2(horizontal, 0);
+                            StartCoroutine(AttackFinish(false));
+                        }
+                        else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackMelee)
+                        {                        
+                            isAttacking = true;  
+                            LockMovement();
+                            Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
+                            // select random audio source
+                            int randomAudioNumber = Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
+                            AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
+                            StartCoroutine(AttackFinish(false));
+                        }
                     }
-                    else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackMelee)
-                    {
-                        LockMovement();
-                        Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
-                        // select random audio source
-                        int randomAudioNumber = Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
-                        AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
-                    }
-                    StartCoroutine(AttackFinish(false));
                 }
             }
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(1))
             {      
                 if(!isAttacking && attackCompleted)
                 {
-                    isAttacking = true;  
-                    if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireHeavyGun)
+                    if(PlayerMovementMode == PlayerMovementMode.Walking)
                     {
-                        //Maybe throw grenade?
+                        if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireHeavyGun)
+                        {
+                            isAttacking = true;  
+                            //Maybe throw grenade?
+                            StartCoroutine(AttackFinish(true));
+                        }
+                        else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackHeavyMelee)
+                        {                        
+                            isAttacking = true;  
+                            LockMovement();
+                            Base_Animator.SetTrigger(PlayerConstants.Animation_HeavyAttack);
+                            // select random audio source
+                            int randomAudioNumber = Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
+                            AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
+                            StartCoroutine(AttackFinish(true));
+                        }
                     }
-                    else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackHeavyMelee)
-                    {
-                        LockMovement();
-                        Base_Animator.SetTrigger(PlayerConstants.Animation_HeavyAttack);
-                        // select random audio source
-                        int randomAudioNumber = Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
-                        AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
-                    }
-                    StartCoroutine(AttackFinish(true));
                 }
             }
         }
@@ -254,7 +312,7 @@ namespace Assets.Scripts.Shared
                 yield return new WaitForSeconds(Attacking_Gun_Cooldown);  
                 UnlockMovement();
             }
-            else
+            else if(PlayerEquipment == PlayerEquipment.Sword)
             {
                 if(!attackWasHeavy)
                 {
@@ -277,21 +335,43 @@ namespace Assets.Scripts.Shared
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-                Movement_Grounded = false;
-                Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
-                Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce);
-                Movement_GroundSensor.Disable(0.2f);
+                if(PlayerMovementMode == PlayerMovementMode.Walking)
+                {                
+                    Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+                    Movement_Grounded = false;
+                    Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
+                    Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce);
+                    Movement_GroundSensor.Disable(0.2f);
+                }
             }
         }
 
         private bool CanJump()
         {
             if(!Options_CanJump) return false;
-            return Movement_Grounded;
+            if(PlayerMovementMode == PlayerMovementMode.Swimming)
+            {
+                return true;
+            }
+            else if(PlayerMovementMode == PlayerMovementMode.Walking)
+            {                
+                return Movement_Grounded;
+            }
+            return false;
         }
 
-        private void HandleHorizontalMovement()
+        private void HandleMovementLand()
+        {
+            HandleHorizontalMovement_Land();            
+        }
+
+        private void HandleMovementWater()
+        {
+            HandleHorizontalMovement_Water();
+                HandleVerticalMovement_Water();
+        }
+
+        private void HandleHorizontalMovement_Land()
         {
             if(_movementLocked) return;
 
@@ -304,17 +384,41 @@ namespace Assets.Scripts.Shared
             }
         }
 
-        private void HandleVerticalMovement()
+        private void HandleHorizontalMovement_Water()
+        {
+            if(_movementLocked) return;
+
+            var horizontal = Input.GetAxisRaw("Horizontal");
+            Base_RigidBody2D.velocity = new Vector2(horizontal * Swimming_Speed, Base_RigidBody2D.velocity.y);
+
+            if (Mathf.Abs(horizontal) > float.Epsilon)
+            {
+                Movement_FacingRight = horizontal > 0;
+            }
+        }
+
+        private void HandleVerticalMovement_Water()
         {
             if(_movementLocked) return;
 
             var vertical = Input.GetAxisRaw("Vertical");
-            Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, vertical * Movement_Speed);
+            Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, vertical * Swimming_Speed);
+        }
+
+        private void SetGravity()
+        {
+            if (PlayerMovementMode == PlayerMovementMode.Walking)
+            {
+                Base_RigidBody2D.gravityScale = Movement_LandGravity;
+            }
+            else
+            {
+                Base_RigidBody2D.gravityScale = Swimming_WaterGravity;
+            }
         }
 
         void FlipCharacter(float moveInput)
         {
-
             if (moveInput > 0)
             {
                 if(Movement_FacingDirection == FacingDirection.Right)
@@ -323,8 +427,15 @@ namespace Assets.Scripts.Shared
                 }
                 else
                 {
-                    transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                    CreateDirectionDust();
+                    transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);                    
+                    if(PlayerMovementMode == PlayerMovementMode.Walking)
+                    {
+                        CreateDirectionDust();
+                    }                    
+                    else if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                    {
+                        SpawnBubbles();
+                    }
                 }
                 Movement_FacingDirection = FacingDirection.Right;
             }
@@ -333,7 +444,14 @@ namespace Assets.Scripts.Shared
                 if(Movement_FacingDirection == FacingDirection.Right)
                 {
                     transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                    CreateDirectionDust();
+                    if(PlayerMovementMode == PlayerMovementMode.Walking)
+                    {
+                        CreateDirectionDust();
+                    }                    
+                    else if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                    {
+                        SpawnBubbles();
+                    }
                 }
                 else
                 {
@@ -341,8 +459,6 @@ namespace Assets.Scripts.Shared
                 }
                 Movement_FacingDirection = FacingDirection.Left;
             }
-
-            
         }
 
         void MoveCharacter(float moveInput)
@@ -387,6 +503,31 @@ namespace Assets.Scripts.Shared
                 Particles_LandingDust.Play();
             }
         }
+
+        void OnTriggerStay2D(Collider2D other)
+        {         
+            if(other.tag == "WaterEnter" && PlayerMovementMode != PlayerMovementMode.Swimming)
+            {
+                PlayerMovementMode = PlayerMovementMode.Swimming;
+                CreateSwimmingBubbles();
+                Debug.Log("Entered Water");
+            }
+            else if(other.tag == "WaterExit" && PlayerMovementMode != PlayerMovementMode.Walking)
+            {
+                if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                {
+                    Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+                    Movement_Grounded = false;
+                    Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
+                    Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce);
+                    Movement_GroundSensor.Disable(0.2f);
+                }
+                
+                PlayerMovementMode = PlayerMovementMode.Walking;
+                Debug.Log("Exited Water");
+            }
+        }
+
 
         private bool _isActive;
         public void SetPlayerActive(bool active)

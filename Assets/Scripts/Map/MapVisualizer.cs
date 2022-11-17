@@ -51,6 +51,8 @@ namespace Assets.Scripts.Map
         public GameObject Line2_3;
         public GameObject Line3_4;
         public GameObject Line4_Boss;
+        
+        [SerializeField] GameObject ExitButton;
 
         [SerializeField] MapColumnScript[] Stages;
 
@@ -111,9 +113,15 @@ namespace Assets.Scripts.Map
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
         }  
         
+        private void TaskOnClick(){
+		    MapManager.GetInstance().Exit();
+	    }
 
         private void Initialize()
         {
+            Button btn = ExitButton.GetComponent<Button>();
+		    btn.onClick.AddListener(TaskOnClick);
+
             // Disable lines initially
             //LineHero_1.GetComponent<LineLaserScript>().Hide();
             Line1_2.GetComponent<LineLaserScript>().Hide();
