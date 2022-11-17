@@ -60,16 +60,25 @@ namespace Assets.Scripts.Underwater2
         {
             if (chat == null)
             {
-                chatMode = false;
-                chatFinished = true;
-                FindObjectOfType<Player>().SetActive(true);
-                playerResponseParent.SetActive(false);
+                ExitChat();
                 return;
             }
 
             //TODO NICE: Show player response in chatbubble?
             currentChat = chat;
             SetChatText(currentChat);
+        }
+
+        private void ExitChat()
+        {
+            chatMode = false;
+            chatFinished = true;
+            var player = FindObjectOfType<Player>();
+            player.SetActive(true);
+            player.CanChop = true;
+            playerResponseParent.SetActive(false);
+
+            fishingpole.SetActive(true);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -91,6 +100,10 @@ namespace Assets.Scripts.Underwater2
             responseAText.text = chat.ResponseA;
             responseBText.text = chat.ResponseB;
             responseCText.text = chat.ResponseC;
+
+            responseAText.enabled = !string.IsNullOrEmpty(chat.ResponseA);
+            responseBText.enabled = !string.IsNullOrEmpty(chat.ResponseB);
+            responseCText.enabled = !string.IsNullOrEmpty(chat.ResponseC);
         }
     }
 }

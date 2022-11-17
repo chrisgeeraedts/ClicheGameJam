@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -25,10 +24,40 @@ namespace Assets.Scripts.Underwater2
         private float immuneTime = 1;
         private float oxygen = 100;
         private bool isActive = true;
+        private bool hasFishingpole = false;
+        private bool inUnderwaterBreathableLocation = false;
+
+        public bool CanChop;
+        public bool CanCraft;
 
         public void SetActive(bool isActive)
         {
             this.isActive = isActive;
+        }
+
+        //TODO NICE: Rewrite to events that UI components can subscribe to
+        public bool ChopActionAvailable()
+        {
+            var result = CanChop && IsNearTree();
+            return result;
+        }
+
+        public bool CraftActionAvailable()
+        {
+            var result = CanCraft && IsNearHouse();
+            return result;
+        }
+
+        public bool FishingActionAvailable()
+        {
+            var result = hasFishingpole && IsNearWater();
+            return result;
+        }
+
+        public void SetHasFishingpole(bool hasFishingpole)
+        {
+            //TODO: Store in MapManager
+            this.hasFishingpole = hasFishingpole;
         }
 
         private void Awake()
@@ -43,11 +72,61 @@ namespace Assets.Scripts.Underwater2
             HandlePlayerMovement();
             SetGravity();
             HandleOxygen();
+            HandleChopTree();
+            HandleCraftFishingpole();
+            HandleStartFishing();
+        }
+
+        private void HandleChopTree()
+        {
+            if (!Input.GetKeyDown(KeyCode.C)) return;
+            if (!ChopActionAvailable()) return;
+
+            Debug.Log("Tree chopped");
+            //TODO: Achievement trigger
+            //TODO: Show player he has "some wood"
+            CanChop = false;
+            CanCraft = true;
+        }
+
+        private bool IsNearTree()
+        {
+            return transform.position.x > 99 && transform.position.x < 101;
+        }
+
+        private void HandleCraftFishingpole()
+        {
+            if (!Input.GetKeyDown(KeyCode.C)) return;
+            if (!CraftActionAvailable()) return;
+
+            Debug.Log("Crafted fishingpole !");
+            //TODO: Show player he has a fishing pole & should go near water to start fishing
+            CanCraft = false;
+            hasFishingpole = true;
+        }
+
+        private bool IsNearHouse()
+        {
+            return transform.position.x > 102.5f && transform.position.x < 107.5f;
+        }
+
+        private void HandleStartFishing()
+        {
+            if (!Input.GetKeyDown(KeyCode.F)) return;
+            if (!FishingActionAvailable()) return;
+
+            Debug.Log("Let's go fishing !");
+            //TODO: Switch to fishing game
+        }
+
+        private bool IsNearWater()
+        {
+            return transform.position.x > 95f && transform.position.x < 96f;
         }
 
         private void HandleOxygen()
         {
-            if (IsInAirOrOnGround())
+            if (CanBreathe())
             {
                 oxygen += oxygenRechargeRate * Time.deltaTime;
             }
@@ -64,6 +143,12 @@ namespace Assets.Scripts.Underwater2
             }
 
             oxygenText.text = $"Oxygen: {(int)oxygen}";
+        }
+
+        private bool CanBreathe()
+        {
+            var result = IsInAirOrOnGround() || inUnderwaterBreathableLocation;
+            return result;
         }
 
         private void SetGravity()
@@ -137,6 +222,17 @@ namespace Assets.Scripts.Underwater2
             }
         }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            //TODO: Add locations to breathe with trigger colliders on them
+            inUnderwaterBreathableLocation = true;
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            inUnderwaterBreathableLocation = false;
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             var enemy = collision.gameObject.GetComponent<Enemy>();
@@ -148,7 +244,7 @@ namespace Assets.Scripts.Underwater2
         private void TakeDamage(int damage)
         {
             if (immune) return;
-            health-=damage;
+            health -= damage;
             healthText.text = $"Health: {health}";
 
             if (health <= 0)
