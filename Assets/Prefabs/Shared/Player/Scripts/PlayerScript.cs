@@ -1,5 +1,7 @@
 using UnityEngine;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using System;
@@ -12,11 +14,13 @@ namespace Assets.Scripts.Shared
         #region Options
         [Header("Player Options")]
         [SerializeField] private bool Options_ShowHealthBar = false;
+        [SerializeField] private bool Options_ShowDamageNumbers = false;
         [SerializeField] private bool Options_CanFireGun = false;
         [SerializeField] private bool Options_CanFireHeavyGun = false;
         [SerializeField] private bool Options_CanAttackMelee = false;
         [SerializeField] private bool Options_CanAttackHeavyMelee = false;
         [SerializeField] private bool Options_CanJump = false;
+        [SerializeField] private bool Options_ShowTargetingArrow = false;
         [SerializeField] private KeyCode InteractionKey = KeyCode.E;
         [Space(10)]
         #endregion
@@ -25,7 +29,14 @@ namespace Assets.Scripts.Shared
         [Header("Base Configuration")]
         [SerializeField] private Animator Base_Animator;
         [SerializeField] private Rigidbody2D Base_RigidBody2D;   
-        [SerializeField] private HealthBarUI Base_HealthBarUI; 
+        [Space(10)]
+        #endregion
+
+        #region TargetingArrow
+        [Header("Targeting Arrow")]
+        [SerializeField] private PlayerTargetArrowScript TargetingArrow_Arrow;
+        [SerializeField] private GameObject TargetingArrow_Target;
+        [SerializeField] private float TargetingArrow_MaximumDistanceToShow = 4f;
         [Space(10)]
         #endregion
 
@@ -103,12 +114,36 @@ namespace Assets.Scripts.Shared
         [Space(10)]
         #endregion
 
+        #region Health   
+        [Header("Health")]      
+        [SerializeField] private HealthBarUI Base_HealthBarUI; 
+        [SerializeField] private float Health_MaximumHealth = 100;
+        [SerializeField] private AudioSource AudioSource_DamageTaken;
+        [Space(10)]
+        #endregion
 
+        #region Damaging
+        [Header("Damaging")] 
+        [SerializeField] private GameObject PlayerDamageNumberPrefab;
+        [SerializeField] private Canvas PlayerDamageNumberParent;
+        [SerializeField] private GameObject PlayerDamageNumberSpawnLocation;
+        [SerializeField] private float DamageImmunityTime = 0.5f;
+        
+        [Space(10)]
+        #endregion
               
         private bool Movement_Grounded = false;
         private bool isAttacking = false;
         private bool attackCompleted = true;
-
+        private bool isImmuneToDamage;
+        private HealthSystem _healthSystem;
+        private IInteractable currentInteractableEntity;
+        private bool _isActive;
+        
+        #region Events
+        public event EventHandler<PlayerInteractedEventArgs> OnPlayerInteracted;        
+        public event EventHandler<PlayerDeathEventArgs> OnPlayerDeath;
+        #endregion
 
         private void healthSystem_OnDead(object sender, System.EventArgs e)
         {
@@ -140,13 +175,16 @@ namespace Assets.Scripts.Shared
             Movement_PlayerFacingDirection = PlayerFacingDirection.Right;
             StartSpawningWaterBubbles();
             Speaking_Textbox.Hide();
-            _healthSystem = new HealthSystem(100);
+            _healthSystem = new HealthSystem(Health_MaximumHealth);
             _healthSystem.OnDead += healthSystem_OnDead;
             _healthSystem.OnHealed += healthSystem_OnHealed;
             _healthSystem.OnDamaged += healthSystem_OnDamaged;
             _healthSystem.OnHealthMaxChanged += healthSystem_OnHealthMaxChanged;
             _healthSystem.OnHealthChanged += healthSystem_OnHealthChanged;
             PlayerMovementMode = PlayerMovementMode.Walking;
+
+            TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
+            TargetingArrow_Arrow.Toggle(true);
         }
 
         void Update ()
@@ -171,6 +209,7 @@ namespace Assets.Scripts.Shared
                     HandleJump();
                     HandleAttack();
                     HandleInteract();
+                    HandleDamageFromDamagingZones();
 
                     //Check if character just landed on the ground
                     if (!Movement_Grounded && Movement_GroundSensor.State())
@@ -204,6 +243,7 @@ namespace Assets.Scripts.Shared
             }
         }
 
+
         private void HandleSetup()
         {
             Base_Animator.SetBool(PlayerConstants.Animation_GunEquiped, PlayerEquipment == PlayerEquipment.Gun);
@@ -228,24 +268,30 @@ namespace Assets.Scripts.Shared
             {
                 Base_HealthBarUI.gameObject.SetActive(false);
             }
+
+            if(Options_ShowTargetingArrow && !TargetingArrow_Arrow.IsToggled())
+            {
+                TargetingArrow_Arrow.Toggle(true);
+            }
+            else if(!Options_ShowTargetingArrow && TargetingArrow_Arrow.IsToggled())
+            {
+                TargetingArrow_Arrow.Toggle(false);
+            }
         }
        
         public void SetSwimmingMode()
         {
             Base_Animator.runtimeAnimatorController = WaterController; 
-            Debug.Log("Activating Water Mode");
         }
 
         public void SetWalkingMode()
         {
             Base_Animator.runtimeAnimatorController = LandController; 
-            Debug.Log("Activating Land Mode");
         }
 
         public void SetDeadMode()
         {
             Base_Animator.runtimeAnimatorController = DeathController; 
-            Debug.Log("Activating Dead Mode");
         }
 
         public void StartSpawningWaterBubbles()
@@ -281,7 +327,6 @@ namespace Assets.Scripts.Shared
         public void UnlockMovement()
         {
            _movementLocked = false;
-                Debug.Log("UNLOCKED");
         }
 
         public void ToggleGravity(bool toggle)
@@ -302,13 +347,71 @@ namespace Assets.Scripts.Shared
             gameObject.transform.position = newPos;
         }
 
+        public void Kill()
+        {
+            isImmuneToDamage = false;
+            Damage(99999);  
+        }
+        
+        private void HandleDamageFromDamagingZones()
+        {
+            if(ActiveDamagingZones.Count > 0)
+            {
+                float damageToTake = 0;
+                foreach (var activeDamagingZone in ActiveDamagingZones)
+                {
+                    damageToTake+= activeDamagingZone.GetDamageOnHit();
+                }
+
+                if(damageToTake > 0)
+                {
+                    Damage(damageToTake);
+                }
+            }
+            
+        }
+
+        public void Damage(float amount) 
+        {
+            if(!isImmuneToDamage)
+            {
+                AudioSource_DamageTaken.Play();
+                _healthSystem.Damage(amount);
+                
+                var damageText = Instantiate(PlayerDamageNumberPrefab, PlayerDamageNumberSpawnLocation.transform, false);    
+                damageText.transform.SetParent(PlayerDamageNumberParent.transform);
+                damageText.transform.localScale = new Vector3(1,1,1);
+                damageText.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
+
+                damageText.GetComponent<PlayerDamageNumberScript>().ShowText(amount);
+
+                Base_Animator.SetTrigger(PlayerConstants.Animation_TakeHit);
+
+                isImmuneToDamage = true;
+                StartCoroutine(RemoveDamageImmunity());
+            }
+        }
+
+        private IEnumerator RemoveDamageImmunity() 
+        {           
+            yield return new WaitForSeconds(DamageImmunityTime);            
+            isImmuneToDamage = false;
+        }
+
+        
+        public void Heal(float amount) {
+            _healthSystem.Heal(amount);
+        }
+
+
         private void HandleInteract()
         {
             if (Input.GetKeyDown(InteractionKey))
             {    
                 if(currentInteractableEntity != null)
                 {
-                    currentInteractableEntity.Interact();
+                    currentInteractableEntity.Interact();                    
+                    OnPlayerInteracted?.Invoke(this, new PlayerInteractedEventArgs(currentInteractableEntity));
                 }
             }
         }
@@ -604,7 +707,6 @@ namespace Assets.Scripts.Shared
             Speaking_Textbox.Hide();
         }
         
-        private bool _isActive;
         public void SetPlayerActive(bool active)
         {
             _isActive = active;
@@ -620,8 +722,7 @@ namespace Assets.Scripts.Shared
             return gameObject;
         }
 
-        public event EventHandler<PlayerDeathEventArgs> OnPlayerDeath;
-        public void Die()
+        private void Die()
         {
             PlayerMovementMode = PlayerMovementMode.Dead;
             StopMovement();
@@ -629,7 +730,6 @@ namespace Assets.Scripts.Shared
             AudioSource_Death.Play();
             if(PlayerMovementMode != PlayerMovementMode.Swimming)
             {
-                Debug.Log("Bool set");
                 Base_Animator.SetBool(PlayerConstants.Animation_Dead, true);
             }
             Options_ShowHealthBar = false;
@@ -646,7 +746,6 @@ namespace Assets.Scripts.Shared
         }
 
 
-        private HealthSystem _healthSystem;
         public HealthSystem GetHealthSystem()
         {
             return _healthSystem;
@@ -654,7 +753,6 @@ namespace Assets.Scripts.Shared
 
 
 
-        IInteractable currentInteractableEntity;
 
         #region Collisions
 
@@ -662,10 +760,10 @@ namespace Assets.Scripts.Shared
         [SerializeField] private string WaterExitTagName = "WaterExit";
         [SerializeField] private string KillZoneTagName = "KillZone";
         [SerializeField] private string InteractableTagName = "Interactable";
+        [SerializeField] private string DamagingZoneTagName = "DamagingZone";
 
         void OnTriggerEnter2D(Collider2D other)
         {         
-            Debug.Log("Collision with " + other.name);
             if(other.tag == WaterEnterTagName && PlayerMovementMode != PlayerMovementMode.Swimming && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 CreateSwimmingBubbles();               
@@ -681,22 +779,41 @@ namespace Assets.Scripts.Shared
             }
             else if(other.tag == KillZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                _healthSystem.Damage(99999);                
+                Kill();              
             }
             else if(other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 currentInteractableEntity = other.gameObject.GetComponent<IInteractable>();      
                 ShowTooltip(currentInteractableEntity.GetObjectName(),InteractionKey.ToString());
+                currentInteractableEntity.ShowInteractibility();
+            }
+            else if(other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
+            {
+                IDamagingZone damagingZone = other.gameObject.GetComponent<IDamagingZone>();    
+
+                if(!ActiveDamagingZones.Any(x => x.GetZoneKey() == damagingZone.GetZoneKey()))
+                {
+                    ActiveDamagingZones.Add(damagingZone);      
+                }
+                
+                Damage(damagingZone.GetDamageOnHit());
             }
         }
 
+
+        List<IDamagingZone> ActiveDamagingZones = new List<IDamagingZone>();
+
         void OnTriggerExit2D(Collider2D other)
         {         
-            Debug.Log("Exited Collision with " + other.name);
-           if(other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
+            if(other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 currentInteractableEntity = null;
                 HideTooltip();
+            }
+            else if(other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
+            {
+                IDamagingZone damagingZone = other.gameObject.GetComponent<IDamagingZone>();      
+                ActiveDamagingZones.Remove(damagingZone);
             }
         }
 
@@ -707,5 +824,13 @@ namespace Assets.Scripts.Shared
     public class PlayerDeathEventArgs : EventArgs
     {
         public PlayerDeathEventArgs(){}
+    }
+
+    public class PlayerInteractedEventArgs : EventArgs
+    {
+        public IInteractable InteractedWith;
+        public PlayerInteractedEventArgs(IInteractable interactedWith){
+            InteractedWith = interactedWith;
+        }
     }
 }

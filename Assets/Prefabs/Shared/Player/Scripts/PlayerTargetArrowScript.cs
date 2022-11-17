@@ -6,21 +6,46 @@ namespace Assets.Scripts.Shared
 {
     public class PlayerTargetArrowScript : MonoBehaviour
     {
-        [SerializeField] private GameObject ObjectToTarget;
-        [SerializeField] private PlayerScript Player;
-        [SerializeField] private float MaximumDistanceToShow = 4f;
-        private SpriteRenderer m_SpriteRenderer;
+        private GameObject ObjectToTarget;
+        private PlayerScript Player;
+        private float MaximumDistanceToShow = 4f;
+        private SpriteRenderer m_SpriteRenderer;        
+        private bool Toggled;
+
+        public void Setup(PlayerScript player, GameObject objectToTarget, float maximumDistanceToShow)
+        {
+            Player = player;
+            ObjectToTarget = objectToTarget;
+            MaximumDistanceToShow = maximumDistanceToShow;
+            isReady = true;
+        }
+
+        public void UpdateTarget(GameObject objectToTarget)
+        {
+            ObjectToTarget = objectToTarget;
+            isReady = ObjectToTarget != null;
+        }
+
+        public void Toggle(bool toggled)
+        {
+            Toggled = toggled;
+        }
+
+        public bool IsToggled()
+        {
+            return Toggled;
+        }
 
         // Start is called before the first frame update
         void Start()
         {
-            isReady = true;
             m_SpriteRenderer = GetComponent<SpriteRenderer>();
+            m_SpriteRenderer.enabled  = false;
         }
         private bool isReady = false;
         void FixedUpdate()
         {
-            if(isReady)
+            if(isReady && Toggled)
             {   
                 float distance = Vector3.Distance (ObjectToTarget.transform.position, Player.GetGameObject().transform.position);
                 if(distance > MaximumDistanceToShow)

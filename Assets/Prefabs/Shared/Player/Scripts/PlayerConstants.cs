@@ -13,5 +13,7 @@ namespace Assets.Scripts.Shared
         public static string Animation_Jump = "Jump";
         public static string Animation_Dead = "Dead";
         public static string Animation_AnimState = "AnimState";
+        public static string Animation_TakeHit = "TakeHit";
+        
     }
 }

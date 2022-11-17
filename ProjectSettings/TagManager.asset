@@ -15,6 +15,7 @@ TagManager:
   - WaterEnter
   - KillZone
   - Interactable
+  - DamagingZone
   layers:
   - Default
   - TransparentFX
@@ -97,8 +98,11 @@ TagManager:
   - name: Platform_Player
     uniqueID: 2093915581
     locked: 0
-  - name: Platform_InfrontOfPlayer
+  - name: Platform_InfrontOfPlayer_1
     uniqueID: 425357679
+    locked: 0
+  - name: Platform_InfrontOfPlayer_2
+    uniqueID: 2046877405
     locked: 0
   - name: Platform_NPC
     uniqueID: 1877996139

@@ -18,6 +18,11 @@ namespace Assets.Scripts.Shared
             
         }
 
+        public void ShowInteractibility()
+        {
+            // Do stuff
+            Debug.Log("Can interact with " + GetObjectName());
+        }
         
         public void Interact()
         {

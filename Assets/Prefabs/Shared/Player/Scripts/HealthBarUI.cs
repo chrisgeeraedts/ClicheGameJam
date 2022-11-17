@@ -25,6 +25,11 @@ namespace Assets.Scripts.Shared {
             }
         }
 
+        private void FixedUpdate()
+        {            
+            gameObject.transform.position = new Vector2(getHealthSystemGameObject.transform.position.x, getHealthSystemGameObject.transform.position.y + 0.5f);
+        }
+
         /// <summary>
         /// Set the Health System for this Health Bar
         /// </summary>
