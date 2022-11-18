@@ -13,14 +13,15 @@ namespace Assets.Scripts.Shared
     {    
         #region Options
         [Header("Player Options")]
-        [SerializeField] private bool Options_ShowHealthBar = false;
-        [SerializeField] private bool Options_ShowDamageNumbers = false;
-        [SerializeField] private bool Options_CanFireGun = false;
-        [SerializeField] private bool Options_CanFireHeavyGun = false;
-        [SerializeField] private bool Options_CanAttackMelee = false;
-        [SerializeField] private bool Options_CanAttackHeavyMelee = false;
-        [SerializeField] private bool Options_CanJump = false;
-        [SerializeField] private bool Options_ShowTargetingArrow = false;
+        [SerializeField] public bool Options_ShowCharacterAvatar = false;
+        [SerializeField] public bool Options_ShowHealthBar = false;
+        [SerializeField] public bool Options_ShowDamageNumbers = false;
+        [SerializeField] public bool Options_CanFireGun = false;
+        [SerializeField] public bool Options_CanFireHeavyGun = false;
+        [SerializeField] public bool Options_CanAttackMelee = false;
+        [SerializeField] public bool Options_CanAttackHeavyMelee = false;
+        [SerializeField] public bool Options_CanJump = false;
+        [SerializeField] public bool Options_ShowTargetingArrow = false;
         [SerializeField] private KeyCode InteractionKey = KeyCode.E;
         [Space(10)]
         #endregion
@@ -35,7 +36,7 @@ namespace Assets.Scripts.Shared
         #region TargetingArrow
         [Header("Targeting Arrow")]
         [SerializeField] private PlayerTargetArrowScript TargetingArrow_Arrow;
-        [SerializeField] private GameObject TargetingArrow_Target;
+        [SerializeField] public GameObject TargetingArrow_Target;
         [SerializeField] private float TargetingArrow_MaximumDistanceToShow = 4f;
         [Space(10)]
         #endregion
@@ -122,6 +123,12 @@ namespace Assets.Scripts.Shared
         [Space(10)]
         #endregion
 
+        #region Avatar   
+        [Header("Avatar")]      
+        [SerializeField] private PlayerHealthBar PlayerHealthBar; 
+        [Space(10)]
+        #endregion
+
         #region Damaging
         [Header("Damaging")] 
         [SerializeField] private GameObject PlayerDamageNumberPrefab;
@@ -185,6 +192,8 @@ namespace Assets.Scripts.Shared
 
             TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
             TargetingArrow_Arrow.Toggle(true);
+
+            Health_CurrentHealth = Health_MaximumHealth;
         }
 
         void Update ()
@@ -243,6 +252,12 @@ namespace Assets.Scripts.Shared
             }
         }
 
+        public void SetArrow(GameObject target)
+        {
+            TargetingArrow_Target = target;
+            TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
+            TargetingArrow_Arrow.Toggle(true);
+        }
 
         private void HandleSetup()
         {
@@ -271,12 +286,26 @@ namespace Assets.Scripts.Shared
 
             if(Options_ShowTargetingArrow && !TargetingArrow_Arrow.IsToggled())
             {
+                TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
                 TargetingArrow_Arrow.Toggle(true);
             }
             else if(!Options_ShowTargetingArrow && TargetingArrow_Arrow.IsToggled())
             {
                 TargetingArrow_Arrow.Toggle(false);
             }
+
+            if(Options_ShowCharacterAvatar && !PlayerHealthBar.IsToggled())
+            {
+                PlayerHealthBar.Toggle(true);
+            }
+            else if(!Options_ShowCharacterAvatar && PlayerHealthBar.IsToggled())
+            {
+                PlayerHealthBar.Toggle(false);
+            }
+
+
+
+            
         }
        
         public void SetSwimmingMode()
@@ -371,6 +400,7 @@ namespace Assets.Scripts.Shared
             
         }
 
+        private float Health_CurrentHealth;
         public void Damage(float amount) 
         {
             if(!isImmuneToDamage)
@@ -378,17 +408,27 @@ namespace Assets.Scripts.Shared
                 AudioSource_DamageTaken.Play();
                 _healthSystem.Damage(amount);
                 
-                var damageText = Instantiate(PlayerDamageNumberPrefab, PlayerDamageNumberSpawnLocation.transform, false);    
-                damageText.transform.SetParent(PlayerDamageNumberParent.transform);
-                damageText.transform.localScale = new Vector3(1,1,1);
-                damageText.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
+                if(amount > 0)
+                {
+                    var damageText = Instantiate(PlayerDamageNumberPrefab, PlayerDamageNumberSpawnLocation.transform, false);    
+                    damageText.transform.SetParent(PlayerDamageNumberParent.transform);
+                    damageText.transform.localScale = new Vector3(1,1,1);
+                    damageText.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
 
-                damageText.GetComponent<PlayerDamageNumberScript>().ShowText(amount);
+                    damageText.GetComponent<PlayerDamageNumberScript>().ShowText(amount);
 
-                Base_Animator.SetTrigger(PlayerConstants.Animation_TakeHit);
+                    Health_CurrentHealth = Health_CurrentHealth - amount;
+                    if(Health_CurrentHealth < 0)
+                    Health_CurrentHealth = 0;
 
-                isImmuneToDamage = true;
-                StartCoroutine(RemoveDamageImmunity());
+                    PlayerHealthBar.SetFill(Health_CurrentHealth / Health_MaximumHealth);
+                    PlayerHealthBar.SetProgressText(Health_CurrentHealth+"/" +Health_MaximumHealth);
+
+                    Base_Animator.SetTrigger(PlayerConstants.Animation_TakeHit);
+
+                    isImmuneToDamage = true;
+                    StartCoroutine(RemoveDamageImmunity());
+                }
             }
         }
 
@@ -700,6 +740,12 @@ namespace Assets.Scripts.Shared
             string message = string.Format("Press <color=#910000>[{0}]</color> to activate <color=#910000>[{1}]</color>", useKey, gameEntityToUse);
             Speaking_Textbox.Show(gameObject);
             StartCoroutine(Speaking_Textbox.EasyMessage(message, 0f, false, false, 100f));
+        }
+
+        public void ShowTooltip(string tooltipText)
+        {
+            Speaking_Textbox.Show(gameObject);
+            StartCoroutine(Speaking_Textbox.EasyMessage(tooltipText, 0.125f));
         }
 
         public void HideTooltip()

@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WebGLExitScene.unity
     guid: 746bdcd052883274184b376af95aeb7b
+  - enabled: 1
+    path: Assets/Scenes/FinalBossFightScene.unity
+    guid: 6234fe67c13443d42bdf7cb75fb8efe7
   m_configObjects: {}

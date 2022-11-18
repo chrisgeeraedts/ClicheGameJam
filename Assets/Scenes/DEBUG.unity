@@ -13437,11 +13437,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!223 &517915894 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 2307152527281104288, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-  m_PrefabInstance: {fileID: 3927180520239565845}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &943206237
 GameObject:
   m_ObjectHideFlags: 0
@@ -27687,94 +27682,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerContainer
       objectReference: {fileID: 0}
-    - target: {fileID: 3927180519966493777, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180519966493777, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180519966493777, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180519966493777, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180519966493777, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180519966493777, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3927180520406929425, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 943206239}
-    - target: {fileID: 3927180521037985324, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180521037985324, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180521037985324, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180521037985324, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180521037985324, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3927180521037985324, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: Options_CanJump
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: Options_CanFireGun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: Health_MaximumHealth
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
       propertyPath: TargetingArrow_Target
       value: 
       objectReference: {fileID: 1593814868}
-    - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: Options_CanAttackMelee
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: Options_CanFireHeavyGun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: PlayerDamageNumberParent
-      value: 
-      objectReference: {fileID: 517915894}
-    - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: Options_ShowTargetingArrow
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4073220574412585875, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
-      propertyPath: Options_CanAttackHeavyMelee
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be991e137d3b2f74a875a37c351fe928, type: 3}
 --- !u!1001 &5597862843917614015

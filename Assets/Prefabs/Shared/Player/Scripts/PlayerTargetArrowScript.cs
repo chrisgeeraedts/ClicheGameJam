@@ -47,21 +47,24 @@ namespace Assets.Scripts.Shared
         {
             if(isReady && Toggled)
             {   
-                float distance = Vector3.Distance (ObjectToTarget.transform.position, Player.GetGameObject().transform.position);
-                if(distance > MaximumDistanceToShow)
+                if(ObjectToTarget != null)
                 {
-                    // Show renderer
-                    m_SpriteRenderer.enabled = true;
+                    float distance = Vector3.Distance (ObjectToTarget.transform.position, Player.GetGameObject().transform.position);
+                    if(distance > MaximumDistanceToShow)
+                    {
+                        // Show renderer
+                        m_SpriteRenderer.enabled = true;
 
-                    Vector3 direction = (ObjectToTarget.transform.position - Player.GetGameObject().transform.position).normalized;    
-                    Vector3 neutralDir = transform.up;
-                    float angle = Vector3.SignedAngle(neutralDir, direction, Vector3.forward) + 90f;
-                    direction = Quaternion.AngleAxis(angle, Vector3.forward) * neutralDir;
-                    transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
-                    transform.position = Player.GetGameObject().transform.position;
-                }
-                else{
-                    m_SpriteRenderer.enabled  = false;
+                        Vector3 direction = (ObjectToTarget.transform.position - Player.GetGameObject().transform.position).normalized;    
+                        Vector3 neutralDir = transform.up;
+                        float angle = Vector3.SignedAngle(neutralDir, direction, Vector3.forward) + 90f;
+                        direction = Quaternion.AngleAxis(angle, Vector3.forward) * neutralDir;
+                        transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+                        transform.position = Player.GetGameObject().transform.position;
+                    }
+                    else{
+                        m_SpriteRenderer.enabled  = false;
+                    }
                 }
             }
         }
