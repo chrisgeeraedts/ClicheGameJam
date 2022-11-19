@@ -8,6 +8,7 @@ namespace Assets.Scripts.Shared
 
         void Interact();
         string GetObjectName();
+        bool CanInteract();
         void ShowInteractibility();
     }
 }

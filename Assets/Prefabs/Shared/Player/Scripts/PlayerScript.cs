@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.EventSystems;
+using Assets.Scripts.FinalBossScene;
 
 namespace Assets.Scripts.Shared
 {
@@ -148,7 +149,8 @@ namespace Assets.Scripts.Shared
         private bool _isActive;
         
         #region Events
-        public event EventHandler<PlayerInteractedEventArgs> OnPlayerInteracted;        
+        public event EventHandler<PlayerInteractedEventArgs> OnPlayerInteracted;  
+        public event EventHandler<PlayerMilestoneHitEventArgs> OnPlayerMilestoneHit;        
         public event EventHandler<PlayerDeathEventArgs> OnPlayerDeath;
         #endregion
 
@@ -174,7 +176,7 @@ namespace Assets.Scripts.Shared
         }
 
 
-        void Awake(){
+        void Start(){
             SetPlayerActive(true);
             Base_Animator = GetComponent<Animator>();
             Base_RigidBody2D = GetComponent<Rigidbody2D>();
@@ -189,11 +191,11 @@ namespace Assets.Scripts.Shared
             _healthSystem.OnHealthMaxChanged += healthSystem_OnHealthMaxChanged;
             _healthSystem.OnHealthChanged += healthSystem_OnHealthChanged;
             PlayerMovementMode = PlayerMovementMode.Walking;
-
+            ActiveDamagingZones = new List<IDamagingZone>();
             TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
             TargetingArrow_Arrow.Toggle(true);
-
             Health_CurrentHealth = Health_MaximumHealth;
+            PlayerHealthBar.SetFill(Health_CurrentHealth / Health_MaximumHealth);
         }
 
         void Update ()
@@ -384,12 +386,16 @@ namespace Assets.Scripts.Shared
         
         private void HandleDamageFromDamagingZones()
         {
-            if(ActiveDamagingZones.Count > 0)
+
+            if(ActiveDamagingZones != null && ActiveDamagingZones.Count > 0)
             {
                 float damageToTake = 0;
                 foreach (var activeDamagingZone in ActiveDamagingZones)
                 {
-                    damageToTake+= activeDamagingZone.GetDamageOnHit();
+                    if(activeDamagingZone != null)
+                    {
+                        damageToTake+= activeDamagingZone.GetDamageOnHit();
+                    }
                 }
 
                 if(damageToTake > 0)
@@ -397,7 +403,6 @@ namespace Assets.Scripts.Shared
                     Damage(damageToTake);
                 }
             }
-            
         }
 
         private float Health_CurrentHealth;
@@ -724,7 +729,7 @@ namespace Assets.Scripts.Shared
 
         public void Say(string message)
         {
-            Speaking_Textbox.Show(gameObject);
+            Speaking_Textbox.Show(gameObject, 3f);
             StartCoroutine(Speaking_Textbox.EasyMessage(message));
             StartCoroutine(HideSay(message));
         }
@@ -738,13 +743,13 @@ namespace Assets.Scripts.Shared
         public void ShowTooltip(string gameEntityToUse, string useKey)
         {
             string message = string.Format("Press <color=#910000>[{0}]</color> to activate <color=#910000>[{1}]</color>", useKey, gameEntityToUse);
-            Speaking_Textbox.Show(gameObject);
+            Speaking_Textbox.Show(gameObject, 3f);
             StartCoroutine(Speaking_Textbox.EasyMessage(message, 0f, false, false, 100f));
         }
 
         public void ShowTooltip(string tooltipText)
         {
-            Speaking_Textbox.Show(gameObject);
+            Speaking_Textbox.Show(gameObject, 3f);
             StartCoroutine(Speaking_Textbox.EasyMessage(tooltipText, 0.125f));
         }
 
@@ -827,27 +832,38 @@ namespace Assets.Scripts.Shared
             {
                 Kill();              
             }
+            else if(other.tag == "MilestoneCollider" && PlayerMovementMode != PlayerMovementMode.Dead)
+            {
+                var currentMilestoneEntity = other.gameObject.GetComponent<MilestoneColliderScript>();                 
+                Debug.Log("milestone hit: " + currentMilestoneEntity.StageId);   
+                OnPlayerMilestoneHit?.Invoke(this, new PlayerMilestoneHitEventArgs(currentMilestoneEntity));    
+                Destroy(other);    
+            }
             else if(other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                currentInteractableEntity = other.gameObject.GetComponent<IInteractable>();      
-                ShowTooltip(currentInteractableEntity.GetObjectName(),InteractionKey.ToString());
-                currentInteractableEntity.ShowInteractibility();
+                currentInteractableEntity = other.gameObject.GetComponent<IInteractable>();    
+                if(currentInteractableEntity.CanInteract())  
+                {
+                    ShowTooltip(currentInteractableEntity.GetObjectName(),InteractionKey.ToString());
+                    currentInteractableEntity.ShowInteractibility();
+                }
             }
             else if(other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 IDamagingZone damagingZone = other.gameObject.GetComponent<IDamagingZone>();    
-
-                if(!ActiveDamagingZones.Any(x => x.GetZoneKey() == damagingZone.GetZoneKey()))
+                if(damagingZone != null)
                 {
-                    ActiveDamagingZones.Add(damagingZone);      
+                    if(!ActiveDamagingZones.Any(x => x.GetZoneKey() == damagingZone.GetZoneKey()))
+                    {
+                        ActiveDamagingZones.Add(damagingZone);      
+                    }                
+                    Damage(damagingZone.GetDamageOnHit());
                 }
-                
-                Damage(damagingZone.GetDamageOnHit());
             }
         }
 
 
-        List<IDamagingZone> ActiveDamagingZones = new List<IDamagingZone>();
+        List<IDamagingZone> ActiveDamagingZones;
 
         void OnTriggerExit2D(Collider2D other)
         {         
@@ -879,4 +895,13 @@ namespace Assets.Scripts.Shared
             InteractedWith = interactedWith;
         }
     }
+
+    public class PlayerMilestoneHitEventArgs : EventArgs
+    {
+        public MilestoneColliderScript MilestoneCollider;
+        public PlayerMilestoneHitEventArgs(MilestoneColliderScript milestoneCollider){
+            MilestoneCollider = milestoneCollider;
+        }
+    }
 }
+

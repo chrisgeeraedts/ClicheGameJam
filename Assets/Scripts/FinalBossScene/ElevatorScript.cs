@@ -35,6 +35,12 @@ namespace Assets.Scripts.FinalBossScene
                 Toggle(true);
             }
         }
+
+        public bool CanInteract()
+        {
+            return !Toggled;
+        }
+
         public string GetObjectName()
         {
             return "Elevator";

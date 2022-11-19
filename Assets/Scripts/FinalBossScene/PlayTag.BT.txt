@@ -1,0 +1,24 @@
+tree("root")
+     fallback
+         tree("AttackPlayer")
+         tree("ApproachPlayer")
+         tree("Idle")
+         
+ tree("AttackPlayer")
+     while IsPlayerInAttackRange
+         sequence
+             AimAt_Player
+             Attack_Player
+             
+ tree("ApproachPlayer")
+     while
+         sequence
+             IsPlayerVisible
+             not IsPlayerInAttackRange
+         sequence
+             SetDestination_Player
+             MoveTo_Destination
+         
+ tree("Idle")
+     while not IsPlayerVisible
+         DoNothing

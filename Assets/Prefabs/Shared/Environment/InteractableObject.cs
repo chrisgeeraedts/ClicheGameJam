@@ -17,6 +17,10 @@ namespace Assets.Scripts.Shared
         {
             
         }
+        public bool CanInteract()
+        {
+            return true;
+        }
 
         public void ShowInteractibility()
         {

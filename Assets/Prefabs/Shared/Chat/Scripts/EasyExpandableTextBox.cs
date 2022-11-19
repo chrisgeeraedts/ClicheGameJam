@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
         public TextMeshProUGUI textTMP;
         public Sprite boxSprite;
         public TMP_FontAsset font;
+        public float y_offset = 3f;
         [TextArea]
         public string text;
 
@@ -38,6 +39,7 @@ using Random = UnityEngine.Random;
         private static readonly WaitUntil waitUntil = new (() => mouseButtonPressed);
         private readonly Dictionary<float, WaitForSeconds> waitPool = new();
         
+
         private GameObject _parent;
     
         public void Awake()
@@ -54,7 +56,7 @@ using Random = UnityEngine.Random;
             }
             if(_parent != null)
             {
-                gameObject.transform.position = new Vector2(_parent.transform.position.x, _parent.transform.position.y + 3f);
+                gameObject.transform.position = new Vector2(_parent.transform.position.x, _parent.transform.position.y + y_offset);
             }
         }
 
@@ -68,8 +70,9 @@ using Random = UnityEngine.Random;
             return wait;
         }
 
-        public void Show(GameObject parent)
+        public void Show(GameObject parent, float _y_offset)
         {
+            y_offset = _y_offset;
             _parent = parent;
             gameObject.SetActive(true);
         }

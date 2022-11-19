@@ -670,7 +670,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3927180519224504475}
-  - component: {fileID: 3927180519224504455}
   - component: {fileID: 3927180519224504452}
   - component: {fileID: 3927180519224504453}
   - component: {fileID: 3927180519224504474}
@@ -702,41 +701,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.81, y: 144.03}
   m_SizeDelta: {x: 811.46, y: 218.19}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3927180519224504455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3927180519224504472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab98ab7780c4719459a6f2fd86f28596, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textTMP: {fileID: 0}
-  boxSprite: {fileID: 21300000, guid: 170264ae21af8d343bbfc030f8092c03, type: 3}
-  font: {fileID: 11400000, guid: 0991b17ccfeeed343a95220ef7b51a28, type: 2}
-  text: Press <color=#910000>[E]</color> to activate <color=#910000>Lever</color>
-  fontSize: 22
-  autoSize: 0
-  color: {r: 0, g: 0, b: 0, a: 1}
-  alignment: 258
-  autoSizeMin: 20
-  autoSizeMax: 72
-  style: 0
-  settings: 1
-  left: 30
-  right: 30
-  top: 5
-  bottom: 20
-  boxAlignment: 7
-  audioSource: {fileID: 0}
-  typingSounds:
-  - {fileID: 8300000, guid: 0de4776c510f7c349bba03aa695e1023, type: 3}
-  - {fileID: 8300000, guid: b6553a9841bd9ef48a9f276529643fab, type: 3}
-  - {fileID: 8300000, guid: a43000ec72fcd3d4c92c0294bc66965b, type: 3}
-  - {fileID: 8300000, guid: 205ec0bfcef742a45926752b1d887782, type: 3}
 --- !u!114 &3927180519224504452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1069,8 +1033,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 1919470435
-  m_SortingOrder: 0
+  m_SortingLayerID: 425357679
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &3927180520406929430
 MonoBehaviour:
@@ -1464,7 +1428,7 @@ PrefabInstance:
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: Speaking_Textbox
       value: 
-      objectReference: {fileID: 3927180519224504455}
+      objectReference: {fileID: 0}
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: WaterExitTagName
       value: WaterExit
@@ -1472,6 +1436,10 @@ PrefabInstance:
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: DamageImmunityTime
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
+      propertyPath: Movement_JumpForce
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: Options_CanFireGun
@@ -1503,7 +1471,7 @@ PrefabInstance:
       objectReference: {fileID: 4146681711825077973}
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: Options_CanFireHeavyGun
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: PlayerDamageNumberParent
@@ -1519,10 +1487,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: Options_ShowTargetingArrow
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: Options_CanAttackHeavyMelee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
+      propertyPath: Options_ShowCharacterAvatar
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1010734208851074980, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
@@ -1539,11 +1511,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3448309847460758258, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.4075456
+      value: 7.03
       objectReference: {fileID: 0}
     - target: {fileID: 3448309847460758258, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.74971753
+      value: -2.53
       objectReference: {fileID: 0}
     - target: {fileID: 3448309847460758258, guid: 484a0c6189ddc294fa194429fa8d7eec, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1660,11 +1632,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8858756933474203719, guid: a0455ba2b5ab98d49a5b2a22345b9b2d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.15
+      value: 7.05
       objectReference: {fileID: 0}
     - target: {fileID: 8858756933474203719, guid: a0455ba2b5ab98d49a5b2a22345b9b2d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.39
+      value: -3.2
       objectReference: {fileID: 0}
     - target: {fileID: 8858756933474203719, guid: a0455ba2b5ab98d49a5b2a22345b9b2d, type: 3}
       propertyPath: m_LocalPosition.z
