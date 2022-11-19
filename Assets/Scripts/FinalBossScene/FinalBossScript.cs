@@ -167,12 +167,12 @@ namespace Assets.Scripts.FinalBossScene
             if(transform.position.x < PlayerScript.gameObject.transform.position.x)
             {                
                 Movement_FacingRight = true;                
-                transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);         
+                transform.localScale = new Vector3 (Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);         
             }
             else
             {
                 Movement_FacingRight = false;
-                transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z); 
+                transform.localScale = new Vector3 (-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z); 
             }
         }
 
