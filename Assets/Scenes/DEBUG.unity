@@ -27648,6 +27648,17 @@ CompositeCollider2D:
       - {x: 34.859413, y: -17}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.24
+--- !u!114 &2031483253 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1349060140332917406, guid: a5cb7e21d1130dd488da85df6f104864, type: 3}
+  m_PrefabInstance: {fileID: 859290176}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27549faf240edc042a023bea11941ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &732572279768301950 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4584949315081663445, guid: 37aac32bb630c3241972e85c4c2f381e, type: 3}
@@ -27682,6 +27693,7 @@ GameObject:
   - component: {fileID: 3158925024193164971}
   - component: {fileID: 3158925024193164970}
   - component: {fileID: 3158925024193164972}
+  - component: {fileID: 3158925024193164974}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -27811,7 +27823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Base_Animator: {fileID: 3158925024193164968}
   Base_RigidBody2D: {fileID: 3158925024193164969}
-  PlayerScript: {fileID: 0}
+  PlayerScript: {fileID: 2031483253}
   Movement_FacingRight: 1
   _movementLocked: 0
   Movement_Speed: 2
@@ -27863,11 +27875,37 @@ MonoBehaviour:
   autoReset: 1
   tickOn: 0
   sourceInfos:
-  - isFoldout: 1
+  - isFoldout: 0
     breakPoints: 
     breakPointStatuses: 
     collapsedLines: 
     btScript: 
+--- !u!61 &3158925024193164974
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3158925024193164965}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.040195942, y: 1.0356213}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 3.125, y: 2.5}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.9481363, y: 1.9318964}
+  m_EdgeRadius: 0
 --- !u!1 &3158925024855497978
 GameObject:
   m_ObjectHideFlags: 0
