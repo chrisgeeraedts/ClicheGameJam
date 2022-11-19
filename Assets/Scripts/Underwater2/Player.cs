@@ -225,11 +225,13 @@ namespace Assets.Scripts.Underwater2
         private void OnTriggerEnter2D(Collider2D collision)
         {
             //TODO: Add locations to breathe with trigger colliders on them
+            Debug.Log("Can breathe");
             inUnderwaterBreathableLocation = true;
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
+            Debug.Log("Can NOT breathe");
             inUnderwaterBreathableLocation = false;
         }
 
