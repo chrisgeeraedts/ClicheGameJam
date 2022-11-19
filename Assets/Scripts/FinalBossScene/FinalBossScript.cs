@@ -71,18 +71,7 @@ namespace Assets.Scripts.FinalBossScene
             {
                 Debug.Log(PlayerInDamagingZone);
                 FlipCharacter();
-
-                //var step =  Movement_Speed * Time.deltaTime; // calculate distance to move
-                //transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
-//
-                //if (Base_RigidBody2D.velocity.magnitude > 0)
-                //{
-                //    Base_Animator.SetInteger("AnimState", 1);
-                //}
-                //else
-                //{
-                //    Base_Animator.SetInteger("AnimState", 0);
-                //}
+                MoveBoss();
             }
             
         }
@@ -115,7 +104,7 @@ namespace Assets.Scripts.FinalBossScene
         public bool IsPlayerInAttackRange()
         {            
             //Debug.Log("Checking if player is in attack range");
-            return false;
+            return (transform.position.x - PlayerScript.gameObject.transform.position.x) < AttackRange;
         }
 
         [Task]
@@ -176,6 +165,20 @@ namespace Assets.Scripts.FinalBossScene
             }
         }
 
+        void MoveBoss()
+        {
+            var step =  Movement_Speed * Time.deltaTime; // calculate distance to move
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+
+            if (Base_RigidBody2D.velocity.magnitude > 0)
+            {
+                Base_Animator.SetInteger("AnimState", 1);
+            }
+            else
+            {
+                Base_Animator.SetInteger("AnimState", 0);
+            }
+        }
 
 
         void OnTriggerEnter2D(Collider2D other)
