@@ -100,6 +100,7 @@ namespace Assets.Scripts.Shared
         #region MeleeAttack   
         [Header("Sword Configuration")]
         [SerializeField] private AudioSource[] AudioSources_Attacking_MeleeAttack;
+        [SerializeField] private float AttackRange;
         [Space(10)]
         #endregion
 

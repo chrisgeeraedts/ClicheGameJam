@@ -36,11 +36,19 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] private float Speaking_TextVisibleDuration;
         #endregion
 
+        #region Attacking
+        [Header("Attacking")]  
+        [SerializeField] private float AttackRange;
+        #endregion
+
         public bool IsActive = false;
         public void SetActive()
         {
             IsActive = true;
         }
+
+        public bool PlayerInDamagingZone = false;
+
 
         // Start is called before the first frame update
         void Start()
@@ -61,6 +69,7 @@ namespace Assets.Scripts.FinalBossScene
         {
             if(IsActive)
             {
+                Debug.Log(PlayerInDamagingZone);
                 FlipCharacter();
 
                 //var step =  Movement_Speed * Time.deltaTime; // calculate distance to move
@@ -165,6 +174,24 @@ namespace Assets.Scripts.FinalBossScene
                 Movement_FacingRight = false;
                 transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z); 
             }
+        }
+
+
+
+        void OnTriggerEnter2D(Collider2D other)
+        {         
+            if(IsActive && other.tag == "Player")
+            {
+                PlayerInDamagingZone = true;
+            }            
+        }
+
+        void OnTriggerExit2D(Collider2D other)
+        {         
+            if(IsActive && other.tag == "Player")
+            {
+                PlayerInDamagingZone = false;
+            }   
         }
     }
 }
