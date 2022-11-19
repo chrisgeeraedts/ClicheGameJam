@@ -60,7 +60,7 @@ namespace Assets.Scripts.Shared
         [Header("Movement Configuration")]      
         [SerializeField] private bool Movement_FacingRight = true;
         [SerializeField] private bool _movementLocked;    
-        [SerializeField] private PlayerMovementMode PlayerMovementMode;
+        [SerializeField] public PlayerMovementMode PlayerMovementMode;
         [SerializeField] private PlayerFacingDirection Movement_PlayerFacingDirection;
         [Space(10)]
         #endregion
@@ -99,8 +99,11 @@ namespace Assets.Scripts.Shared
 
         #region MeleeAttack   
         [Header("Sword Configuration")]
-        [SerializeField] private AudioSource[] AudioSources_Attacking_MeleeAttack;
-        [SerializeField] private float AttackRange;
+        [SerializeField] private AudioSource[] AudioSources_Attacking_MeleeAttack;        
+        [SerializeField] private float AttackRange = 2f;
+        [SerializeField] private float AttackCooldown = 1f;
+        [SerializeField] private float AttackDamage = 10f;
+        [SerializeField] private float AttackTimeUntillAttackHits = 0.5f;
         [Space(10)]
         #endregion
 
@@ -191,12 +194,14 @@ namespace Assets.Scripts.Shared
             _healthSystem.OnDamaged += healthSystem_OnDamaged;
             _healthSystem.OnHealthMaxChanged += healthSystem_OnHealthMaxChanged;
             _healthSystem.OnHealthChanged += healthSystem_OnHealthChanged;
+            Base_HealthBarUI.SetHealthSystem(_healthSystem);
             PlayerMovementMode = PlayerMovementMode.Walking;
             ActiveDamagingZones = new List<IDamagingZone>();
+            ActiveEnemiesInDamageArea = new List<IEnemy>();
             TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
             TargetingArrow_Arrow.Toggle(true);
             Health_CurrentHealth = Health_MaximumHealth;
-            PlayerHealthBar.SetFill(Health_CurrentHealth / Health_MaximumHealth);
+            PlayerHealthBar.SetFill(1);
         }
 
         void Update ()
@@ -290,11 +295,11 @@ namespace Assets.Scripts.Shared
             if(Options_ShowTargetingArrow && !TargetingArrow_Arrow.IsToggled())
             {
                 TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
-                TargetingArrow_Arrow.Toggle(true);
+                ToggleTargetingArrow(true);
             }
             else if(!Options_ShowTargetingArrow && TargetingArrow_Arrow.IsToggled())
             {
-                TargetingArrow_Arrow.Toggle(false);
+                ToggleTargetingArrow(false);
             }
 
             if(Options_ShowCharacterAvatar && !PlayerHealthBar.IsToggled())
@@ -309,6 +314,11 @@ namespace Assets.Scripts.Shared
 
 
             
+        }
+
+        public void ToggleTargetingArrow(bool toggle)
+        {
+            TargetingArrow_Arrow.Toggle(toggle);
         }
        
         public void SetSwimmingMode()
@@ -462,69 +472,78 @@ namespace Assets.Scripts.Shared
             }
         }
 
+        public bool AttackOnCooldown;
         private void HandleAttack()
         {
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(0))
-            {      
-                if(!isAttacking && attackCompleted)
-                {
-                    if(PlayerMovementMode == PlayerMovementMode.Walking)
+            if(!_movementLocked)
+            {
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(0))
+                {      
+                    if(!isAttacking && attackCompleted && !AttackOnCooldown)
                     {
-                        if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireGun)
+                        if(PlayerMovementMode == PlayerMovementMode.Walking)
                         {
-                            isAttacking = true;  
-                            Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
-                            var bulletInstance = Instantiate(
-                                Attacking_Gun_BulletPrefab, 
-                                Attacking_Gun_ShootStartPoint.transform.position, 
-                                Quaternion.identity);
+                            if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireGun)
+                            {
+                                isAttacking = true;  
+                                Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
+                                var bulletInstance = Instantiate(
+                                    Attacking_Gun_BulletPrefab, 
+                                    Attacking_Gun_ShootStartPoint.transform.position, 
+                                    Quaternion.identity);
 
-                            // select random audio source
-                            int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_GunFire.Length);
-                            AudioSources_Attacking_GunFire[randomAudioNumber].Play();
-                            var bulletRigidBody = bulletInstance.GetComponent<Rigidbody2D>();
-                            var horizontal = Movement_FacingRight ? Attacking_Gun_BulletSpeed : -Attacking_Gun_BulletSpeed;
-                            bulletRigidBody.velocity = new Vector2(horizontal, 0);
-                            StartCoroutine(AttackFinish(false));
-                        }
-                        else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackMelee)
-                        {                        
-                            isAttacking = true;  
-                            LockMovement();
-                            Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
-                            // select random audio source
-                            int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
-                            AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
-                            StartCoroutine(AttackFinish(false));
+                                // select random audio source
+                                int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_GunFire.Length);
+                                AudioSources_Attacking_GunFire[randomAudioNumber].Play();
+                                var bulletRigidBody = bulletInstance.GetComponent<Rigidbody2D>();
+                                var horizontal = Movement_FacingRight ? Attacking_Gun_BulletSpeed : -Attacking_Gun_BulletSpeed;
+                                bulletRigidBody.velocity = new Vector2(horizontal, 0);
+                                StartCoroutine(AttackFinish(false));
+                            }
+                            else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackMelee)
+                            {                        
+                                isAttacking = true;  
+                                AttackOnCooldown = true;
+                                LockMovement();
+                                Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
+                                // select random audio source
+                                int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
+                                AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
+                                
+                                StartCoroutine(CompleteLightAttack());    
+
+                                StartCoroutine(AttackFinish(false));
+                            }
                         }
                     }
                 }
-            }
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(1))
-            {      
-                if(!isAttacking && attackCompleted)
-                {
-                    if(PlayerMovementMode == PlayerMovementMode.Walking)
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(1))
+                {      
+                    if(!isAttacking && attackCompleted)
                     {
-                        if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireHeavyGun)
+                        if(PlayerMovementMode == PlayerMovementMode.Walking)
                         {
-                            isAttacking = true;  
-                            //Maybe throw grenade?
-                            StartCoroutine(AttackFinish(true));
-                        }
-                        else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackHeavyMelee)
-                        {                        
-                            isAttacking = true;  
-                            LockMovement();
-                            Base_Animator.SetTrigger(PlayerConstants.Animation_HeavyAttack);
-                            // select random audio source
-                            int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
-                            AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
-                            StartCoroutine(AttackFinish(true));
+                            if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireHeavyGun)
+                            {
+                                isAttacking = true;  
+                                //Maybe throw grenade?
+                                StartCoroutine(AttackFinish(true));
+                            }
+                            else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackHeavyMelee)
+                            {                        
+                                isAttacking = true;  
+                                LockMovement();
+                                Base_Animator.SetTrigger(PlayerConstants.Animation_HeavyAttack);
+                                // select random audio source
+                                int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
+                                AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
+                                StartCoroutine(AttackFinish(true));
+                            }
                         }
                     }
                 }
             }
+            
         }
 
         IEnumerator AttackFinish(bool attackWasHeavy)
@@ -551,6 +570,30 @@ namespace Assets.Scripts.Shared
             attackCompleted = true; 
         }
 
+
+        IEnumerator CompleteLightAttack() {
+            
+            yield return new WaitForSeconds(AttackTimeUntillAttackHits);
+            if(ActiveEnemiesInDamageArea.Any())
+            {
+                foreach (var ActiveEnemyInDamageArea in ActiveEnemiesInDamageArea)
+                {
+                    ActiveEnemyInDamageArea.Damage(AttackDamage);
+                }
+            }
+            StartCoroutine(ReturnAttackCooldown());
+        }
+
+        IEnumerator ReturnAttackCooldown() {
+            yield return new WaitForSeconds(AttackCooldown);
+            AttackOnCooldown = false;
+        }
+
+
+
+
+        private float KnockBackForceOnX;
+
         private void HandleJump()
         {
             if (!CanJump()) return;
@@ -562,7 +605,7 @@ namespace Assets.Scripts.Shared
                     Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
                     Movement_Grounded = false;
                     Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
-                    Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce);
+                    Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x + KnockBackForceOnX, Movement_JumpForce);
                     Movement_GroundSensor.Disable(0.2f);
                 }
             }
@@ -598,7 +641,7 @@ namespace Assets.Scripts.Shared
             if(_movementLocked) return;
 
             var horizontal = Input.GetAxisRaw("Horizontal");
-            Base_RigidBody2D.velocity = new Vector2(horizontal * Movement_Speed, Base_RigidBody2D.velocity.y);
+            Base_RigidBody2D.velocity = new Vector2((horizontal * Movement_Speed) + KnockBackForceOnX, Base_RigidBody2D.velocity.y);
 
             if (Mathf.Abs(horizontal) > float.Epsilon)
             {
@@ -641,45 +684,48 @@ namespace Assets.Scripts.Shared
 
         void FlipCharacter(float moveInput)
         {
-            if (moveInput > 0)
+            if(!_movementLocked)
             {
-                if(Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
+                if (moveInput > 0)
                 {
-                    transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                }
-                else
-                {
-                    transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);                    
-                    if(PlayerMovementMode == PlayerMovementMode.Walking)
+                    if(Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
                     {
-                        CreateDirectionDust();
-                    }                    
-                    else if(PlayerMovementMode == PlayerMovementMode.Swimming)
-                    {
-                        SpawnBubbles();
+                        transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
                     }
-                }
-                Movement_PlayerFacingDirection = PlayerFacingDirection.Right;
-            }
-            else if (moveInput < 0)            
-            {
-                if(Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
-                {
-                    transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                    if(PlayerMovementMode == PlayerMovementMode.Walking)
+                    else
                     {
-                        CreateDirectionDust();
-                    }                    
-                    else if(PlayerMovementMode == PlayerMovementMode.Swimming)
-                    {
-                        SpawnBubbles();
+                        transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);                    
+                        if(PlayerMovementMode == PlayerMovementMode.Walking)
+                        {
+                            CreateDirectionDust();
+                        }                    
+                        else if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                        {
+                            SpawnBubbles();
+                        }
                     }
+                    Movement_PlayerFacingDirection = PlayerFacingDirection.Right;
                 }
-                else
+                else if (moveInput < 0)            
                 {
-                    transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    if(Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
+                    {
+                        transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                        if(PlayerMovementMode == PlayerMovementMode.Walking)
+                        {
+                            CreateDirectionDust();
+                        }                    
+                        else if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                        {
+                            SpawnBubbles();
+                        }
+                    }
+                    else
+                    {
+                        transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    }
+                    Movement_PlayerFacingDirection = PlayerFacingDirection.Left;
                 }
-                Movement_PlayerFacingDirection = PlayerFacingDirection.Left;
             }
         }
 
@@ -797,6 +843,35 @@ namespace Assets.Scripts.Shared
             Movement_GroundSensor.Disable(0.2f);
         }
 
+        public void KnockBack(bool pushRight)
+        {
+            KnockBackForceOnX = 0f;
+            if(pushRight)
+            {
+                KnockBackForceOnX = 5f;
+            }
+            else
+            {
+                KnockBackForceOnX = -5f;
+            }
+
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Movement_Grounded = false;
+            Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
+            Debug.Log("VelocityX: " + Base_RigidBody2D.velocity.x);
+            Debug.Log("Knockback: " + KnockBackForceOnX);
+            Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x + KnockBackForceOnX, Base_RigidBody2D.velocity.y + Movement_JumpForce);
+            Debug.Log("NEW Velocity: " + Base_RigidBody2D.velocity);
+            Movement_GroundSensor.Disable(0.2f);
+            StartCoroutine(ResetKnockback());   
+        }
+
+        IEnumerator ResetKnockback()
+        {        
+            yield return new WaitForSeconds(0.5f);    
+            KnockBackForceOnX = 0;
+        }
+
 
         public HealthSystem GetHealthSystem()
         {
@@ -804,7 +879,8 @@ namespace Assets.Scripts.Shared
         }
 
 
-
+        public bool EnemyInDamagingZone;
+        List<IEnemy> ActiveEnemiesInDamageArea;
 
         #region Collisions
 
@@ -815,8 +891,20 @@ namespace Assets.Scripts.Shared
         [SerializeField] private string DamagingZoneTagName = "DamagingZone";
 
         void OnTriggerEnter2D(Collider2D other)
-        {         
-            if(other.tag == WaterEnterTagName && PlayerMovementMode != PlayerMovementMode.Swimming && PlayerMovementMode != PlayerMovementMode.Dead)
+        {        
+            if(other.tag == "Enemy")
+            {
+                IEnemy enemy = other.gameObject.GetComponent<IEnemy>();    
+                if(enemy != null)
+                {
+                    if(!ActiveEnemiesInDamageArea.Any(x => x.GetEnemyKey() == enemy.GetEnemyKey()))
+                    {
+                        ActiveEnemiesInDamageArea.Add(enemy);      
+                    }                
+                }
+                Debug.Log(ActiveEnemiesInDamageArea.Count);
+            }  
+            else if(other.tag == WaterEnterTagName && PlayerMovementMode != PlayerMovementMode.Swimming && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 CreateSwimmingBubbles();               
                 PlayerMovementMode = PlayerMovementMode.Swimming;
@@ -878,6 +966,12 @@ namespace Assets.Scripts.Shared
                 IDamagingZone damagingZone = other.gameObject.GetComponent<IDamagingZone>();      
                 ActiveDamagingZones.Remove(damagingZone);
             }
+            else if(other.tag == "Enemy")
+            {
+                IEnemy enemy = other.gameObject.GetComponent<IEnemy>();      
+                ActiveEnemiesInDamageArea.Remove(enemy);
+                Debug.Log(ActiveEnemiesInDamageArea.Count);
+            } 
         }
 
         #endregion

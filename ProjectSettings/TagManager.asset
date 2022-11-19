@@ -17,6 +17,8 @@ TagManager:
   - Interactable
   - DamagingZone
   - MilestoneCollider
+  - Ground
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -28,6 +28,7 @@ namespace Assets.Scripts.Shared
 
 		public void SetFill(float fillAmount)
 		{
+			Debug.Log(fillAmount);
 			_fillAmount = fillAmount;
 		}
 		public void SetColor(Color fillColor)

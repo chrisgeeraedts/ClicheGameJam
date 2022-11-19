@@ -28,7 +28,8 @@ namespace Assets.Scripts.Shared
 
         public void Toggle(bool toggled)
         {
-            Toggled = toggled;
+            Toggled = toggled;            
+            m_SpriteRenderer.enabled = Toggled;
         }
 
         public bool IsToggled()

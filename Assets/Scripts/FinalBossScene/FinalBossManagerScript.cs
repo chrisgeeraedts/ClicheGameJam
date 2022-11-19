@@ -64,7 +64,7 @@ namespace Assets.Scripts.FinalBossScene
 
             CurrentTimeInSeconds = PlaytimeInSeconds;
             float progressValue = (float)(CurrentTimeInSeconds/60f);
-            timeMeter.InitFill(progressValue, "05:00");
+            timeMeter.InitFill(progressValue, "02:00");
 
             LaserDamagingZoneScript_LeftDoor.TurnOff();
             LaserDamagingZoneScript_RightDoor.TurnOff();
@@ -135,7 +135,7 @@ namespace Assets.Scripts.FinalBossScene
             if(BattleStage == 11) // Doors are close. Have boss talk and stop animating spellcast
             {                
                 PlayerScript.SetArrow(null);
-                PlayerScript.Options_ShowTargetingArrow = false;
+                PlayerScript.ToggleTargetingArrow(false);
                 PlayerScript.StopMovement();
                 PlayerScript.LockMovement();
                 
@@ -155,6 +155,9 @@ namespace Assets.Scripts.FinalBossScene
                 FinalBossScript.gameObject.GetComponent<Animator>().runtimeAnimatorController = BossBattleAnimationController;
                 FinalBossScript.SetActive();
                 PlayerScript.UnlockMovement();
+                
+                Phase1Music.Stop();
+                Phase2Music.Play();
                 ChangeStage(14);
             }
 
@@ -199,7 +202,7 @@ namespace Assets.Scripts.FinalBossScene
             yield return new WaitForSeconds(4f);   
             FinalBossScript.Say("Now... you die!", 0.125f, false, false, 3f);
             yield return new WaitForSeconds(4f);   
-            PlayerScript.JumpOutOfWater();
+            PlayerScript.KnockBack(transform.position.x > PlayerScript.gameObject.transform.position.x);
             yield return new WaitForSeconds(1f);   
             ChangeStage(13);
         }

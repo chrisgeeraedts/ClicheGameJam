@@ -23,14 +23,22 @@ namespace Assets.Scripts.Shared
 
         void OnTriggerEnter2D(Collider2D other)
         {         
-            m_ColCount++;
+            if(other.tag == "Ground" || other.tag == "FinalBoss")
+            {
+                Debug.Log("Grounded!");
+                m_ColCount++;
+            }
         }
 
         void OnTriggerExit2D(Collider2D other)
         {
             if(m_ColCount > 0)
             {
-            m_ColCount--;
+                if(other.tag == "Ground" || other.tag == "FinalBoss")
+                {
+                    Debug.Log("NOT Grounded!");
+                    m_ColCount--;
+                }
             }
         }
 

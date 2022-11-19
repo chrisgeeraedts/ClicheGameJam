@@ -21,6 +21,7 @@ namespace Assets.Scripts.Shared {
 
         private void Start() {
             if (HealthSystem.TryGetHealthSystem(getHealthSystemGameObject, out HealthSystem healthSystem)) {
+                Debug.Log("Found !"); 
                 SetHealthSystem(healthSystem);
             }
         }
@@ -55,6 +56,7 @@ namespace Assets.Scripts.Shared {
         /// Update Health Bar using the Image fillAmount based on the current Health Amount
         /// </summary>
         private void UpdateHealthBar() {
+            Debug.Log(healthSystem.GetHealthNormalized());
             image.fillAmount = healthSystem.GetHealthNormalized();
         }
 
@@ -62,7 +64,7 @@ namespace Assets.Scripts.Shared {
         /// Clean up events when this Game Object is destroyed
         /// </summary>
         private void OnDestroy() {
-            healthSystem.OnHealthChanged -= HealthSystem_OnHealthChanged;
+            //healthSystem.OnHealthChanged -= HealthSystem_OnHealthChanged;
         }
 
     }

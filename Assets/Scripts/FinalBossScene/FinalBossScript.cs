@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Panda;
+using System;
 using Assets.Scripts.Shared;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.FinalBossScene 
 {
-    public class FinalBossScript : MonoBehaviour
+    public interface IEnemy
+    {
+        string GetEnemyKey();
+        void Damage(float amount);
+    }
+
+    public class FinalBossScript : MonoBehaviour, IEnemy
     {
         #region Base
         [Header("Base Configuration")]
@@ -20,6 +28,7 @@ namespace Assets.Scripts.FinalBossScene
         [Header("Movement Configuration")]      
         [SerializeField] private bool Movement_FacingRight = true;
         [SerializeField] private bool _movementLocked;    
+        [SerializeField] public PlayerMovementMode PlayerMovementMode;
         [Space(10)]
         #endregion
 
@@ -38,8 +47,57 @@ namespace Assets.Scripts.FinalBossScene
 
         #region Attacking
         [Header("Attacking")]  
-        [SerializeField] private float AttackRange;
+        [SerializeField] private float AttackRange = 3f;
+        [SerializeField] private float AttackCooldown = 1f;
+        [SerializeField] private float AttackDamage = 10f;
+        [SerializeField] private float AttackTimeUntillAttackHits = 0.5f;
+        [SerializeField] RuntimeAnimatorController CombatController;
         #endregion
+        
+        #region Death
+        [Header("Death Configuration")]
+        [SerializeField] private AudioSource AudioSource_Death;
+        [SerializeField] RuntimeAnimatorController DeathController;  
+        [Space(10)]
+        #endregion
+
+        #region Health   
+        [Header("Health")]      
+        [SerializeField] private GameObject BossDamageNumberPrefab;
+        [SerializeField] private float Health_MaximumHealth = 100;
+        [SerializeField] private AudioSource AudioSource_DamageTaken;
+        [SerializeField] private GameObject BossDamageNumberSpawnLocation;
+        [Space(10)]
+        #endregion
+
+        private HealthSystem _healthSystem;
+
+        private void healthSystem_OnDead(object sender, System.EventArgs e)
+        {
+            Die();
+        }
+        private void healthSystem_OnHealed(object sender, System.EventArgs e)
+        {
+
+        }
+        private void healthSystem_OnDamaged(object sender, System.EventArgs e)
+        {
+
+        }
+        private void healthSystem_OnHealthMaxChanged(object sender, System.EventArgs e)
+        {
+
+        }
+        private void healthSystem_OnHealthChanged(object sender, System.EventArgs e)
+        {
+
+        }
+
+        string _enemyKey;
+        public string GetEnemyKey()
+        {
+            return _enemyKey;   
+        }
 
         public bool IsActive = false;
         public void SetActive()
@@ -48,18 +106,23 @@ namespace Assets.Scripts.FinalBossScene
         }
 
         public bool PlayerInDamagingZone = false;
+        public bool AttackOnCooldown = false;
 
 
         // Start is called before the first frame update
         void Start()
         {
+            _enemyKey = System.Guid.NewGuid().ToString();
             Base_Animator = GetComponent<Animator>();
             Base_RigidBody2D = GetComponent<Rigidbody2D>();
             Base_Animator.SetTrigger("Spellcast");
             Speaking_Textbox.Hide();
-
-            //IsActive = true;
-            
+            _healthSystem = new HealthSystem(Health_MaximumHealth);
+            _healthSystem.OnDead += healthSystem_OnDead;
+            _healthSystem.OnHealed += healthSystem_OnHealed;
+            _healthSystem.OnDamaged += healthSystem_OnDamaged;
+            _healthSystem.OnHealthMaxChanged += healthSystem_OnHealthMaxChanged;
+            _healthSystem.OnHealthChanged += healthSystem_OnHealthChanged;
         }
 
 
@@ -69,9 +132,17 @@ namespace Assets.Scripts.FinalBossScene
         {
             if(IsActive)
             {
-                Debug.Log(PlayerInDamagingZone);
                 FlipCharacter();
                 MoveBoss();
+
+                if (Base_RigidBody2D.velocity.magnitude > 0)
+                {
+                    Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 1);
+                }
+                else
+                {
+                    Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
+                }
             }
             
         }
@@ -86,8 +157,7 @@ namespace Assets.Scripts.FinalBossScene
         [Task]
         public void Attack_Player()
         {            
-            //Debug.Log("Attacking player");
-            Base_Animator.SetTrigger("Attack");
+            InternalAttackPlayer();
             ThisTask.Succeed();
         }
 
@@ -95,7 +165,6 @@ namespace Assets.Scripts.FinalBossScene
         public bool IsPlayerVisible()
         {            
             if(!IsActive) return false;
-
             //Debug.Log("Checking if player is visible");
             return true;
         }
@@ -103,8 +172,9 @@ namespace Assets.Scripts.FinalBossScene
         [Task]
         public bool IsPlayerInAttackRange()
         {            
-            //Debug.Log("Checking if player is in attack range");
-            return (transform.position.x - PlayerScript.gameObject.transform.position.x) < AttackRange;
+            if(PlayerScript.PlayerMovementMode == PlayerMovementMode.Dead) return false;
+            
+            return (Mathf.Abs(transform.position.x - PlayerScript.gameObject.transform.position.x)) < AttackRange;
         }
 
         [Task]
@@ -129,6 +199,72 @@ namespace Assets.Scripts.FinalBossScene
             ThisTask.Succeed();
         }
 
+        public void InternalAttackPlayer()
+        {            
+            if(!AttackOnCooldown)
+            {
+                AttackOnCooldown = true;
+                Base_Animator.SetTrigger("Attack");
+                StartCoroutine(CompleteAttack());                
+            }
+        }
+
+        IEnumerator CompleteAttack() {
+            
+            yield return new WaitForSeconds(AttackTimeUntillAttackHits);
+            if(PlayerInDamagingZone)
+            {
+                PlayerScript.Damage(AttackDamage);
+                PlayerScript.KnockBack(transform.position.x < PlayerScript.gameObject.transform.position.x);
+            }
+            StartCoroutine(ReturnAttackCooldown());
+        }
+
+        IEnumerator ReturnAttackCooldown() {
+            yield return new WaitForSeconds(AttackCooldown);
+            AttackOnCooldown = false;
+        }
+
+
+
+
+
+        private float Health_CurrentHealth;
+        private bool isImmuneToDamage = false;
+        public void Damage(float amount) 
+        {
+            if(!isImmuneToDamage)
+            {
+                AudioSource_DamageTaken.Play();
+                _healthSystem.Damage(amount);
+                
+                if(amount > 0)
+                {
+                    var damageText = Instantiate(BossDamageNumberPrefab, BossDamageNumberSpawnLocation.transform, false);    
+                    damageText.transform.SetParent(BossDamageNumberSpawnLocation.transform);
+                    damageText.transform.localScale = new Vector3(1,1,1);
+                    damageText.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
+
+                    damageText.GetComponent<EnemyDamageNumberScript>().ShowText(amount);
+
+                    Health_CurrentHealth = Health_CurrentHealth - amount;
+                    if(Health_CurrentHealth < 0)
+                    Health_CurrentHealth = 0;
+
+                    Base_Animator.SetTrigger(PlayerConstants.Animation_TakeHit);
+
+                    isImmuneToDamage = true;
+                    StartCoroutine(RemoveDamageImmunity());
+                }
+            }
+        }
+
+        private IEnumerator RemoveDamageImmunity() 
+        {           
+            yield return new WaitForSeconds(0.5f);            
+            isImmuneToDamage = false;
+        }
+
 
 
         public void ToggleSpellcastingVisuals(bool toggled)
@@ -139,7 +275,8 @@ namespace Assets.Scripts.FinalBossScene
 
         public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
         {
-            Speaking_Textbox.Show(gameObject, 5f);
+            Debug.Log("Saying: " + message);
+            Speaking_Textbox.Show(gameObject, 6.5f);
             StartCoroutine(Speaking_Textbox.EasyMessage(message));
             StartCoroutine(HideSay(message));
         }
@@ -179,7 +316,35 @@ namespace Assets.Scripts.FinalBossScene
                 Base_Animator.SetInteger("AnimState", 0);
             }
         }
+      
+        public event EventHandler<BossDeathEventArgs> OnBossDeath;
+        public class BossDeathEventArgs : EventArgs
+        {
+            public BossDeathEventArgs(){}
+        }
 
+        private void Die()
+        {
+            PlayerMovementMode = PlayerMovementMode.Dead;
+            StopMovement();
+            LockMovement();
+            AudioSource_Death.Play();
+            if(PlayerMovementMode != PlayerMovementMode.Swimming)
+            {
+                Base_Animator.SetBool(PlayerConstants.Animation_Dead, true);
+            }
+            OnBossDeath?.Invoke(this, new BossDeathEventArgs());
+        }
+
+        public void StopMovement()
+        {
+            Base_RigidBody2D.velocity = Vector3.zero;
+        }
+        
+        public void LockMovement()
+        {
+           _movementLocked = true;
+        }
 
         void OnTriggerEnter2D(Collider2D other)
         {         

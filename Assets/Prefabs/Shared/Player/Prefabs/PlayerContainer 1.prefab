@@ -370,7 +370,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181157936419025823}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.37, y: 33.92, z: 0.030176427}
+  m_LocalPosition: {x: 6.96, y: -2.48, z: 0.030176427}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -532,6 +532,10 @@ MonoBehaviour:
   Attacking_Gun_Cooldown: 0.2
   AudioSources_Attacking_MeleeAttack:
   - {fileID: 1420277168466354200}
+  AttackRange: 2
+  AttackCooldown: 1
+  AttackDamage: 10
+  AttackTimeUntillAttackHits: 0.5
   PlayerEquipment: 0
   Particles_SwapDirectionDust: {fileID: 1420277168604787087}
   Particles_LandingDust: {fileID: 1420277168771484307}
@@ -543,6 +547,8 @@ MonoBehaviour:
   PlayerDamageNumberParent: {fileID: 737052651337694381}
   PlayerDamageNumberSpawnLocation: {fileID: 3043922645612462003}
   DamageImmunityTime: 1
+  AttackOnCooldown: 0
+  EnemyInDamagingZone: 0
   WaterEnterTagName: WaterEnter
   WaterExitTagName: WaterExit
   KillZoneTagName: KillZone
