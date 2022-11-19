@@ -10,11 +10,17 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] private float DamageOnHit;
         public string DamagingZoneKey;
         public GameObject VisualObject;
+        public GameObject Blocker;
         private bool isTurnedOff = false;
 
         private void Start()
         {
             DamagingZoneKey = System.Guid.NewGuid().ToString();
+            GetComponent<SpriteRenderer>().enabled = false;
+            if(Blocker != null)
+            {
+                Blocker.GetComponent<SpriteRenderer>().enabled = false;
+            }
         }
 
         public void TurnOff()

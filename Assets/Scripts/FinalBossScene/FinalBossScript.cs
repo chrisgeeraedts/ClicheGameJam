@@ -58,7 +58,7 @@ namespace Assets.Scripts.FinalBossScene
             Base_Animator.SetTrigger("Spellcast");
             Speaking_Textbox.Hide();
 
-            IsActive = true;
+            //IsActive = true;
             
         }
 
