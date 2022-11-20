@@ -4,6 +4,7 @@ using UnityEngine;
 using Panda;
 using System;
 using Assets.Scripts.Shared;
+using Assets.Scripts.Map;
 using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.FinalBossScene 
@@ -12,6 +13,11 @@ namespace Assets.Scripts.FinalBossScene
     {
         string GetEnemyKey();
         void Damage(float amount);
+        GameObject GetGameObject();
+    }
+    public class BossDeathEventArgs : EventArgs 
+    {
+        public BossDeathEventArgs(){}
     }
 
     public class FinalBossScript : MonoBehaviour, IEnemy
@@ -51,13 +57,11 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] private float AttackCooldown = 1f;
         [SerializeField] private float AttackDamage = 10f;
         [SerializeField] private float AttackTimeUntillAttackHits = 0.5f;
-        [SerializeField] RuntimeAnimatorController CombatController;
         #endregion
         
         #region Death
         [Header("Death Configuration")]
         [SerializeField] private AudioSource AudioSource_Death;
-        [SerializeField] RuntimeAnimatorController DeathController;  
         [Space(10)]
         #endregion
 
@@ -66,7 +70,13 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] private GameObject BossDamageNumberPrefab;
         [SerializeField] private float Health_MaximumHealth = 100;
         [SerializeField] private AudioSource AudioSource_DamageTaken;
-        [SerializeField] private GameObject BossDamageNumberSpawnLocation;
+        
+        [Space(10)]
+        #endregion
+
+        #region Avatar   
+        [Header("Avatar")]      
+        [SerializeField] private BossHealthBar BossHealthBar; 
         [Space(10)]
         #endregion
 
@@ -99,6 +109,11 @@ namespace Assets.Scripts.FinalBossScene
             return _enemyKey;   
         }
 
+        public GameObject GetGameObject()
+        {
+            return gameObject;
+        }
+
         public bool IsActive = false;
         public void SetActive()
         {
@@ -117,32 +132,26 @@ namespace Assets.Scripts.FinalBossScene
             Base_RigidBody2D = GetComponent<Rigidbody2D>();
             Base_Animator.SetTrigger("Spellcast");
             Speaking_Textbox.Hide();
-            _healthSystem = new HealthSystem(Health_MaximumHealth);
+            _healthSystem = new HealthSystem(MapManager.GetInstance().BossMaxHP);
             _healthSystem.OnDead += healthSystem_OnDead;
             _healthSystem.OnHealed += healthSystem_OnHealed;
             _healthSystem.OnDamaged += healthSystem_OnDamaged;
             _healthSystem.OnHealthMaxChanged += healthSystem_OnHealthMaxChanged;
-            _healthSystem.OnHealthChanged += healthSystem_OnHealthChanged;
+            _healthSystem.OnHealthChanged += healthSystem_OnHealthChanged; 
+            _healthSystem.Damage(MapManager.GetInstance().BossMaxHP - MapManager.GetInstance().BossHP);
+            BossHealthBar.SetFill(MapManager.GetInstance().GetBossHPForFill());
         }
 
 
         private Vector3 targetPosition;
         // Update is called once per frame
         void Update()
-        {
+        {   
+            Debug.Log(Base_RigidBody2D.velocity.magnitude);
             if(IsActive)
             {
                 FlipCharacter();
                 MoveBoss();
-
-                if (Base_RigidBody2D.velocity.magnitude > 0)
-                {
-                    Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 1);
-                }
-                else
-                {
-                    Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
-                }
             }
             
         }
@@ -150,7 +159,6 @@ namespace Assets.Scripts.FinalBossScene
         [Task]
         public void AimAt_Player()
         {            
-            //Debug.Log("Aiming at player");
             ThisTask.Succeed();
         }
 
@@ -165,7 +173,6 @@ namespace Assets.Scripts.FinalBossScene
         public bool IsPlayerVisible()
         {            
             if(!IsActive) return false;
-            //Debug.Log("Checking if player is visible");
             return true;
         }
 
@@ -173,6 +180,7 @@ namespace Assets.Scripts.FinalBossScene
         public bool IsPlayerInAttackRange()
         {            
             if(PlayerScript.PlayerMovementMode == PlayerMovementMode.Dead) return false;
+            if(!IsActive) return false;
             
             return (Mathf.Abs(transform.position.x - PlayerScript.gameObject.transform.position.x)) < AttackRange;
         }
@@ -180,7 +188,6 @@ namespace Assets.Scripts.FinalBossScene
         [Task]
         public void SetDestination_Player()
         {            
-            //Debug.Log("Setting last know destination of player");
             targetPosition = new Vector3(PlayerScript.gameObject.transform.position.x, transform.position.y, 0);
             ThisTask.Succeed();
         }
@@ -188,7 +195,6 @@ namespace Assets.Scripts.FinalBossScene
         [Task]
         public void MoveTo_Destination()
         {            
-            //Debug.Log("Moving to last know destination of player");
             ThisTask.Succeed();
         }
 
@@ -240,16 +246,14 @@ namespace Assets.Scripts.FinalBossScene
                 
                 if(amount > 0)
                 {
-                    var damageText = Instantiate(BossDamageNumberPrefab, BossDamageNumberSpawnLocation.transform, false);    
-                    damageText.transform.SetParent(BossDamageNumberSpawnLocation.transform);
-                    damageText.transform.localScale = new Vector3(1,1,1);
-                    damageText.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
-
-                    damageText.GetComponent<EnemyDamageNumberScript>().ShowText(amount);
-
                     Health_CurrentHealth = Health_CurrentHealth - amount;
                     if(Health_CurrentHealth < 0)
                     Health_CurrentHealth = 0;
+
+                    MapManager.GetInstance().BossHP = MapManager.GetInstance().BossHP - amount;
+
+                    BossHealthBar.SetFill(MapManager.GetInstance().BossHP / MapManager.GetInstance().BossMaxHP);
+                    BossHealthBar.SetProgressText(MapManager.GetInstance().BossHP+"/"+MapManager.GetInstance().BossMaxHP);
 
                     Base_Animator.SetTrigger(PlayerConstants.Animation_TakeHit);
 
@@ -275,7 +279,6 @@ namespace Assets.Scripts.FinalBossScene
 
         public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
         {
-            Debug.Log("Saying: " + message);
             Speaking_Textbox.Show(gameObject, 6.5f);
             StartCoroutine(Speaking_Textbox.EasyMessage(message));
             StartCoroutine(HideSay(message));
@@ -304,35 +307,26 @@ namespace Assets.Scripts.FinalBossScene
 
         void MoveBoss()
         {
-            var step =  Movement_Speed * Time.deltaTime; // calculate distance to move
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+            if(!_movementLocked)
+            {
+                Base_Animator.SetBool("Grounded", true);
+                Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 1);
+                var step =  Movement_Speed * Time.deltaTime; // calculate distance to move                
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
-            if (Base_RigidBody2D.velocity.magnitude > 0)
-            {
-                Base_Animator.SetInteger("AnimState", 1);
-            }
-            else
-            {
-                Base_Animator.SetInteger("AnimState", 0);
             }
         }
       
         public event EventHandler<BossDeathEventArgs> OnBossDeath;
-        public class BossDeathEventArgs : EventArgs
-        {
-            public BossDeathEventArgs(){}
-        }
-
+        
         private void Die()
         {
+            IsActive = false;
             PlayerMovementMode = PlayerMovementMode.Dead;
             StopMovement();
             LockMovement();
             AudioSource_Death.Play();
-            if(PlayerMovementMode != PlayerMovementMode.Swimming)
-            {
-                Base_Animator.SetBool(PlayerConstants.Animation_Dead, true);
-            }
+            Base_Animator.SetTrigger("Death");
             OnBossDeath?.Invoke(this, new BossDeathEventArgs());
         }
 

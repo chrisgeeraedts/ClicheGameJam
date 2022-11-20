@@ -8,5 +8,6 @@ namespace Assets.Scripts.Shared
     {
         float GetDamageOnHit();
         string GetZoneKey();
+        void Toggle(bool toggled);
     }
 }

@@ -509,9 +509,6 @@ namespace Assets.Scripts.Shared
                                 // select random audio source
                                 int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
                                 AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
-                                
-                                StartCoroutine(CompleteLightAttack());    
-
                                 StartCoroutine(AttackFinish(false));
                             }
                         }
@@ -557,7 +554,17 @@ namespace Assets.Scripts.Shared
             {
                 if(!attackWasHeavy)
                 {
-                    yield return new WaitForSeconds(Attacking_Sword_Cooldown);  
+                    yield return new WaitForSeconds(AttackTimeUntillAttackHits); 
+                    if(ActiveEnemiesInDamageArea.Any())
+                    {
+                        
+                        foreach (var ActiveEnemyInDamageArea in ActiveEnemiesInDamageArea)
+                        {
+                            ActiveEnemyInDamageArea.Damage(AttackDamage);
+                        }
+                    }
+                    yield return new WaitForSeconds(Attacking_Sword_Cooldown); 
+                    AttackOnCooldown = false;
                     UnlockMovement();
                 }
                 else
@@ -570,24 +577,6 @@ namespace Assets.Scripts.Shared
             attackCompleted = true; 
         }
 
-
-        IEnumerator CompleteLightAttack() {
-            
-            yield return new WaitForSeconds(AttackTimeUntillAttackHits);
-            if(ActiveEnemiesInDamageArea.Any())
-            {
-                foreach (var ActiveEnemyInDamageArea in ActiveEnemiesInDamageArea)
-                {
-                    ActiveEnemyInDamageArea.Damage(AttackDamage);
-                }
-            }
-            StartCoroutine(ReturnAttackCooldown());
-        }
-
-        IEnumerator ReturnAttackCooldown() {
-            yield return new WaitForSeconds(AttackCooldown);
-            AttackOnCooldown = false;
-        }
 
 
 
@@ -774,10 +763,10 @@ namespace Assets.Scripts.Shared
 
         
 
-        public void Say(string message)
+        public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
         {
-            Speaking_Textbox.Show(gameObject, 3f);
-            StartCoroutine(Speaking_Textbox.EasyMessage(message));
+            Speaking_Textbox.Show(gameObject, 5f);
+            StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, canSkipText, waitForButtonClick, timeToWaitAfterTextIsDisplayed));
             StartCoroutine(HideSay(message));
         }
 
@@ -858,10 +847,7 @@ namespace Assets.Scripts.Shared
             Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
             Movement_Grounded = false;
             Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
-            Debug.Log("VelocityX: " + Base_RigidBody2D.velocity.x);
-            Debug.Log("Knockback: " + KnockBackForceOnX);
             Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x + KnockBackForceOnX, Base_RigidBody2D.velocity.y + Movement_JumpForce);
-            Debug.Log("NEW Velocity: " + Base_RigidBody2D.velocity);
             Movement_GroundSensor.Disable(0.2f);
             StartCoroutine(ResetKnockback());   
         }
@@ -902,7 +888,6 @@ namespace Assets.Scripts.Shared
                         ActiveEnemiesInDamageArea.Add(enemy);      
                     }                
                 }
-                Debug.Log(ActiveEnemiesInDamageArea.Count);
             }  
             else if(other.tag == WaterEnterTagName && PlayerMovementMode != PlayerMovementMode.Swimming && PlayerMovementMode != PlayerMovementMode.Dead)
             {
@@ -923,8 +908,7 @@ namespace Assets.Scripts.Shared
             }
             else if(other.tag == "MilestoneCollider" && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                var currentMilestoneEntity = other.gameObject.GetComponent<MilestoneColliderScript>();                 
-                Debug.Log("milestone hit: " + currentMilestoneEntity.StageId);   
+                var currentMilestoneEntity = other.gameObject.GetComponent<MilestoneColliderScript>();       
                 OnPlayerMilestoneHit?.Invoke(this, new PlayerMilestoneHitEventArgs(currentMilestoneEntity));    
                 Destroy(other);    
             }
@@ -970,7 +954,6 @@ namespace Assets.Scripts.Shared
             {
                 IEnemy enemy = other.gameObject.GetComponent<IEnemy>();      
                 ActiveEnemiesInDamageArea.Remove(enemy);
-                Debug.Log(ActiveEnemiesInDamageArea.Count);
             } 
         }
 

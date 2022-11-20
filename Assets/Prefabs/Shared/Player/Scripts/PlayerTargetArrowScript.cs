@@ -36,7 +36,12 @@ namespace Assets.Scripts.Shared
         {
             return Toggled;
         }
-
+        // Start is called before the first frame update    
+        void Awake()
+        {
+            m_SpriteRenderer = GetComponent<SpriteRenderer>();
+            m_SpriteRenderer.enabled  = false;
+        }
         // Start is called before the first frame update
         void Start()
         {

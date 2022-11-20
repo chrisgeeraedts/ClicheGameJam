@@ -13,6 +13,6 @@ namespace Assets.Scripts.Shared
 
     public interface ISpeaker
     {
-        void Say(string message);
+        void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f);
     }
 }

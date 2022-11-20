@@ -24,30 +24,42 @@ public class Laser : MonoBehaviour
     {        
         lineRenderer.enabled = true;
 
-        for (int i=0; i<startVFXPS.Count; i++)
+        if(startVFX != null)
         {
-            startVFXPS[i].Play();
+            for (int i=0; i<startVFXPS.Count; i++)
+            {
+                startVFXPS[i].Play();
+            }
         }
-
-        for (int i=0; i<endVFXPS.Count; i++)
+        
+        if(endVFX != null)
         {
-            endVFXPS[i].Play();
-        }
+            for (int i=0; i<endVFXPS.Count; i++)
+            {
+                endVFXPS[i].Play();
+            }
+        }        
     }
 
     void DisableLaser ()
     {
         lineRenderer.enabled = false;
 
-        for (int i=0; i<startVFXPS.Count; i++)
+        if(startVFX != null)
         {
-            startVFXPS[i].Stop();
+            for (int i=0; i<startVFXPS.Count; i++)
+            {
+                startVFXPS[i].Stop();
+            }
         }
-
-        for (int i=0; i<endVFXPS.Count; i++)
+        
+        if(endVFX != null)
         {
-            endVFXPS[i].Stop();
-        }
+            for (int i=0; i<endVFXPS.Count; i++)
+            {
+                endVFXPS[i].Stop();
+            }   
+        } 
     }
 
 
@@ -55,18 +67,24 @@ public class Laser : MonoBehaviour
 
     void FillLists()
     {
-        for(int i=0; i<startVFX.transform.childCount; i++)
+        if(startVFX != null)
         {
-            var ps = startVFX.transform.GetChild(i).GetComponent<ParticleSystem>();
-            if(ps != null)
-                startVFXPS.Add(ps);
+            for(int i=0; i<startVFX.transform.childCount; i++)
+            {
+                var ps = startVFX.transform.GetChild(i).GetComponent<ParticleSystem>();
+                if(ps != null)
+                    startVFXPS.Add(ps);
+            }
         }
 
-        for(int i=0; i<endVFX.transform.childCount; i++)
+        if(endVFX != null)
         {
-            var ps = endVFX.transform.GetChild(i).GetComponent<ParticleSystem>();
-            if(ps != null)
-                endVFXPS.Add(ps);
+            for(int i=0; i<endVFX.transform.childCount; i++)
+            {
+                var ps = endVFX.transform.GetChild(i).GetComponent<ParticleSystem>();
+                if(ps != null)
+                    endVFXPS.Add(ps);
+            }
         }
     }
 }

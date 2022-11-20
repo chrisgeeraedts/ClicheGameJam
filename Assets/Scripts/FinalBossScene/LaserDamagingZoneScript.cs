@@ -51,5 +51,20 @@ namespace Assets.Scripts.FinalBossScene
         {
             return DamagingZoneKey;   
         }
+
+        
+        private bool _toggled;
+        public void Toggle(bool toggled)
+        {
+            _toggled = toggled;
+            if(_toggled)
+            {
+                TurnOn();
+            }
+            if(!_toggled)
+            {
+                TurnOff();
+            }
+        }
     }
 }
