@@ -148,6 +148,7 @@ namespace Assets.Scripts.Map
 
         private void GenerateMinigames()
         {
+            Debug.Log("GenerateMinigames");
             FillUnusedMinigameinfoIndexes();
 
             for (int x = 0; x < mapWidth; x++)

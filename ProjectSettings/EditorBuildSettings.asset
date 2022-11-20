@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FinalBossFightStage2Scene.unity
     guid: 3b7abc6775a68c740b7912902f9358c8
+  - enabled: 1
+    path: Assets/Scenes/CompletedGameScene.unity
+    guid: f48f54399153d324bb9acc16dc151832
   m_configObjects: {}
