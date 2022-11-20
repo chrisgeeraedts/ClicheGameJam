@@ -419,7 +419,7 @@ namespace Assets.Scripts.Shared
         private float Health_CurrentHealth;
         public void Damage(float amount) 
         {
-            if(!isImmuneToDamage)
+            if(!isImmuneToDamage && _isActive)
             {
                 AudioSource_DamageTaken.Play();
                 _healthSystem.Damage(amount);

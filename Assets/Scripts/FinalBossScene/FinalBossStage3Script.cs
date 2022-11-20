@@ -7,6 +7,9 @@ using System;
 using System.Text.RegularExpressions;
 using Assets.Scripts.Map;
 using Assets.Scripts.Shared;
+using Cinemachine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace Assets.Scripts.FinalBossScene 
 {
@@ -25,7 +28,16 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] private GameObject LaserEyes;
         [SerializeField] CinemachineCameraShake CinemachineCameraShake;
         [SerializeField] BloomController BloomController;
+        [SerializeField] CinemachineVirtualCamera PlayerCamera;
+        [SerializeField] CinemachineCameraShake BossDeadCinemachineCameraShake;
+        [SerializeField] BloomController BossDeadBloomController;
+        [SerializeField] CinemachineVirtualCamera BossCamera;
+        [SerializeField] EasyExpandableTextBox BossTextbox;
+        [SerializeField] GameObject bossTextboxObject;
+        [SerializeField] BloomCameraRaiserScript BloomCameraRaiserScript;
+        [SerializeField] Volume GlobalVolume;
         
+
         [Space(10)]
         #endregion
 
@@ -33,8 +45,14 @@ namespace Assets.Scripts.FinalBossScene
         [Header("Stage 3")]
         [SerializeField] private AudioSource Phase3Music; 
         [SerializeField] private AudioSource EyeBeamAudio; 
-        [SerializeField] private AudioSource LoseMusic;        
+        [SerializeField] private AudioSource LoseMusic;     
+        [SerializeField] private AudioSource WinMusic;     
+        [SerializeField] private AudioSource BossDead;  
+        [SerializeField] private AudioSource BossHurt; 
+        [SerializeField] private AudioSource BossStart;       
+        [SerializeField] private AudioSource FinalAudio;       
         [SerializeField] private UnityEngine.Rendering.Universal.Light2D CoreLight;    
+        [SerializeField] private SpriteRenderer BossRenderer;    
         [Space(10)]
         #endregion
 
@@ -72,9 +90,21 @@ namespace Assets.Scripts.FinalBossScene
         [Space(10)]
         #endregion
 
-         #region LightElements
+        #region LightElements
         [Header("LightElements")]
         [SerializeField] private UnityEngine.Rendering.Universal.Light2D[] LightElements; 
+        [Space(10)]
+        #endregion
+
+        #region Explosions
+        [Header("Explosions")]
+        [SerializeField] private RandomAnimationActivator[] RandomAnimationActivators; 
+        [Space(10)]
+        #endregion
+
+        #region Canvasses
+        [Header("Canvasses")]
+        [SerializeField] private Canvas[] CanvasToDisableAfterWin; 
         [Space(10)]
         #endregion
 
@@ -96,6 +126,10 @@ namespace Assets.Scripts.FinalBossScene
         // Start is called before the first frame update
         void Start()
         {
+            
+            BossCamera.enabled = false;
+            PlayerCamera.enabled = true;
+            BossTextbox.Hide();
             DamagingZoneLeftTop.GetComponent<DamagingZoneScript>().Toggle(false);
             DamagingZoneLeftMiddle.GetComponent<DamagingZoneScript>().Toggle(false);
             DamagingZoneLeftBottom.GetComponent<DamagingZoneScript>().Toggle(false);
@@ -123,115 +157,84 @@ namespace Assets.Scripts.FinalBossScene
         // Update is called once per frame
         void Update()
         {
+            if (!_bossIsDead)
+            {
+                if(BattleStage == 0)
+                {                
+                    CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds;
+                    float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
+                    TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
+                    EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
+                    
+                    LaserEyes.SetActive(false);
 
-
-
-
-            if(BattleStage == 0)
-            {                
-                CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds;
-                float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
-                TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
-                EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
-                
-                LaserEyes.SetActive(false);
-
-                PlayerScript.SetArrow(Target1);
-                PlayerScript.Options_ShowTargetingArrow = true;
-                StartCoroutine(DoHeroIntroTalking());
-                ChangeStage(1);
-            }
-            if(BattleStage == 1) // hero is talking in coroutine
-            {
-                //wait
-            }
-            if(BattleStage == 2) // Combat phase with boss
-            {
-                //wait
-            }
-            if(BattleStage == 10) // First laser activated
-            {
-                // Player say 'its working!'
-                // intensify attacks from boss
-            }
-            if(BattleStage == 20) // Second laser activated
-            {
-                // Player say 'Another one!'
-                // intensify attacks from boss
-            }
-            if(BattleStage == 30) // Third laser activated
-            {
-                // intensify attacks from boss
-            }
-            if(BattleStage == 40) // Fourth laser activated
-            {
-                // intensify attacks from boss
-            }
-            if(BattleStage == 50) // Fifth laser activated
-            {
-                // intensify attacks from boss
-            }
-            if(BattleStage == 60) // Last laser activated
-            {
-                //Boss dies
-                // Cool animation
-                // Explosions etc
-                // Sound
-            }
-
-            if(CurrentEyeBeamTimeInSeconds <= 0)
-            {
-                // define random platform
-                int portalChoice = UnityEngine.Random.Range(0, 6);
-
-                if(portalChoice == 0)
-                {
-                    AttackPlatform(DamagingZoneLeftTop);
+                    PlayerScript.SetArrow(Target1);
+                    PlayerScript.Options_ShowTargetingArrow = true;
+                    StartCoroutine(DoHeroIntroTalking());
+                    ChangeStage(1);
                 }
-                else if(portalChoice == 1)
+                if(BattleStage == 1) // hero is talking in coroutine
                 {
-                    AttackPlatform(DamagingZoneLeftMiddle);
+                    //wait
                 }
-                else if(portalChoice == 2)
+                if(BattleStage == 2) // Combat phase with boss
                 {
-                    AttackPlatform(DamagingZoneLeftBottom);
+                    //wait
                 }
-                else if(portalChoice == 3)
+                if(CurrentEyeBeamTimeInSeconds <= 0)
                 {
-                    AttackPlatform(DamagingZoneRightTop);
+                    // define random platform
+                    int portalChoice = UnityEngine.Random.Range(0, 6);
+
+                    if(portalChoice == 0)
+                    {
+                        AttackPlatform(DamagingZoneLeftTop);
+                    }
+                    else if(portalChoice == 1)
+                    {
+                        AttackPlatform(DamagingZoneLeftMiddle);
+                    }
+                    else if(portalChoice == 2)
+                    {
+                        AttackPlatform(DamagingZoneLeftBottom);
+                    }
+                    else if(portalChoice == 3)
+                    {
+                        AttackPlatform(DamagingZoneRightTop);
+                    }
+                    else if(portalChoice == 4)
+                    {
+                        AttackPlatform(DamagingZoneRightMiddle);
+                    }
+                    else if(portalChoice == 5)
+                    {
+                        AttackPlatform(DamagingZoneRightBottom);
+                    }
+                    
+
+                    // Reset timer
+                    CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds; 
+                    TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
+                    float progressValue = 1f;
+                    EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
                 }
-                else if(portalChoice == 4)
-                {
-                    AttackPlatform(DamagingZoneRightMiddle);
+
+                if(Time.time>=nextUpdate)  // If the next update is reached
+                {                
+                    Debug.Log("CurrentEyeBeamTimeInSeconds " + CurrentEyeBeamTimeInSeconds);
+                    Debug.Log("EyeBeamInitialTimeInSeconds " + EyeBeamInitialTimeInSeconds);
+
+                    float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
+                    Debug.Log("progressValue " + progressValue);
+
+                    nextUpdate=Mathf.FloorToInt(Time.time)+1;    
+                    TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
+                    Debug.Log("time " + time);
+
+                    EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
+                    CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds - 1;                
+                    Debug.Log("CurrentEyeBeamTimeInSeconds " + CurrentEyeBeamTimeInSeconds);
                 }
-                else if(portalChoice == 5)
-                {
-                    AttackPlatform(DamagingZoneRightBottom);
-                }
-                
-
-                // Reset timer
-                CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds; 
-                TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
-                float progressValue = 1f;
-                EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
-            }
-
-            if(Time.time>=nextUpdate)  // If the next update is reached
-            {                
-                Debug.Log("CurrentEyeBeamTimeInSeconds " + CurrentEyeBeamTimeInSeconds);
-                Debug.Log("EyeBeamInitialTimeInSeconds " + EyeBeamInitialTimeInSeconds);
-
-                float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
-                Debug.Log("progressValue " + progressValue);
-
-                nextUpdate=Mathf.FloorToInt(Time.time)+1;    
-                TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
-                Debug.Log("time " + time);
-
-                EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
-                CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds - 1;                
-                Debug.Log("CurrentEyeBeamTimeInSeconds " + CurrentEyeBeamTimeInSeconds);
             }
         }
 
@@ -239,24 +242,28 @@ namespace Assets.Scripts.FinalBossScene
 
         public void AttackPlatform(GameObject platform)
         {
-            // Shake screen
-            CinemachineCameraShake.ShakeCamera(5f, 1.5f);
-            BloomController.StartBloom(60f);
+            if(!_bossIsDead)
+            {
+                // Shake screen
+                CinemachineCameraShake.ShakeCamera(5f, 1.5f);
+                BloomController.StartBloom(60f);
 
-            // Play Audio
-            EyeBeamAudio.Play();
+                // Play Audio
+                EyeBeamAudio.Play();
 
-            // Move laser target over 2 seconds from start to end
-            GameObject startPoint = platform.GetComponent<PlatformLaserStartEnd>().StartPoint;
-            GameObject endPoint = platform.GetComponent<PlatformLaserStartEnd>().EndPoint;
-            LaserTargeter.transform.position = startPoint.transform.position;
+                // Move laser target over 2 seconds from start to end
+                GameObject startPoint = platform.GetComponent<PlatformLaserStartEnd>().StartPoint;
+                GameObject endPoint = platform.GetComponent<PlatformLaserStartEnd>().EndPoint;
+                LaserTargeter.transform.position = startPoint.transform.position;
+
+                LaserEyes.SetActive(true);
+                StartCoroutine(MoveLaserOverZone(LaserTargeter, endPoint.transform.position, 1.5f));
+
+                // enable Damaging zone on the platform
+                StartCoroutine(ActivateDamageZone(1.5f, platform));
+                StartCoroutine(DeactivateDamageZone(11.5f, platform));
+            }
             
-            LaserEyes.SetActive(true);
-            StartCoroutine(MoveLaserOverZone(LaserTargeter, endPoint.transform.position, 1.5f));
-
-            // enable Damaging zone on the platform
-            StartCoroutine(ActivateDamageZone(1.5f, platform));
-            StartCoroutine(DeactivateDamageZone(11.5f, platform));
         }
 
         IEnumerator MoveLaserOverZone(GameObject objectToMove, Vector3 end, float seconds)
@@ -295,18 +302,15 @@ namespace Assets.Scripts.FinalBossScene
         IEnumerator DoHeroIntroTalking()
         {     
             yield return new WaitForSeconds(1f);   
-                PlayerScript.Say("I can't stay near him! He is too strong!", 0.125f, false, false);  
+                BossStart.Play();
+                PlayerScript.Say("I can't stay near him! He is too strong!", 0.075f, false, false);  
             yield return new WaitForSeconds(8f);   
-                PlayerScript.Say("Perhaps I can use his energy against him!", 0.125f, false, false);  
+                PlayerScript.Say("Perhaps I can use his energy against him!", 0.075f, false, false);  
             yield return new WaitForSeconds(5f);   
             ChangeStage(2);
         }
 
-        private void ChangeStage(int nextStage)
-        {
-            BattleStage = nextStage;
-            DEBUG_CURRENT_STAGE.text = nextStage.ToString();
-        }
+        
 
         private void PlayerScript_OnPlayerDeath(object sender, PlayerDeathEventArgs e)
         {
@@ -328,18 +332,34 @@ namespace Assets.Scripts.FinalBossScene
        
         }
 
-        public void DamageBoss()
+        public void DamageBoss(int damageAmount)
         {
-            // Play Audio
+            if(!_bossIsDead)
+            {
+                // Disable bad aura
+                BossDamagingZone.SetActive(false);
 
-            // Have boss say something
+                // Play Audio
+                BossHurt.Play();
 
-            MapManager.GetInstance().BossHP = MapManager.GetInstance().BossHP - DamageAmountPerTick;
-            BossHealthBarElement.fillAmount = MapManager.GetInstance().GetBossHPForFill();
-            BossHealthTextElement.text = string.Format("{0:0}", MapManager.GetInstance().BossHP) + "/" + MapManager.GetInstance().BossMaxHP;
+                // Have boss say something
+                MapManager.GetInstance().BossHP = MapManager.GetInstance().BossHP - damageAmount;
+                BossHealthBarElement.fillAmount = MapManager.GetInstance().GetBossHPForFill();
+                BossHealthTextElement.text = string.Format("{0:0}", MapManager.GetInstance().BossHP) + "/" + MapManager.GetInstance().BossMaxHP;
+
+                // Check death
+                if(MapManager.GetInstance().BossHP <= 0)
+                {
+                    _bossIsDead = true;
+                    BossHealthBarElement.fillAmount = 0;
+                    BossHealthTextElement.text = "0/66600";
+                    Win();
+                }
+            }
+            
         }
 
-        public int DamageAmountPerTick = 11110;
+        public int DamageAmountPerTick = 11111;
 
         public void ActivateEnergyBeam(int energyId)
         {
@@ -349,44 +369,109 @@ namespace Assets.Scripts.FinalBossScene
             {
                 LaserLeftBottom.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss();
+                DamageBoss(DamageAmountPerTick);
                 LaserLeftBottomCompleted = true;
             }
             else if(energyId == 2)
             {
                 LaserLeftMiddle.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss();
+                DamageBoss(DamageAmountPerTick);
                 LaserLeftMiddleCompleted = true;
             }
             else if(energyId == 3)
             {
                 LaserLeftTop.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss();
+                DamageBoss(DamageAmountPerTick);
                 LaserLeftTopCompleted = true;
             }
             else if(energyId == 4)
             {
                 LaserRightBottom.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss();
+                DamageBoss(DamageAmountPerTick);
                 LaserRightBottomCompleted = true;
             }
             else if(energyId == 5)
             {
                 LaserRightMiddle.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss();
+                DamageBoss(DamageAmountPerTick);
                 LaserRightMiddleCompleted = true;
             }
             else if(energyId == 6)
             {
                 LaserRightTop.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss();
+                DamageBoss(DamageAmountPerTick);
                 LaserRightTopCompleted = true;
             }
+
+        }
+
+        bool _bossIsDead = false;
+        void Win()
+        {
+            Bloom _bloom;
+            BossCamera.enabled = true;
+            PlayerCamera.enabled = false;
+            PlayerScript.SetPlayerActive(false);
+            PlayerScript.LockMovement();
+            PlayerScript.StopMovement();
+            Phase3Music.Stop(); 
+            GlobalVolume.profile.TryGet(out _bloom);
+            _bloom.tint.value = Color.blue;
+
+            
+
+            // Shake screen
+            Debug.Log(BossDeadCinemachineCameraShake);
+            BossDeadCinemachineCameraShake.ShakeCamera(5f, 100f);
+            
+            BossTextbox.Show(bossTextboxObject, 3f);
+            BossDead.Play();  
+            StartCoroutine(BossTextbox.EasyMessage("Noooooooo!", 0.125f, false, false, 3f)); 
+            StartCoroutine(BossExplosions());
+            StartCoroutine(BossDestruction());
+        }
+
+        IEnumerator BossExplosions()
+        {            
+            yield return new WaitForSeconds(3f); 
+            if(RandomAnimationActivators != null)
+            {
+                for (int i = 0; i < RandomAnimationActivators.Length; i++)
+                {
+                    RandomAnimationActivators[i].StartAnimationRandomly(500, 0.65f);
+                }
+            }
+        }
+
+        IEnumerator BossDestruction(bool wait = true)
+        {            
+            if(wait)
+            {
+                yield return new WaitForSeconds(10f);  
+            }
+
+            for (int i = 0; i < CanvasToDisableAfterWin.Length; i++)
+            {
+                CanvasToDisableAfterWin[i].enabled = false;
+            }
+
+            FinalAudio.Play();
+            float tick = 0f;
+            Color endColor = Color.blue;
+            while (BossRenderer.color != endColor)
+            {
+                tick += Time.deltaTime * 0.1f;
+                BossRenderer.color = Color.Lerp(BossRenderer.color, endColor, tick);
+                yield return null;
+            }
+            BloomCameraRaiserScript.StartBloom();
+            yield return new WaitForSeconds(3f); 
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.CompletedGameScene); 
         }
 
         void Lose()
@@ -399,6 +484,26 @@ namespace Assets.Scripts.FinalBossScene
         {        
             yield return new WaitForSeconds(4f);   
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
+        }
+
+        private void ChangeStage(int nextStage)
+        {
+            BattleStage = nextStage;
+            DEBUG_CURRENT_STAGE.text = nextStage.ToString();
+        }
+        public void DEBUG_KILL_BOSS()
+        {
+            ActivateEnergyBeam(1);
+            ActivateEnergyBeam(2);
+            ActivateEnergyBeam(3);
+            ActivateEnergyBeam(4);
+            ActivateEnergyBeam(5);
+            ActivateEnergyBeam(6);
+        }
+
+        public void DEBUG_DESTROY_BOSS()
+        {            
+            StartCoroutine(BossDestruction(false));
         }
     }
 }

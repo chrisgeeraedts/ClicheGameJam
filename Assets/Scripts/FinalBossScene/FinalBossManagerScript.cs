@@ -34,6 +34,7 @@ namespace Assets.Scripts.FinalBossScene
         #region Stage 2
         [Header("Stage 2")] //Fighting boss stage 1
         [SerializeField] private AudioSource Phase2Music;
+        [SerializeField] private AudioSource EvilLaughAudio;
         [SerializeField] private LaserDamagingZoneScript LaserDamagingZoneScript_LeftDoor;
         [SerializeField] private LaserDamagingZoneScript LaserDamagingZoneScript_RightDoor;
         [SerializeField] RuntimeAnimatorController BossBattleAnimationController;
@@ -221,7 +222,7 @@ namespace Assets.Scripts.FinalBossScene
         IEnumerator GoToBossStage2()
         {    
             yield return new WaitForSeconds(4f);  
-            GameSceneChanger.Instance.ChangeScene("FinalBossFightStage2Scene");
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.FinalBossFightStage2Scene);
         }
 
          private float nextTalkActionTime = 0.0f;
@@ -264,6 +265,7 @@ namespace Assets.Scripts.FinalBossScene
             FinalBossScript.Say("The world will be destroyed!", 0.125f, false, false, 5f);
             yield return new WaitForSeconds(6f);   
             FinalBossScript.Say("Muahahaha!", 0.125f, false, false, 3f);
+            EvilLaughAudio.Play();
             yield return new WaitForSeconds(4f);   
             FinalBossScript.Say("Now... you die!", 0.125f, false, false, 3f);
             yield return new WaitForSeconds(4f);   
