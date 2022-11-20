@@ -27,17 +27,12 @@ public class BloomController : MonoBehaviour
     {
         if(_shouldBloom)
         {
-            bloomSpeed = bloomSpeed * BloomIntesifier;
-            _bloom.intensity.value += direction * bloomSpeed * Time.deltaTime;
-            if (_bloom.intensity.value >= _intensityTarget) {
-                //done
-            } 
+            _bloom.intensity.value = _intensityTarget;
             Debug.Log ("Bloom Intensity: " + _bloom.intensity.value);
         }
         else
         {
-            bloomSpeed = bloomSpeed / BloomIntesifier;
-             _bloom.intensity.value -= direction * bloomSpeed * Time.deltaTime;
+            _bloom.intensity.value = _intensityTarget;
             if (_bloom.intensity.value <= 1) {
                 bloomSpeed = initialBloomSpeed;
             } 
@@ -54,6 +49,7 @@ public class BloomController : MonoBehaviour
 
     public void StopBloom()
     {
+        _intensityTarget = 1f;
         _shouldBloom = false;
     }
 }

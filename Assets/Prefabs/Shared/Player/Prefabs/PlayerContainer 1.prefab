@@ -370,8 +370,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181157936419025823}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.65, y: 34.26, z: 0.030176427}
-  m_LocalScale: {x: 4.5, y: 4.5, z: 1}
+  m_LocalPosition: {x: -3.12, y: 34.24, z: 0.030176427}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8041643993148085847}
@@ -11194,7 +11194,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 1190677343
+  m_SortingLayerID: 2046877405
   m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &2071104305786669339
@@ -12770,7 +12770,9 @@ GameObject:
   - component: {fileID: 1514625852248551049}
   - component: {fileID: 8003392976460759096}
   - component: {fileID: 5699093621091301257}
-  - component: {fileID: 6063505873222501437}
+  - component: {fileID: 1714017561}
+  - component: {fileID: 2401992121091316262}
+  - component: {fileID: 884931522}
   m_Layer: 0
   m_Name: PlayerCam
   m_TagString: Untagged
@@ -12844,6 +12846,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5039486603c5a484baf23199be45a75a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BloomIntesifier: 1.1
+  bloomSpeed: 0.5
 --- !u!114 &5699093621091301257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12857,11 +12861,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsGlobal: 1
-  priority: 0
+  priority: 10
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 35c7cb84004becf4eb904cc459ec9a67, type: 2}
---- !u!114 &6063505873222501437
+  sharedProfile: {fileID: 11400000, guid: cd5cd21f465941143b49894d85b53074, type: 2}
+--- !u!114 &1714017561
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12873,6 +12877,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca97fb48d1268d047ba2986af62978dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2401992121091316262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7708087957704121411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe537b1537ea7234194e2a395c2d7cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloomIntesifier: 1.1
+  bloomSpeed: 0.5
+--- !u!114 &884931522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7708087957704121411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe537b1537ea7234194e2a395c2d7cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BloomIntesifier: 1.1
+  bloomSpeed: 0.5
 --- !u!1 &7971175435101044978
 GameObject:
   m_ObjectHideFlags: 0
@@ -12885,6 +12917,7 @@ GameObject:
   - component: {fileID: 8937864116725926322}
   - component: {fileID: 7899713396717055664}
   - component: {fileID: 3645783833560137330}
+  - component: {fileID: 15059020}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -12968,6 +13001,23 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
+--- !u!114 &15059020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7971175435101044978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &8743753463121959374
 GameObject:
   m_ObjectHideFlags: 0

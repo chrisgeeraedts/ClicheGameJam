@@ -92,6 +92,8 @@ namespace Assets.Scripts.FinalBossScene
 
         private void FinalBossScript_OnBossDeath(object sender, BossDeathEventArgs e)
         {            
+            PlayerScript.StopMovement();
+            PlayerScript.LockMovement();
             ChangeStage(20);
         }
 
@@ -197,7 +199,7 @@ namespace Assets.Scripts.FinalBossScene
             }
 
             if(BattleStage == 20) // Boss stage 1 defeated
-            {     
+            {                     
                 Phase2Music.Stop();
                 StartCoroutine(DoBossDeathStage1Talking());
                 ChangeStage(21);

@@ -32,6 +32,7 @@ namespace Assets.Scripts.FinalBossScene
         #region Stage 3
         [Header("Stage 3")]
         [SerializeField] private AudioSource Phase3Music; 
+        [SerializeField] private AudioSource EyeBeamAudio; 
         [SerializeField] private AudioSource LoseMusic;        
         [SerializeField] private UnityEngine.Rendering.Universal.Light2D CoreLight;    
         [Space(10)]
@@ -241,6 +242,9 @@ namespace Assets.Scripts.FinalBossScene
             // Shake screen
             CinemachineCameraShake.ShakeCamera(5f, 1.5f);
             BloomController.StartBloom(60f);
+
+            // Play Audio
+            EyeBeamAudio.Play();
 
             // Move laser target over 2 seconds from start to end
             GameObject startPoint = platform.GetComponent<PlatformLaserStartEnd>().StartPoint;
