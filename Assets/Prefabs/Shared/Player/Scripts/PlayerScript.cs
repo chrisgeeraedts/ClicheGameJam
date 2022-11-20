@@ -877,7 +877,11 @@ namespace Assets.Scripts.Shared
         [SerializeField] private string DamagingZoneTagName = "DamagingZone";
 
         void OnTriggerEnter2D(Collider2D other)
-        {        
+        {    
+            if(other.tag == "LaserTarget")
+            {
+                Damage(10);
+            }  
             if(other.tag == "Enemy")
             {
                 IEnemy enemy = other.gameObject.GetComponent<IEnemy>();    
@@ -915,10 +919,13 @@ namespace Assets.Scripts.Shared
             else if(other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 currentInteractableEntity = other.gameObject.GetComponent<IInteractable>();    
+                if(currentInteractableEntity.CanShowInteractionDialog())  
+                {
+                    ShowTooltip(currentInteractableEntity.GetObjectName(),InteractionKey.ToString());                    
+                }
                 if(currentInteractableEntity.CanInteract())  
                 {
-                    ShowTooltip(currentInteractableEntity.GetObjectName(),InteractionKey.ToString());
-                    currentInteractableEntity.ShowInteractibility();
+                    currentInteractableEntity.ShowInteractibility();                   
                 }
             }
             else if(other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)

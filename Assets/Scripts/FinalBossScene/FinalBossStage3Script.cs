@@ -125,8 +125,7 @@ namespace Assets.Scripts.FinalBossScene
 
         // Start is called before the first frame update
         void Start()
-        {
-            
+        {            
             BossCamera.enabled = false;
             PlayerCamera.enabled = true;
             BossTextbox.Hide();
@@ -171,6 +170,7 @@ namespace Assets.Scripts.FinalBossScene
                     PlayerScript.SetArrow(Target1);
                     PlayerScript.Options_ShowTargetingArrow = true;
                     StartCoroutine(DoHeroIntroTalking());
+                    GlobalAchievementManager.GetInstance().SetAchievementCompleted(11); //boss transformations
                     ChangeStage(1);
                 }
                 if(BattleStage == 1) // hero is talking in coroutine
@@ -221,19 +221,14 @@ namespace Assets.Scripts.FinalBossScene
 
                 if(Time.time>=nextUpdate)  // If the next update is reached
                 {                
-                    Debug.Log("CurrentEyeBeamTimeInSeconds " + CurrentEyeBeamTimeInSeconds);
-                    Debug.Log("EyeBeamInitialTimeInSeconds " + EyeBeamInitialTimeInSeconds);
 
                     float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
-                    Debug.Log("progressValue " + progressValue);
 
                     nextUpdate=Mathf.FloorToInt(Time.time)+1;    
                     TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
-                    Debug.Log("time " + time);
 
                     EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
-                    CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds - 1;                
-                    Debug.Log("CurrentEyeBeamTimeInSeconds " + CurrentEyeBeamTimeInSeconds);
+                    CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds - 1;             
                 }
             }
         }
@@ -287,14 +282,12 @@ namespace Assets.Scripts.FinalBossScene
             yield return new WaitForSeconds(delay);   
             
             BloomController.StopBloom();
-            Debug.Log("Activated platform");
             damagingZone.GetComponent<DamagingZoneScript>().Toggle(true);
         }
 
         IEnumerator DeactivateDamageZone(float delay, GameObject damagingZone)
         {     
             yield return new WaitForSeconds(delay);   
-            Debug.Log("Deactivated platform");
             damagingZone.GetComponent<DamagingZoneScript>().Toggle(false);
         }
 
@@ -304,9 +297,9 @@ namespace Assets.Scripts.FinalBossScene
             yield return new WaitForSeconds(1f);   
                 BossStart.Play();
                 PlayerScript.Say("I can't stay near him! He is too strong!", 0.075f, false, false);  
-            yield return new WaitForSeconds(8f);   
+            yield return new WaitForSeconds(6f);   
                 PlayerScript.Say("Perhaps I can use his energy against him!", 0.075f, false, false);  
-            yield return new WaitForSeconds(5f);   
+            yield return new WaitForSeconds(6f);   
             ChangeStage(2);
         }
 
@@ -360,9 +353,22 @@ namespace Assets.Scripts.FinalBossScene
         }
 
         public int DamageAmountPerTick = 11111;
-
+        private int LasersActivated = 0;
         public void ActivateEnergyBeam(int energyId)
         {
+            if(LasersActivated == 0)
+            {                
+                PlayerScript.Say("It seems to work!", 0.075f, false, false);  
+            }
+            if(LasersActivated == 3)
+            {                
+                PlayerScript.Say("He is weakening!", 0.075f, false, false);  
+            }            
+            if(LasersActivated == 5)
+            {                
+                PlayerScript.Say("Just one more!", 0.075f, false, false);  
+            }
+
             EyeBeamInitialTimeInSeconds -=3f;
             CurrentEyeBeamTimeInSeconds -=3f;
             if(energyId == 1)
@@ -371,6 +377,7 @@ namespace Assets.Scripts.FinalBossScene
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerTick);
                 LaserLeftBottomCompleted = true;
+                AttackPlatform(DamagingZoneLeftBottom);
             }
             else if(energyId == 2)
             {
@@ -378,6 +385,7 @@ namespace Assets.Scripts.FinalBossScene
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerTick);
                 LaserLeftMiddleCompleted = true;
+                AttackPlatform(DamagingZoneLeftMiddle);
             }
             else if(energyId == 3)
             {
@@ -385,6 +393,7 @@ namespace Assets.Scripts.FinalBossScene
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerTick);
                 LaserLeftTopCompleted = true;
+                AttackPlatform(DamagingZoneLeftTop);
             }
             else if(energyId == 4)
             {
@@ -392,6 +401,7 @@ namespace Assets.Scripts.FinalBossScene
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerTick);
                 LaserRightBottomCompleted = true;
+                AttackPlatform(DamagingZoneRightBottom);
             }
             else if(energyId == 5)
             {
@@ -399,6 +409,7 @@ namespace Assets.Scripts.FinalBossScene
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerTick);
                 LaserRightMiddleCompleted = true;
+                AttackPlatform(DamagingZoneRightMiddle);
             }
             else if(energyId == 6)
             {
@@ -406,6 +417,7 @@ namespace Assets.Scripts.FinalBossScene
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerTick);
                 LaserRightTopCompleted = true;
+                AttackPlatform(DamagingZoneRightTop);
             }
 
         }

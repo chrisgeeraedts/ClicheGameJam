@@ -21,6 +21,10 @@ namespace Assets.Scripts.Shared
         {
             return true;
         }
+        public bool CanShowInteractionDialog()
+        {
+            return true;
+        }
 
         public void ShowInteractibility()
         {

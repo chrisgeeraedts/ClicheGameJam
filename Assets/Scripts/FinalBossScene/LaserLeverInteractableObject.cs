@@ -43,6 +43,10 @@ namespace Assets.Scripts.FinalBossScene
         {
             return !Toggled;
         }
+        public bool CanShowInteractionDialog()
+        {
+            return !Toggled;
+        }
 
         public string GetObjectName()
         {
