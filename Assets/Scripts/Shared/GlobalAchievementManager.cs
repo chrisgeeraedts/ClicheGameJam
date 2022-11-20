@@ -66,21 +66,21 @@ public class GlobalAchievementManager : MonoBehaviour
             _achievements.Add(new Achievement(12, "Heroes can't swim", "You can beat demons, seduce angels, but water stays your deadliest enemy", "Found in [<color=#fede34>Escort Minigame</color>]", false, "Achievement/CantSwim"));
         //_achievements.Add(new Achievement(13, "Infinite Magazins", "How are you not wasting bullets, reloading mid-magazine?", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
         //_achievements.Add(new Achievement(14, "Shiny Treasure", "How come these treasure chests with loot always shine brightly? Is there a lamp in there?", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
-            _achievements.Add(new Achievement(15, "Side-Quests", "Well, the world is going to be destroyed in a few minutes, so let's so find this girl's missing cat", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
-            _achievements.Add(new Achievement(16, "The Evil Laughter", "Is there a training class for evil laughing?", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
+            _achievements.Add(new Achievement(15, "Side-Quests", "Well, the world is going to be destroyed in a few minutes, so let's so find this girl's missing cat", "Found in [<color=#fede34>Final Boss - 2</color>]", false, "Achievement/Miniquest"));
+            _achievements.Add(new Achievement(16, "The Evil Laughter", "Is there a training class for evil laughing?", "Found in [<color=#fede34>Final Boss - 1</color>]", false, "Achievement/Speech"));
         //_achievements.Add(new Achievement(17, "Behind the Boss", "Why is there always a boss behind a boss?", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
-            _achievements.Add(new Achievement(18, "The water level", "Every game must have a water level, its just not a real game without one!", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
-            _achievements.Add(new Achievement(19, "The fishing game", "Dont forget about the mandatory fishing skill in any crafting game!", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
+            _achievements.Add(new Achievement(18, "The water level", "Every game must have a water level, its just not a real game without one!", "Found in [<color=#fede34>Underwater Minigame</color>]", false, "Achievement/Water"));
+            _achievements.Add(new Achievement(19, "The fishing game", "Dont forget about the mandatory fishing skill in any crafting game!", "Found in [<color=#fede34>Fishing Minigame</color>]", false, "Achievement/Fishing"));
         //_achievements.Add(new Achievement(20, "Incredible vendors", "Hi shop owner, what can I get for my [Blade of the God-killing]?", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
-            _achievements.Add(new Achievement(21, "Breakable Vazes", "Lets just go around the world and break random pottery.", "Found in [<color=#fede34>Shop</color>]", false, "Achievement/PLACEHOLDER"));
+            _achievements.Add(new Achievement(21, "Breakable Vazes", "Lets just go around the world and break random pottery.", "Found in [<color=#fede34>Shop</color>]", false, "Achievement/BreakableVazes"));
         //_achievements.Add(new Achievement(22, "Block Puzzles", "The most cliche puzzle in any game", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
-            _achievements.Add(new Achievement(23, "Tutorials", "Why do games still have to teach players how to move? WASD has not changed for decades", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
+            _achievements.Add(new Achievement(23, "Tutorials", "Why do games still have to teach players how to move? WASD has not changed for decades", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/Tutorial"));
         //_achievements.Add(new Achievement(24, "KONAMI Code", "[PLACEHOLDER]]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
-            _achievements.Add(new Achievement(25, "Falling platforms", "[PLACEHOLDER]", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/PLACEHOLDER"));
+            _achievements.Add(new Achievement(25, "Falling platforms", "Ofcourse this random platform would fall", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/PLACEHOLDER"));
         //_achievements.Add(new Achievement(26, "Pre-boss savepoint", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
         //_achievements.Add(new Achievement(27, "Mobile game adds", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
-        //_achievements.Add(new Achievement(28, "Lootboxes", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
-            _achievements.Add(new Achievement(29, "Hidden collectibles", "[PLACEHOLDER]", "Found in [<color=#fede34>Barrel Fun</color>]", false, "Achievement/Collectables"));
+        //_achievements.Add(new Achievement(28, "Lootboxes", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/Lootboxes"));
+            _achievements.Add(new Achievement(29, "Hidden collectibles", "Who put this here...?", "Found in [<color=#fede34>Barrel Fun</color>]", false, "Achievement/Collectables"));
             _achievements.Add(new Achievement(30, "Death is not the end", "Strange, it's like nothing happend. Yet I feel like I learned something...", "Found in [<color=#fede34>Restart after dying</color>]", false, "Achievement/Death"));
     }
 
