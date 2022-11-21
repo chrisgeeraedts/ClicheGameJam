@@ -124,6 +124,7 @@ namespace Assets.Scripts.BarrelFun
 
         private void Lose()
         {
+            Debug.Log("Lose");
             MapManager.GetInstance().FinishMinigame(false);
             GameMusic.Stop();
             DeathMusic.Play();
@@ -134,12 +135,17 @@ namespace Assets.Scripts.BarrelFun
 
             MissionTexts.GetComponent<MissionTextScript>().DoLoss(); 
         }
-
+        private bool WasDeathHit = false;
         public void DeathHit(Collider2D col)
         {
             if (col.gameObject.tag == "Player")
             {
-                Lose();     
+                if(!WasDeathHit)
+                {
+                    WasDeathHit = true;
+                    Debug.Log("DeathHit - " + col.gameObject.name);
+                    Lose();   
+                }  
             }
         }
     }

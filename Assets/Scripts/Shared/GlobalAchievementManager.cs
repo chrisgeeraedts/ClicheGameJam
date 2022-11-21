@@ -54,7 +54,7 @@ public class GlobalAchievementManager : MonoBehaviour
             _achievements.Add(new Achievement(0, "Red Barrels", "Isn't it weird that all red barrels in games always explode? Who puts them there?", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/Barrel"));
             _achievements.Add(new Achievement(1, "One Man Army", "You are always the hero, the big guy, the one man army that can take on legions of enemies.", "Found in [<color=#fede34>One Man Army Minigame</color>]", false, "Achievement/OneManArmy"));
             _achievements.Add(new Achievement(2, "Escort Quests", "You have defeated gods and devils, and here you are escorting a way to slow NPC to a door...", "Found in [<color=#fede34>Escort Minigame</color>]", false, "Achievement/Escort"));
-        //_achievements.Add(new Achievement(3, "Bikini armor", "So male heroes get awesome armor, and female heroes get... bikini's?", "Found in [<color=#fede34>Bikini Puzzle Minigame</color>]", false, "Achievement/Bikini"));
+            _achievements.Add(new Achievement(3, "Bikini armor", "So male heroes get awesome armor, and female heroes get... bikini's?", "Found in [<color=#fede34>Bikini Puzzle Minigame</color>]", false, "Achievement/Bikini"));
         //_achievements.Add(new Achievement(4, "Killing rats", "A new adventure! Your first assigment: Kill rats... ofcourse!", "Found in [<color=#fede34>RPG Battle Minigame</color>]", false, "Achievement/Rats"));
             _achievements.Add(new Achievement(5, "Illusion of Choice", "You ever get that feeling of being railroaded... like... constantly?", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/Walls"));
             _achievements.Add(new Achievement(6, "Woodchopping Hands", "Hit a tree, get wood, hit more, get more wood", "Found in [<color=#fede34>Wood chopping Minigame</color>]", false, "Achievement/Wood"));
@@ -79,9 +79,10 @@ public class GlobalAchievementManager : MonoBehaviour
             _achievements.Add(new Achievement(25, "Falling platforms", "Ofcourse this random platform would fall", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/PLACEHOLDER"));
         //_achievements.Add(new Achievement(26, "Pre-boss savepoint", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
         //_achievements.Add(new Achievement(27, "Mobile game adds", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
-        //_achievements.Add(new Achievement(28, "Lootboxes", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/Lootboxes"));
+            _achievements.Add(new Achievement(28, "Lootboxes", "Random loot, that may or may not make you stronger. For hard cash!", "Found in [<color=#fede34>Shop</color>]", false, "Achievement/Lootboxes"));
             _achievements.Add(new Achievement(29, "Hidden collectibles", "Who put this here...?", "Found in [<color=#fede34>Barrel Fun</color>]", false, "Achievement/Collectables"));
             _achievements.Add(new Achievement(30, "Death is not the end", "Strange, it's like nothing happend. Yet I feel like I learned something...", "Found in [<color=#fede34>Restart after dying</color>]", false, "Achievement/Death"));
+            _achievements.Add(new Achievement(33, "Achievements...", "Achievements, such a cliche!", "Found in [<color=#fede34>Achievements</color>]", false, "Achievement/Achievement"));
     }
 
     void Initialize()

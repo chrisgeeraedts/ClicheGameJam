@@ -368,11 +368,15 @@ namespace Assets.Scripts.Shared
         public void LockMovement()
         {
            _movementLocked = true;
+           Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
+           Base_Animator.SetBool(PlayerConstants.Animation_Grounded, true);
         }
 
         public void UnlockMovement()
         {
            _movementLocked = false;
+           Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
+           Base_Animator.SetBool(PlayerConstants.Animation_Grounded, true);
         }
 
         public void ToggleGravity(bool toggle)

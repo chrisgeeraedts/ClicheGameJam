@@ -277,10 +277,10 @@ namespace Assets.Scripts.FinalBossScene
             InitialSpellcastingParticles.gameObject.SetActive(toggled);
         }
 
-        public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
+        public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = false, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
         {
             Speaking_Textbox.Show(gameObject, 6.5f);
-            StartCoroutine(Speaking_Textbox.EasyMessage(message));
+            StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, canSkipText, waitForButtonClick, timeToWaitAfterTextIsDisplayed));
             StartCoroutine(HideSay(message));
         }
 

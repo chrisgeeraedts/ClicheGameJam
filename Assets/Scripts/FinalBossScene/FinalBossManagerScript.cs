@@ -7,6 +7,7 @@ using System;
 using System.Text.RegularExpressions;
 using Assets.Scripts.Map;
 using Assets.Scripts.Shared;
+using Cinemachine;
 
 namespace Assets.Scripts.FinalBossScene 
 {
@@ -40,6 +41,8 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] RuntimeAnimatorController BossBattleAnimationController;
         [SerializeField] BloomCameraRaiserScript BloomCameraRaiserScript;
         [SerializeField] CinemachineCameraShake CinemachineCameraShake;
+        [SerializeField] CinemachineVirtualCamera PlayerCam;
+        [SerializeField] CinemachineVirtualCamera BossCam;
         
         [Space(10)]
         #endregion
@@ -69,6 +72,8 @@ namespace Assets.Scripts.FinalBossScene
         // Start is called before the first frame update
         void Start()
         {
+            PlayerCam.enabled = true;
+            BossCam.enabled = false;
             BattleStage = 0;
             PlayerScript.OnPlayerInteracted +=PlayerScript_OnPlayerInteracted;
             PlayerScript.OnPlayerMilestoneHit +=PlayerScript_OnPlayerMilestoneHit;
@@ -200,8 +205,17 @@ namespace Assets.Scripts.FinalBossScene
             }
 
             if(BattleStage == 20) // Boss stage 1 defeated
-            {                     
+            {                 
+                PlayerCam.enabled = false;
+                BossCam.enabled = true;    
                 Phase2Music.Stop();
+                Debug.Log("Boss dead!");
+                PlayerScript.SetPlayerActive(false);
+                Debug.Log("SetPlayerActive");
+                PlayerScript.StopMovement();
+                Debug.Log("StopMovement");
+                PlayerScript.LockMovement();
+                Debug.Log("LockMovement");
                 StartCoroutine(DoBossDeathStage1Talking());
                 ChangeStage(21);
             } 
@@ -225,7 +239,7 @@ namespace Assets.Scripts.FinalBossScene
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.FinalBossFightStage2Scene);
         }
 
-         private float nextTalkActionTime = 0.0f;
+        private float nextTalkActionTime = 12.0f;
         public float talkPeriod = 12f;
 
         private void ChangeStage(int nextStage)
@@ -258,17 +272,17 @@ namespace Assets.Scripts.FinalBossScene
         IEnumerator DoBossEvilTalking()
         {     
             yield return new WaitForSeconds(1f);   
-            FinalBossScript.Say("You made it", 0.125f, false, false, 3f);
+            FinalBossScript.Say("You made it", 0.125f, false, true, 3f);
             yield return new WaitForSeconds(4f);   
-            FinalBossScript.Say("You will not stop my cliche master plan!", 0.125f, false, false, 5f);
+            FinalBossScript.Say("You will not stop my cliche master plan!", 0.125f, false, true, 5f);
             yield return new WaitForSeconds(6f);   
-            FinalBossScript.Say("The world will be destroyed!", 0.125f, false, false, 5f);
+            FinalBossScript.Say("The world will be destroyed!", 0.125f, false, true, 5f);
             yield return new WaitForSeconds(6f);   
-            FinalBossScript.Say("Muahahaha!", 0.125f, false, false, 3f);
+            FinalBossScript.Say("Muahahaha!", 0.125f, false, true, 3f);
             EvilLaughAudio.Play();            
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(16); //boss transformations
             yield return new WaitForSeconds(4f);   
-            FinalBossScript.Say("Now... you die!", 0.125f, false, false, 3f);
+            FinalBossScript.Say("Now... you die!", 0.125f, false, true, 3f);
             yield return new WaitForSeconds(4f);   
             PlayerScript.KnockBack(transform.position.x > PlayerScript.gameObject.transform.position.x);
             yield return new WaitForSeconds(1f);               

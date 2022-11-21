@@ -54,6 +54,7 @@ namespace Assets.Scripts.Map
 
         public void ResetMap()
         {
+            instance = null;
             Destroy(gameObject);
         }
 

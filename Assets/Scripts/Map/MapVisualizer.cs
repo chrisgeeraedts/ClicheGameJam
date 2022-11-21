@@ -98,7 +98,7 @@ namespace Assets.Scripts.Map
 
         public void DrawMap()
         {
-            if(MapManager.GetInstance().MaxStageUnlocked < 4)
+            if(MapManager.GetInstance() != null && MapManager.GetInstance().MaxStageUnlocked < 4)
             {
                 Initialize();
                 CheckAlive();
@@ -108,7 +108,7 @@ namespace Assets.Scripts.Map
 
         private void CheckAlive()
         {
-            if(MapManager.GetInstance().HeroHP <= 0)
+            if(MapManager.GetInstance() != null && MapManager.GetInstance().HeroHP <= 0)
             {
                 Debug.Log("WE ARE DEAD");
                 // Game over!                
@@ -121,7 +121,7 @@ namespace Assets.Scripts.Map
         private bool bossAnimationCanGo = false;
         private void CheckBossReady()
         {
-            if(MapManager.GetInstance().MaxStageUnlocked >= 4 && !bossPrepared)
+            if(MapManager.GetInstance() != null && MapManager.GetInstance().MaxStageUnlocked >= 4 && !bossPrepared)
             {
                 bossPrepared = true;
                 Debug.Log("Boss is ready");
@@ -441,7 +441,7 @@ namespace Assets.Scripts.Map
         public void CheckSpellcastHero()
         {
             //Debug.Log(MapManager.GetInstance().LastGameWasWon);
-            if(MapManager.GetInstance().LastGameWasWon)
+            if(MapManager.GetInstance() != null && MapManager.GetInstance().LastGameWasWon)
             {                    
                 MapManager.GetInstance().LastGameWasWon = false;
                 StartCoroutine(DoHeroAttack());
