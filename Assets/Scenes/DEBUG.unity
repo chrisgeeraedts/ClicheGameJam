@@ -18538,11 +18538,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3703315613346217928, guid: a5cb7e21d1130dd488da85df6f104864, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -46.66
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 3703315613346217928, guid: a5cb7e21d1130dd488da85df6f104864, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.67
+      value: 1.53
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5cb7e21d1130dd488da85df6f104864, type: 3}
@@ -18601,7 +18601,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -18625,7 +18625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 943206237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -46.66, y: 4.67, z: -9.969824}
+  m_LocalPosition: {x: -17, y: 1.53, z: -9.969824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43829,6 +43829,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageOnHit: 5
   DamagingZoneKey: 
+  ObjectsToToggle: []
 --- !u!114 &3158925024193164970 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7813091783068028324, guid: 201199c4d89839b40b188f03fcfd8520, type: 3}

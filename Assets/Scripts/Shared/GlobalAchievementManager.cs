@@ -123,13 +123,16 @@ public class GlobalAchievementManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("Searching for achievement...");
             Achievement foundAchievement = _achievements.FirstOrDefault(x => x.Id == achievementId);
+
+            Debug.Log("Found: " + foundAchievement);
 
             // Check if we actually have this achievement
             if (foundAchievement!= null)
             {
                 // check if we havent already completed it!
-                if(_achievements[achievementId].Achieved == false)
+                if(foundAchievement.Achieved == false)
                 {
                     AchievementUpdated = true;
 
