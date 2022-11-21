@@ -330,7 +330,7 @@ MonoBehaviour:
   verticalSpeed: 10
   fishCaughtLevelText: {fileID: 1877372337}
   hitLocationTester: {fileID: 657474269884669033, guid: b74b0fc36c7de9f449ed653e4751efaf, type: 3}
-  startScale: 4
+  startScale: 2
   shrinkFactor: 0.8
   horizontalAimStartPosition: {x: -9, y: 1}
   verticalAimStartPosition: {x: 0, y: 5}
