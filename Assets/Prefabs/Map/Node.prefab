@@ -984,6 +984,7 @@ MonoBehaviour:
   minigameImageHolder: {fileID: 2748006246095205244}
   textField: {fileID: 2748006246739712654}
   selectionHightlightHolder: {fileID: 1299161538720299}
+  selectionTextField: {fileID: 397225453771064920}
   minigameLockedHolder: {fileID: 2658378783221366702}
   minigameWonHolder: {fileID: 503829808707015043}
   MinigameButton: {fileID: 4561705087239041859}

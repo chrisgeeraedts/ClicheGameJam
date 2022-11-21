@@ -14,7 +14,7 @@ namespace Assets.Scripts.Shop
         }
         public void UpdateCoinsText(int numberOfCoins)
         {
-            coinsText.text = $"Coins: {numberOfCoins}";
+            coinsText.text = $"<color=#fede34>{numberOfCoins}</color>";
         }
     }
 }

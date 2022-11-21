@@ -138,10 +138,13 @@ namespace Assets.Scripts.BarrelFun
         private bool WasDeathHit = false;
         public void DeathHit(Collider2D col)
         {
+            Debug.Log("DeathHit - 1");
             if (col.gameObject.tag == "Player")
             {
+            Debug.Log("DeathHit - 2");
                 if(!WasDeathHit)
                 {
+            Debug.Log("DeathHit - 3");
                     WasDeathHit = true;
                     Debug.Log("DeathHit - " + col.gameObject.name);
                     Lose();   

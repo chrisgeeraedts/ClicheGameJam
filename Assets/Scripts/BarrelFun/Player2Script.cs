@@ -22,6 +22,7 @@ namespace Assets.Scripts.BarrelFun
         [SerializeField] private GameObject ShootStartPoint;
         [SerializeField] private AudioSource GunFireAudio;
         [SerializeField] private BoxCollider2D feetCollider;
+        [SerializeField] private AudioSource[] AudioSources_Jumping;
         
         private Animator            m_animator;
         private Rigidbody2D         m_body2d;
@@ -104,6 +105,10 @@ namespace Assets.Scripts.BarrelFun
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                
+                int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Jumping.Length);
+                AudioSources_Jumping[randomAudioNumber].Play();
+
                 m_animator.SetTrigger("Jump");
                 m_grounded = false;
                 m_animator.SetBool("Grounded", m_grounded);

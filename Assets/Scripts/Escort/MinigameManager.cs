@@ -28,7 +28,6 @@ namespace Assets.Scripts.Escort
         public float maxDistancePlayerAndNpc;
 
         public GameObject bridgeTilemap;
-        public GameObject bridgeLever;
 
         // Start is called before the first frame update
         void Start()
@@ -37,6 +36,7 @@ namespace Assets.Scripts.Escort
             bridgeTilemap.SetActive(false);
             StartCoroutine(HideTitle());
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
+            Player.GetComponent<Assets.Scripts.Shared.PlayerScript>().LockMovement();
             NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCActive(false);
         }
 
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Escort
                     frustrationCount += frustrationIncrement * Time.deltaTime;
                     FrustrationMeter.GetComponent<ProgressBar>().SetFill(frustrationCount);                
                     NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(true);
-                    if(!showingHurryPopup)
+                    if(!showingHurryPopup && phase >= 5)
                     {
                         showingHurryPopup = true;
                         ShowHurryPopup();
@@ -101,8 +101,8 @@ namespace Assets.Scripts.Escort
             {
                 if(phase == 0)
                 {
-                    Player.GetComponent<PlayerScript>().Say("Lets go!", 3f);
-                    NPC.GetComponent<NPCScript>().Say("Not too fast!", 3f);
+                    Player.GetComponent<PlayerScript>().Say("I better make sure he doesn't fall!", 0.125f, false, false, 5f);
+                    NPC.GetComponent<NPCScript>().Say("What's that?");
                     phase = 1;                    
                 }
                 else if(phase == 1)
@@ -117,48 +117,46 @@ namespace Assets.Scripts.Escort
                 }
                 else if(phase == 3)
                 {
-                    Player.GetComponent<PlayerScript>().Say("I better make sure he doesn't fall!", 3f);
-                    NPC.GetComponent<NPCScript>().Say("What's that?", 3f);
                     phase = 4;    
                 }
                 else if(phase == 4)
                 {
                     // do nothing, we are waiting
                 }
-                else if(phase == 5)
+                else if(phase == 5 && _bridgeDown)
                 {
-                    Player.GetComponent<PlayerScript>().Say("So... slow...", 3f);
-                    NPC.GetComponent<NPCScript>().Say("Im scared!", 3f);
+                    Player.GetComponent<PlayerScript>().Say("So... slow...", 0.125f, false, false, 5f);
+                    NPC.GetComponent<NPCScript>().Say("Im scared!");
                     phase = 6;    
                 }
-                else if(phase == 6)
+                else if(phase == 6 && _bridgeDown)
                 {
                     // do nothing, we are waiting
                 }
-                if(phase == 7)
+                if(phase == 7 && _bridgeDown)
                 {
-                    Player.GetComponent<PlayerScript>().Say("...", 3f);
-                    NPC.GetComponent<NPCScript>().Say("Where did u learn to walk so fast?", 3f);
+                    Player.GetComponent<PlayerScript>().Say("...", 0.125f, false, false, 5f);
+                    NPC.GetComponent<NPCScript>().Say("Where did u learn to walk so fast?");
                     phase = 8;    
                 }
-                else if(phase == 8)
+                else if(phase == 8 && _bridgeDown)
                 {
                     // do nothing, we are waiting
                 }
-                else if(phase == 9)
+                else if(phase == 9 && _bridgeDown)
                 {
-                    Player.GetComponent<PlayerScript>().Say("The exit! Finally!", 3f);
-                    NPC.GetComponent<NPCScript>().Say("I can see the light! ", 3f);
+                    Player.GetComponent<PlayerScript>().Say("The exit! Finally!", 0.125f, false, false, 5f);
+                    NPC.GetComponent<NPCScript>().Say("I can see the light! ");
                     phase = 10;    
                 }
-                else if(phase == 10)
+                else if(phase == 10 && _bridgeDown)
                 {
                     // do nothing, we are waiting
                 }
-                else if(phase == 11)
+                else if(phase == 11 && _bridgeDown)
                 {
                     // do nothing, we are waiting
-                    NPC.GetComponent<NPCScript>().Say("Thanks! ", 3f);
+                    NPC.GetComponent<NPCScript>().Say("Thanks! ");
                     NPC.GetComponent<SpriteRenderer>().enabled = false;
                     Win();
                 }
@@ -169,8 +167,8 @@ namespace Assets.Scripts.Escort
         bool showingHurryPopup;
         void ShowHurryPopup()
         {
-            Player.GetComponent<PlayerScript>().Say("Hurry up!", 2f);
-            NPC.GetComponent<NPCScript>().Say("Im coming!", 2f);
+            Player.GetComponent<PlayerScript>().Say("Hurry up!", 0.125f, false, false, 5f);
+            NPC.GetComponent<NPCScript>().Say("Im coming!");
             HideHurryPopup(2f);
         }
         
@@ -189,7 +187,7 @@ namespace Assets.Scripts.Escort
         {
             Debug.Log("Water hit!");
             // check if NPC or Player hit            
-            Player.GetComponent<PlayerScript>().Say("Why would you do that...?", 5f);
+            Player.GetComponent<PlayerScript>().Say("Why would you do that...?", 0.125f, false, false, 5f);
 
             if(col.gameObject.tag == "Player")
             {
@@ -234,22 +232,18 @@ namespace Assets.Scripts.Escort
                 // set finishing phases
                 phase = 11;
             }
-            if(milestone == 999)
-            {
-                //lever hit                
-                bridgeTilemap.SetActive(true);
-
-                // play audio
-                BridgeDown.Play();
-
-                // change sprite
-                bridgeLever.GetComponent<LeverScript>().Toggle(true);
-
-                Player.GetComponent<PlayerScript>().Say("Hope this helps...", 3f);
-            }
         }
+        private bool _bridgeDown = false;
+        public void LeverActivated()
+        {
+            //lever hit                
+            bridgeTilemap.SetActive(true);
 
+            // play audio
+            BridgeDown.Play();
 
+            _bridgeDown = true;
+        }
 
         private void Win()
         {            
@@ -286,6 +280,7 @@ namespace Assets.Scripts.Escort
             yield return new WaitForSeconds(5f);
             MissionTexts.GetComponent<MissionTextScript>().HideTitle(); 
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(true);
+            Player.GetComponent<Assets.Scripts.Shared.PlayerScript>().UnlockMovement();
             NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCActive(true);
         }
 

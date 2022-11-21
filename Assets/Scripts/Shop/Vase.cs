@@ -7,16 +7,15 @@ namespace Assets.Scripts.Shop
 {
     public class Vase : MonoBehaviour
     {
-        [SerializeField] AudioClip brokenVaseSound;
+        [SerializeField] AudioSource brokenVaseSound;
         [SerializeField] Sprite brokenVaseSprite;
         [SerializeField] int coinsGained = 100;
 
         public void OnClick()
         {
             MapManager.GetInstance().GainCoins(coinsGained);
-            AudioSource.PlayClipAtPoint(brokenVaseSound, transform.position);
+            brokenVaseSound.Play();            
             FindObjectOfType<Shopkeeper>()?.SetBrokenVaseText();
-
             gameObject.SetActive(false);
             Destroy(gameObject);
         }

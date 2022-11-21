@@ -63,6 +63,7 @@ namespace Assets.Scripts.Shared
         [SerializeField] private bool _movementLocked;    
         [SerializeField] public PlayerMovementMode PlayerMovementMode;
         [SerializeField] private PlayerFacingDirection Movement_PlayerFacingDirection;
+        [SerializeField] private AudioSource[] AudioSources_Jumping;
         [Space(10)]
         #endregion
 
@@ -429,11 +430,12 @@ namespace Assets.Scripts.Shared
         {
             if(!isImmuneToDamage && _isActive)
             {
-                AudioSource_DamageTaken.Play();
-                _healthSystem.Damage(amount);
                 
                 if(amount > 0)
                 {
+                    AudioSource_DamageTaken.Play();
+                    _healthSystem.Damage(amount);
+
                     var damageText = Instantiate(PlayerDamageNumberPrefab, PlayerDamageNumberSpawnLocation.transform, false);    
                     damageText.transform.SetParent(PlayerDamageNumberParent.transform);
                     damageText.transform.localScale = new Vector3(1,1,1);
@@ -599,6 +601,8 @@ namespace Assets.Scripts.Shared
             {
                 if(PlayerMovementMode == PlayerMovementMode.Walking)
                 {                
+                    int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Jumping.Length);
+                    AudioSources_Jumping[randomAudioNumber].Play();
                     Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
                     Movement_Grounded = false;
                     Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
@@ -770,17 +774,24 @@ namespace Assets.Scripts.Shared
         }
 
         
-
+        private bool isShowingSayPopup = false;
         public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
         {
-            Speaking_Textbox.Show(gameObject, 5f);
-            StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, canSkipText, waitForButtonClick, timeToWaitAfterTextIsDisplayed));
-            StartCoroutine(HideSay(message));
+            if(!isShowingSayPopup)
+            {                
+                Debug.Log("Blocking more popups");
+                isShowingSayPopup = true;
+                Speaking_Textbox.Show(gameObject, 5f);
+                StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, canSkipText, waitForButtonClick, timeToWaitAfterTextIsDisplayed));
+                StartCoroutine(HideSay(message, timeBetweenCharacters, timeToWaitAfterTextIsDisplayed));
+            }
         }
 
-        IEnumerator HideSay(string message)
+        IEnumerator HideSay(string message, float duration, float timeToWaitAfterTextIsDisplayed )
         {
-            yield return new WaitForSeconds(Speaking_TextVisibleDuration + (0.125f*message.Length)); 
+            yield return new WaitForSeconds((duration*message.Length)+timeToWaitAfterTextIsDisplayed); 
+            Debug.Log("Can show popups again");
+            isShowingSayPopup = false;
             Speaking_Textbox.Hide();
         }
 
@@ -833,6 +844,8 @@ namespace Assets.Scripts.Shared
 
         public void JumpOutOfWater()
         {
+            int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Jumping.Length);
+            AudioSources_Jumping[randomAudioNumber].Play();
             Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
             Movement_Grounded = false;
             Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);

@@ -11,6 +11,7 @@ namespace Assets.Scripts.Map
         [SerializeField] GameObject minigameImageHolder;
         [SerializeField] TextMeshProUGUI textField;
         [SerializeField] GameObject selectionHightlightHolder;
+        [SerializeField] TextMeshProUGUI selectionTextField;
         [SerializeField] GameObject minigameLockedHolder;
         [SerializeField] GameObject minigameWonHolder;
         [SerializeField] public Button MinigameButton;        
@@ -59,6 +60,7 @@ namespace Assets.Scripts.Map
         {
             minigameImageHolder.GetComponent<SpriteRenderer>().sprite = minigameInfo.MapSprite;
             textField.text = minigameInfo.MinigameName;
+            selectionTextField.text = minigameInfo.MinigameName;
         }
 
         public void OnPointerEnter (PointerEventData eventData) 

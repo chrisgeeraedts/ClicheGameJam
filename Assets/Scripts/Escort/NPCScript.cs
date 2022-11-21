@@ -7,6 +7,7 @@ public class NPCScript : MonoBehaviour, INPC
 {
     [SerializeField] float      m_speed = 4.0f;
     private Rigidbody2D rb;
+    [SerializeField] private EasyExpandableTextBox Speaking_Textbox;
 
     public RuntimeAnimatorController Idle;
     public RuntimeAnimatorController Moving;
@@ -21,6 +22,8 @@ public class NPCScript : MonoBehaviour, INPC
             animator.runtimeAnimatorController = Moving;  
         }
     }
+
+        
 
     public bool IsNPCActive()
     {
@@ -48,6 +51,7 @@ public class NPCScript : MonoBehaviour, INPC
     
     void Start()
     {
+        Speaking_Textbox.Hide();
         rb = GetComponent<Rigidbody2D>(); 
         animator = GetComponent<Animator>();
     }
@@ -68,21 +72,23 @@ public class NPCScript : MonoBehaviour, INPC
         }
     }
 
-    public GameObject chatBubblePrefab;
-    
-    private int chatBubbleLevel = 0;
-    private GameObject activeBubble;
-    public void Say(string text, float showDuration)
-    {
-        if(activeBubble != null)
-        {
-            Destroy(activeBubble);
+    private bool isShowingSayPopup = false;
+    public void Say(string text)
+    {if(!isShowingSayPopup)
+        {                
+            isShowingSayPopup = true;
+            Debug.Log("NPC SHOULD SAY: " + text);
+            Speaking_Textbox.Show(gameObject, 3f);
+            StartCoroutine(Speaking_Textbox.EasyMessage(text, 0.1f, false, false, 5f));
+            StartCoroutine(HideSay(text, 0.1f, 5f));
         }
-        // Create a new chatbubble
-        GameObject chatBubble = Instantiate(chatBubblePrefab, new Vector3(gameObject.transform.position.x + 0.6f, gameObject.transform.position.y + 1.71f, 0), Quaternion.identity);
-        chatBubble.GetComponent<ChatBubbleScript>().Say(text, chatBubbleLevel, gameObject, showDuration);
-        activeBubble = chatBubble;
-        chatBubbleLevel++;
+    }
+
+    IEnumerator HideSay(string message, float duration, float timeToWaitAfterTextIsDisplayed )
+    {
+        yield return new WaitForSeconds((duration*message.Length)+timeToWaitAfterTextIsDisplayed); 
+        isShowingSayPopup = false;
+        Speaking_Textbox.Hide();
     }
 
     public void SetIdle()
