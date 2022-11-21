@@ -1708,6 +1708,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NewRunButton: {fileID: 1008498448}
+  AchievementButton: {fileID: 499777085}
+  ExitButton: {fileID: 967643999}
   MainMenuHero: {fileID: 421903677}
   buttonClickAudioSource: {fileID: 269546019}
 --- !u!4 &614234624
@@ -9865,6 +9867,10 @@ PrefabInstance:
       propertyPath: m_Vertices.Array.data[55].position.y
       value: -7.3928
       objectReference: {fileID: 0}
+    - target: {fileID: 3103101980025410940, guid: 59a74a83d18536a41aaa90559fc803d2, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 157627610}
     - target: {fileID: 3103101980595699752, guid: 59a74a83d18536a41aaa90559fc803d2, type: 3}
       propertyPath: m_Name
       value: GlobalAchievementsManager

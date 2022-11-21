@@ -82,7 +82,7 @@ namespace Assets.Scripts.Map
 
         public void StartMinigame(int x, int y)
         {
-            if (!CanStartGame(x)) return;
+            if (!CanStartGame(x, y)) return;
 
             minigameStartedX = x;
             minigameStartedY = y;
@@ -94,9 +94,9 @@ namespace Assets.Scripts.Map
             GameSceneChanger.Instance.ChangeScene(currentMinigame.SceneName);
         }
 
-        public bool CanStartGame(int x)
+        public bool CanStartGame(int x, int y)
         {
-            return x <= maxStageUnlocked;
+            return x <= maxStageUnlocked && !minigames[x, y].IsWon;
         }
 
         public void FinishMinigame(bool isWon)

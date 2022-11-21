@@ -139,11 +139,11 @@ TagManager:
   - name: Menu_Title
     uniqueID: 1919470435
     locked: 0
-  - name: Achievement_Popup
-    uniqueID: 799676573
-    locked: 0
   - name: Achievement_UI
     uniqueID: 1725363337
+    locked: 0
+  - name: Achievement_Popup
+    uniqueID: 799676573
     locked: 0
   - name: BossLaser
     uniqueID: 1516319601

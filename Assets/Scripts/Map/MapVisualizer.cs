@@ -79,6 +79,12 @@ namespace Assets.Scripts.Map
         public GameObject[] minigamePositionGrid;
         private GameObject[,] minigameGrid;        
 
+        
+        [SerializeField] GameObject ProgressLaserHero;
+        [SerializeField] GameObject ProgressLaserBos;
+        [SerializeField] GameObject CenterPointProgressLaser;
+        [SerializeField] GameObject[] CenterPointProgressLaserStages;
+
         private void Start()
         {
             BossTextBox.Hide();
@@ -94,6 +100,13 @@ namespace Assets.Scripts.Map
             {
                 Initialize();
             }
+        }
+
+
+        private void SetLaserPoint(int stage)
+        {
+            GameObject target = CenterPointProgressLaserStages[stage];
+            CenterPointProgressLaser.transform.position = target.transform.position;
         }
 
         public void DrawMap()
@@ -217,20 +230,28 @@ namespace Assets.Scripts.Map
             }
         }
 
+
         void TaskOnClick(int x, int y){
-                minigameGrid[selectedX, selectedY].GetComponent<MapNode>().DisableButton();
+            if(MapManager.GetInstance().CanStartGame(x, y))
+            {
+                minigameGrid[selectedX, selectedY].GetComponent<MapNode>().DisableButton();     
                 SetCurrentMapNodeSelected(false);       
                 selectedX = x;
                 selectedY = y;
                 SetCurrentMapNodeSelected(true);
                 StartSelectedGame();
+            }
         }
 
         void TaskOnMouseEnter(object sender, MouseEnterEventArgs e){   
+
+            if(MapManager.GetInstance().CanStartGame(e.X, e.Y))
+            {
                 SetCurrentMapNodeSelected(false);       
                 selectedX = e.X;
                 selectedY = e.Y;
                 SetCurrentMapNodeSelected(true);
+            }
         }
 
         private void GenerateMap(MinigameInfo[,] minigames)
@@ -266,7 +287,13 @@ namespace Assets.Scripts.Map
                 }
             }
 
-            
+            // set highlighting of stages
+            for (int i = 0; i < MapManager.GetInstance().MaxStageUnlocked; i++)
+            {
+                Stages[i].SetCompletedStage(true);
+            }
+
+            SetLaserPoint(MapManager.GetInstance().MaxStageUnlocked);
         }
 
         private void SelectLastActiveNode()
@@ -422,7 +449,7 @@ namespace Assets.Scripts.Map
         public void CheckSpellcastBoss()
         {
             //Debug.Log(MapManager.GetInstance().LastGameWasLost);
-            if(MapManager.GetInstance().LastGameWasLost)
+            if(MapManager.GetInstance() != null && MapManager.GetInstance().LastGameWasLost)
             {                    
                 MapManager.GetInstance().LastGameWasLost = false;
                 StartCoroutine(DoBossAttack());
@@ -523,7 +550,7 @@ namespace Assets.Scripts.Map
 
         private void StartSelectedGame()
         {
-            if (MapManager.GetInstance().CanStartGame(selectedX))
+            if (MapManager.GetInstance().CanStartGame(selectedX, selectedY))
             {
                 mapSelectedSound.Play();
                 MapManager.GetInstance().StartMinigame(selectedX, selectedY);

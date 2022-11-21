@@ -84,7 +84,7 @@ public class GlobalAchievementManager : MonoBehaviour
         _achievements.Add(new Achievement(30, "Death is not the end", "Strange, it's like nothing happend. Yet I feel like I learned something...", "Found in [<color=#fede34>Restart after dying</color>]", false, "Achievement/Death"));
         _achievements.Add(new Achievement(31, "You caught an old boot", "Why is every fishing spot littered with these ?", "Found in [<color=#fede34>Underwater</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(32, "You caught a treasure chest", "Why is every fishing spot littered with these ?", "Found in [<color=#fede34>Underwater</color>]", false, "Achievement/PLACEHOLDER"));
-        _achievements.Add(new Achievement(33, "Achievements...", "Achievements, such a cliche!", "Found in [<color=#fede34>Achievements</color>]", false, "Achievement/Achievement"));
+        _achievements.Add(new Achievement(33, "Achievements...", "Achievements, such a cliche! You even get an achievement for finding the achievements!", "Found in [<color=#fede34>Achievements</color>]", false, "Achievement/Achievement"));
     }
 
     void Initialize()
@@ -115,6 +115,19 @@ public class GlobalAchievementManager : MonoBehaviour
             LoadData();
         }
         return _achievements;
+    }
+
+    public bool IsAchievementCompleted(int achievementId)
+    {
+            Debug.Log("Searching for achievement...");
+         Achievement foundAchievement = _achievements.FirstOrDefault(x => x.Id == achievementId);
+            Debug.Log("Found: " + foundAchievement);
+            Debug.Log("Achieved: " + foundAchievement.Achieved);
+         if(foundAchievement != null)
+         {
+            return foundAchievement.Achieved;
+         }
+         return false;
     }
 
     public void SetAchievementCompleted(int achievementId)

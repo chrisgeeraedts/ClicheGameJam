@@ -8,6 +8,8 @@ using Assets.Scripts.Shared;
 public class MainMenuManager : MonoBehaviour
 {
     public Button NewRunButton;
+    public Button AchievementButton;
+    public Button ExitButton;
 
     public GameObject MainMenuHero;
     void Update()
@@ -48,9 +50,25 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void NavigationToAchievements()
-    {
+    {        
         buttonClickAudioSource.Play();
-        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
+        AchievementButton.interactable = false;
+        if(!GlobalAchievementManager.GetInstance().IsAchievementCompleted(33))
+        {
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(33); //achievements
+            StartCoroutine(GoToAchievements());  
+        }            
+        else{
+            AchievementButton.interactable = true;
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);   
+        }
+    }
+
+    IEnumerator GoToAchievements()
+    {     
+        yield return new WaitForSeconds(4f);  
+        AchievementButton.interactable = true; 
+        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);  
     }
 
     public void NavigationToCredits()

@@ -18,6 +18,7 @@ namespace Assets.Scripts.Map
         public int X;
         public int Y;
 
+
         private MinigameInfo minigameInfo;
 
         public void DisableButton()

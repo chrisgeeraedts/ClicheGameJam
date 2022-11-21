@@ -25,11 +25,6 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
-    void Start()   
-    {        
-        GlobalAchievementManager.GetInstance().SetAchievementCompleted(33); //boss transformations
-    }
-
     
      //DEBUG - REMOVE
     private int achievement;
