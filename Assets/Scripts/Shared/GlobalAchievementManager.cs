@@ -78,8 +78,7 @@ public class GlobalAchievementManager : MonoBehaviour
         //_achievements.Add(new Achievement(24, "KONAMI Code", "[PLACEHOLDER]]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(25, "Falling platforms", "Ofcourse this random platform would fall", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/PLACEHOLDER"));
         //_achievements.Add(new Achievement(26, "Pre-boss savepoint", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
-        //_achievements.Add(new Achievement(27, "Mobile game adds", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
-       
+        //_achievements.Add(new Achievement(27, "Mobile game adds", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));       
         _achievements.Add(new Achievement(28, "Lootboxes", "Random loot, that may or may not make you stronger. For hard cash!", "Found in [<color=#fede34>Shop</color>]", false, "Achievement/Lootboxes"));
         _achievements.Add(new Achievement(29, "Hidden collectibles", "Who put this here...?", "Found in [<color=#fede34>Barrel Fun</color>]", false, "Achievement/Collectables"));
         _achievements.Add(new Achievement(30, "Death is not the end", "Strange, it's like nothing happend. Yet I feel like I learned something...", "Found in [<color=#fede34>Restart after dying</color>]", false, "Achievement/Death"));
