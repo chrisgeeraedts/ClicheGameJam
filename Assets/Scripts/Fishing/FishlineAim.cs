@@ -136,20 +136,20 @@ namespace Assets.Scripts.Fishing
             ResetAimPositions();
             DestroyCurrentFish();
             caughtFish.ShowCatch(numberOfFishHits);
-            if (numberOfFishHits > 1) numberOfCaughtFish++; // 0 and 1 are not fish (Old Boot and Seaweed)
+            if (numberOfFishHits > 1 || numberOfFishHits == maximumFishLevelCaught) numberOfCaughtFish++; // 0 and 1 are not fish (Old Boot and Seaweed), Max is Treasure chest
             numberOfFishHits = 0;
         }
 
         private void CheckAchievements()
         {
             if (numberOfFishHits == 0)
-            { 
-                //Achievement -> You caught a boot !
+            {
+                GlobalAchievementManager.GetInstance().SetAchievementCompleted(31);
             }
 
             if (numberOfFishHits == maximumFishLevelCaught)
-            { 
-                //Achievement -> Legendary catch
+            {
+                GlobalAchievementManager.GetInstance().SetAchievementCompleted(32);
             }
         }
 
