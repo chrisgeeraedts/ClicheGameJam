@@ -15,7 +15,7 @@ public class DamageNumberScript : MonoBehaviour
     IEnumerator DestroyText()
     {    
         yield return new WaitForSeconds(0.8f);   
-        //GetComponent<Animator>().SetBool("ShowDamageNumber", false);   
         Destroy(gameObject);
     } 
 }
+

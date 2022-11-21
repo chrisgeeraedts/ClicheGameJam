@@ -25,6 +25,7 @@ namespace Assets.Scripts.Map
         public float BossMaxHP;
         public float BossHP;
 
+
         public bool LastGameWasLost = false;
         public bool LastGameWasWon = false;
 
@@ -131,9 +132,6 @@ namespace Assets.Scripts.Map
         public void GainCoins(int numberOfCoins)
         {
             coins += numberOfCoins;
-
-            var shopManager = FindObjectOfType<ShopManager>();
-            shopManager?.UpdateCoinsText(coins);
         }
 
         public bool SpendCoins(int numberOfCoins)
@@ -142,11 +140,18 @@ namespace Assets.Scripts.Map
 
             coins -= numberOfCoins;
 
-            var shopManager = FindObjectOfType<ShopManager>();
-            shopManager?.UpdateCoinsText(coins);
             return true;
         }
 
+        public void Heal(float healAmount)
+        {
+            HeroHP = HeroHP + healAmount;
+            if(HeroHP > HeroMaxHP)
+            {
+                HeroHP = HeroMaxHP;
+            }
+        }
+        
         private void GenerateMinigames()
         {
             Debug.Log("GenerateMinigames");
@@ -191,6 +196,7 @@ namespace Assets.Scripts.Map
         private void Awake()
         {
             SetupSingleton();
+            
         }
 
         public void Exit()
