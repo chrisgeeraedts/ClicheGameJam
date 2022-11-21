@@ -7,6 +7,7 @@ using TMPro;
 using static Assets.Scripts.Shared.Enums;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
+using Cinemachine;
 
 namespace Assets.Scripts.Map
 {
@@ -51,8 +52,25 @@ namespace Assets.Scripts.Map
         public GameObject Line2_3;
         public GameObject Line3_4;
         public GameObject Line4_Boss;
+
+        public Canvas backgroundToHideOnFinalBoss;
+        public Image titleToHideOnFinalBoss;
         
         [SerializeField] GameObject ExitButton;
+        [SerializeField] GameObject Portal;
+        [SerializeField] GameObject TeleportTarget;
+        [SerializeField] AudioSource PortalShowingUp;
+        
+        [SerializeField] private EasyExpandableTextBox BossTextBox;
+        [SerializeField] private EasyExpandableTextBox PlayerTextBox;
+        [SerializeField] private GameObject BossTextBoxTarget;
+        [SerializeField] private GameObject PlayerTextBoxTarget;
+        [SerializeField] CinemachineVirtualCamera RegularCamera;
+        [SerializeField] CinemachineVirtualCamera PortalCamera;
+        [SerializeField] CinemachineCameraShake CinemachineCameraShake;
+        [SerializeField] Camera MainCamera;
+        [SerializeField] AudioSource GoingIntoTeleport;
+        [SerializeField] GameObject CursorFollower;
 
         [SerializeField] MapColumnScript[] Stages;
 
@@ -63,14 +81,29 @@ namespace Assets.Scripts.Map
 
         private void Start()
         {
+            BossTextBox.Hide();
+            PlayerTextBox.Hide();
+            
+            RegularCamera.enabled = true;
+            PortalCamera.enabled = false;
+
             if (MapManager.GetInstance() == null) return;
-            Initialize();
+            Debug.Log(MapManager.GetInstance().MaxStageUnlocked);
+
+            if(MapManager.GetInstance().MaxStageUnlocked < 4)
+            {
+                Initialize();
+            }
         }
 
         public void DrawMap()
         {
-            Initialize();
-            CheckAlive();
+            if(MapManager.GetInstance().MaxStageUnlocked < 4)
+            {
+                Initialize();
+                CheckAlive();
+                CheckBossReady();
+            }
         }
 
         private void CheckAlive()
@@ -81,6 +114,25 @@ namespace Assets.Scripts.Map
                 // Game over!                
                 SetHealthbars();
                 DoGameOver();                
+            }
+        }
+
+        private bool bossPrepared = false;
+        private bool bossAnimationCanGo = false;
+        private void CheckBossReady()
+        {
+            if(MapManager.GetInstance().MaxStageUnlocked >= 4 && !bossPrepared)
+            {
+                bossPrepared = true;
+                Debug.Log("Boss is ready");
+                // can go to final boss now
+                for (int i = 0; i < minigamePositionGrid.Length; i++)
+                {
+                    minigamePositionGrid[i].SetActive(false);
+                }
+                backgroundToHideOnFinalBoss.enabled = false;
+                titleToHideOnFinalBoss.enabled = false;    
+                bossAnimationCanGo = true;        
             }
         }
         
@@ -214,11 +266,6 @@ namespace Assets.Scripts.Map
                 }
             }
 
-            // set stage correct
-            for (int i = 0; i <= maxStageUnlocked; i++)
-            {
-                Stages[i].SetCompletedStage(true);
-            }
             
         }
 
@@ -229,15 +276,133 @@ namespace Assets.Scripts.Map
             minigameGrid[selectedX, selectedY].GetComponent<MapNode>().SetSelected(true);
         }
 
+        private int bossAnimationStage = 0;
         private void Update()
         {
-            if(allowInput)
+            if(!bossAnimationCanGo)
             {
-                HandlePlayerInput();
-                CheckAlive();
-                CheckSpellcastBoss();
-                CheckSpellcastHero();
+                if(allowInput)
+                {
+                    HandlePlayerInput();
+                    CheckAlive();
+                    CheckBossReady();
+                    CheckSpellcastBoss();
+                    CheckSpellcastHero();
+                }
             }
+            else
+            {
+                if(bossAnimationStage == 0)
+                {
+                    PortalShowingUp.Play();
+                    StartShaking();
+                    StartCoroutine(MovePortalInView(Portal, TeleportTarget.transform.position, 5f));
+                    MoveToStage(1);
+                }
+                if(bossAnimationStage == 1)
+                {
+                    // wait
+                    StartCoroutine(WaitFor(5f, 3));
+                    MoveToStage(2);
+                }
+                if(bossAnimationStage == 2)
+                {
+                    // waiting
+                }
+                if(bossAnimationStage == 3)
+                {                    
+                    PortalShowingUp.Stop();
+                    MoveToStage(4);
+                }
+                if(bossAnimationStage == 4)
+                {                    
+                    BossSpeak();
+                    MoveToStage(5);
+                }
+                if(bossAnimationStage == 5)
+                {  
+                    // waiting
+                }
+                if(bossAnimationStage == 6)
+                {                            
+                    PlayerSpeak(); 
+                    MoveToStage(7);         
+                }
+                if(bossAnimationStage == 7)
+                {  
+                    // waiting
+                }
+                if(bossAnimationStage == 8)
+                { 
+                    CursorFollower.SetActive(false);
+                    RegularCamera.enabled = false;
+                    PortalCamera.enabled = true;
+                    GoingIntoTeleport.Play();
+                    StartCoroutine(WaitFor(1f, 10));
+                    MoveToStage(9);  
+                }
+                if(bossAnimationStage == 9)
+                {  
+                    // waiting
+                    
+                }
+                if(bossAnimationStage == 10)
+                {  
+                    // move scene
+                    GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.FinalBossFightScene);
+                    MoveToStage(11);  
+                    
+                }
+                if(bossAnimationStage == 11)
+                {  
+                    // waiting                    
+                }
+            }
+        }
+
+        void MoveToStage(int stage)
+        {
+            bossAnimationStage = stage;
+        }
+
+
+        void StartShaking()
+        {
+            CinemachineCameraShake.ShakeCamera(2f, 100f);
+        }
+
+        void BossSpeak()
+        {        
+            BossTextBox.Show(BossTextBoxTarget, 3f);
+            StartCoroutine(BossTextBox.EasyMessage("The time has come!", 0.1f, false, false, 3f)); 
+            StartCoroutine(WaitFor(4f, 6));
+        }
+
+        void PlayerSpeak()
+        {        
+            PlayerTextBox.Show(PlayerTextBoxTarget, 3f);
+            StartCoroutine(PlayerTextBox.EasyMessage("I will stop you!", 0.1f, false, false, 3f)); 
+            StartCoroutine(WaitFor(4f, 8));
+        }
+
+        IEnumerator WaitFor(float waitTime, int nextStage)
+        {        
+            yield return new WaitForSeconds(waitTime);  
+            MoveToStage(nextStage);  
+        }
+
+
+         IEnumerator MovePortalInView(GameObject objectToMove, Vector3 end, float seconds)
+        {     
+            float elapsedTime = 0;
+            Vector3 startingPos = objectToMove.transform.position;
+            while (elapsedTime < seconds)
+            {
+                objectToMove.transform.position = Vector3.Lerp(startingPos, end, (elapsedTime / seconds));
+                elapsedTime += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+            objectToMove.transform.position = end;
         }
 
         public void DoBossSpelLCast()

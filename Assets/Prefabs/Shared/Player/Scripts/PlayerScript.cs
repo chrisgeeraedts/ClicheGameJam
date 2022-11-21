@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using System;
 using UnityEngine.EventSystems;
 using Assets.Scripts.FinalBossScene;
+using Assets.Scripts.Map;
 
 namespace Assets.Scripts.Shared
 {
@@ -123,7 +124,7 @@ namespace Assets.Scripts.Shared
         #region Health   
         [Header("Health")]      
         [SerializeField] private HealthBarUI Base_HealthBarUI; 
-        [SerializeField] private float Health_MaximumHealth = 100;
+        [SerializeField] private float Health_MaximumHealth;
         [SerializeField] private AudioSource AudioSource_DamageTaken;
         [Space(10)]
         #endregion
@@ -188,7 +189,10 @@ namespace Assets.Scripts.Shared
             Movement_PlayerFacingDirection = PlayerFacingDirection.Right;
             StartSpawningWaterBubbles();
             Speaking_Textbox.Hide();
+            Health_MaximumHealth = MapManager.GetInstance().HeroMaxHP;
+            Health_CurrentHealth = MapManager.GetInstance().HeroHP;
             _healthSystem = new HealthSystem(Health_MaximumHealth);
+            _healthSystem.Damage(Health_MaximumHealth - Health_CurrentHealth);
             _healthSystem.OnDead += healthSystem_OnDead;
             _healthSystem.OnHealed += healthSystem_OnHealed;
             _healthSystem.OnDamaged += healthSystem_OnDamaged;
@@ -200,8 +204,8 @@ namespace Assets.Scripts.Shared
             ActiveEnemiesInDamageArea = new List<IEnemy>();
             TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
             TargetingArrow_Arrow.Toggle(true);
-            Health_CurrentHealth = Health_MaximumHealth;
-            PlayerHealthBar.SetFill(1);
+            PlayerHealthBar.SetFill(Health_CurrentHealth/Health_MaximumHealth);
+            PlayerHealthBar.SetProgressText(Health_CurrentHealth+"/" +Health_MaximumHealth);
         }
 
         void Update ()
@@ -419,7 +423,7 @@ namespace Assets.Scripts.Shared
         private float Health_CurrentHealth;
         public void Damage(float amount) 
         {
-            if(!isImmuneToDamage)
+            if(!isImmuneToDamage && _isActive)
             {
                 AudioSource_DamageTaken.Play();
                 _healthSystem.Damage(amount);
@@ -877,7 +881,11 @@ namespace Assets.Scripts.Shared
         [SerializeField] private string DamagingZoneTagName = "DamagingZone";
 
         void OnTriggerEnter2D(Collider2D other)
-        {        
+        {    
+            if(other.tag == "LaserTarget")
+            {
+                Damage(10);
+            }  
             if(other.tag == "Enemy")
             {
                 IEnemy enemy = other.gameObject.GetComponent<IEnemy>();    
@@ -915,10 +923,13 @@ namespace Assets.Scripts.Shared
             else if(other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 currentInteractableEntity = other.gameObject.GetComponent<IInteractable>();    
+                if(currentInteractableEntity.CanShowInteractionDialog())  
+                {
+                    ShowTooltip(currentInteractableEntity.GetObjectName(),InteractionKey.ToString());                    
+                }
                 if(currentInteractableEntity.CanInteract())  
                 {
-                    ShowTooltip(currentInteractableEntity.GetObjectName(),InteractionKey.ToString());
-                    currentInteractableEntity.ShowInteractibility();
+                    currentInteractableEntity.ShowInteractibility();                   
                 }
             }
             else if(other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)

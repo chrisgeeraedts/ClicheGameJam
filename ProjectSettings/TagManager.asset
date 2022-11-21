@@ -19,6 +19,7 @@ TagManager:
   - MilestoneCollider
   - Ground
   - Enemy
+  - LaserTarget
   - Fish
   layers:
   - Default
