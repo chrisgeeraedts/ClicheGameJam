@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
+using Assets.Scripts.Map;
 
-namespace Assets.Scripts.Fishing 
+namespace Assets.Scripts.Fishing
 {
     public class FishlineAim : MonoBehaviour
     {
@@ -127,6 +128,8 @@ namespace Assets.Scripts.Fishing
             if (hitTest != null && hitTest.isActiveAndEnabled)
             {
                 StopFishing();
+                hitTest.gameObject.SetActive(false);
+                Destroy(hitTest.gameObject);
             }
         }
 
@@ -150,6 +153,8 @@ namespace Assets.Scripts.Fishing
             if (numberOfFishHits == maximumFishLevelCaught)
             {
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(32);
+                //TODO: Show gaining coins
+                MapManager.GetInstance().GainCoins(1000);
             }
         }
 
@@ -183,7 +188,7 @@ namespace Assets.Scripts.Fishing
         {
             if (!VerticalAimActive) return;
 
-            var newY = verticalAim.position.y + verticalSpeed* verticalSpeedModifier * Time.deltaTime;
+            var newY = verticalAim.position.y + verticalSpeed * verticalSpeedModifier * Time.deltaTime;
             verticalAim.position = new Vector2(verticalAim.position.x, newY);
 
             if (newY > maxY)
