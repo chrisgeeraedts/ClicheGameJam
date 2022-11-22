@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Bikini Armor
   price: 69
   itemIcon: {fileID: 21300000, guid: 9123967c83b2dd34790c35616e6cd7bc, type: 3}
+  lootboxWeight: 50

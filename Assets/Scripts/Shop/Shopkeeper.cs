@@ -12,6 +12,8 @@ namespace Assets.Scripts.Shop
 {
     public class Shopkeeper : MonoBehaviour
     {
+        [SerializeField] GameObject lootboxOpenerContainer;
+
         #region Speaking
         [Header("Speaking Bubbles")]
         [SerializeField] EasyExpandableTextBox Speaking_Textbox;
@@ -26,9 +28,7 @@ namespace Assets.Scripts.Shop
         #endregion
 
         private bool isShowingText = false;
-        private List<int> adviceIndicesUsed = new List<int>();
         private List<string> adviceList = new List<string>();
-
 
         IEnumerator canShowTextAgain(float waitTime, string messageSend, float durationPerCharacter)
         {
@@ -73,6 +73,9 @@ namespace Assets.Scripts.Shop
             }
             else if (itemName.Equals("Lootbox", StringComparison.InvariantCultureIgnoreCase))
             {
+                lootboxOpenerContainer.SetActive(true);
+                lootboxOpenerContainer.GetComponent<LootBoxOpener>().StartLootbox();
+
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(28);
             }
             else if (itemName.Equals("Apple", StringComparison.InvariantCultureIgnoreCase))

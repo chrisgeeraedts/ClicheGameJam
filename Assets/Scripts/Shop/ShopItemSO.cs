@@ -10,9 +10,11 @@ namespace Assets.Scripts.Shop
         [SerializeField] string itemName;
         [SerializeField] int price;
         [SerializeField] Sprite itemIcon;
+        [SerializeField] int lootboxWeight;
 
         public string ItemName => itemName;
         public int Price => price;
         public Sprite ItemIcon => itemIcon;
+        public int LootboxWeight => lootboxWeight;
     }
 }
