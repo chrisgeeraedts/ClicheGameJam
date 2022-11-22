@@ -36,6 +36,8 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] GameObject bossTextboxObject;
         [SerializeField] BloomCameraRaiserScript BloomCameraRaiserScript;
         [SerializeField] Volume GlobalVolume;
+        [SerializeField] GameObject EnergyOrb;
+        [SerializeField] GameObject AbsorbedEnergyOrb;
         
 
         [Space(10)]
@@ -53,6 +55,7 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] private AudioSource FinalAudio;       
         [SerializeField] private UnityEngine.Rendering.Universal.Light2D CoreLight;    
         [SerializeField] private SpriteRenderer BossRenderer;    
+        [SerializeField] private AudioSource EnergyOrbAbsorbing; 
         [Space(10)]
         #endregion
 
@@ -87,6 +90,7 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] private LineRenderer LaserRightTop; 
         [SerializeField] private LineRenderer LaserRightMiddle; 
         [SerializeField] private LineRenderer LaserRightBottom; 
+        [SerializeField] private int DamageAmountPerLaser = 11111;
         [Space(10)]
         #endregion
 
@@ -129,6 +133,8 @@ namespace Assets.Scripts.FinalBossScene
             BossCamera.enabled = false;
             PlayerCamera.enabled = true;
             BossTextbox.Hide();
+            EnergyOrb.SetActive(false);
+            AbsorbedEnergyOrb.SetActive(false);
             DamagingZoneLeftTop.GetComponent<DamagingZoneScript>().Toggle(false);
             DamagingZoneLeftMiddle.GetComponent<DamagingZoneScript>().Toggle(false);
             DamagingZoneLeftBottom.GetComponent<DamagingZoneScript>().Toggle(false);
@@ -173,13 +179,13 @@ namespace Assets.Scripts.FinalBossScene
                     GlobalAchievementManager.GetInstance().SetAchievementCompleted(11); //boss transformations
                     ChangeStage(1);
                 }
-                if(BattleStage == 1) // hero is talking in coroutine
+                if(BattleStage == 1) 
                 {
                     //wait
-                }
+                }                
                 if(BattleStage == 2) // Combat phase with boss
                 {
-                    //wait
+
                 }
                 if(CurrentEyeBeamTimeInSeconds <= 0)
                 {
@@ -218,6 +224,7 @@ namespace Assets.Scripts.FinalBossScene
                     float progressValue = 1f;
                     EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
                 }
+                
 
                 if(Time.time>=nextUpdate)  // If the next update is reached
                 {                
@@ -230,6 +237,69 @@ namespace Assets.Scripts.FinalBossScene
                     EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
                     CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds - 1;             
                 }
+
+
+
+                
+                if(BattleStage == 3) //all 6 energy
+                {
+                    // Say
+                    PlayerScript.Say("I've sapped his energy. Now to collect it!", 0.075f, false, false);  
+                    
+                    //orb spawns 
+                    EnergyOrb.SetActive(true);
+                    
+                    //set arrow to orb
+                    PlayerScript.SetArrow(EnergyOrb);
+                    PlayerScript.Options_ShowTargetingArrow = true;
+
+                    ChangeStage(4);
+                }
+                if(BattleStage == 4)
+                {
+                    // wait for collision
+                }
+                if(BattleStage == 5) // received orb
+                {
+                    //Change player blue
+                    //Change player larger
+                    //Increase Jump range player
+                    PlayerScript.Empower(10000);
+                    EnergyOrbAbsorbing.Play();
+                    EnergyOrb.SetActive(false);
+                    AbsorbedEnergyOrb.SetActive(true);
+                    
+                    PlayerScript.Say("I feel so strong! Lets slay this beast!", 0.075f, false, false); 
+                    // Disable bad aura
+                    BossDamagingZone.SetActive(false);
+                    ChangeStage(6);
+                }
+                if(BattleStage == 6) // ready to finish boss
+                {
+                    //Player attack boss
+                    //Collide boss on attack
+                    //Boss takes 5000 damage
+                }
+                if(BattleStage == 7) // Boss finally hit
+                {
+                    DamageBoss(10000);
+                    ChangeStage(7);
+                }
+                if(BattleStage == 8) // Boss finally hit
+                {
+                }
+            }
+        }
+
+        public void AttemptToDamageBoss()
+        {
+            if(BattleStage == 6) // check if we are on this phase of the fight
+            {                
+                ChangeStage(7);
+            }
+            else
+            {
+                DamageBoss(1);
             }
         }
 
@@ -329,8 +399,6 @@ namespace Assets.Scripts.FinalBossScene
         {
             if(!_bossIsDead)
             {
-                // Disable bad aura
-                BossDamagingZone.SetActive(false);
 
                 // Play Audio
                 BossHurt.Play();
@@ -352,11 +420,12 @@ namespace Assets.Scripts.FinalBossScene
             
         }
 
-        public int DamageAmountPerTick = 11111;
         private int LasersActivated = 0;
         public void ActivateEnergyBeam(int energyId)
         {
-            if(LasersActivated == 0)
+            LasersActivated++;
+
+            if(LasersActivated == 1)
             {                
                 PlayerScript.Say("It seems to work!", 0.075f, false, false);  
             }
@@ -367,15 +436,23 @@ namespace Assets.Scripts.FinalBossScene
             if(LasersActivated == 5)
             {                
                 PlayerScript.Say("Just one more!", 0.075f, false, false);  
+            }           
+            if(LasersActivated == 6)
+            {                
+                EyeBeamInitialTimeInSeconds = 4f;
+                CurrentEyeBeamTimeInSeconds = 4f;
+                BattleStage = 3;  
             }
-
-            EyeBeamInitialTimeInSeconds -=3f;
-            CurrentEyeBeamTimeInSeconds -=3f;
+            
+            if(energyId < 7){                
+                EyeBeamInitialTimeInSeconds -=3f;
+                CurrentEyeBeamTimeInSeconds -=3f;
+            }
             if(energyId == 1)
             {
                 LaserLeftBottom.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss(DamageAmountPerTick);
+                DamageBoss(DamageAmountPerLaser);
                 LaserLeftBottomCompleted = true;
                 AttackPlatform(DamagingZoneLeftBottom);
             }
@@ -383,7 +460,7 @@ namespace Assets.Scripts.FinalBossScene
             {
                 LaserLeftMiddle.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss(DamageAmountPerTick);
+                DamageBoss(DamageAmountPerLaser);
                 LaserLeftMiddleCompleted = true;
                 AttackPlatform(DamagingZoneLeftMiddle);
             }
@@ -391,7 +468,7 @@ namespace Assets.Scripts.FinalBossScene
             {
                 LaserLeftTop.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss(DamageAmountPerTick);
+                DamageBoss(DamageAmountPerLaser);
                 LaserLeftTopCompleted = true;
                 AttackPlatform(DamagingZoneLeftTop);
             }
@@ -399,7 +476,7 @@ namespace Assets.Scripts.FinalBossScene
             {
                 LaserRightBottom.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss(DamageAmountPerTick);
+                DamageBoss(DamageAmountPerLaser);
                 LaserRightBottomCompleted = true;
                 AttackPlatform(DamagingZoneRightBottom);
             }
@@ -407,7 +484,7 @@ namespace Assets.Scripts.FinalBossScene
             {
                 LaserRightMiddle.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss(DamageAmountPerTick);
+                DamageBoss(DamageAmountPerLaser);
                 LaserRightMiddleCompleted = true;
                 AttackPlatform(DamagingZoneRightMiddle);
             }
@@ -415,11 +492,10 @@ namespace Assets.Scripts.FinalBossScene
             {
                 LaserRightTop.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
-                DamageBoss(DamageAmountPerTick);
+                DamageBoss(DamageAmountPerLaser);
                 LaserRightTopCompleted = true;
                 AttackPlatform(DamagingZoneRightTop);
             }
-
         }
 
         bool _bossIsDead = false;
@@ -498,19 +574,22 @@ namespace Assets.Scripts.FinalBossScene
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.GameOverScene);
         }
 
+        public void ActivateEnergySphere()
+        {
+            BattleStage = 5;
+        }
+
         private void ChangeStage(int nextStage)
         {
             BattleStage = nextStage;
-            DEBUG_CURRENT_STAGE.text = nextStage.ToString();
         }
-        public void DEBUG_KILL_BOSS()
+
+
+        int DEBUG = 1;
+        public void GOTOFINALBOSSSTAGE()
         {
-            ActivateEnergyBeam(1);
-            ActivateEnergyBeam(2);
-            ActivateEnergyBeam(3);
-            ActivateEnergyBeam(4);
-            ActivateEnergyBeam(5);
-            ActivateEnergyBeam(6);
+            ActivateEnergyBeam(DEBUG);
+            DEBUG++;
         }
 
         public void DEBUG_DESTROY_BOSS()

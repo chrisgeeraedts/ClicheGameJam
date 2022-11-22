@@ -114,7 +114,7 @@ public class GlobalAchievementManager : MonoBehaviour
         {
             LoadData();
         }
-        return _achievements;
+        return _achievements.OrderBy(x => x.Name).ToList();
     }
 
     public bool IsAchievementCompleted(int achievementId)

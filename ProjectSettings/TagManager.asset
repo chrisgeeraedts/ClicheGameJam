@@ -21,6 +21,7 @@ TagManager:
   - Enemy
   - LaserTarget
   - Fish
+  - EnergyOrb
   layers:
   - Default
   - TransparentFX

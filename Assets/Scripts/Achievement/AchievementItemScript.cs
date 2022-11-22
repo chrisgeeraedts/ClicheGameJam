@@ -11,10 +11,10 @@ public class AchievementItemScript : MonoBehaviour
     public TMP_Text DescriptionTextElement;
     public TMP_Text LocationTextElement;
     public UnityEngine.UI.Image ImageElement;
-    public UnityEngine.UI.Image AchievedNoElement;
-    public UnityEngine.UI.Image AchievedYesElement;
-    public UnityEngine.UI.Image AchievedBackgroundNoElement;
-    public UnityEngine.UI.Image AchievedBackgroundYesElement;
+    public GameObject AchievedNoElement;
+    public GameObject AchievedYesElement;
+    public GameObject AchievedBackgroundNoElement;
+    public GameObject AchievedBackgroundYesElement;
 
     public void Initialize(Achievement achievement)
     {

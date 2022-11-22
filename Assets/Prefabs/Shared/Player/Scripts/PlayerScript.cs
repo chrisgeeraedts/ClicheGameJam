@@ -828,6 +828,15 @@ namespace Assets.Scripts.Shared
             return gameObject;
         }
 
+        public void Empower(float newDamage)
+        {
+            AttackDamage = newDamage;
+            GetComponent<SpriteRenderer>().color = Color.blue;
+            transform.localScale = transform.localScale *1.1f;
+            Movement_JumpForce = 24;
+            JumpOutOfWater();
+        }
+
         private void Die()
         {
             PlayerMovementMode = PlayerMovementMode.Dead;
@@ -905,6 +914,7 @@ namespace Assets.Scripts.Shared
             }  
             if(other.tag == "Enemy")
             {
+                Debug.Log(ActiveEnemiesInDamageArea.Count());
                 IEnemy enemy = other.gameObject.GetComponent<IEnemy>();    
                 if(enemy != null)
                 {
