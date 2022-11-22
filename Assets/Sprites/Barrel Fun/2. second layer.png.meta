@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 15
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -38749,7 +38749,6 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      2. second layer_838: 1122414074
       2. second layer_1442: 1265251183
       2. second layer_613: -448982810
       2. second layer_1095: 885754686
@@ -38774,18 +38773,18 @@ TextureImporter:
       2. second layer_1606: 1524907867
       2. second layer_1062: 1109349979
       2. second layer_26: 298665615
-      2. second layer_385: 1316710190
-      2. second layer_1505: 642488218
-      2. second layer_312: 871376808
       2. second layer_1555: 1478703014
+      2. second layer_385: 1316710190
+      2. second layer_312: 871376808
+      2. second layer_1505: 642488218
       2. second layer_13: -1643007745
       2. second layer_1527: 197985742
       2. second layer_581: 2121902906
       2. second layer_1798: -802836769
       2. second layer_107: 64336374
-      2. second layer_170: 1356217065
       2. second layer_531: -1385836789
       2. second layer_1017: -83131017
+      2. second layer_170: 1356217065
       2. second layer_738: 89340514
       2. second layer_1662: 1831964214
       2. second layer_579: 111989043
@@ -38908,9 +38907,9 @@ TextureImporter:
       2. second layer_1321: -1943938590
       2. second layer_217: 743443183
       2. second layer_1027: 1143440178
+      2. second layer_1572: 2016859299
       2. second layer_222: -1650748246
       2. second layer_644: -1049675420
-      2. second layer_1572: 2016859299
       2. second layer_725: 1029041687
       2. second layer_1716: -1241630278
       2. second layer_946: 218346907
@@ -40580,6 +40579,7 @@ TextureImporter:
       2. second layer_910: 1412295256
       2. second layer_444: 1168491910
       2. second layer_949: 443689449
+      2. second layer_838: 1122414074
       2. second layer_1114: 847723930
       2. second layer_986: 1107357671
       2. second layer_596: -57035622

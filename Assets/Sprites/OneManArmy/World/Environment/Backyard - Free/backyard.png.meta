@@ -320,7 +320,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 48
+  spritePixelsToUnits: 47
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -2387,10 +2387,10 @@ TextureImporter:
       backyard_36: 21300072
       backyard_52: 21300104
       backyard_3: 21300006
-      backyard_63: 21300126
       backyard_15: 21300030
-      backyard_82: 21300164
+      backyard_63: 21300126
       backyard_18: 21300036
+      backyard_82: 21300164
       backyard_74: 21300148
       backyard_46: 21300092
       backyard_16: 21300032

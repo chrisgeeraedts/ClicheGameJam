@@ -5,11 +5,15 @@ using System.Collections;
 using Assets.Scripts.Map;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Shop
 {
     public class Shopkeeper : MonoBehaviour
     {
+        [SerializeField] GameObject lootboxOpenerContainer;
+
         #region Speaking
         [Header("Speaking Bubbles")]
         [SerializeField] EasyExpandableTextBox Speaking_Textbox;
@@ -23,69 +27,125 @@ namespace Assets.Scripts.Shop
         [SerializeField] int AppleHealingAmount = 10;
         #endregion
 
-        private bool isShowingText = false; 
+        private bool isShowingText = false;
+        private List<string> adviceList = new List<string>();
 
         IEnumerator canShowTextAgain(float waitTime, string messageSend, float durationPerCharacter)
-        {        
-            yield return new WaitForSeconds((durationPerCharacter*messageSend.Length)+waitTime); 
+        {
+            yield return new WaitForSeconds((durationPerCharacter * messageSend.Length) + waitTime);
             isShowingText = false;
         }
 
         public void SetCannotAffordItemText(string itemName)
         {
-            if(!isShowingText)
+            if (!isShowingText)
             {
                 isShowingText = true;
                 Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
-                string message = $"It seems you don't have enough coins to buy <color=#fede34>{itemName}</color>";
+                string message = $"It seems you don't have enough coins to buy <color=#dd0000>{itemName}</color>";
                 StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
                 StartCoroutine(canShowTextAgain(2f, message, 0.075f));
             }
         }
 
         public void SetBrokenVaseText()
-        {            
-            if(!isShowingText)
+        {
+            if (!isShowingText)
             {
                 isShowingText = true;
                 Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
                 string message = $"Sure, break my furniture and pay me with money you find in there.";
                 StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
                 StartCoroutine(canShowTextAgain(2f, message, 0.075f));
-                GlobalAchievementManager.GetInstance().SetAchievementCompleted(21);
             }
+
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(21);
         }
 
         public void SetPurchaseText(string itemName)
-        {            
-                        
-            if(!isShowingText)
-            {
-                isShowingText = true;
-                Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
-                string message = $"Thank you for buying <color=#fede34>{itemName}</color>{Environment.NewLine}It will bring you much joy !";
-                StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
-                StartCoroutine(canShowTextAgain(2f, message, 0.075f));
-            }
+        {
+            string message = String.Empty;
+
             if (itemName.Equals("Bikini armor", StringComparison.InvariantCultureIgnoreCase))
             {
+                message = $"I don't think that will fit you{Environment.NewLine}Would you believe there are people who are fully armored by that ?";
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(3);
             }
             else if (itemName.Equals("Lootbox", StringComparison.InvariantCultureIgnoreCase))
             {
+                lootboxOpenerContainer.SetActive(true);
+                lootboxOpenerContainer.GetComponent<LootBoxOpener>().StartLootbox();
+
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(28);
             }
             else if (itemName.Equals("Apple", StringComparison.InvariantCultureIgnoreCase))
             {
-                GlobalAchievementManager.GetInstance().SetAchievementCompleted(8);                
+                GlobalAchievementManager.GetInstance().SetAchievementCompleted(8);
+
                 MapManager.GetInstance().Heal(AppleHealingAmount);
-                
                 var healingText = Instantiate(HealingTextPrefab, HeroHealingTextSpawnPoint.transform, false);
                 healingText.GetComponent<HealingNumberScript>().ShowText(AppleHealingAmount);
-
-
                 HeroHealingAudio.Play();
             }
+            else if (itemName.Equals("Cheat Codes", StringComparison.InvariantCultureIgnoreCase))
+            {
+                message = "Just so you know, the Koh Nah Mih code in that manual only works when you try it in my shop.";
+            }
+            else if (itemName.Equals("Fishing Pole", StringComparison.InvariantCultureIgnoreCase))
+            {
+                MapManager.GetInstance().HasFishingPole = true;
+                message = "Good luck on your fishing adventure !";
+            }
+            else if (itemName.Equals("Golden Gun", StringComparison.InvariantCultureIgnoreCase))
+            {
+                MapManager.GetInstance().HasGoldenGun = true;
+                message = "That gun sure looks fancy !";
+            }
+            else if (itemName.Equals("Sally's Advice", StringComparison.InvariantCultureIgnoreCase))
+            {
+                message = GetShopkeepersAdvice();
+                RestockItem(itemName);
+            }
+            else if (itemName.Equals("Silly Hat", StringComparison.InvariantCultureIgnoreCase))
+            {
+                MapManager.GetInstance().HasSillyHat = true;
+                message = $"To be honest, I ile your crown better.{Environment.NewLine}But don't let me tell you how to live your life!";
+            }
+
+            if (!isShowingText && !String.IsNullOrEmpty(message))
+            {
+                isShowingText = true;
+                Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
+
+                StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
+                StartCoroutine(canShowTextAgain(2f, message, 0.075f));
+            }
+        }
+
+        private void RestockItem(string itemName)
+        {
+            var shopItems = FindObjectsOfType<ShopItem>();
+
+            foreach (var item in shopItems)
+            {
+                if (item.ItemName.Equals(itemName, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    item.Restock();
+                }
+            }
+        }
+
+        private string GetShopkeepersAdvice()
+        {
+            if (adviceList.Count == 0)
+            {
+                InitializeAdviceList();
+            }
+
+            var adviceIndex = Random.Range(0, adviceList.Count);
+            var advice = adviceList[adviceIndex];
+            adviceList.RemoveAt(adviceIndex);
+            return advice;
         }
 
         public void ReturnToMap()
@@ -97,6 +157,16 @@ namespace Assets.Scripts.Shop
         void Start()
         {
             Speaking_Textbox.Hide();
+            InitializeAdviceList();
+        }
+
+        private void InitializeAdviceList()
+        {
+            adviceList.Add("You never know when you need a fishing pole");
+            adviceList.Add("you should learn how to swim");
+            adviceList.Add("A Golden Gun is a Golden Gun, but a lootbox can contain ANYTHING, even a Golden Gun !");
+            adviceList.Add("Don't forget to save often. Wait, what does that even mean?");
+            adviceList.Add("I heard you can find coins that aren't even visible. How exciting !");
         }
     }
 }

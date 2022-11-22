@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Apple
   price: 5
   itemIcon: {fileID: 21300000, guid: 30b8e668ad79bcf4293400014ce501e9, type: 3}
+  lootboxWeight: 400

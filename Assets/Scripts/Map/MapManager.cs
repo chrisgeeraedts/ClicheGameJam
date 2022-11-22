@@ -29,6 +29,12 @@ namespace Assets.Scripts.Map
         public bool LastGameWasLost = false;
         public bool LastGameWasWon = false;
 
+        // LOOT
+        public bool HasFishingPole = false;
+        public bool HasGoldenGun = false;
+        public bool HasSillyHat = false;
+        // /LOOT
+
         public float GetHeroHPForFill()
         {
             return (1/HeroMaxHP)*HeroHP;
@@ -55,6 +61,7 @@ namespace Assets.Scripts.Map
 
         public void ResetMap()
         {
+            Debug.Log("Resetting map");
             instance = null;
             Destroy(gameObject);
         }
@@ -154,7 +161,7 @@ namespace Assets.Scripts.Map
         
         private void GenerateMinigames()
         {
-            Debug.Log("GenerateMinigames");
+            HeroHP = HeroMaxHP; //Lazy fix for health being 0 after GameOver -> Restart ?
             FillUnusedMinigameinfoIndexes();
 
             for (int x = 0; x < mapWidth; x++)
@@ -196,7 +203,6 @@ namespace Assets.Scripts.Map
         private void Awake()
         {
             SetupSingleton();
-            
         }
 
         public void Exit()

@@ -19,6 +19,15 @@ namespace Assets.Scripts.Shop
 
         private bool bought = false;
 
+        public string ItemName => shopItemSo.ItemName;
+
+        public void Restock()
+        {
+            bought = false;
+            itemIcon.sprite = shopItemSo.ItemIcon;
+            BuyButton.interactable = true;
+        }
+
         private void Start()
         {
             itemIcon.sprite = shopItemSo.ItemIcon;
