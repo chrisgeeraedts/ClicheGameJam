@@ -245,7 +245,7 @@ namespace Assets.Scripts.Map
 
         void TaskOnMouseEnter(object sender, MouseEnterEventArgs e){   
 
-            if(MapManager.GetInstance().CanStartGame(e.X, e.Y))
+            if(MapManager.GetInstance() != null && MapManager.GetInstance().CanStartGame(e.X, e.Y))
             {
                 SetCurrentMapNodeSelected(false);       
                 selectedX = e.X;
