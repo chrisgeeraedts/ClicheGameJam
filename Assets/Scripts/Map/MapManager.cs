@@ -155,7 +155,7 @@ namespace Assets.Scripts.Map
         
         private void GenerateMinigames()
         {
-            Debug.Log("GenerateMinigames");
+            HeroHP = HeroMaxHP; //Lazy fix for health being 0 after GameOver -> Restart ?
             FillUnusedMinigameinfoIndexes();
 
             for (int x = 0; x < mapWidth; x++)
