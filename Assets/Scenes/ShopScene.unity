@@ -5215,7 +5215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1712472615
 Transform:
   m_ObjectHideFlags: 0
@@ -5253,8 +5253,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a79a4f5208d45d4196575c5d68f03c0, type: 2}
   - {fileID: 11400000, guid: c7f5e3da46ac670498b4c20bab0c3304, type: 2}
   - {fileID: 11400000, guid: 54aa3b18090be7f488f60d115a024d68, type: 2}
-  randomizerTimeInSeconds: 4
+  timeBeforeWinningItem: 4
   timeBetweenItems: 0.1
+  hideOverlayDelay: 2
 --- !u!1 &1735569506
 GameObject:
   m_ObjectHideFlags: 0
