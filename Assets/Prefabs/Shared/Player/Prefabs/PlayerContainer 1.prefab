@@ -995,7 +995,7 @@ GameObject:
   - component: {fileID: 1420277167772259341}
   - component: {fileID: 7168660652717365051}
   - component: {fileID: 7168660652717365050}
-  m_Layer: 8
+  m_Layer: 13
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1010,7 +1010,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181157936419025823}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.37, y: 1.8, z: 0.030176427}
+  m_LocalPosition: {x: 2.23, y: 33.529, z: 0.030176427}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13814,7 +13814,6 @@ GameObject:
   - component: {fileID: 5699093621091301257}
   - component: {fileID: 1714017561}
   - component: {fileID: 2401992121091316262}
-  - component: {fileID: 884931522}
   m_Layer: 0
   m_Name: PlayerCam
   m_TagString: Untagged
@@ -13869,7 +13868,7 @@ MonoBehaviour:
     GateFit: 2
     m_SensorSize: {x: 1, y: 1}
   m_Transitions:
-    m_BlendHint: 0
+    m_BlendHint: 1
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
@@ -13920,20 +13919,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2401992121091316262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7708087957704121411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe537b1537ea7234194e2a395c2d7cb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BloomIntesifier: 1.1
-  bloomSpeed: 0.5
---- !u!114 &884931522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

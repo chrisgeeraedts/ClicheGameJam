@@ -55,6 +55,7 @@ namespace Assets.Scripts.Map
 
         public void ResetMap()
         {
+            Debug.Log("Resetting map");
             instance = null;
             Destroy(gameObject);
         }
@@ -196,7 +197,6 @@ namespace Assets.Scripts.Map
         private void Awake()
         {
             SetupSingleton();
-            
         }
 
         public void Exit()

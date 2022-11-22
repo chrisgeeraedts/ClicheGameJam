@@ -30,7 +30,7 @@ public class BloomCameraRaiserScript : MonoBehaviour
             if (_bloom.intensity.value >= 99999) {
                 //done
             } 
-            Debug.Log ("Bloom Intensity: " + _bloom.intensity.value);
+            //Debug.Log ("Bloom Intensity: " + _bloom.intensity.value);
         }
     }
 
