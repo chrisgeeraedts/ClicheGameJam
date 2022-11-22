@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 15
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -35316,16 +35316,16 @@ TextureImporter:
       1. main platforms_921: -1204598284
       1. main platforms_1454: -1236036646
       1. main platforms_525: -686595389
-      1. main platforms_306: -1553841018
       1. main platforms_1443: -3156870
+      1. main platforms_1124: 474639389
       1. main platforms_1583: 1016400013
       1. main platforms_254: -277951624
       1. main platforms_154: -910918803
-      1. main platforms_1124: 474639389
       1. main platforms_336: -688021039
       1. main platforms_885: -999272129
       1. main platforms_908: 1473295820
       1. main platforms_769: -805367066
+      1. main platforms_306: -1553841018
       1. main platforms_292: -1851306243
       1. main platforms_266: 1268922620
       1. main platforms_270: 1341816855
@@ -36183,8 +36183,8 @@ TextureImporter:
       1. main platforms_1003: 1899555907
       1. main platforms_1497: 1087110324
       1. main platforms_380: 1376329793
-      1. main platforms_1379: 2101299574
       1. main platforms_157: -253824170
+      1. main platforms_1379: 2101299574
       1. main platforms_494: 1342935879
       1. main platforms_1395: -1656566222
       1. main platforms_290: -901339241
@@ -36193,9 +36193,9 @@ TextureImporter:
       1. main platforms_808: 1468234525
       1. main platforms_152: -870068041
       1. main platforms_532: 463746020
-      1. main platforms_247: -250565043
-      1. main platforms_1089: 11628991
       1. main platforms_1239: 2049292031
+      1. main platforms_1089: 11628991
+      1. main platforms_247: -250565043
       1. main platforms_1662: -461947575
       1. main platforms_1434: -1131507916
       1. main platforms_441: 856013111
