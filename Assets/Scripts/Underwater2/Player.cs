@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Assets.Scripts.Map;
 
 namespace Assets.Scripts.Underwater2
 {
@@ -30,6 +31,11 @@ namespace Assets.Scripts.Underwater2
         public bool CanChop;
         public bool CanCraft;
 
+        private void Start()
+        {
+            hasFishingpole = MapManager.GetInstance().HasFishingPole;
+        }
+
         public void SetActive(bool isActive)
         {
             this.isActive = isActive;
@@ -56,7 +62,6 @@ namespace Assets.Scripts.Underwater2
 
         public void SetHasFishingpole(bool hasFishingpole)
         {
-            //TODO: Store in MapManager
             this.hasFishingpole = hasFishingpole;
         }
 

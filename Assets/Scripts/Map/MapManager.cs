@@ -29,6 +29,12 @@ namespace Assets.Scripts.Map
         public bool LastGameWasLost = false;
         public bool LastGameWasWon = false;
 
+        // LOOT
+        public bool HasFishingPole = false;
+        public bool HasGoldenGun = false;
+        public bool HasSillyHat = false;
+        // /LOOT
+
         public float GetHeroHPForFill()
         {
             return (1/HeroMaxHP)*HeroHP;

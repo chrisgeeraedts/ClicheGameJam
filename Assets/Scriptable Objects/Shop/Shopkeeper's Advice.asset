@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01d971af03ef0be41b545bfe8b7781bc, type: 3}
-  m_Name: Lootbox
+  m_Name: Shopkeeper's Advice
   m_EditorClassIdentifier: 
-  itemName: Lootbox
-  price: 99
-  itemIcon: {fileID: 21300000, guid: 93b108097cb4c5b47a68034e662b7711, type: 3}
+  itemName: Shopkeeper's Advice
+  price: 19
+  itemIcon: {fileID: 0}
