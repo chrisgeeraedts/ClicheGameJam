@@ -18774,7 +18774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1202237721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.414837, y: 1.9147943, z: -10.013918}
+  m_LocalPosition: {x: -3.4241538, y: 1.9147652, z: -10.013918}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31223,7 +31223,7 @@ GameObject:
   - component: {fileID: 1698329488}
   m_Layer: 0
   m_Name: TilemapBridge
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

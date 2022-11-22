@@ -303,9 +303,21 @@ namespace Assets.Scripts.Map
             minigameGrid[selectedX, selectedY].GetComponent<MapNode>().SetSelected(true);
         }
 
+        public void ExitGame()
+        {
+            MapManager.GetInstance().ResetMap();
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MainMenuScene);
+        }
+
         private int bossAnimationStage = 0;
         private void Update()
         {
+            
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ExitGame();
+            }
+
             if(!bossAnimationCanGo)
             {
                 if(allowInput)

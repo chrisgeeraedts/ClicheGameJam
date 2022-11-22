@@ -48,6 +48,13 @@ namespace Assets.Scripts.Shop
             }
         }
 
+        private void Update(){
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ReturnToMap();
+            }
+        }
+
         public void SetBrokenVaseText()
         {
             if (!isShowingText)
@@ -70,6 +77,7 @@ namespace Assets.Scripts.Shop
             {
                 message = $"I don't think that will fit you{Environment.NewLine}Would you believe there are people who are fully armored by that ?";
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(3);
+                MapManager.GetInstance().BikiniArmorBought();
             }
             else if (itemName.Equals("Lootbox", StringComparison.InvariantCultureIgnoreCase))
             {

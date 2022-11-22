@@ -79,6 +79,7 @@ namespace Assets.Scripts.FinalBossScene
             PlayerScript.OnPlayerMilestoneHit +=PlayerScript_OnPlayerMilestoneHit;
             PlayerScript.OnPlayerDeath+=PlayerScript_OnPlayerDeath;
             FinalBossScript.OnBossDeath+=FinalBossScript_OnBossDeath;
+            
 
             CurrentTimeInSeconds = PlaytimeInSeconds;
             float progressValue = (float)(CurrentTimeInSeconds/60f);
@@ -166,11 +167,11 @@ namespace Assets.Scripts.FinalBossScene
 
             if(BattleStage == 11) // Doors are close. Have boss talk and stop animating spellcast
             {                
+                PlayerScript.SetPlayerActive(false);
                 PlayerScript.SetArrow(null);
                 PlayerScript.ToggleTargetingArrow(false);
                 PlayerScript.StopMovement();
                 PlayerScript.LockMovement();
-                
                 
                 StartCoroutine(DoBossEvilTalking());
                 ChangeStage(12);
@@ -183,6 +184,7 @@ namespace Assets.Scripts.FinalBossScene
 
             if(BattleStage == 13) // Set boss config
             {                
+                PlayerScript.SetPlayerActive(true);
                 FinalBossScript.ToggleSpellcastingVisuals(false);
                 FinalBossScript.gameObject.GetComponent<Animator>().runtimeAnimatorController = BossBattleAnimationController;
                 FinalBossScript.SetActive();
@@ -206,6 +208,7 @@ namespace Assets.Scripts.FinalBossScene
 
             if(BattleStage == 20) // Boss stage 1 defeated
             {                 
+                PlayerScript.Options_ShowTargetingArrow = false;
                 PlayerCam.enabled = false;
                 BossCam.enabled = true;    
                 Phase2Music.Stop();
@@ -263,9 +266,9 @@ namespace Assets.Scripts.FinalBossScene
         {     
             yield return new WaitForSeconds(1f);   
                 FinalBossScript.Say("No... It cannot end like this!", 0.125f, false, false, 5f);  
+            yield return new WaitForSeconds(3f);   
+                FinalBossScript.Say("I...WILL...NOT...FALL!", 0.125f, false, false, 6f);  
             yield return new WaitForSeconds(6f);   
-                FinalBossScript.Say("I...WILL...NOT...FALL!", 0.125f, false, false, 4f);  
-            yield return new WaitForSeconds(5f);   
             ChangeStage(22);
         }
 

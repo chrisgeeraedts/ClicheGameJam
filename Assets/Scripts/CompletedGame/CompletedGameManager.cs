@@ -14,21 +14,13 @@ public class CompletedGameManager : MonoBehaviour
     public void ExitGame()
     {
         buttonClickAudioSource.Play();
-        if(Application.platform == RuntimePlatform.WebGLPlayer)
-        {
-            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.WebGLExitScene);
-        }
-        else
-        {
-            Application.Quit();
-        }
+        MapManager.GetInstance().ResetMap();
+        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MainMenuScene);
     }
 
     public void Credits()
     {
         buttonClickAudioSource.Play();
-        newRunButton.interactable = false;       
-        newRunButton.interactable = true;
         MapManager.GetInstance().ResetMap();
         GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.CreditsScene);
     }

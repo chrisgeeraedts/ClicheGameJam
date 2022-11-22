@@ -363,6 +363,8 @@ namespace Assets.Scripts.Shared
 
         public void StopMovement()
         {
+            Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
+            Base_Animator.SetBool(PlayerConstants.Animation_Grounded, true);
             Base_RigidBody2D.velocity = Vector3.zero;
         }
         
@@ -429,10 +431,14 @@ namespace Assets.Scripts.Shared
         public void Damage(float amount) 
         {
             if(!isImmuneToDamage && _isActive)
-            {
-                
+            {                
                 if(amount > 0)
                 {
+                    if(MapManager.GetInstance().HasBininiArmor())
+                    {
+                        amount = amount * 0.8f;
+                    }
+
                     AudioSource_DamageTaken.Play();
                     _healthSystem.Damage(amount);
 
@@ -914,7 +920,6 @@ namespace Assets.Scripts.Shared
             }  
             if(other.tag == "Enemy")
             {
-                Debug.Log(ActiveEnemiesInDamageArea.Count());
                 IEnemy enemy = other.gameObject.GetComponent<IEnemy>();    
                 if(enemy != null)
                 {

@@ -14,9 +14,6 @@ public class ShopHealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //DEBUG
-        MapManager.GetInstance().HeroHP = 100;
-        MapManager.GetInstance().HeroMaxHP = 200;
     }
 
     // Update is called once per frame

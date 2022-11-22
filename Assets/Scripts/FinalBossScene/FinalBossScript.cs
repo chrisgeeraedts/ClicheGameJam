@@ -140,6 +140,7 @@ namespace Assets.Scripts.FinalBossScene
             _healthSystem.OnHealthChanged += healthSystem_OnHealthChanged; 
             _healthSystem.Damage(MapManager.GetInstance().BossMaxHP - MapManager.GetInstance().BossHP);
             BossHealthBar.SetFill(MapManager.GetInstance().GetBossHPForFill());
+            BossHealthBar.Toggle(true);
         }
 
 
@@ -147,7 +148,6 @@ namespace Assets.Scripts.FinalBossScene
         // Update is called once per frame
         void Update()
         {   
-            Debug.Log(Base_RigidBody2D.velocity.magnitude);
             if(IsActive)
             {
                 FlipCharacter();
@@ -252,7 +252,14 @@ namespace Assets.Scripts.FinalBossScene
 
                     MapManager.GetInstance().BossHP = MapManager.GetInstance().BossHP - amount;
 
-                    BossHealthBar.SetFill(MapManager.GetInstance().BossHP / MapManager.GetInstance().BossMaxHP);
+                    Debug.Log("MapManager.GetInstance().BossHP " + MapManager.GetInstance().BossHP);
+                    Debug.Log("MapManager.GetInstance().BossMaxHP " + MapManager.GetInstance().BossMaxHP);
+
+                    float fill = MapManager.GetInstance().BossHP/MapManager.GetInstance().BossMaxHP;
+
+                    Debug.Log(fill);
+                    
+                    BossHealthBar.SetFill(fill);
                     BossHealthBar.SetProgressText(MapManager.GetInstance().BossHP+"/"+MapManager.GetInstance().BossMaxHP);
 
                     Base_Animator.SetTrigger(PlayerConstants.Animation_TakeHit);

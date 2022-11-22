@@ -150,6 +150,18 @@ namespace Assets.Scripts.Map
             return true;
         }
 
+
+        public bool HasBininiArmor()
+        {
+            return _basBikiniArmor;
+        }
+        
+        private bool _basBikiniArmor = false;
+        public void BikiniArmorBought()
+        {
+            _basBikiniArmor = true;
+        }
+
         public void Heal(float healAmount)
         {
             HeroHP = HeroHP + healAmount;
