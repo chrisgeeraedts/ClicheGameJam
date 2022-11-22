@@ -37,7 +37,7 @@ namespace Assets.Scripts.Shop
             {
                 isShowingText = true;
                 Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
-                string message = $"It seems you don't have enough coins to buy <color=#fede34>{itemName}</color>";
+                string message = $"It seems you don't have enough coins to buy <color=#dd0000>{itemName}</color>";
                 StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
                 StartCoroutine(canShowTextAgain(2f, message, 0.075f));
             }
@@ -57,18 +57,12 @@ namespace Assets.Scripts.Shop
         }
 
         public void SetPurchaseText(string itemName)
-        {            
-                        
-            if(!isShowingText)
-            {
-                isShowingText = true;
-                Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
-                string message = $"Thank you for buying <color=#fede34>{itemName}</color>{Environment.NewLine}It will bring you much joy !";
-                StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
-                StartCoroutine(canShowTextAgain(2f, message, 0.075f));
-            }
+        {
+            string message = $"Thank you for buying <color=#fede34>{itemName}</color>{Environment.NewLine}It will bring you much joy !";
+
             if (itemName.Equals("Bikini armor", StringComparison.InvariantCultureIgnoreCase))
             {
+                message = $"I don't think that will fit you{Environment.NewLine}Would you believe there are people fully armored by that ?";
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(3);
             }
             else if (itemName.Equals("Lootbox", StringComparison.InvariantCultureIgnoreCase))
@@ -85,6 +79,15 @@ namespace Assets.Scripts.Shop
 
 
                 HeroHealingAudio.Play();
+            }
+
+            if (!isShowingText)
+            {
+                isShowingText = true;
+                Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
+
+                StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
+                StartCoroutine(canShowTextAgain(2f, message, 0.075f));
             }
         }
 
