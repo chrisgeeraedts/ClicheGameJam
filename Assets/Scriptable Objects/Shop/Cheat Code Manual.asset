@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Cheat Codes
   price: 199
-  itemIcon: {fileID: 21300000, guid: 4e9e6e74f907338498ffd03dbc87653d, type: 3}
+  itemIcon: {fileID: 21300000, guid: 62cb6d2d46b90294cb29a22d0c150401, type: 3}
   lootboxWeight: 4

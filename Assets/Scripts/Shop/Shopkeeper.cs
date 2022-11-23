@@ -29,6 +29,7 @@ namespace Assets.Scripts.Shop
 
         private bool isShowingText = false;
         private List<string> adviceList = new List<string>();
+        private int totalNumberOfAdvices;
 
         IEnumerator canShowTextAgain(float waitTime, string messageSend, float durationPerCharacter)
         {
@@ -171,10 +172,13 @@ namespace Assets.Scripts.Shop
         private void InitializeAdviceList()
         {
             adviceList.Add("You never know when you need a fishing pole");
-            adviceList.Add("you should learn how to swim");
+            adviceList.Add("Maybe you should learn how to swim");
             adviceList.Add("A Golden Gun is a Golden Gun, but a lootbox can contain ANYTHING, even a Golden Gun !");
             adviceList.Add("Don't forget to save often. Wait, what does that even mean?");
             adviceList.Add("I heard you can find coins that aren't even visible. How exciting !");
+
+            totalNumberOfAdvices = adviceList.Count + 1;
+            adviceList.Add($"Did you know there are {totalNumberOfAdvices} different advices I can give you? I am quite knowlegable !");
         }
     }
 }

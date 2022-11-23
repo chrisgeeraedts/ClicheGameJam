@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using System.Collections;
+using TMPro;
 
 namespace Assets.Scripts.Shop
 {
@@ -12,14 +13,29 @@ namespace Assets.Scripts.Shop
         [SerializeField] List<ShopItemSO> shopItems;
         [SerializeField] float timeBeforeWinningItem = 4;
         [SerializeField] float timeBetweenItems = 0.1f;
-        [SerializeField] float hideOverlayDelay = 2f;
+        //[SerializeField] float hideOverlayDelay = 2f;
+        [SerializeField] TextMeshProUGUI prizeTextField;
 
         private int totalLootboxWeight;
         private ShopItemSO wonItem;
+        private Shopkeeper shopkeeper;
+
+        public void ClaimPrize()
+        {
+            gameObject.SetActive(false);
+            shopkeeper.SetPurchaseText(wonItem.ItemName);
+        }
 
         public void StartLootbox()
         {
             StartCoroutine(LoopRandomItems());
+        }
+
+        private void Start()
+        {
+            totalLootboxWeight = shopItems.Sum(si => si.LootboxWeight);
+            shopkeeper = FindObjectOfType<Shopkeeper>();
+            wonItem = shopItems[0];
         }
 
         private IEnumerator LoopRandomItems()
@@ -35,28 +51,19 @@ namespace Assets.Scripts.Shop
 
             SetWonItem();
             Debug.Log($"You won {wonItem.ItemName}");
-            //TODO: Pass on to shopkeeper as a 'bought' item
-            StartCoroutine(HideLootboxOverlay());
         }
 
         private void ShowRandomItem()
         {
             var itemToShow = shopItems[Random.Range(0, shopItems.Count)];
+            ShowItem(itemToShow);
+        }
+
+        private void ShowItem(ShopItemSO itemToShow)
+        {
             lootBoxImage.sprite = itemToShow.ItemIcon;
+            prizeTextField.text = itemToShow.ItemName;
         }
-
-        private IEnumerator HideLootboxOverlay()
-        {
-            yield return new WaitForSeconds(hideOverlayDelay);
-
-            gameObject.SetActive(false);
-        }
-
-        private void Start()
-        {
-            totalLootboxWeight = shopItems.Sum(si => si.LootboxWeight);
-        }
-
 
         private void SetWonItem()
         {
@@ -69,11 +76,10 @@ namespace Assets.Scripts.Shop
                 if (randomIndex <= currentIndex)
                 {
                     wonItem = item;
-                    lootBoxImage.sprite = wonItem.ItemIcon;
+                    ShowItem(wonItem);
                     return;
                 }
             }
-
         }
     }
 }
