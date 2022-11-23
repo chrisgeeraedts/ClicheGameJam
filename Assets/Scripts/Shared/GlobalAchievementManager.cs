@@ -140,8 +140,6 @@ public class GlobalAchievementManager : MonoBehaviour
             Debug.Log("Searching for achievement...");
             Achievement foundAchievement = _achievements.FirstOrDefault(x => x.Id == achievementId);
 
-            MapManager.GetInstance().GainCoins(10);
-
             Debug.Log("Found: " + foundAchievement);
 
             // Check if we actually have this achievement
