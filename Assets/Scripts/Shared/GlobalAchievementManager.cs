@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Assets.Scripts.Shared;
+using Assets.Scripts.Map;
 
 public class GlobalAchievementManager : MonoBehaviour
 {
@@ -141,6 +142,8 @@ public class GlobalAchievementManager : MonoBehaviour
         {
             Debug.Log("Searching for achievement...");
             Achievement foundAchievement = _achievements.FirstOrDefault(x => x.Id == achievementId);
+
+            MapManager.GetInstance().GainCoins(10);
 
             Debug.Log("Found: " + foundAchievement);
 
