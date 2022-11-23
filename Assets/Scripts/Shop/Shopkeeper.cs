@@ -95,6 +95,8 @@ namespace Assets.Scripts.Shop
                 var healingText = Instantiate(HealingTextPrefab, HeroHealingTextSpawnPoint.transform, false);
                 healingText.GetComponent<HealingNumberScript>().ShowText(AppleHealingAmount);
                 HeroHealingAudio.Play();
+                
+                RestockItem(itemName);
             }
             else if (itemName.Equals("Cheat Codes", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -118,7 +120,7 @@ namespace Assets.Scripts.Shop
             else if (itemName.Equals("Silly Hat", StringComparison.InvariantCultureIgnoreCase))
             {
                 MapManager.GetInstance().HasSillyHat = true;
-                message = $"To be honest, I ile your crown better.{Environment.NewLine}But don't let me tell you how to live your life!";
+                message = $"To be honest, I like your crown better.{Environment.NewLine}But don't let me tell you how to live your life!";
             }
 
             if (!isShowingText && !String.IsNullOrEmpty(message))

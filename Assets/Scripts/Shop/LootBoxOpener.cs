@@ -15,6 +15,10 @@ namespace Assets.Scripts.Shop
         [SerializeField] float timeBetweenItems = 0.1f;
         //[SerializeField] float hideOverlayDelay = 2f;
         [SerializeField] TextMeshProUGUI prizeTextField;
+        [SerializeField] AudioSource lootboxTick;
+        [SerializeField] AudioSource lootboxSucces;
+        [SerializeField] GameObject gameObjectSucces;
+        [SerializeField] EasyExpandableTextBox Speaking_Textbox;
 
         private int totalLootboxWeight;
         private ShopItemSO wonItem;
@@ -28,6 +32,8 @@ namespace Assets.Scripts.Shop
 
         public void StartLootbox()
         {
+            Speaking_Textbox.Hide();
+            gameObjectSucces.SetActive(false);
             StartCoroutine(LoopRandomItems());
         }
 
@@ -43,13 +49,17 @@ namespace Assets.Scripts.Shop
             var timeElapsed = 0f;
             while (timeElapsed <= timeBeforeWinningItem)
             {
+                lootboxTick.Play();
                 ShowRandomItem();
                 timeElapsed += timeBetweenItems;
 
                 yield return new WaitForSeconds(timeBetweenItems);
             }
 
+
+            lootboxSucces.Play();
             SetWonItem();
+            gameObjectSucces.SetActive(true);
             Debug.Log($"You won {wonItem.ItemName}");
         }
 

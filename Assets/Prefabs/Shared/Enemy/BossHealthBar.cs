@@ -42,8 +42,8 @@ namespace Assets.Scripts.Shared
 		}
 
 		float currentFill;
-		public void Update() {
-			if(Toggled)
+		void Update() {
+		if(Toggled)
 			{
 				FillImage.GetComponent<Image>().fillAmount = _fillAmount;
 			}

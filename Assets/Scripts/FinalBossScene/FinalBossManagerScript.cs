@@ -202,7 +202,7 @@ namespace Assets.Scripts.FinalBossScene
                 if (Time.time > nextTalkActionTime ) {
                     nextTalkActionTime += talkPeriod;
                     // execute block of code here
-                    StartCoroutine(DoBossRandomTalk());
+                    StartCoroutine(DoBossRandomTalk()); 
                 }
             }
 
@@ -242,7 +242,7 @@ namespace Assets.Scripts.FinalBossScene
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.FinalBossFightStage2Scene);
         }
 
-        private float nextTalkActionTime = 12.0f;
+        private float nextTalkActionTime = 10.0f;
         public float talkPeriod = 12f;
 
         private void ChangeStage(int nextStage)
