@@ -53,6 +53,11 @@ namespace Assets.Scripts.Map
         
         private List<FinishedMinigameInfoXY> FirstFinishedMinigames;
 
+        public void SetMaxStage(int stage)
+        {
+            maxStageUnlocked = stage;
+        }
+
         private int maxStageUnlocked = 0;
         private static MapManager instance;
         private int minigameStartedX, minigameStartedY;

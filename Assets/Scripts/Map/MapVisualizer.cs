@@ -583,6 +583,37 @@ namespace Assets.Scripts.Map
             cursorMovedSound.Play();
         }
 
+        public void DEBUG_GOTOFINALSTAGE()
+        {
+            bossPrepared = false;
+            MapManager.GetInstance().SetMaxStage(4);
+
+            bossPrepared = true;
+            Debug.Log("Boss is ready");
+            // can go to final boss now
+            for (int i = 0; i < minigamePositionGrid.Length; i++)
+            {
+                minigamePositionGrid[i].SetActive(false);
+            }
+
+            for (int x = 0; x < minigameGrid.GetLength(0); x++)
+            {
+                for (int y = 0; y < minigameGrid.GetLength(1); y++)
+                {
+                    minigameGrid[x, y].SetActive(false);
+                }
+            }
+
+            backgroundToHideOnFinalBoss.enabled = false;
+            titleToHideOnFinalBoss.enabled = false;    
+            bossAnimationCanGo = true;        
+
+
+            bossAnimationCanGo = true;
+        }
+
+        
+
         private void SetCurrentMapNodeSelected(bool isSelected)
         {
             minigameGrid[selectedX, selectedY].GetComponent<MapNode>().SetSelected(isSelected);
