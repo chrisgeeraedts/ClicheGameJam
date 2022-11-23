@@ -10,14 +10,16 @@ using Assets.Scripts.Shared;
 using Cinemachine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using System.Linq;
 
 namespace Assets.Scripts.FinalBossScene 
 {
-    public class FinalBossStage3Script : MonoBehaviour
+    public class FinalBossStage3Script : MonoBehaviour, IGetHealthSystem
     {
         #region Base
         [Header("Base Configuration")]
         [SerializeField] private PlayerScript PlayerScript;
+        [SerializeField] private StationaryBoss StationaryBoss;
         [SerializeField] private Image BossHealthBarElement;
         [SerializeField] private TMP_Text BossHealthTextElement;
         [SerializeField] private Material greenMaterial;
@@ -112,6 +114,12 @@ namespace Assets.Scripts.FinalBossScene
         [Space(10)]
         #endregion
 
+        #region EnergyControls
+        [Header("EnergyControls")]
+        [SerializeField] private EnergyControlBox[] EnergyControls; 
+        [Space(10)]
+        #endregion
+
         [Header("DEBUG")] //Fighting boss stage 2
         [SerializeField] private TMP_Text DEBUG_TEXTFIELD;
         [SerializeField] private TMP_Text DEBUG_CURRENT_STAGE;
@@ -126,6 +134,13 @@ namespace Assets.Scripts.FinalBossScene
 
         [SerializeField] private BossHealthBar BossHealthBar; 
 
+        private HealthSystem _healthSystem;
+        [SerializeField] private HealthBarUI Base_HealthBarUI; 
+
+        public HealthSystem GetHealthSystem()
+        {
+            return _healthSystem;
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -145,6 +160,10 @@ namespace Assets.Scripts.FinalBossScene
 
             MapManager.GetInstance().BossHP = 66666f;
             MapManager.GetInstance().BossMaxHP = 66666f;
+
+            
+             _healthSystem = new HealthSystem(MapManager.GetInstance().BossMaxHP);
+            Base_HealthBarUI.SetHealthSystem(_healthSystem);
 
             PlayerScript.OnPlayerInteracted +=PlayerScript_OnPlayerInteracted;
             PlayerScript.OnPlayerMilestoneHit +=PlayerScript_OnPlayerMilestoneHit;
@@ -173,8 +192,8 @@ namespace Assets.Scripts.FinalBossScene
                     
                     LaserEyes.SetActive(false);
 
-                    PlayerScript.SetArrow(Target1);
-                    PlayerScript.Options_ShowTargetingArrow = true;
+                   
+
                     StartCoroutine(DoHeroIntroTalking());
                     GlobalAchievementManager.GetInstance().SetAchievementCompleted(11); //boss transformations
                     ChangeStage(1);
@@ -185,7 +204,9 @@ namespace Assets.Scripts.FinalBossScene
                 }                
                 if(BattleStage == 2) // Combat phase with boss
                 {
-
+                    // keep arrow on closest control
+                    PlayerScript.SetArrow(GetClosestEnergyControl(EnergyControls).gameObject);
+                    PlayerScript.Options_ShowTargetingArrow = true;
                 }
                 if(CurrentEyeBeamTimeInSeconds <= 0)
                 {
@@ -234,8 +255,7 @@ namespace Assets.Scripts.FinalBossScene
                     nextUpdate=Mathf.FloorToInt(Time.time)+1;    
                     TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
 
-                    EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
-                    CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds - 1;             
+                    EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));        
                 }
 
 
@@ -399,7 +419,6 @@ namespace Assets.Scripts.FinalBossScene
         {
             if(!_bossIsDead)
             {
-
                 // Play Audio
                 BossHurt.Play();
 
@@ -412,9 +431,14 @@ namespace Assets.Scripts.FinalBossScene
                 if(MapManager.GetInstance().BossHP <= 0)
                 {
                     _bossIsDead = true;
+                    Base_HealthBarUI.gameObject.SetActive(false);
                     BossHealthBarElement.fillAmount = 0;
                     BossHealthTextElement.text = "0/66600";
                     Win();
+                }
+                else
+                {                    
+                    _healthSystem.Damage(damageAmount);
                 }
             }
             
@@ -436,18 +460,10 @@ namespace Assets.Scripts.FinalBossScene
             if(LasersActivated == 5)
             {                
                 PlayerScript.Say("Just one more!", 0.075f, false, false);  
-            }           
-            if(LasersActivated == 6)
-            {                
-                EyeBeamInitialTimeInSeconds = 4f;
-                CurrentEyeBeamTimeInSeconds = 4f;
-                BattleStage = 3;  
-            }
+            }     
+
             
-            if(energyId < 7){                
-                EyeBeamInitialTimeInSeconds -=3f;
-                CurrentEyeBeamTimeInSeconds -=3f;
-            }
+
             if(energyId == 1)
             {
                 LaserLeftBottom.material = blueMaterial;
@@ -496,6 +512,34 @@ namespace Assets.Scripts.FinalBossScene
                 LaserRightTopCompleted = true;
                 AttackPlatform(DamagingZoneRightTop);
             }
+
+            if(LasersActivated == 6)
+            {                
+                EyeBeamInitialTimeInSeconds = 4f;
+                CurrentEyeBeamTimeInSeconds = 4f;
+                BattleStage = 3;  
+            }            
+            else if(energyId < 7){                
+                CurrentEyeBeamTimeInSeconds -=3f;
+                EyeBeamInitialTimeInSeconds = CurrentEyeBeamTimeInSeconds;
+            }
+        }
+
+        EnergyControlBox GetClosestEnergyControl(EnergyControlBox[] energyControls)
+        {
+            EnergyControlBox tMin = null;
+            float minDist = Mathf.Infinity;
+            Vector3 currentPos = PlayerScript.gameObject.transform.position;
+            foreach (EnergyControlBox t in energyControls.Where(x => !x.Toggled))
+            {
+                float dist = Vector3.Distance(t.gameObject.transform.position, currentPos);
+                if (dist < minDist)
+                {
+                    tMin = t;
+                    minDist = dist;
+                }
+            }
+            return tMin;
         }
 
         bool _bossIsDead = false;
@@ -551,12 +595,10 @@ namespace Assets.Scripts.FinalBossScene
             FinalAudio.Play();
             float tick = 0f;
             Color endColor = Color.blue;
-            while (BossRenderer.color != endColor)
-            {
-                tick += Time.deltaTime * 0.1f;
-                BossRenderer.color = Color.Lerp(BossRenderer.color, endColor, tick);
-                yield return null;
-            }
+                Debug.Log("Coloring");
+
+            StationaryBoss.Death();
+
             BloomCameraRaiserScript.StartBloom();
             yield return new WaitForSeconds(3f); 
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.CompletedGameScene); 
@@ -582,6 +624,7 @@ namespace Assets.Scripts.FinalBossScene
         private void ChangeStage(int nextStage)
         {
             BattleStage = nextStage;
+            Debug.Log("STAGE: " + nextStage);
         }
 
 
@@ -594,7 +637,13 @@ namespace Assets.Scripts.FinalBossScene
 
         public void DEBUG_DESTROY_BOSS()
         {            
-            StartCoroutine(BossDestruction(false));
+            ActivateEnergyBeam(1);
+            ActivateEnergyBeam(2);
+            ActivateEnergyBeam(3);
+            ActivateEnergyBeam(4);
+            ActivateEnergyBeam(5);
+            ActivateEnergyBeam(6);
+            DamageBoss(10000);
         }
     }
 }

@@ -21,6 +21,13 @@ namespace Assets.Scripts.FinalBossScene
         public void Damage(float amount) 
         {
             FinalBossStage3Script.AttemptToDamageBoss();
+            GetComponent<Animator>().SetTrigger("Hurt");
         }
+
+        public void Death() 
+        {
+            GetComponent<Animator>().SetTrigger("Dying");
+        }
+
     }
 }
