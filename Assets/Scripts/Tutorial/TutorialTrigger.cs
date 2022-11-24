@@ -15,6 +15,7 @@ namespace Assets.Scripts.Tutorial
         private void OnTriggerEnter2D(Collider2D collision)
         {
             FindObjectOfType<TutorialProgress>().TriggerTutorial(triggerType);
+            Destroy(gameObject);
         }
     }
 }

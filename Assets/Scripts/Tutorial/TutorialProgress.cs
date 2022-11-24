@@ -10,6 +10,7 @@ namespace Assets.Scripts.Tutorial
 {
     public class TutorialProgress : MonoBehaviour
     {
+        public AudioSource bridgeAudio;
         [SerializeField] TextMeshProUGUI tutorialTextField;
         private PlayerScript player;
 
@@ -85,7 +86,7 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerGainGun()
         {
-            tutorialTextField.text = $"Fine!, have a gun. Just be careful.{Environment.NewLine}Just like the sword you use [LMB] to fire a bullet..";
+            tutorialTextField.text = $"Fine!, have a gun. Just be careful.{Environment.NewLine}Just like the sword you use [<color=#E97419>LMB</color>] to fire a bullet..";
             player.Options_CanAttackMelee = false;
             player.Options_CanFireGun = true;
             player.PlayerEquipment = PlayerEquipment.Gun;
@@ -98,13 +99,13 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerVines()
         {
-            tutorialTextField.text = $"These vines are blocking our way{Environment.NewLine}Use [LMB] to hack at them with your sword.";
+            tutorialTextField.text = $"These vines are blocking our way{Environment.NewLine}Use [<color=#E97419>LMB</color>] to hack at them with your sword.";
             player.Options_CanAttackMelee = true;
         }
 
         private void TriggerLever()
         {
-            tutorialTextField.text = $"Oops, I forgot to tell you to use the lever..{Environment.NewLine}Use [E] when standing next to it.";
+            tutorialTextField.text = $"Oops, I forgot to tell you to use the lever..{Environment.NewLine}Use [<color=#E97419>E</color>] when standing next to it.";
         }
 
         private void TriggerVerticalJump()
@@ -119,7 +120,7 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerJump()
         {
-            tutorialTextField.text = $"Oh boy, how do we get up there?{Environment.NewLine}No worries, use [Space bar] to jump!";
+            tutorialTextField.text = $"Oh boy, how do we get up there?{Environment.NewLine}No worries, use [<color=#E97419>Space bar</color>] to jump!";
             player.Options_CanJump = true;
         }
     }

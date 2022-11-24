@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45593bfa59a6fad4da4a6c72f0bad8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftXBound: -20
-  rightXBound: 20
+  leftXBound: -1000
+  rightXBound: 1000
 --- !u!114 &1770357314
 MonoBehaviour:
   m_ObjectHideFlags: 0

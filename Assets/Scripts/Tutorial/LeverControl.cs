@@ -2,7 +2,7 @@
 using Assets.Scripts.Shared;
 using UnityEngine.Tilemaps;
 
-namespace Assets.Scripts.FinalBossScene
+namespace Assets.Scripts.Tutorial
 {
     public class LeverControl : MonoBehaviour, IInteractable
     {
@@ -10,7 +10,7 @@ namespace Assets.Scripts.FinalBossScene
         public Sprite NoStateSprite;
         public Sprite YesStateSprite;
         public AudioSource LeverPulledAudio;
-        public TilemapCollider2D tilemapCollider2D;
+        public GameObject BridgeObject;
 
         public SpriteRenderer LeverSpriteRenderer;
 
@@ -55,6 +55,7 @@ namespace Assets.Scripts.FinalBossScene
         void Start()
         {
             InternalToggle();
+            BridgeObject.SetActive(false);
         }
 
         void InternalToggle()
@@ -68,7 +69,7 @@ namespace Assets.Scripts.FinalBossScene
                 LeverSpriteRenderer.sprite = NoStateSprite;
             }
 
-            tilemapCollider2D.enabled = Toggled;
+            BridgeObject.SetActive(true);
         }
     }
 }

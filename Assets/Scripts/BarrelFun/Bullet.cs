@@ -31,6 +31,7 @@ namespace Assets.Scripts.BarrelFun
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            Debug.Log("bullet collided with " + collision.gameObject.name);
             if (collision.gameObject.tag == Constants.TagNames.Player) return;
 
             gameObject.SetActive(false);

@@ -99,6 +99,7 @@ namespace Assets.Scripts.FinalBossScene
         #region LightElements
         [Header("LightElements")]
         [SerializeField] private UnityEngine.Rendering.Universal.Light2D[] LightElements; 
+        [SerializeField] private UnityEngine.Rendering.Universal.Light2D[] PlatformLightElements; 
         [Space(10)]
         #endregion
 
@@ -263,8 +264,14 @@ namespace Assets.Scripts.FinalBossScene
                 
                 if(BattleStage == 3) //all 6 energy
                 {
+                    for (int i = 0; i < PlatformLightElements.Length; i++)
+                    {
+                        PlatformLightElements[i].color = Color.blue;
+                    }
+
+
                     // Say
-                    PlayerScript.Say("I've sapped his energy. Now to collect it!", 0.075f, false, false);  
+                    PlayerScript.Say("I've sapped his energy. Now to collect it!", 0.075f, false, false, 1f);  
                     
                     //orb spawns 
                     EnergyOrb.SetActive(true);

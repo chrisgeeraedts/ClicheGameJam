@@ -64,7 +64,7 @@ public class ParallaxBackground : MonoBehaviour {
 
 	private void parallaxVer(){
 		float deltaY = cameraTransform.position.y - lastCameraY;
-		transform.position += Vector3.up * (deltaY * parallaxSpeed);
+		transform.position += Vector3.up * (deltaY * 0.5f);
 		lastCameraY = cameraTransform.position.y;	
 	}
 

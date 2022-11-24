@@ -47,6 +47,7 @@ namespace Assets.Scripts.Shared
         [Header("Speaking Bubbles")]
         [SerializeField] private EasyExpandableTextBox Speaking_Textbox;
         [SerializeField] private float Speaking_TextVisibleDuration;
+        [SerializeField] private float TextBox_Y_Offset = 5f;
         [Space(10)]
         #endregion
 
@@ -787,7 +788,7 @@ namespace Assets.Scripts.Shared
             {                
                 Debug.Log("Blocking more popups");
                 isShowingSayPopup = true;
-                Speaking_Textbox.Show(gameObject, 5f);
+                Speaking_Textbox.Show(gameObject, TextBox_Y_Offset);
                 StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, canSkipText, waitForButtonClick, timeToWaitAfterTextIsDisplayed));
                 StartCoroutine(HideSay(message, timeBetweenCharacters, timeToWaitAfterTextIsDisplayed));
             }
