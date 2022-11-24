@@ -83,7 +83,12 @@ namespace Assets.Scripts.Map
         [SerializeField] GameObject ProgressLaserHero;
         [SerializeField] GameObject ProgressLaserBos;
         [SerializeField] GameObject CenterPointProgressLaser;
+        [SerializeField] ProgressCutter CenterPointProgressCutter;
         [SerializeField] GameObject[] CenterPointProgressLaserStages;
+        [SerializeField] GameObject[] CenterPointProgressLaserStagesEnd;
+
+        
+        [SerializeField] LineRenderer ProgressCutter;
 
         private void Start()
         {
@@ -107,6 +112,9 @@ namespace Assets.Scripts.Map
         {
             GameObject target = CenterPointProgressLaserStages[stage];
             CenterPointProgressLaser.transform.position = target.transform.position;
+            CenterPointProgressCutter.StartLocationGameObject = CenterPointProgressLaserStages[stage];
+            CenterPointProgressCutter.EndLocationGameObject = CenterPointProgressLaserStagesEnd[stage];
+
         }
 
         public void DrawMap()

@@ -32,7 +32,7 @@ namespace Assets.Scripts.BarrelFun
             MissionTexts.ShowTitle();          
             CurrentTimeInSeconds = PlaytimeInSeconds;
             float progressValue = (float)(CurrentTimeInSeconds/60f);
-            timeMeter.InitFill(progressValue, "01:05");
+            timeMeter.InitFill(progressValue, "02:05");
             StartCoroutine(HideTitle());
             Player.SetPlayerActive(false);
         }

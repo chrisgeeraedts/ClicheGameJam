@@ -46,7 +46,7 @@ namespace Assets.Scripts.Map
 
         [SerializeField] List<MinigameInfo> minigameInfos;
         [SerializeField] int mapWidth = 4;
-        [SerializeField] int mapHeight = 3;
+        [SerializeField] int mapHeight = 2;
 
         private List<int> unusedMinigameInfoIndexes;
         private MinigameInfo[,] minigames;
@@ -180,12 +180,13 @@ namespace Assets.Scripts.Map
         {
             HeroHP = HeroMaxHP; //Lazy fix for health being 0 after GameOver -> Restart ?
             FillUnusedMinigameinfoIndexes();
-
+            Debug.Log("Generating minigames: " + "width:" + mapWidth + " height:" +  mapHeight);
             for (int x = 0; x < mapWidth; x++)
             {
                 for (int y = 0; y < mapHeight; y++)
                 {
                     var minigameInfo = GetRandomMinigameInfo();
+                Debug.Log("minigame: " + "x:" + x + " y:" +  y);
                     minigames[x, y] = minigameInfo;
                 }
             }
