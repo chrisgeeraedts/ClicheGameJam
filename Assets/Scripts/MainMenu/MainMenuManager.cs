@@ -10,6 +10,7 @@ public class MainMenuManager : MonoBehaviour
     public Button NewRunButton;
     public Button AchievementButton;
     public Button ExitButton;
+    public GameObject NewAchievementCircle;
 
     public GameObject MainMenuHero;
     void Update()
@@ -30,6 +31,8 @@ public class MainMenuManager : MonoBehaviour
         {
             ExitGame();
         }
+
+        NewAchievementCircle.SetActive(GlobalAchievementManager.GetInstance().WasNewAchievementFound());
     }
 
     public AudioSource buttonClickAudioSource;
@@ -89,5 +92,12 @@ public class MainMenuManager : MonoBehaviour
         {
             Application.Quit();
         }
+    }
+
+    private int DEBUG_ACHIEVEMENTID;
+    public void DEBUGACHIEVEMENT()
+    {        
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(DEBUG_ACHIEVEMENTID); 
+            DEBUG_ACHIEVEMENTID++;
     }
 }

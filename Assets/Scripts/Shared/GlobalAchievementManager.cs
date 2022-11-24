@@ -46,6 +46,17 @@ public class GlobalAchievementManager : MonoBehaviour
         }
     }
 
+    private bool _newAchievement = false;
+    public bool WasNewAchievementFound()
+    {
+        return _newAchievement;
+    }
+
+    public void VisitedAchievements()
+    {
+        _newAchievement = false;
+    }
+
     void LoadData()
     {
         _achievements = new List<Achievement>();
@@ -66,7 +77,7 @@ public class GlobalAchievementManager : MonoBehaviour
         //_achievements.Add(new Achievement(14, "Shiny Treasure", "How come these treasure chests with loot always shine brightly? Is there a lamp in there?", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(15, "Side-Quests", "Well, the world is going to be destroyed in a few minutes, so let's so find this girl's missing cat", "Found in [<color=#fede34>Final Boss - 2</color>]", false, "Achievement/Miniquest"));
         _achievements.Add(new Achievement(16, "The Evil Laughter", "Is there a training class for evil laughing?", "Found in [<color=#fede34>Final Boss - 1</color>]", false, "Achievement/Speech"));
-        //_achievements.Add(new Achievement(17, "Behind the Boss", "Why is there always a boss behind a boss?", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
+        _achievements.Add(new Achievement(17, "Behind the Boss", "Why is there always a boss behind a boss?", "Found in [<color=#fede34>Victory</color>]", false, "Achievement/BossBehindBoss"));
         _achievements.Add(new Achievement(18, "The water level", "Every game must have a water level, its just not a real game without one!", "Found in [<color=#fede34>Underwater Minigame</color>]", false, "Achievement/Water"));
         _achievements.Add(new Achievement(19, "The fishing game", "Dont forget about the mandatory fishing skill in any crafting game!", "Found in [<color=#fede34>Underwater Minigame</color>]", false, "Achievement/Fishing"));
         //_achievements.Add(new Achievement(20, "Incredible vendors", "Hi shop owner, what can I get for my [Blade of the God-killing]?", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
@@ -149,7 +160,7 @@ public class GlobalAchievementManager : MonoBehaviour
                 if (foundAchievement.Achieved == false)
                 {
                     AchievementUpdated = true;
-
+                    _newAchievement = true;
                     // Find camera in active Scene to set
                     Camera mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<Camera>();
                     PopupCanvas.worldCamera = mainCamera;

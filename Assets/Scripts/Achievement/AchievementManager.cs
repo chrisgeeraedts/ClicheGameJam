@@ -25,6 +25,10 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        GlobalAchievementManager.GetInstance().VisitedAchievements();
+    }
     
      //DEBUG - REMOVE
     private int achievement;
