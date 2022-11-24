@@ -100,4 +100,10 @@ public class MainMenuManager : MonoBehaviour
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(DEBUG_ACHIEVEMENTID); 
             DEBUG_ACHIEVEMENTID++;
     }
+
+    
+    public void DEBUGTUTORIAL()
+    {        
+            GlobalAchievementManager.GetInstance().TutorialCompleted(); 
+    }
 }
