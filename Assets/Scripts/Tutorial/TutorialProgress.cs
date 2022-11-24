@@ -58,13 +58,13 @@ namespace Assets.Scripts.Tutorial
         {
             yield return new WaitForSeconds(2);
 
-            MapManager.GetInstance().FinishMinigame(true);
             SceneManager.LoadScene(Constants.SceneNames.MapScene);
         }
 
         private void TriggerTeleport()
         {
             tutorialTextField.text = $"GOOD LUCK ! !";
+            GlobalAchievementManager.GetInstance().TutorialCompleted();
             StartCoroutine(TeleportToMap());
         }
 

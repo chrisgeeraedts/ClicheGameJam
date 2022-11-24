@@ -57,6 +57,16 @@ public class GlobalAchievementManager : MonoBehaviour
         _newAchievement = false;
     }
 
+    private bool _hasCompletedTutorial = false;
+    public bool HasCompletedTutorial()
+    {
+        return _hasCompletedTutorial;
+    }
+    public void TutorialCompleted()
+    {
+        _hasCompletedTutorial = true;
+    }
+
     void LoadData()
     {
         _achievements = new List<Achievement>();

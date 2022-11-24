@@ -24,6 +24,13 @@ public class StoryManager : MonoBehaviour
     IEnumerator GoToGame()
     {
         yield return new WaitForSeconds(40);
-        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+        if(GlobalAchievementManager.GetInstance().HasCompletedTutorial())
+        {
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+        }
+        else
+        {
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.TutorialScene);
+        }
     }
 }

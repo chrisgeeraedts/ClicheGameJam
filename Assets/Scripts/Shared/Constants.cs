@@ -9,7 +9,7 @@
             public static string MainMenuScene = "MainMenuScene";
             public static string StoryScene = "StoryScene";
             public static string EscortScene = "EscortScene";
-            public static string TutorialScene = "TutorialScene";
+            public static string TutorialScene = "Tutorial2Scene";
             public static string OneManArmyScene = "OneManArmyScene";
             public static string UnderwaterScene = "UnderwaterScene";
             public static string BulletFunScene = "BulletFunScene";

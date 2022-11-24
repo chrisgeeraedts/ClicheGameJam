@@ -48,7 +48,7 @@ public class MainMenuManager : MonoBehaviour
     {        
         NewRunButton.interactable = false;
         yield return new WaitForSeconds(3f);        
-        NewRunButton.interactable = true;
+        NewRunButton.interactable = true;        
         GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.StoryScene);
     }
 
