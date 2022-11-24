@@ -573,9 +573,9 @@ namespace Assets.Scripts.Shared
                     yield return new WaitForSeconds(AttackTimeUntillAttackHits); 
                     if(ActiveEnemiesInDamageArea.Any())
                     {
-                        
-                        foreach (var ActiveEnemyInDamageArea in ActiveEnemiesInDamageArea)
+                        for (int i = 0; i < ActiveEnemiesInDamageArea.Count; i++)
                         {
+                            IEnemy ActiveEnemyInDamageArea = ActiveEnemiesInDamageArea[i];
                             ActiveEnemyInDamageArea.Damage(AttackDamage);
                         }
                     }

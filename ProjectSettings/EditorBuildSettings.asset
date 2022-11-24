@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/Scenes/UnderwaterScene.unity
     guid: e08243922417842828467f43d5971f1e
   - enabled: 1
-    path: Assets/Scenes/Underwater2.unity
+    path: Assets/Scenes/Underwater2Scene.unity
     guid: 860417581873b86458030e90a1fddd02
   - enabled: 1
     path: Assets/Scenes/FishingScene.unity

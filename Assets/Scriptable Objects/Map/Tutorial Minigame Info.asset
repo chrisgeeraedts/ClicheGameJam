@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Tutorial Minigame Info
   m_EditorClassIdentifier: 
   minigameName: Tutorial
-  sceneName: TutorialScene
+  sceneName: Tutorial_2Scene
   mapSprite: {fileID: 21300000, guid: dd887410b42f6644b8f98f1b4c23b005, type: 3}
