@@ -73,8 +73,8 @@ public class GlobalAchievementManager : MonoBehaviour
         _achievements.Add(new Achievement(21, "Breakable Vazes", "Lets just go around the world and break random pottery.", "Found in [<color=#fede34>Shop</color>]", false, "Achievement/BreakableVazes"));
         //_achievements.Add(new Achievement(22, "Block Puzzles", "The most cliche puzzle in any game", "Found in [<color=#fede34>???</color>]", false, "Achievement/PLACEHOLDER"));
         _achievements.Add(new Achievement(23, "Tutorials", "Why do games still have to teach players how to move? WASD has not changed for decades", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/Tutorial"));
-        _achievements.Add(new Achievement(24, "KONAMI Code", "We might be the 100th game to implement this code", "Found in [<color=#fede34>Shop</color>]", false, "Achievement/PLACEHOLDER"));
-        _achievements.Add(new Achievement(25, "Falling platforms", "Ofcourse this random platform would fall", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/PLACEHOLDER"));
+        _achievements.Add(new Achievement(24, "KONAMI Code", "We might be the 100th game to implement this code", "Found in [<color=#fede34>Shop</color>]", false, "Achievement/Konami"));
+        _achievements.Add(new Achievement(25, "Falling platforms", "Ofcourse this random platform would fall", "Found in [<color=#fede34>Red Barrel Minigame</color>]", false, "Achievement/FallingPlatforms"));
         //_achievements.Add(new Achievement(26, "Pre-boss savepoint", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));
         //_achievements.Add(new Achievement(27, "Mobile game ads", "[PLACEHOLDER]", "Found in [<color=#fede34>Tutorial</color>]", false, "Achievement/PLACEHOLDER"));       
         _achievements.Add(new Achievement(28, "Lootboxes", "Random loot, that may or may not make you stronger. For hard cash!", "Found in [<color=#fede34>Shop</color>]", false, "Achievement/Lootboxes"));
