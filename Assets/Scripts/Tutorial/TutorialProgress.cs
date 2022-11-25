@@ -3,7 +3,6 @@ using TMPro;
 using System;
 using Assets.Scripts.Shared;
 using System.Collections;
-using Assets.Scripts.Map;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Tutorial
