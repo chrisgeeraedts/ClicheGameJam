@@ -120,6 +120,7 @@ namespace Assets.Scripts.Shop
             else if (itemName.Equals("Silly Hat", StringComparison.InvariantCultureIgnoreCase))
             {
                 MapManager.GetInstance().HasSillyHat = true;
+                FindObjectOfType<HatManager>().SwapHats();
                 message = $"To be honest, I like your crown better.{Environment.NewLine}But don't let me tell you how to live your life!";
             }
 

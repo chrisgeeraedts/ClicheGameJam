@@ -37,6 +37,8 @@ namespace Assets.Scripts.Map
         public bool HasSillyHat = false;
         // /LOOT
 
+        public bool IsWearingSillyHat = false;
+
         public float GetHeroHPForFill()
         {
             return (1/HeroMaxHP)*HeroHP;
