@@ -16480,7 +16480,7 @@ MonoBehaviour:
   BridgeDown: {fileID: 194307796}
   MissionTexts: {fileID: 1844355366}
   FrustrationMeter: {fileID: 743101243}
-  frustrationIncrement: 0.15
+  frustrationIncrement: 0.05
   maxDistancePlayerAndNpc: 7
   bridgeTilemap: {fileID: 1698329486}
   Distance: {fileID: 107045634}
@@ -18774,7 +18774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1202237721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.4241538, y: 1.9147652, z: -10.013918}
+  m_LocalPosition: {x: -3.418048, y: 1.9147843, z: -10.013918}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45599,6 +45599,7 @@ MonoBehaviour:
   TargetingArrow_MaximumDistanceToShow: 4
   Speaking_Textbox: {fileID: 3998635859910974172}
   Speaking_TextVisibleDuration: 0.125
+  TextBox_Y_Offset: 5
   AudioSource_Death: {fileID: 1078043846906954788}
   DeathController: {fileID: 9100000, guid: c6ec1c8270d252143aecd6b5ee17e86f, type: 2}
   Movement_FacingRight: 1

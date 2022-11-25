@@ -21,6 +21,10 @@ public class NPCScript : MonoBehaviour, INPC
         {
             animator.runtimeAnimatorController = Moving;  
         }
+        else
+        {
+            animator.runtimeAnimatorController = Idle;  
+        }
     }
 
         
@@ -62,6 +66,11 @@ public class NPCScript : MonoBehaviour, INPC
         {
             rb.velocity = new Vector2(Vector2.right.x * m_speed, rb.velocity.y);
         }
+        else if(IsNPCActive() || IsNPCPaused())
+        {
+            rb.velocity = Vector3.zero;
+        }
+
         if(rb.velocity.magnitude > 0)
         {
             animator.runtimeAnimatorController = Moving; 

@@ -26,22 +26,26 @@ namespace Assets.Scripts.Escort
         private float frustrationCount;
         public float frustrationIncrement;
         public float maxDistancePlayerAndNpc;
+        [SerializeField] private PlayerHealthBar PlayerHealthBar; 
 
         public GameObject bridgeTilemap;
 
         // Start is called before the first frame update
         void Start()
         {
+            NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCActive(false);
+            NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(true);
             MissionTexts.GetComponent<MissionTextScript>().ShowTitle();
             bridgeTilemap.SetActive(false);
             StartCoroutine(HideTitle());
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(false);
             Player.GetComponent<Assets.Scripts.Shared.PlayerScript>().LockMovement();
-            NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCActive(false);
         }
 
         int phase = -1;
         int targetPhase = -1;
+
+        private bool started = false;
 
         public TMP_Text Distance;
         public TMP_Text Number;
@@ -53,7 +57,7 @@ namespace Assets.Scripts.Escort
                 Lose();
             }    
 
-            if(!Completed)
+            if(started && !Completed)
             { 
                 // calculate distance between player and npc
                 float distance = Vector3.Distance (Player.transform.position, NPC.transform.position);
@@ -67,18 +71,17 @@ namespace Assets.Scripts.Escort
                     // if too large, add to frustratie meter
                     frustrationCount += frustrationIncrement * Time.deltaTime;
                     FrustrationMeter.GetComponent<ProgressBar>().SetFill(frustrationCount);                
-                    NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(true);
+                    NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(true); 
                     if(!showingHurryPopup && phase >= 5)
                     {
                         showingHurryPopup = true;
                         ShowHurryPopup();
                     }
                 }
-
-                if(NPC.GetComponent<Assets.Scripts.Shared.INPC>().IsNPCPaused())      
+                else
                 {
                     NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(false);
-                } 
+                }
             }
             
 
@@ -281,7 +284,10 @@ namespace Assets.Scripts.Escort
             MissionTexts.GetComponent<MissionTextScript>().HideTitle(); 
             Player.GetComponent<Assets.Scripts.Shared.IPlayer>().SetPlayerActive(true);
             Player.GetComponent<Assets.Scripts.Shared.PlayerScript>().UnlockMovement();
+            
             NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCActive(true);
+            NPC.GetComponent<Assets.Scripts.Shared.INPC>().SetNPCPaused(false);
+            started = true;
         }
 
         IEnumerator WaitThenGoToPhase(float waitTime, int nextPhase)
