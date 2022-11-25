@@ -11,7 +11,7 @@
             public static string EscortScene = "EscortScene";
             public static string TutorialScene = "Tutorial2Scene";
             public static string OneManArmyScene = "OneManArmyScene";
-            public static string UnderwaterScene = "UnderwaterScene";
+            public static string UnderwaterScene = "Underwater2Scene";
             public static string BulletFunScene = "BulletFunScene";
             public static string GameOverScene = "GameOverScene";
             public static string CreditsScene = "CreditsScene";
@@ -19,6 +19,7 @@
             public static string CompletedGameScene = "CompletedGameScene";
             public static string FinalBossFightScene = "FinalBossFightScene";
             public static string FinalBossFightStage2Scene = "FinalBossFightStage2Scene";
+            public static string FishingScene = "FishingScene";
         }
 
         public static class TagNames
