@@ -56,7 +56,7 @@ namespace Assets.Scripts.Tutorial
 
         private IEnumerator TeleportToMap()
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
 
             SceneManager.LoadScene(Constants.SceneNames.MapScene);
         }
@@ -86,7 +86,7 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerGainGun()
         {
-            tutorialTextField.text = $"Fine!, have a gun. Just be careful.{Environment.NewLine}Just like the sword you use [<color=#E97419>LMB</color>] to fire a bullet..";
+            tutorialTextField.text = $"Fine!, have a gun. Just be careful.{Environment.NewLine}Just like the sword you use [<color=#E97419>LMB</color>] or [<color=#E97419>Enter</color>] to fire a bullet..";
             player.Options_CanAttackMelee = false;
             player.Options_CanFireGun = true;
             player.PlayerEquipment = PlayerEquipment.Gun;
@@ -99,7 +99,7 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerVines()
         {
-            tutorialTextField.text = $"These vines are blocking our way{Environment.NewLine}Use [<color=#E97419>LMB</color>] to hack at them with your sword.";
+            tutorialTextField.text = $"These vines are blocking our way{Environment.NewLine}Use [<color=#E97419>LMB</color>] or [<color=#E97419>Enter</color>] to hack at them with your sword.";
             player.Options_CanAttackMelee = true;
         }
 
