@@ -52,6 +52,9 @@ MonoBehaviour:
   BossHP: 1400
   LastGameWasLost: 0
   LastGameWasWon: 0
+  HasFishingPole: 0
+  HasGoldenGun: 0
+  HasSillyHat: 0
   minigameInfos:
   - {fileID: 11400000, guid: 33b4ad98878400c4287307bcbfda017e, type: 2}
   - {fileID: 11400000, guid: 5847917ad0091174782ff868e3ccad15, type: 2}
@@ -60,4 +63,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8808a1d3a9d0eb6448542b89931ec9fe, type: 2}
   - {fileID: 11400000, guid: d11d554eae521e3429f24fe7015da4ed, type: 2}
   mapWidth: 4
-  mapHeight: 3
+  mapHeight: 2
