@@ -18,7 +18,6 @@ namespace Assets.Scripts.FinalBossScene
         public void Toggle(bool toggleState)
         {
             Toggled = toggleState;
-            LeverPulledAudio.Play();
             InternalToggle();        
         }
 
@@ -68,6 +67,7 @@ namespace Assets.Scripts.FinalBossScene
             else
             { 
                 LeverSpriteRenderer.sprite = NoStateSprite; 
+                LeverPulledAudio.Play();
                 manager.LeverActivated();
             }
         }

@@ -17,7 +17,14 @@ public class StoryManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+            if(GlobalAchievementManager.GetInstance().HasCompletedTutorial())
+            {
+                GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.MapScene);
+            }
+            else
+            {
+                GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.TutorialScene);
+            }
         }
     }
 
