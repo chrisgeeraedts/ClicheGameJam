@@ -12,7 +12,7 @@ using Assets.Scripts.Map;
 namespace Assets.Scripts.Shared
 {
     public class PlayerScript : MonoBehaviour, IPlayer, ISpeaker, IGetHealthSystem
-    {    
+    {
         #region Options
         [Header("Player Options")]
         [SerializeField] public bool Options_ShowCharacterAvatar = false;
@@ -24,6 +24,9 @@ namespace Assets.Scripts.Shared
         [SerializeField] public bool Options_CanAttackHeavyMelee = false;
         [SerializeField] public bool Options_CanJump = false;
         [SerializeField] public bool Options_ShowTargetingArrow = false;
+        [SerializeField] public bool Options_CanChopTrees = false;
+        [SerializeField] public bool Options_CanCraftFishingpole = false;
+        [SerializeField] public bool Options_HasFishingpole = false;
         [SerializeField] private KeyCode InteractionKey = KeyCode.E;
         [Space(10)]
         #endregion
@@ -31,7 +34,7 @@ namespace Assets.Scripts.Shared
         #region Base
         [Header("Base Configuration")]
         [SerializeField] private Animator Base_Animator;
-        [SerializeField] private Rigidbody2D Base_RigidBody2D;   
+        [SerializeField] private Rigidbody2D Base_RigidBody2D;
         [Space(10)]
         #endregion
 
@@ -54,14 +57,14 @@ namespace Assets.Scripts.Shared
         #region Death
         [Header("Death Configuration")]
         [SerializeField] private AudioSource AudioSource_Death;
-        [SerializeField] RuntimeAnimatorController DeathController; 
+        [SerializeField] RuntimeAnimatorController DeathController;
         [Space(10)]
         #endregion
 
         #region Movement  
-        [Header("Movement Configuration")]      
+        [Header("Movement Configuration")]
         [SerializeField] private bool Movement_FacingRight = true;
-        [SerializeField] private bool _movementLocked;    
+        [SerializeField] private bool _movementLocked;
         [SerializeField] public PlayerMovementMode PlayerMovementMode;
         [SerializeField] private PlayerFacingDirection Movement_PlayerFacingDirection;
         [SerializeField] private AudioSource[] AudioSources_Jumping;
@@ -69,18 +72,18 @@ namespace Assets.Scripts.Shared
         #endregion
 
         #region Walking
-        [Header("Walking Configuration")]  
+        [Header("Walking Configuration")]
         [SerializeField] private float Movement_Speed = 10f;
-        [SerializeField] private float Movement_JumpForce = 10f;  
+        [SerializeField] private float Movement_JumpForce = 10f;
         [SerializeField] private PlayerSensor Movement_GroundSensor;
         [SerializeField] private BoxCollider2D Movement_FeetCollider;
         [SerializeField] float Movement_LandGravity;
-        [SerializeField] RuntimeAnimatorController LandController; 
+        [SerializeField] RuntimeAnimatorController LandController;
         [Space(10)]
         #endregion
 
         #region Swimming    
-        [Header("Swimming Configuration")]      
+        [Header("Swimming Configuration")]
         [SerializeField] private float Swimming_Speed = 3f;
         [SerializeField] RuntimeAnimatorController WaterController;
         [SerializeField] float Swimming_WaterGravity;
@@ -89,20 +92,20 @@ namespace Assets.Scripts.Shared
         #endregion
 
         #region GunAttack 
-        [Header("Gun Configuration")] 
+        [Header("Gun Configuration")]
         [SerializeField] private GameObject Attacking_Gun_BulletPrefab;
         [SerializeField] private GameObject Attacking_Gun_ShootStartPoint;
         [SerializeField] private AudioSource[] AudioSources_Attacking_GunFire;
         [SerializeField] private float Attacking_Gun_BulletSpeed = 10f;
         [SerializeField] private float Attacking_Sword_Cooldown = 0.5f;
         [SerializeField] private float Attacking_HeavySword_Cooldown = 1.0f;
-        [SerializeField] private float Attacking_Gun_Cooldown = 0.5f;  
+        [SerializeField] private float Attacking_Gun_Cooldown = 0.5f;
         [Space(10)]
         #endregion
 
         #region MeleeAttack   
         [Header("Sword Configuration")]
-        [SerializeField] private AudioSource[] AudioSources_Attacking_MeleeAttack;        
+        [SerializeField] private AudioSource[] AudioSources_Attacking_MeleeAttack;
         [SerializeField] private float AttackRange = 2f;
         [SerializeField] private float AttackCooldown = 1f;
         [SerializeField] private float AttackDamage = 10f;
@@ -111,42 +114,42 @@ namespace Assets.Scripts.Shared
         #endregion
 
         #region Equipment
-        [Header("Equipment")] 
+        [Header("Equipment")]
         [SerializeField] public PlayerEquipment PlayerEquipment;
         [Space(10)]
         #endregion
 
         #region Particles   
-        [Header("Particles")]      
+        [Header("Particles")]
         [SerializeField] private ParticleSystem Particles_SwapDirectionDust;
         [SerializeField] private ParticleSystem Particles_LandingDust;
         [Space(10)]
         #endregion
 
         #region Health   
-        [Header("Health")]      
-        [SerializeField] private HealthBarUI Base_HealthBarUI; 
+        [Header("Health")]
+        [SerializeField] private HealthBarUI Base_HealthBarUI;
         [SerializeField] private float Health_MaximumHealth;
         [SerializeField] private AudioSource AudioSource_DamageTaken;
         [Space(10)]
         #endregion
 
         #region Avatar   
-        [Header("Avatar")]      
-        [SerializeField] private PlayerHealthBar PlayerHealthBar; 
+        [Header("Avatar")]
+        [SerializeField] private PlayerHealthBar PlayerHealthBar;
         [Space(10)]
         #endregion
 
         #region Damaging
-        [Header("Damaging")] 
+        [Header("Damaging")]
         [SerializeField] private GameObject PlayerDamageNumberPrefab;
         [SerializeField] private Canvas PlayerDamageNumberParent;
         [SerializeField] private GameObject PlayerDamageNumberSpawnLocation;
         [SerializeField] private float DamageImmunityTime = 0.5f;
-        
+
         [Space(10)]
         #endregion
-              
+
         private bool Movement_Grounded = false;
         private bool isAttacking = false;
         private bool attackCompleted = true;
@@ -154,10 +157,10 @@ namespace Assets.Scripts.Shared
         private HealthSystem _healthSystem;
         private IInteractable currentInteractableEntity;
         private bool _isActive;
-        
+
         #region Events
-        public event EventHandler<PlayerInteractedEventArgs> OnPlayerInteracted;  
-        public event EventHandler<PlayerMilestoneHitEventArgs> OnPlayerMilestoneHit;        
+        public event EventHandler<PlayerInteractedEventArgs> OnPlayerInteracted;
+        public event EventHandler<PlayerMilestoneHitEventArgs> OnPlayerMilestoneHit;
         public event EventHandler<PlayerDeathEventArgs> OnPlayerDeath;
         #endregion
 
@@ -183,11 +186,12 @@ namespace Assets.Scripts.Shared
         }
 
 
-        void Start(){
+        void Start()
+        {
             SetPlayerActive(true);
             Base_Animator = GetComponent<Animator>();
             Base_RigidBody2D = GetComponent<Rigidbody2D>();
-            Movement_GroundSensor = transform.Find("GroundSensor").GetComponent<PlayerSensor>();        
+            Movement_GroundSensor = transform.Find("GroundSensor").GetComponent<PlayerSensor>();
             Movement_PlayerFacingDirection = PlayerFacingDirection.Right;
             StartSpawningWaterBubbles();
             Speaking_Textbox.Hide();
@@ -206,29 +210,29 @@ namespace Assets.Scripts.Shared
             ActiveEnemiesInDamageArea = new List<IEnemy>();
             TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
             TargetingArrow_Arrow.Toggle(true);
-            PlayerHealthBar.SetFill(Health_CurrentHealth/Health_MaximumHealth);
-            PlayerHealthBar.SetProgressText(Health_CurrentHealth+"/" +Health_MaximumHealth);
+            PlayerHealthBar.SetFill(Health_CurrentHealth / Health_MaximumHealth);
+            PlayerHealthBar.SetProgressText(Health_CurrentHealth + "/" + Health_MaximumHealth);
         }
 
-        void Update ()
+        void Update()
         {
-            if(IsPlayerActive())
+            if (IsPlayerActive())
             {
                 // Set config correct
                 HandleSetup();
-                if(PlayerMovementMode != PlayerMovementMode.Dead)
+                if (PlayerMovementMode != PlayerMovementMode.Dead)
                 {
-                    if(PlayerMovementMode == PlayerMovementMode.Walking)
+                    if (PlayerMovementMode == PlayerMovementMode.Walking)
                     {
                         HandleMovementLand();
                     }
-                    else if(PlayerMovementMode == PlayerMovementMode.Swimming)
-                    {                    
+                    else if (PlayerMovementMode == PlayerMovementMode.Swimming)
+                    {
                         HandleMovementWater();
                     }
-                    
+
                     FlipCharacter(Input.GetAxis("Horizontal"));
-                    
+
                     HandleJump();
                     HandleAttack();
                     HandleInteract();
@@ -237,11 +241,11 @@ namespace Assets.Scripts.Shared
                     //Check if character just landed on the ground
                     if (!Movement_Grounded && Movement_GroundSensor.State())
                     {
-                        if(PlayerMovementMode == PlayerMovementMode.Walking)
+                        if (PlayerMovementMode == PlayerMovementMode.Walking)
                         {
                             CreateLandingDust();
                         }
-                        
+
                         Movement_Grounded = true;
                         Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
                     }
@@ -251,7 +255,7 @@ namespace Assets.Scripts.Shared
                     {
                         Movement_Grounded = false;
                         Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
-                    } 
+                    }
 
 
                     if (Base_RigidBody2D.velocity.magnitude > 0)
@@ -276,70 +280,70 @@ namespace Assets.Scripts.Shared
         private void HandleSetup()
         {
             Base_Animator.SetBool(PlayerConstants.Animation_GunEquiped, PlayerEquipment == PlayerEquipment.Gun);
-            if(PlayerMovementMode == PlayerMovementMode.Swimming && Base_Animator.runtimeAnimatorController != WaterController)
+            if (PlayerMovementMode == PlayerMovementMode.Swimming && Base_Animator.runtimeAnimatorController != WaterController)
             {
                 SetSwimmingMode();
             }
-            else if(PlayerMovementMode == PlayerMovementMode.Walking && Base_Animator.runtimeAnimatorController != LandController)
+            else if (PlayerMovementMode == PlayerMovementMode.Walking && Base_Animator.runtimeAnimatorController != LandController)
             {
                 SetWalkingMode();
             }
-            else if(PlayerMovementMode == PlayerMovementMode.Dead && Base_Animator.runtimeAnimatorController != DeathController)
+            else if (PlayerMovementMode == PlayerMovementMode.Dead && Base_Animator.runtimeAnimatorController != DeathController)
             {
                 SetDeadMode();
             }
 
-            if(Options_ShowHealthBar && !Base_HealthBarUI.gameObject.activeSelf)
+            if (Options_ShowHealthBar && !Base_HealthBarUI.gameObject.activeSelf)
             {
                 Base_HealthBarUI.gameObject.SetActive(true);
             }
-            else if(!Options_ShowHealthBar && Base_HealthBarUI.gameObject.activeSelf)
+            else if (!Options_ShowHealthBar && Base_HealthBarUI.gameObject.activeSelf)
             {
                 Base_HealthBarUI.gameObject.SetActive(false);
             }
 
-            if(Options_ShowTargetingArrow && !TargetingArrow_Arrow.IsToggled())
+            if (Options_ShowTargetingArrow && !TargetingArrow_Arrow.IsToggled())
             {
                 TargetingArrow_Arrow.Setup(this, TargetingArrow_Target, TargetingArrow_MaximumDistanceToShow);
                 ToggleTargetingArrow(true);
             }
-            else if(!Options_ShowTargetingArrow && TargetingArrow_Arrow.IsToggled())
+            else if (!Options_ShowTargetingArrow && TargetingArrow_Arrow.IsToggled())
             {
                 ToggleTargetingArrow(false);
             }
 
-            if(Options_ShowCharacterAvatar && !PlayerHealthBar.IsToggled())
+            if (Options_ShowCharacterAvatar && !PlayerHealthBar.IsToggled())
             {
                 PlayerHealthBar.Toggle(true);
             }
-            else if(!Options_ShowCharacterAvatar && PlayerHealthBar.IsToggled())
+            else if (!Options_ShowCharacterAvatar && PlayerHealthBar.IsToggled())
             {
                 PlayerHealthBar.Toggle(false);
             }
 
 
 
-            
+
         }
 
         public void ToggleTargetingArrow(bool toggle)
         {
             TargetingArrow_Arrow.Toggle(toggle);
         }
-       
+
         public void SetSwimmingMode()
         {
-            Base_Animator.runtimeAnimatorController = WaterController; 
+            Base_Animator.runtimeAnimatorController = WaterController;
         }
 
         public void SetWalkingMode()
         {
-            Base_Animator.runtimeAnimatorController = LandController; 
+            Base_Animator.runtimeAnimatorController = LandController;
         }
 
         public void SetDeadMode()
         {
-            Base_Animator.runtimeAnimatorController = DeathController; 
+            Base_Animator.runtimeAnimatorController = DeathController;
         }
 
         public void StartSpawningWaterBubbles()
@@ -347,9 +351,11 @@ namespace Assets.Scripts.Shared
             StartCoroutine(SpawnBubbles());
         }
 
-        private IEnumerator SpawnBubbles() {
-            while(true) {
-                if(PlayerMovementMode == PlayerMovementMode.Swimming)
+        private IEnumerator SpawnBubbles()
+        {
+            while (true)
+            {
+                if (PlayerMovementMode == PlayerMovementMode.Swimming)
                 {
                     CreateSwimmingBubbles();
                 }
@@ -368,24 +374,24 @@ namespace Assets.Scripts.Shared
             Base_Animator.SetBool(PlayerConstants.Animation_Grounded, true);
             Base_RigidBody2D.velocity = Vector3.zero;
         }
-        
+
         public void LockMovement()
         {
-           _movementLocked = true;
-           Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
-           Base_Animator.SetBool(PlayerConstants.Animation_Grounded, true);
+            _movementLocked = true;
+            Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
+            Base_Animator.SetBool(PlayerConstants.Animation_Grounded, true);
         }
 
         public void UnlockMovement()
         {
-           _movementLocked = false;
-           Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
-           Base_Animator.SetBool(PlayerConstants.Animation_Grounded, true);
+            _movementLocked = false;
+            Base_Animator.SetInteger(PlayerConstants.Animation_AnimState, 0);
+            Base_Animator.SetBool(PlayerConstants.Animation_Grounded, true);
         }
 
         public void ToggleGravity(bool toggle)
         {
-            if(toggle)
+            if (toggle)
             {
                 Base_RigidBody2D.gravityScale = 1f;
             }
@@ -393,7 +399,7 @@ namespace Assets.Scripts.Shared
             {
                 Base_RigidBody2D.gravityScale = 0f;
             }
-            
+
         }
 
         public void Reposition(Vector3 newPos)
@@ -404,24 +410,24 @@ namespace Assets.Scripts.Shared
         public void Kill()
         {
             isImmuneToDamage = false;
-            Damage(99999);  
+            Damage(99999);
         }
-        
+
         private void HandleDamageFromDamagingZones()
         {
 
-            if(ActiveDamagingZones != null && ActiveDamagingZones.Count > 0)
+            if (ActiveDamagingZones != null && ActiveDamagingZones.Count > 0)
             {
                 float damageToTake = 0;
                 foreach (var activeDamagingZone in ActiveDamagingZones)
                 {
-                    if(activeDamagingZone != null)
+                    if (activeDamagingZone != null)
                     {
-                        damageToTake+= activeDamagingZone.GetDamageOnHit();
+                        damageToTake += activeDamagingZone.GetDamageOnHit();
                     }
                 }
 
-                if(damageToTake > 0)
+                if (damageToTake > 0)
                 {
                     Damage(damageToTake);
                 }
@@ -429,13 +435,13 @@ namespace Assets.Scripts.Shared
         }
 
         private float Health_CurrentHealth;
-        public void Damage(float amount) 
+        public void Damage(float amount)
         {
-            if(!isImmuneToDamage && _isActive)
-            {                
-                if(amount > 0)
+            if (!isImmuneToDamage && _isActive)
+            {
+                if (amount > 0)
                 {
-                    if(MapManager.GetInstance().HasBininiArmor())
+                    if (MapManager.GetInstance().HasBininiArmor())
                     {
                         amount = amount * 0.8f;
                     }
@@ -443,19 +449,19 @@ namespace Assets.Scripts.Shared
                     AudioSource_DamageTaken.Play();
                     _healthSystem.Damage(amount);
 
-                    var damageText = Instantiate(PlayerDamageNumberPrefab, PlayerDamageNumberSpawnLocation.transform, false);    
+                    var damageText = Instantiate(PlayerDamageNumberPrefab, PlayerDamageNumberSpawnLocation.transform, false);
                     damageText.transform.SetParent(PlayerDamageNumberParent.transform);
-                    damageText.transform.localScale = new Vector3(1,1,1);
-                    damageText.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
+                    damageText.transform.localScale = new Vector3(1, 1, 1);
+                    damageText.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
 
                     damageText.GetComponent<PlayerDamageNumberScript>().ShowText(amount);
 
                     Health_CurrentHealth = Health_CurrentHealth - amount;
-                    if(Health_CurrentHealth < 0)
-                    Health_CurrentHealth = 0;
+                    if (Health_CurrentHealth < 0)
+                        Health_CurrentHealth = 0;
 
                     PlayerHealthBar.SetFill(Health_CurrentHealth / Health_MaximumHealth);
-                    PlayerHealthBar.SetProgressText(Health_CurrentHealth+"/" +Health_MaximumHealth);
+                    PlayerHealthBar.SetProgressText(Health_CurrentHealth + "/" + Health_MaximumHealth);
 
                     Base_Animator.SetTrigger(PlayerConstants.Animation_TakeHit);
 
@@ -465,14 +471,15 @@ namespace Assets.Scripts.Shared
             }
         }
 
-        private IEnumerator RemoveDamageImmunity() 
-        {           
-            yield return new WaitForSeconds(DamageImmunityTime);            
+        private IEnumerator RemoveDamageImmunity()
+        {
+            yield return new WaitForSeconds(DamageImmunityTime);
             isImmuneToDamage = false;
         }
 
-        
-        public void Heal(float amount) {
+
+        public void Heal(float amount)
+        {
             _healthSystem.Heal(amount);
         }
 
@@ -480,10 +487,10 @@ namespace Assets.Scripts.Shared
         private void HandleInteract()
         {
             if (Input.GetKeyDown(InteractionKey))
-            {    
-                if(currentInteractableEntity != null)
+            {
+                if (currentInteractableEntity != null)
                 {
-                    currentInteractableEntity.Interact();                    
+                    currentInteractableEntity.Interact();
                     OnPlayerInteracted?.Invoke(this, new PlayerInteractedEventArgs(currentInteractableEntity));
                 }
             }
@@ -492,21 +499,21 @@ namespace Assets.Scripts.Shared
         public bool AttackOnCooldown;
         private void HandleAttack()
         {
-            if(!_movementLocked)
+            if (!_movementLocked)
             {
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(0))
-                {      
-                    if(!isAttacking && attackCompleted && !AttackOnCooldown)
+                {
+                    if (!isAttacking && attackCompleted && !AttackOnCooldown)
                     {
-                        if(PlayerMovementMode == PlayerMovementMode.Walking)
+                        if (PlayerMovementMode == PlayerMovementMode.Walking)
                         {
-                            if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireGun)
+                            if (PlayerEquipment == PlayerEquipment.Gun && Options_CanFireGun)
                             {
-                                isAttacking = true;  
+                                isAttacking = true;
                                 Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
                                 var bulletInstance = Instantiate(
-                                    Attacking_Gun_BulletPrefab, 
-                                    Attacking_Gun_ShootStartPoint.transform.position, 
+                                    Attacking_Gun_BulletPrefab,
+                                    Attacking_Gun_ShootStartPoint.transform.position,
                                     Quaternion.identity);
 
                                 // select random audio source
@@ -517,14 +524,14 @@ namespace Assets.Scripts.Shared
                                 bulletRigidBody.velocity = new Vector2(horizontal, 0);
                                 StartCoroutine(AttackFinish(false));
                             }
-                            else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackMelee)
-                            {                        
-                                isAttacking = true;  
+                            else if (PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackMelee)
+                            {
+                                isAttacking = true;
                                 AttackOnCooldown = true;
                                 LockMovement();
                                 Base_Animator.SetTrigger(PlayerConstants.Animation_Attack);
                                 // select random audio source
-                                int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
+                                int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length);
                                 AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
                                 StartCoroutine(AttackFinish(false));
                             }
@@ -532,24 +539,24 @@ namespace Assets.Scripts.Shared
                     }
                 }
                 if (Input.GetKeyDown(KeyCode.Return) || Input.GetMouseButtonUp(1))
-                {      
-                    if(!isAttacking && attackCompleted)
+                {
+                    if (!isAttacking && attackCompleted)
                     {
-                        if(PlayerMovementMode == PlayerMovementMode.Walking)
+                        if (PlayerMovementMode == PlayerMovementMode.Walking)
                         {
-                            if(PlayerEquipment == PlayerEquipment.Gun && Options_CanFireHeavyGun)
+                            if (PlayerEquipment == PlayerEquipment.Gun && Options_CanFireHeavyGun)
                             {
-                                isAttacking = true;  
+                                isAttacking = true;
                                 //Maybe throw grenade?
                                 StartCoroutine(AttackFinish(true));
                             }
-                            else if(PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackHeavyMelee)
-                            {                        
-                                isAttacking = true;  
+                            else if (PlayerEquipment == PlayerEquipment.Sword && Options_CanAttackHeavyMelee)
+                            {
+                                isAttacking = true;
                                 LockMovement();
                                 Base_Animator.SetTrigger(PlayerConstants.Animation_HeavyAttack);
                                 // select random audio source
-                                int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length); 
+                                int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Attacking_MeleeAttack.Length);
                                 AudioSources_Attacking_MeleeAttack[randomAudioNumber].Play();
                                 StartCoroutine(AttackFinish(true));
                             }
@@ -557,22 +564,22 @@ namespace Assets.Scripts.Shared
                     }
                 }
             }
-            
+
         }
 
         IEnumerator AttackFinish(bool attackWasHeavy)
         {
-            if(PlayerEquipment == PlayerEquipment.Gun)
+            if (PlayerEquipment == PlayerEquipment.Gun)
             {
-                yield return new WaitForSeconds(Attacking_Gun_Cooldown);  
+                yield return new WaitForSeconds(Attacking_Gun_Cooldown);
                 UnlockMovement();
             }
-            else if(PlayerEquipment == PlayerEquipment.Sword)
+            else if (PlayerEquipment == PlayerEquipment.Sword)
             {
-                if(!attackWasHeavy)
+                if (!attackWasHeavy)
                 {
-                    yield return new WaitForSeconds(AttackTimeUntillAttackHits); 
-                    if(ActiveEnemiesInDamageArea.Any())
+                    yield return new WaitForSeconds(AttackTimeUntillAttackHits);
+                    if (ActiveEnemiesInDamageArea.Any())
                     {
                         for (int i = 0; i < ActiveEnemiesInDamageArea.Count; i++)
                         {
@@ -580,18 +587,18 @@ namespace Assets.Scripts.Shared
                             ActiveEnemyInDamageArea.Damage(AttackDamage);
                         }
                     }
-                    yield return new WaitForSeconds(Attacking_Sword_Cooldown); 
+                    yield return new WaitForSeconds(Attacking_Sword_Cooldown);
                     AttackOnCooldown = false;
                     UnlockMovement();
                 }
                 else
-                {                    
-                    yield return new WaitForSeconds(Attacking_HeavySword_Cooldown);  
+                {
+                    yield return new WaitForSeconds(Attacking_HeavySword_Cooldown);
                     UnlockMovement();
                 }
             }
             isAttacking = false;
-            attackCompleted = true; 
+            attackCompleted = true;
         }
 
 
@@ -606,8 +613,8 @@ namespace Assets.Scripts.Shared
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if(PlayerMovementMode == PlayerMovementMode.Walking)
-                {                
+                if (PlayerMovementMode == PlayerMovementMode.Walking)
+                {
                     int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Jumping.Length);
                     AudioSources_Jumping[randomAudioNumber].Play();
                     Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
@@ -621,13 +628,13 @@ namespace Assets.Scripts.Shared
 
         private bool CanJump()
         {
-            if(!Options_CanJump) return false;
-            if(PlayerMovementMode == PlayerMovementMode.Swimming)
+            if (!Options_CanJump) return false;
+            if (PlayerMovementMode == PlayerMovementMode.Swimming)
             {
                 return true;
             }
-            else if(PlayerMovementMode == PlayerMovementMode.Walking)
-            {                
+            else if (PlayerMovementMode == PlayerMovementMode.Walking)
+            {
                 return Movement_Grounded;
             }
             return false;
@@ -635,18 +642,18 @@ namespace Assets.Scripts.Shared
 
         private void HandleMovementLand()
         {
-            HandleHorizontalMovement_Land();            
+            HandleHorizontalMovement_Land();
         }
 
         private void HandleMovementWater()
         {
             HandleHorizontalMovement_Water();
-                HandleVerticalMovement_Water();
+            HandleVerticalMovement_Water();
         }
 
         private void HandleHorizontalMovement_Land()
         {
-            if(_movementLocked) return;
+            if (_movementLocked) return;
 
             var horizontal = Input.GetAxisRaw("Horizontal");
             Base_RigidBody2D.velocity = new Vector2((horizontal * Movement_Speed) + KnockBackForceOnX, Base_RigidBody2D.velocity.y);
@@ -659,7 +666,7 @@ namespace Assets.Scripts.Shared
 
         private void HandleHorizontalMovement_Water()
         {
-            if(_movementLocked) return;
+            if (_movementLocked) return;
 
             var horizontal = Input.GetAxisRaw("Horizontal");
             Base_RigidBody2D.velocity = new Vector2(horizontal * Swimming_Speed, Base_RigidBody2D.velocity.y);
@@ -672,7 +679,7 @@ namespace Assets.Scripts.Shared
 
         private void HandleVerticalMovement_Water()
         {
-            if(_movementLocked) return;
+            if (_movementLocked) return;
 
             var vertical = Input.GetAxisRaw("Vertical");
             Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, vertical * Swimming_Speed);
@@ -692,45 +699,45 @@ namespace Assets.Scripts.Shared
 
         void FlipCharacter(float moveInput)
         {
-            if(!_movementLocked)
+            if (!_movementLocked)
             {
                 if (moveInput > 0)
                 {
-                    if(Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
+                    if (Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
                     {
-                        transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
                     }
                     else
                     {
-                        transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);                    
-                        if(PlayerMovementMode == PlayerMovementMode.Walking)
+                        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                        if (PlayerMovementMode == PlayerMovementMode.Walking)
                         {
                             CreateDirectionDust();
-                        }                    
-                        else if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                        }
+                        else if (PlayerMovementMode == PlayerMovementMode.Swimming)
                         {
                             SpawnBubbles();
                         }
                     }
                     Movement_PlayerFacingDirection = PlayerFacingDirection.Right;
                 }
-                else if (moveInput < 0)            
+                else if (moveInput < 0)
                 {
-                    if(Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
+                    if (Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
                     {
-                        transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-                        if(PlayerMovementMode == PlayerMovementMode.Walking)
+                        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                        if (PlayerMovementMode == PlayerMovementMode.Walking)
                         {
                             CreateDirectionDust();
-                        }                    
-                        else if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                        }
+                        else if (PlayerMovementMode == PlayerMovementMode.Swimming)
                         {
                             SpawnBubbles();
                         }
                     }
                     else
                     {
-                        transform.localScale = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
                     }
                     Movement_PlayerFacingDirection = PlayerFacingDirection.Left;
                 }
@@ -739,10 +746,10 @@ namespace Assets.Scripts.Shared
 
         void MoveCharacter(float moveInput)
         {
-            
+
             if (moveInput > 0)
             {
-                if(Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
+                if (Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
                 {
                     Base_RigidBody2D.velocity = new Vector2(moveInput * Movement_Speed, Base_RigidBody2D.velocity.y);
                 }
@@ -751,9 +758,9 @@ namespace Assets.Scripts.Shared
                     Base_RigidBody2D.velocity = new Vector2(-moveInput * Movement_Speed, Base_RigidBody2D.velocity.y);
                 }
             }
-            else if (moveInput < 0)            
+            else if (moveInput < 0)
             {
-                if(Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
+                if (Movement_PlayerFacingDirection == PlayerFacingDirection.Right)
                 {
                     Base_RigidBody2D.velocity = new Vector2(-moveInput * Movement_Speed, Base_RigidBody2D.velocity.y);
                 }
@@ -766,7 +773,7 @@ namespace Assets.Scripts.Shared
 
         void CreateDirectionDust()
         {
-            if(PlayerMovementMode == PlayerMovementMode.Walking)
+            if (PlayerMovementMode == PlayerMovementMode.Walking)
             {
                 Particles_SwapDirectionDust.Play();
             }
@@ -774,18 +781,18 @@ namespace Assets.Scripts.Shared
 
         void CreateLandingDust()
         {
-            if(PlayerMovementMode == PlayerMovementMode.Walking)
+            if (PlayerMovementMode == PlayerMovementMode.Walking)
             {
                 Particles_LandingDust.Play();
             }
         }
 
-        
+
         private bool isShowingSayPopup = false;
         public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
         {
-            if(!isShowingSayPopup)
-            {                
+            if (!isShowingSayPopup)
+            {
                 Debug.Log("Blocking more popups");
                 isShowingSayPopup = true;
                 Speaking_Textbox.Show(gameObject, TextBox_Y_Offset);
@@ -794,9 +801,9 @@ namespace Assets.Scripts.Shared
             }
         }
 
-        IEnumerator HideSay(string message, float duration, float timeToWaitAfterTextIsDisplayed )
+        IEnumerator HideSay(string message, float duration, float timeToWaitAfterTextIsDisplayed)
         {
-            yield return new WaitForSeconds((duration*message.Length)+timeToWaitAfterTextIsDisplayed); 
+            yield return new WaitForSeconds((duration * message.Length) + timeToWaitAfterTextIsDisplayed);
             Debug.Log("Can show popups again");
             isShowingSayPopup = false;
             Speaking_Textbox.Hide();
@@ -819,7 +826,7 @@ namespace Assets.Scripts.Shared
         {
             Speaking_Textbox.Hide();
         }
-        
+
         public void SetPlayerActive(bool active)
         {
             _isActive = active;
@@ -839,7 +846,7 @@ namespace Assets.Scripts.Shared
         {
             AttackDamage = newDamage;
             GetComponent<SpriteRenderer>().color = Color.blue;
-            transform.localScale = transform.localScale *1.1f;
+            transform.localScale = transform.localScale * 1.1f;
             Movement_JumpForce = 24;
             JumpOutOfWater();
         }
@@ -850,7 +857,7 @@ namespace Assets.Scripts.Shared
             StopMovement();
             LockMovement();
             AudioSource_Death.Play();
-            if(PlayerMovementMode != PlayerMovementMode.Swimming)
+            if (PlayerMovementMode != PlayerMovementMode.Swimming)
             {
                 Base_Animator.SetBool(PlayerConstants.Animation_Dead, true);
             }
@@ -872,7 +879,7 @@ namespace Assets.Scripts.Shared
         public void KnockBack(bool pushRight)
         {
             KnockBackForceOnX = 0f;
-            if(pushRight)
+            if (pushRight)
             {
                 KnockBackForceOnX = 5f;
             }
@@ -886,12 +893,12 @@ namespace Assets.Scripts.Shared
             Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
             Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x + KnockBackForceOnX, Base_RigidBody2D.velocity.y + Movement_JumpForce);
             Movement_GroundSensor.Disable(0.2f);
-            StartCoroutine(ResetKnockback());   
+            StartCoroutine(ResetKnockback());
         }
 
         IEnumerator ResetKnockback()
-        {        
-            yield return new WaitForSeconds(0.5f);    
+        {
+            yield return new WaitForSeconds(0.5f);
             KnockBackForceOnX = 0;
         }
 
@@ -914,66 +921,66 @@ namespace Assets.Scripts.Shared
         [SerializeField] private string DamagingZoneTagName = "DamagingZone";
 
         void OnTriggerEnter2D(Collider2D other)
-        {    
-            if(other.tag == "LaserTarget")
+        {
+            if (other.tag == "LaserTarget")
             {
                 Damage(10);
-            }  
-            if(other.tag == "Enemy")
+            }
+            if (other.tag == "Enemy")
             {
-                IEnemy enemy = other.gameObject.GetComponent<IEnemy>();    
-                if(enemy != null)
+                IEnemy enemy = other.gameObject.GetComponent<IEnemy>();
+                if (enemy != null)
                 {
-                    if(!ActiveEnemiesInDamageArea.Any(x => x.GetEnemyKey() == enemy.GetEnemyKey()))
+                    if (!ActiveEnemiesInDamageArea.Any(x => x.GetEnemyKey() == enemy.GetEnemyKey()))
                     {
-                        ActiveEnemiesInDamageArea.Add(enemy);      
-                    }                
+                        ActiveEnemiesInDamageArea.Add(enemy);
+                    }
                 }
-            }  
-            else if(other.tag == WaterEnterTagName && PlayerMovementMode != PlayerMovementMode.Swimming && PlayerMovementMode != PlayerMovementMode.Dead)
+            }
+            else if (other.tag == WaterEnterTagName && PlayerMovementMode != PlayerMovementMode.Swimming && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                CreateSwimmingBubbles();               
+                CreateSwimmingBubbles();
                 PlayerMovementMode = PlayerMovementMode.Swimming;
             }
-            else if(other.tag == WaterExitTagName && PlayerMovementMode != PlayerMovementMode.Walking && PlayerMovementMode != PlayerMovementMode.Dead)
+            else if (other.tag == WaterExitTagName && PlayerMovementMode != PlayerMovementMode.Walking && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                if (PlayerMovementMode == PlayerMovementMode.Swimming)
                 {
                     JumpOutOfWater();
-                }                
+                }
                 PlayerMovementMode = PlayerMovementMode.Walking;
             }
-            else if(other.tag == KillZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
+            else if (other.tag == KillZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                Kill();              
+                Kill();
             }
-            else if(other.tag == "MilestoneCollider" && PlayerMovementMode != PlayerMovementMode.Dead)
+            else if (other.tag == "MilestoneCollider" && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                var currentMilestoneEntity = other.gameObject.GetComponent<MilestoneColliderScript>();       
-                OnPlayerMilestoneHit?.Invoke(this, new PlayerMilestoneHitEventArgs(currentMilestoneEntity));    
-                Destroy(other);    
+                var currentMilestoneEntity = other.gameObject.GetComponent<MilestoneColliderScript>();
+                OnPlayerMilestoneHit?.Invoke(this, new PlayerMilestoneHitEventArgs(currentMilestoneEntity));
+                Destroy(other);
             }
-            else if(other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
+            else if (other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                currentInteractableEntity = other.gameObject.GetComponent<IInteractable>();    
-                if(currentInteractableEntity.CanShowInteractionDialog())  
+                currentInteractableEntity = other.gameObject.GetComponent<IInteractable>();
+                if (currentInteractableEntity.CanShowInteractionDialog())
                 {
-                    ShowTooltip(currentInteractableEntity.GetObjectName(),InteractionKey.ToString());                    
+                    ShowTooltip(currentInteractableEntity.GetObjectName(), InteractionKey.ToString());
                 }
-                if(currentInteractableEntity.CanInteract())  
+                if (currentInteractableEntity.CanInteract())
                 {
-                    currentInteractableEntity.ShowInteractibility();                   
+                    currentInteractableEntity.ShowInteractibility();
                 }
             }
-            else if(other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
+            else if (other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                IDamagingZone damagingZone = other.gameObject.GetComponent<IDamagingZone>();    
-                if(damagingZone != null)
+                IDamagingZone damagingZone = other.gameObject.GetComponent<IDamagingZone>();
+                if (damagingZone != null)
                 {
-                    if(!ActiveDamagingZones.Any(x => x.GetZoneKey() == damagingZone.GetZoneKey()))
+                    if (!ActiveDamagingZones.Any(x => x.GetZoneKey() == damagingZone.GetZoneKey()))
                     {
-                        ActiveDamagingZones.Add(damagingZone);      
-                    }                
+                        ActiveDamagingZones.Add(damagingZone);
+                    }
                     Damage(damagingZone.GetDamageOnHit());
                 }
             }
@@ -983,22 +990,22 @@ namespace Assets.Scripts.Shared
         List<IDamagingZone> ActiveDamagingZones;
 
         void OnTriggerExit2D(Collider2D other)
-        {         
-            if(other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
+        {
+            if (other.tag == InteractableTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 currentInteractableEntity = null;
                 HideTooltip();
             }
-            else if(other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
+            else if (other.tag == DamagingZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {
-                IDamagingZone damagingZone = other.gameObject.GetComponent<IDamagingZone>();      
+                IDamagingZone damagingZone = other.gameObject.GetComponent<IDamagingZone>();
                 ActiveDamagingZones.Remove(damagingZone);
             }
-            else if(other.tag == "Enemy")
+            else if (other.tag == "Enemy")
             {
-                IEnemy enemy = other.gameObject.GetComponent<IEnemy>();      
+                IEnemy enemy = other.gameObject.GetComponent<IEnemy>();
                 ActiveEnemiesInDamageArea.Remove(enemy);
-            } 
+            }
         }
 
         #endregion
@@ -1007,13 +1014,14 @@ namespace Assets.Scripts.Shared
 
     public class PlayerDeathEventArgs : EventArgs
     {
-        public PlayerDeathEventArgs(){}
+        public PlayerDeathEventArgs() { }
     }
 
     public class PlayerInteractedEventArgs : EventArgs
     {
         public IInteractable InteractedWith;
-        public PlayerInteractedEventArgs(IInteractable interactedWith){
+        public PlayerInteractedEventArgs(IInteractable interactedWith)
+        {
             InteractedWith = interactedWith;
         }
     }
@@ -1021,7 +1029,8 @@ namespace Assets.Scripts.Shared
     public class PlayerMilestoneHitEventArgs : EventArgs
     {
         public MilestoneColliderScript MilestoneCollider;
-        public PlayerMilestoneHitEventArgs(MilestoneColliderScript milestoneCollider){
+        public PlayerMilestoneHitEventArgs(MilestoneColliderScript milestoneCollider)
+        {
             MilestoneCollider = milestoneCollider;
         }
     }

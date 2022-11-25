@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Assets.Scripts.Shared;
+using Assets.Scripts.Map;
 
 namespace Assets.Scripts.Underwater2
 {
@@ -11,6 +11,7 @@ namespace Assets.Scripts.Underwater2
         [SerializeField] TextMeshProUGUI npcChatText;
         [SerializeField] GameObject fishingpole;
         [SerializeField] ChatUnderwaterSO npcChatStart;
+        [SerializeField] ChatUnderwaterSO playerHasThreeFishChat;
         [SerializeField] TextMeshProUGUI responseAText, responseBText, responseCText;
         [SerializeField] GameObject playerResponseParent;
 
@@ -73,9 +74,9 @@ namespace Assets.Scripts.Underwater2
         {
             chatMode = false;
             chatFinished = true;
-            var player = FindObjectOfType<Player>();
-            player.SetActive(true);
-            player.CanChop = true;
+            var player = FindObjectOfType<PlayerScript>();
+            player.SetPlayerActive(true);
+            player.Options_CanChopTrees = true;
             playerResponseParent.SetActive(false);
 
             fishingpole.SetActive(true);
@@ -87,10 +88,17 @@ namespace Assets.Scripts.Underwater2
             if (chatMode) return;
             if (collision.gameObject.tag != Constants.TagNames.Player) return;
 
-            FindObjectOfType<Player>().SetActive(false);
+            FindObjectOfType<PlayerScript>().SetPlayerActive(false);
             playerResponseParent.SetActive(true);
             chatMode = true;
             currentChat = npcChatStart;
+
+            if (MapManager.GetInstance().NumberOfFishInInventory >= 3)
+            {
+                currentChat = playerHasThreeFishChat;
+                GetComponent<CircleCollider2D>().enabled = false;
+            }
+
             SetChatText(currentChat);
         }
 

@@ -28,6 +28,8 @@ namespace Assets.Scripts.Map
 
         public bool LastGameWasLost = false;
         public bool LastGameWasWon = false;
+        public bool SpawnPlayerAtPierInUnderwater = false;
+        public int NumberOfFishInInventory = 0;
 
         // LOOT
         public bool HasFishingPole = false;

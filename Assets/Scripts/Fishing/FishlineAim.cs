@@ -2,6 +2,8 @@
 using TMPro;
 using System.Collections;
 using Assets.Scripts.Map;
+using UnityEngine.SceneManagement;
+using Assets.Scripts.Shared;
 
 namespace Assets.Scripts.Fishing
 {
@@ -77,8 +79,9 @@ namespace Assets.Scripts.Fishing
         {
             if (caughtFish.IsShowing && Input.GetKeyDown(KeyCode.R))
             {
-                //Exit, pass number of caught fish to MapManager
-                Debug.Log("Exit");
+                MapManager.GetInstance().NumberOfFishInInventory = numberOfCaughtFish;
+                MapManager.GetInstance().SpawnPlayerAtPierInUnderwater = true;
+                SceneManager.LoadScene(Constants.SceneNames.UnderwaterScene);
                 return;
             }
 
