@@ -16482,6 +16482,7 @@ MonoBehaviour:
   FrustrationMeter: {fileID: 743101243}
   frustrationIncrement: 0.05
   maxDistancePlayerAndNpc: 7
+  PlayerHealthBar: {fileID: 3998635860203471232}
   bridgeTilemap: {fileID: 1698329486}
   Distance: {fileID: 107045634}
   Number: {fileID: 1266670222}
@@ -17335,6 +17336,10 @@ PolygonCollider2D:
     - - {x: 47.86531, y: 10.330573}
       - {x: -11.056035, y: 9.873166}
       - {x: -10.898671, y: -1.2150006}
+      - {x: -5.241356, y: -6.140387}
+      - {x: 0.3225994, y: -10.945044}
+      - {x: 20.676353, y: -10.828603}
+      - {x: 29.562246, y: -7.371983}
       - {x: 48.909428, y: -1.1216569}
       - {x: 48.552795, y: 10.166741}
 --- !u!4 &900296816 stripped
@@ -18774,7 +18779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1202237721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.418048, y: 1.9147843, z: -10.013918}
+  m_LocalPosition: {x: -3.418004, y: 1.8870381, z: -10.013918}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45582,7 +45587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27549faf240edc042a023bea11941ba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Options_ShowCharacterAvatar: 0
+  Options_ShowCharacterAvatar: 1
   Options_ShowHealthBar: 0
   Options_ShowDamageNumbers: 0
   Options_CanFireGun: 0
@@ -45591,6 +45596,9 @@ MonoBehaviour:
   Options_CanAttackHeavyMelee: 0
   Options_CanJump: 1
   Options_ShowTargetingArrow: 1
+  Options_CanChopTrees: 0
+  Options_CanCraftFishingpole: 0
+  Options_HasFishingpole: 0
   InteractionKey: 101
   Base_Animator: {fileID: 9096179725590910244}
   Base_RigidBody2D: {fileID: 2809551096267720886}
@@ -45599,7 +45607,7 @@ MonoBehaviour:
   TargetingArrow_MaximumDistanceToShow: 4
   Speaking_Textbox: {fileID: 3998635859910974172}
   Speaking_TextVisibleDuration: 0.125
-  TextBox_Y_Offset: 5
+  TextBox_Y_Offset: 3
   AudioSource_Death: {fileID: 1078043846906954788}
   DeathController: {fileID: 9100000, guid: c6ec1c8270d252143aecd6b5ee17e86f, type: 2}
   Movement_FacingRight: 1
