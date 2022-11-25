@@ -658,9 +658,11 @@ namespace Assets.Scripts.Map
                 case Direction.Down:
                     return selectedY <= 0;
                 case Direction.Left:
-                    return selectedX <= 0;
+                    return true;
+                    //return selectedX <= 0;
                 case Direction.Right:
-                    return selectedX >= mapWidth - 1 || selectedX >= MapManager.GetInstance().MaxStageUnlocked;
+                    return true;
+                    //return selectedX >= mapWidth - 1 || selectedX >= MapManager.GetInstance().MaxStageUnlocked;
                 default:
                     throw new Exception($"Unable to handle direction {direction}");
             }

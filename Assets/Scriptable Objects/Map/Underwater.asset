@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71695584f56cc4543986f58467b34068, type: 3}
   m_Name: Underwater
   m_EditorClassIdentifier: 
-  minigameName: Underwater Maps
+  minigameName: Under the water
   sceneName: Underwater2Scene
   mapSprite: {fileID: 21300000, guid: 63e7d4a5311d1c8448ba2a2792e69676, type: 3}

@@ -113,7 +113,7 @@ namespace Assets.Scripts.Map
 
         public bool CanStartGame(int x, int y)
         {
-            return x <= maxStageUnlocked && !minigames[x, y].IsWon;
+            return x == maxStageUnlocked; // && !minigames[x, y].IsWon; Allow finished games to be played again
         }
 
         public void FinishMinigame(bool isWon)

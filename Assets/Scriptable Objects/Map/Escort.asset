@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71695584f56cc4543986f58467b34068, type: 3}
   m_Name: Escort
   m_EditorClassIdentifier: 
-  minigameName: Escort Quests
+  minigameName: Escorting
   sceneName: EscortScene
   mapSprite: {fileID: 21300000, guid: e193cffec1a20d04cbf2ece1311d8f61, type: 3}

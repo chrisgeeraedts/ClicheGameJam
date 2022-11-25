@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71695584f56cc4543986f58467b34068, type: 3}
   m_Name: One Man Army Minigame Info
   m_EditorClassIdentifier: 
-  minigameName: One Man Army
+  minigameName: Zombie Invasion
   sceneName: OneManArmyScene
   mapSprite: {fileID: 21300000, guid: e2161997ec9f2474c927cd6329ba985f, type: 3}

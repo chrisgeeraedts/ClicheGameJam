@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71695584f56cc4543986f58467b34068, type: 3}
   m_Name: Shop
   m_EditorClassIdentifier: 
-  minigameName: Shop
+  minigameName: Magical Shop
   sceneName: ShopScene
   mapSprite: {fileID: 21300000, guid: 9caa7a63dd324114caf48f3d983522e7, type: 3}

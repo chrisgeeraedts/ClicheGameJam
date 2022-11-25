@@ -8590,7 +8590,7 @@ MonoBehaviour:
   isActive: 1
   firstValue: 0.5
   secondValue: 3
-  smoothing: 10
+  smoothing: 120
 --- !u!114 &469956257
 MonoBehaviour:
   m_ObjectHideFlags: 0

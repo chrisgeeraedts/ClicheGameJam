@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71695584f56cc4543986f58467b34068, type: 3}
   m_Name: Barrel Fun Minigame Info
   m_EditorClassIdentifier: 
-  minigameName: Barrel Fun
+  minigameName: The Lab
   sceneName: BarrelFunScene
   mapSprite: {fileID: 21300000, guid: 259074ad865495c40831e457bd0bf0e0, type: 3}
