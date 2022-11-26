@@ -21,6 +21,8 @@ namespace Assets.Scripts.Fishing
         [SerializeField] Vector2 verticalAimStartPosition;
         [SerializeField] GameObject explanationParentGameObject;
         [SerializeField] int maximumFishLevelCaught = 9;
+        [SerializeField] TextMeshProUGUI numberOfCaughtFishTextfield;
+        [SerializeField] GameObject treasureChestAsGoalParent;
 
         public bool isActive = true;
         public bool HorizontalAimActive = false;
@@ -34,6 +36,7 @@ namespace Assets.Scripts.Fishing
         private CaughtFish caughtFish;
         private int numberOfCaughtFish;
         private GameObject currentSpawnedFish;
+        private bool hasCaughtTreasurechest = false;
 
         public void FishHit()
         {
@@ -57,6 +60,14 @@ namespace Assets.Scripts.Fishing
             fishSpawner = FindObjectOfType<FishSpawner>();
             caughtFish = FindObjectOfType<CaughtFish>();
             caughtFish.HideCatch();
+
+            ShowTreasureChestGoal();
+        }
+
+        private void ShowTreasureChestGoal()
+        {
+            var showTreasurechestGoal = MapManager.GetInstance().FishingGameStartedFromMap;
+            treasureChestAsGoalParent.SetActive(showTreasurechestGoal);
         }
 
         private void Update()
@@ -81,7 +92,19 @@ namespace Assets.Scripts.Fishing
             {
                 MapManager.GetInstance().NumberOfFishInInventory = numberOfCaughtFish;
                 MapManager.GetInstance().SpawnPlayerAtPierInUnderwater = true;
-                SceneManager.LoadScene(Constants.SceneNames.UnderwaterScene);
+
+                if (MapManager.GetInstance().FishingGameStartedFromMap)
+                {
+                    var minigameWon = hasCaughtTreasurechest || numberOfCaughtFish >= 5;
+                    MapManager.GetInstance().FinishMinigame(minigameWon);
+                    SceneManager.LoadScene(Constants.SceneNames.MapScene);
+                }
+                else
+                {
+                    SceneManager.LoadScene(Constants.SceneNames.UnderwaterScene);
+                }
+
+                
                 return;
             }
 
@@ -111,6 +134,7 @@ namespace Assets.Scripts.Fishing
             if (!spawnerStarted)
             {
                 explanationParentGameObject.SetActive(false);
+                treasureChestAsGoalParent.SetActive(false);
                 currentSpawnedFish = fishSpawner.SpawnScaledFish(startScale);
                 spawnerStarted = true;
             }
@@ -142,8 +166,9 @@ namespace Assets.Scripts.Fishing
             ResetAimPositions();
             DestroyCurrentFish();
             caughtFish.ShowCatch(numberOfFishHits);
-            if (numberOfFishHits > 1 || numberOfFishHits == maximumFishLevelCaught) numberOfCaughtFish++; // 0 and 1 are not fish (Old Boot and Seaweed), Max is Treasure chest
+            if (numberOfFishHits > 1 && numberOfFishHits < maximumFishLevelCaught) numberOfCaughtFish++; // 0 and 1 are not fish (Old Boot and Seaweed), Max is Treasure chest
             numberOfFishHits = 0;
+            numberOfCaughtFishTextfield.text = $"Fish caught: {numberOfCaughtFish}";
         }
 
         private void CheckAchievements()
@@ -155,6 +180,7 @@ namespace Assets.Scripts.Fishing
 
             if (numberOfFishHits == maximumFishLevelCaught)
             {
+                hasCaughtTreasurechest = true;
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(32);
                 //TODO: Show gaining coins
                 MapManager.GetInstance().GainCoins(1000);

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92bd1e8eba096844aac38ce20bd31ca1, type: 3}
+  m_Name: Craft Fishingpole
+  m_EditorClassIdentifier: 
+  npcChat: I guess you are gonna have to craft a fishingpole.^There is wood on the
+    island and you can use my shed to craft it.
+  responseA: Thanks, I will catch at least 3 fish for you near the water !
+  responseB: How do I chop down the tree?
+  responseC: 
+  followUpA: {fileID: 0}
+  followUpB: {fileID: 11400000, guid: e8a3ea6f78327d6428ffef64643ae9e5, type: 2}
+  followUpC: {fileID: 0}

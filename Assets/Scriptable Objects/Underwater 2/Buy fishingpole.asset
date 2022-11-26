@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcChat: You don't have one?^Why didn't you buy one at the shop ?
   responseA: It was 999 gold !
-  responseB: What shop?
-  responseC: Ok
-  followUpA: {fileID: 0}
-  followUpB: {fileID: 0}
+  responseB: I didn't think I'd need one
+  responseC: 
+  followUpA: {fileID: 11400000, guid: a52d2ffd0b6ea984fb3bad74a96af98b, type: 2}
+  followUpB: {fileID: 11400000, guid: a52d2ffd0b6ea984fb3bad74a96af98b, type: 2}
   followUpC: {fileID: 0}

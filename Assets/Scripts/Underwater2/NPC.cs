@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using Assets.Scripts.Shared;
 using Assets.Scripts.Map;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Underwater2
 {
@@ -14,10 +15,13 @@ namespace Assets.Scripts.Underwater2
         [SerializeField] ChatUnderwaterSO playerHasThreeFishChat;
         [SerializeField] TextMeshProUGUI responseAText, responseBText, responseCText;
         [SerializeField] GameObject playerResponseParent;
+        [SerializeField] string npcMoveOnChatText;
+        [SerializeField] List<GameObject> gameObjectsToActivateOnChat;
 
         private bool chatMode = false;
         private bool chatFinished = false;
         private ChatUnderwaterSO currentChat;
+        private string chatKeyHintPrefix = "[<color=#E97419>^key^</color>]";
 
         public void HandleAnswerA()
         {
@@ -45,14 +49,17 @@ namespace Assets.Scripts.Underwater2
 
             if (Input.GetKeyDown(KeyCode.A))
             {
+                if (!responseAText.enabled) return;
                 HandleAnswerA();
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
+                if (!responseBText.enabled) return;
                 HandleAnswerB();
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
+                if (!responseCText.enabled) return;
                 HandleAnswerC();
             }
         }
@@ -65,7 +72,14 @@ namespace Assets.Scripts.Underwater2
                 return;
             }
 
-            //TODO NICE: Show player response in chatbubble?
+            if (chat.NpcChat.Equals(npcMoveOnChatText, StringComparison.InvariantCultureIgnoreCase))
+            {
+                //TODO NICE: Move player to house and make disappear
+                Debug.Log("NPC Happy, move to house plz");
+                ExitChat();
+                return;
+            }
+
             currentChat = chat;
             SetChatText(currentChat);
         }
@@ -78,8 +92,8 @@ namespace Assets.Scripts.Underwater2
             player.SetPlayerActive(true);
             player.Options_CanChopTrees = true;
             playerResponseParent.SetActive(false);
-
-            fishingpole.SetActive(true);
+            SetNPCChatObjectsActive(false);
+            //fishingpole.SetActive(true);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -92,6 +106,7 @@ namespace Assets.Scripts.Underwater2
             playerResponseParent.SetActive(true);
             chatMode = true;
             currentChat = npcChatStart;
+            SetNPCChatObjectsActive(true);
 
             if (MapManager.GetInstance().NumberOfFishInInventory >= 3)
             {
@@ -102,12 +117,20 @@ namespace Assets.Scripts.Underwater2
             SetChatText(currentChat);
         }
 
+        private void SetNPCChatObjectsActive(bool active)
+        {
+            foreach (var gameObject in gameObjectsToActivateOnChat)
+            {
+                gameObject.SetActive(active);
+            }
+        }
+
         private void SetChatText(ChatUnderwaterSO chat)
         {
             npcChatText.text = chat.NpcChat.Replace("^", Environment.NewLine);
-            responseAText.text = chat.ResponseA;
-            responseBText.text = chat.ResponseB;
-            responseCText.text = chat.ResponseC;
+            responseAText.text = $"{chatKeyHintPrefix.Replace("^key^", "A")}{chat.ResponseA}";
+            responseBText.text = $"{chatKeyHintPrefix.Replace("^key^", "S")}{chat.ResponseB}";
+            responseCText.text = $"{chatKeyHintPrefix.Replace("^key^", "D")}{chat.ResponseC}";
 
             responseAText.enabled = !string.IsNullOrEmpty(chat.ResponseA);
             responseBText.enabled = !string.IsNullOrEmpty(chat.ResponseB);

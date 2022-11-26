@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92bd1e8eba096844aac38ce20bd31ca1, type: 3}
+  m_Name: Backstory 3
+  m_EditorClassIdentifier: 
+  npcChat: I used to catch fish, but my fishing pole broke.
+  responseA: How do you get food now?
+  responseB: Can I do anything for you ?
+  responseC: Can you let me through?
+  followUpA: {fileID: 11400000, guid: b8c909f6c9f796c49aa6d0bcc1480fb2, type: 2}
+  followUpB: {fileID: 11400000, guid: f389440a6a9d4e5438c335ae3cb2e27a, type: 2}
+  followUpC: {fileID: 11400000, guid: 16ed9318b6291b541bfaf4a1f10b3848, type: 2}

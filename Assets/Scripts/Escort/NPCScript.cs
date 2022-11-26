@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Shared;
 
@@ -26,8 +25,6 @@ public class NPCScript : MonoBehaviour, INPC
             animator.runtimeAnimatorController = Idle;  
         }
     }
-
-        
 
     public bool IsNPCActive()
     {
@@ -86,7 +83,6 @@ public class NPCScript : MonoBehaviour, INPC
     {if(!isShowingSayPopup)
         {                
             isShowingSayPopup = true;
-            Debug.Log("NPC SHOULD SAY: " + text);
             Speaking_Textbox.Show(gameObject, 3f);
             StartCoroutine(Speaking_Textbox.EasyMessage(text, 0.1f, false, false, 5f));
             StartCoroutine(HideSay(text, 0.1f, 5f));
@@ -108,5 +104,13 @@ public class NPCScript : MonoBehaviour, INPC
      public void SetMoving()
     {        
         animator.runtimeAnimatorController = Moving;  
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag != Constants.TagNames.Player) return;
+
+        gameObject.layer = LayerMask.NameToLayer(Constants.LayerNames.NoCollisionWithPlayer);
+        Say("Don't push me please!");
     }
 }

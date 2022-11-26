@@ -24,14 +24,11 @@ namespace Assets.Scripts.Map
             {
                 avatarRenderer.sprite = avatarWithCrown;
             }
-
-
         }
 
         public void SwapHats()
         {
             if (!MapManager.GetInstance().HasSillyHat) return;
-
             MapManager.GetInstance().IsWearingSillyHat = !MapManager.GetInstance().IsWearingSillyHat;
             ApplyHat();
         }
