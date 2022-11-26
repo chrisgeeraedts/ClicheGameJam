@@ -8,6 +8,7 @@ using static Assets.Scripts.Shared.Enums;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Shared;
 using Cinemachine;
+using System.Linq;
 
 namespace Assets.Scripts.Map
 {
@@ -47,12 +48,6 @@ namespace Assets.Scripts.Map
         [SerializeField] AudioSource MusicAudio;
         [SerializeField] AudioSource GameOverAudio;
 
-        public GameObject LineHero_1;
-        public GameObject Line1_2;
-        public GameObject Line2_3;
-        public GameObject Line3_4;
-        public GameObject Line4_Boss;
-
         public Canvas backgroundToHideOnFinalBoss;
         public Image titleToHideOnFinalBoss;
         
@@ -87,6 +82,8 @@ namespace Assets.Scripts.Map
         [SerializeField] GameObject[] CenterPointProgressLaserStages;
         [SerializeField] GameObject[] CenterPointProgressLaserStagesEnd;
 
+        [SerializeField] GameObject[] ToHideOnBossPhase;
+        [SerializeField] GameObject HeroStartLineObject;
         
         [SerializeField] LineRenderer ProgressCutter;
 
@@ -151,6 +148,12 @@ namespace Assets.Scripts.Map
                 {
                     minigamePositionGrid[i].SetActive(false);
                 }
+
+                for (int i = 0; i < ToHideOnBossPhase.Length; i++)
+                {
+                    ToHideOnBossPhase[i].SetActive(false);
+                }
+
                 backgroundToHideOnFinalBoss.enabled = false;
                 titleToHideOnFinalBoss.enabled = false;    
                 bossAnimationCanGo = true;        
@@ -196,11 +199,10 @@ namespace Assets.Scripts.Map
 		    btn.onClick.AddListener(TaskOnClick);
 
             // Disable lines initially
-            //LineHero_1.GetComponent<LineLaserScript>().Hide();
-            Line1_2.GetComponent<LineLaserScript>().Hide();
-            Line2_3.GetComponent<LineLaserScript>().Hide();
-            Line3_4.GetComponent<LineLaserScript>().Hide();
-            Line4_Boss.GetComponent<LineLaserScript>().Hide();
+            for (int i = 0; i < Lines.Length; i++)
+            {                
+                Lines[i].Hide();
+            }
 
             // Disable placeholder gameobjects
             for (int i = 0; i < minigamePositionGrid.Length; i++)
@@ -262,14 +264,19 @@ namespace Assets.Scripts.Map
             }
         }
 
+        public LineLaserScript[] Lines;
+        private List<GameObject> WonMiniGameObjects;
+
         private void GenerateMap(MinigameInfo[,] minigames)
         {
+            WonMiniGameObjects = new List<GameObject>();
             minigameGrid = new GameObject[minigames.GetLength(0), minigames.GetLength(1)];
             var maxStageUnlocked = MapManager.GetInstance().MaxStageUnlocked;
 
             // generate minigame tiles
             for (int x = 0; x < minigames.GetLength(0); x++)
             {
+                GameObject minigameObjectWonThisX = null;
                 for (int y = 0; y < minigames.GetLength(1); y++)
                 {
                     var mapNodeGameObject = Instantiate(mapNodePrefab, mapParentObject.transform, false);
@@ -288,10 +295,23 @@ namespace Assets.Scripts.Map
                     mapNode.Y = y;
                     mapNode.SetLocked(x > maxStageUnlocked);
                     mapNode.SetWon(minigameInfo.IsWon);
+
+
+                    FinishedMinigameInfoXY foo = MapManager.GetInstance().FirstFinishedMinigames.FirstOrDefault(a => a.X == x && a.Y == y);
+                    if(foo != null)
+                    {
+                        minigameObjectWonThisX = mapNodeGameObject;
+                    }
+
                     mapNode.SetInfo(minigameInfo);
                     
                     minigameGrid[x, y] = mapNodeGameObject;
                     minigamePositionGridIndex++;
+                }
+
+                if(minigameObjectWonThisX != null)
+                {
+                    WonMiniGameObjects.Add(minigameObjectWonThisX);
                 }
             }
 
@@ -301,13 +321,38 @@ namespace Assets.Scripts.Map
                 Stages[i].SetCompletedStage(true);
             }
 
+            // draw lines
+            int index = 0;
+            GameObject prevWonGame = null;
+            Debug.Log("FirstFinishedMinigames: " + MapManager.GetInstance().FirstFinishedMinigames.Count);
+            foreach (var firstFinishedMinigame in MapManager.GetInstance().FirstFinishedMinigames)
+            {
+                GameObject wonGame = minigameGrid[firstFinishedMinigame.X, firstFinishedMinigame.Y];
+
+                if(index == 0)
+                {
+                    Lines[0].Show();
+                    Lines[0].StartGameObject = HeroStartLineObject;
+                    Lines[0].EndGameObject = wonGame;  
+                }
+                else if(index > 0)
+                {
+                    Lines[index].Show();
+                    Lines[index].StartGameObject = prevWonGame;
+                    Lines[index].EndGameObject = wonGame;  
+                }   
+                prevWonGame = wonGame;
+                index++;
+            }
+
+
             SetLaserPoint(MapManager.GetInstance().MaxStageUnlocked);
         }
 
         private void SelectLastActiveNode()
         {
-            selectedX= MapManager.GetInstance().MinigameStartedX;
-            selectedY = MapManager.GetInstance().MinigameStartedY;
+            selectedX= MapManager.GetInstance().MaxStageUnlocked;
+            selectedY = 0;
             minigameGrid[selectedX, selectedY].GetComponent<MapNode>().SetSelected(true);
         }
 
@@ -589,6 +634,7 @@ namespace Assets.Scripts.Map
             ApplyMove(direction);
             SetCurrentMapNodeSelected(true);
             cursorMovedSound.Play();
+
         }
 
         public void DEBUG_GOTOFINALSTAGE()
@@ -624,7 +670,30 @@ namespace Assets.Scripts.Map
 
         private void SetCurrentMapNodeSelected(bool isSelected)
         {
+            Debug.Log("SetCurrentMapNodeSelected - isSelected: " + isSelected);
             minigameGrid[selectedX, selectedY].GetComponent<MapNode>().SetSelected(isSelected);
+            
+            if(isSelected)
+            {
+                Debug.Log("MaxStageUnlocked " + MapManager.GetInstance().MaxStageUnlocked);
+                Debug.Log("selectedX " + selectedX);
+                Debug.Log("position: " + minigameGrid[selectedX, selectedY].transform.position);
+
+                Lines[MapManager.GetInstance().MaxStageUnlocked].Show();
+                Lines[MapManager.GetInstance().MaxStageUnlocked].EndGameObject = minigameGrid[selectedX, selectedY];
+            }
+            else 
+            {
+                if(MapManager.GetInstance().MaxStageUnlocked == 0)
+                {
+                    Lines[MapManager.GetInstance().MaxStageUnlocked].StartGameObject = HeroStartLineObject;
+                }
+                else
+                {
+                    Lines[MapManager.GetInstance().MaxStageUnlocked].StartGameObject = minigameGrid[selectedX, selectedY];
+                }
+                
+            }
         }
 
         private void ApplyMove(Direction direction)

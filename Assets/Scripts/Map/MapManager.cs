@@ -55,12 +55,13 @@ namespace Assets.Scripts.Map
         private List<int> unusedMinigameInfoIndexes;
         private MinigameInfo[,] minigames;
         
-        private List<FinishedMinigameInfoXY> FirstFinishedMinigames;
+        public List<FinishedMinigameInfoXY> FirstFinishedMinigames;
 
         public void SetMaxStage(int stage)
         {
             maxStageUnlocked = stage;
         }
+
 
         private int maxStageUnlocked = 0;
         private static MapManager instance;
@@ -142,6 +143,7 @@ namespace Assets.Scripts.Map
             {
                 BossHP = BossHP - BossDamageWhenMinigameWon;
                 Debug.Log("BOSS TOOK " + BossDamageWhenMinigameWon + " damage");
+                FirstFinishedMinigames.Add(new FinishedMinigameInfoXY() { X = minigameStartedX, Y = minigameStartedY});
             }
         }
 
@@ -182,6 +184,7 @@ namespace Assets.Scripts.Map
         
         private void GenerateMinigames()
         {
+            FirstFinishedMinigames = new List<FinishedMinigameInfoXY>();
             HeroHP = HeroMaxHP; //Lazy fix for health being 0 after GameOver -> Restart ?
             FillUnusedMinigameinfoIndexes();
             Debug.Log("Generating minigames: " + "width:" + mapWidth + " height:" +  mapHeight);
