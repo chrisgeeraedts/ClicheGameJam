@@ -83,7 +83,6 @@ public class NPCScript : MonoBehaviour, INPC
     {if(!isShowingSayPopup)
         {                
             isShowingSayPopup = true;
-            Debug.Log("NPC SHOULD SAY: " + text);
             Speaking_Textbox.Show(gameObject, 3f);
             StartCoroutine(Speaking_Textbox.EasyMessage(text, 0.1f, false, false, 5f));
             StartCoroutine(HideSay(text, 0.1f, 5f));
@@ -111,7 +110,6 @@ public class NPCScript : MonoBehaviour, INPC
     {
         if (collision.gameObject.tag != Constants.TagNames.Player) return;
 
-        //GetComponent<CapsuleCollider2D>().enabled = false;
         gameObject.layer = LayerMask.NameToLayer(Constants.LayerNames.NoCollisionWithPlayer);
         Say("Don't push me please!");
     }
