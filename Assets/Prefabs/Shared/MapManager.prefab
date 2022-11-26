@@ -60,11 +60,13 @@ MonoBehaviour:
   HasSillyHat: 0
   IsWearingSillyHat: 0
   minigameInfos:
+  - {fileID: 11400000, guid: 9491545835c86994b80b9b8838a9e7b5, type: 2}
+  - {fileID: 11400000, guid: f77c54fc5e89ddc46b7df276f70971b6, type: 2}
   - {fileID: 11400000, guid: 33b4ad98878400c4287307bcbfda017e, type: 2}
-  - {fileID: 11400000, guid: 5847917ad0091174782ff868e3ccad15, type: 2}
   - {fileID: 11400000, guid: 1b773aeb38224a444ae9e0681db8685b, type: 2}
-  - {fileID: 11400000, guid: 8808a1d3a9d0eb6448542b89931ec9fe, type: 2}
+  - {fileID: 11400000, guid: 5847917ad0091174782ff868e3ccad15, type: 2}
   - {fileID: 11400000, guid: d11d554eae521e3429f24fe7015da4ed, type: 2}
+  - {fileID: 11400000, guid: 8808a1d3a9d0eb6448542b89931ec9fe, type: 2}
   - {fileID: 11400000, guid: 3e47b5adf8c780d4cac2c170b0548c68, type: 2}
   mapWidth: 4
   mapHeight: 2
