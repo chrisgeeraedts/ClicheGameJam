@@ -91,9 +91,23 @@ namespace Assets.Scripts.Map
             {
                 minigames = new MinigameInfo[mapWidth, mapHeight];
                 GenerateMinigames();
+                FinishStage1();
             }
 
             return minigames;
+        }
+
+        private void FinishStage1()
+        {
+            minigameStartedX = 0;
+            minigameStartedY = 0;
+
+            FinishMinigame(true);
+
+            minigameStartedX = 0;
+            minigameStartedY = 1;
+
+            FinishMinigame(true);
         }
 
         public void StartMinigame(int x, int y)
@@ -114,7 +128,7 @@ namespace Assets.Scripts.Map
 
         public bool CanStartGame(int x, int y)
         {
-            return x == maxStageUnlocked; // && !minigames[x, y].IsWon; Allow finished games to be played again
+            return x <= maxStageUnlocked && !minigames[x, y].IsWon; //Allow finished games to be played again
         }
 
         public void FinishMinigame(bool isWon)
@@ -188,13 +202,15 @@ namespace Assets.Scripts.Map
             HeroHP = HeroMaxHP; //Lazy fix for health being 0 after GameOver -> Restart ?
             FillUnusedMinigameinfoIndexes();
             Debug.Log("Generating minigames: " + "width:" + mapWidth + " height:" + mapHeight);
+            var minigameIndex = 0;
             for (int x = 0; x < mapWidth; x++)
             {
                 for (int y = 0; y < mapHeight; y++)
                 {
-                    var minigameInfo = GetRandomMinigameInfo();
-                    Debug.Log("minigame: " + "x:" + x + " y:" + y);
+                    var minigameInfo = minigameInfos[minigameIndex]; // GetRandomMinigameInfo();
+                    Debug.Log("minigame: " + "x:" + x + " y:" + y + " = " + minigameInfo.MinigameName);
                     minigames[x, y] = minigameInfo;
+                    minigameIndex++;
                 }
             }
 
