@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92bd1e8eba096844aac38ce20bd31ca1, type: 3}
-  m_Name: Hungry
+  m_Name: Chop Tree
   m_EditorClassIdentifier: 
-  npcChat: Herbert is hungry !^Bring me 3 fishes^or^YOU SHALL NOT PASS!
-  responseA: No problem
-  responseB: How do I get fish?
-  responseC: Ok
+  npcChat: I'm sure your hands will work fine as an axe.
+  responseA: Thanks, I will try to catch you some fish
+  responseB: 
+  responseC: 
   followUpA: {fileID: 0}
-  followUpB: {fileID: 11400000, guid: 547bebf3222f62243af653b3b0f00452, type: 2}
+  followUpB: {fileID: 0}
   followUpC: {fileID: 0}

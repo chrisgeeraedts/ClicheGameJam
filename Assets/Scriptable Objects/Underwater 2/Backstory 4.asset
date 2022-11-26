@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92bd1e8eba096844aac38ce20bd31ca1, type: 3}
-  m_Name: Introduction
+  m_Name: Backstory 4
   m_EditorClassIdentifier: 
-  npcChat: I am Herbert^I rule over this Island
-  responseA: It's a nice island
-  responseB: Ok
-  responseC: Ok
-  followUpA: {fileID: 11400000, guid: 16ed9318b6291b541bfaf4a1f10b3848, type: 2}
-  followUpB: {fileID: 11400000, guid: 16ed9318b6291b541bfaf4a1f10b3848, type: 2}
+  npcChat: I now demand fish from all heroes who want to pass through my island.
+  responseA: Are there enough people who come by to keep you fed?
+  responseB: Can I do anything for you ?
+  responseC: Can you let me through?
+  followUpA: {fileID: 11400000, guid: cab0b75e716b03a4789bfb44944ba204, type: 2}
+  followUpB: {fileID: 11400000, guid: f389440a6a9d4e5438c335ae3cb2e27a, type: 2}
   followUpC: {fileID: 11400000, guid: 16ed9318b6291b541bfaf4a1f10b3848, type: 2}

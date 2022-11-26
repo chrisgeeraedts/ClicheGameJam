@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92bd1e8eba096844aac38ce20bd31ca1, type: 3}
   m_Name: Fishingpole hint
   m_EditorClassIdentifier: 
-  npcChat: Just use your fishing pole to catch them !
+  npcChat: Just use your fishing pole to catch them near the water!
   responseA: What fishing pole?
-  responseB: Ok
-  responseC: Ok
+  responseB: 
+  responseC: 
   followUpA: {fileID: 11400000, guid: 1e9b410ca66d7b6498404618227e4022, type: 2}
   followUpB: {fileID: 0}
   followUpC: {fileID: 0}
