@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using Assets.Scripts.Shared;
-using Assets.Scripts.Shop;
 
 namespace Assets.Scripts.Map
 {
