@@ -6,6 +6,7 @@ namespace Assets.Scripts.Underwater2
     public class CraftingStation : MonoBehaviour, IInteractable
     {
         private bool hasCrafted = false;
+        [SerializeField] GameObject Pier;
 
         public bool CanInteract()
         {
@@ -27,6 +28,8 @@ namespace Assets.Scripts.Underwater2
         public void Interact()
         {
             FindObjectOfType<PlayerScript>().Options_HasFishingpole = true;
+            FindObjectOfType<PlayerScript>().Say("I now have the fishing pole!", 0.075f, false, false, 3f);
+            FindObjectOfType<PlayerScript>().SetArrow(Pier);
             hasCrafted = true;
         }
 

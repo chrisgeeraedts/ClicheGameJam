@@ -6,6 +6,8 @@ namespace Assets.Scripts.Underwater2
     public class ChoppableTree : MonoBehaviour, IInteractable
     {
         private bool isChopped = false;
+        public Sprite ChoppedTree;
+        [SerializeField] GameObject CraftingStation;
 
         public bool CanInteract()
         {
@@ -15,7 +17,8 @@ namespace Assets.Scripts.Underwater2
 
         public bool CanShowInteractionDialog()
         {
-            return !isChopped;
+            var player = FindObjectOfType<PlayerScript>();
+            return !isChopped && player.Options_CanChopTrees;
         }
 
         public string GetObjectName()
@@ -26,6 +29,9 @@ namespace Assets.Scripts.Underwater2
         public void Interact()
         {
             FindObjectOfType<PlayerScript>().Options_CanCraftFishingpole = true;
+            GetComponent<SpriteRenderer>().sprite = ChoppedTree;
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(6);            
+            FindObjectOfType<PlayerScript>().SetArrow(CraftingStation);
             isChopped = true;
         }
 

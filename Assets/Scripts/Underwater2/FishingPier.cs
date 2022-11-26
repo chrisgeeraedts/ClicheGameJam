@@ -29,7 +29,7 @@ namespace Assets.Scripts.Underwater2
             var player = FindObjectOfType<PlayerScript>();
             player.SetPlayerActive(false);
             MapManager.GetInstance().SpawnPlayerAtPierInUnderwater = true;
-            SceneManager.LoadScene(Constants.SceneNames.FishingScene);
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.FishingScene);
         }
 
         public void ShowInteractibility()

@@ -17,6 +17,9 @@ namespace Assets.Scripts.Underwater2
         [SerializeField] GameObject playerResponseParent;
         [SerializeField] string npcMoveOnChatText;
         [SerializeField] List<GameObject> gameObjectsToActivateOnChat;
+        [SerializeField] GameObject Tree;
+
+
 
         private bool chatMode = false;
         private bool chatFinished = false;
@@ -88,13 +91,16 @@ namespace Assets.Scripts.Underwater2
 
         private void ExitChat()
         {
+            FindObjectOfType<PlayerScript>().Options_ShowTargetingArrow = true;
             chatMode = false;
             chatFinished = true;
             var player = FindObjectOfType<PlayerScript>();
-            player.SetPlayerActive(true);
+            player.SetPlayerActive(true);            
+            FindObjectOfType<PlayerScript>().UnlockMovement();
             player.Options_CanChopTrees = true;
             playerResponseParent.SetActive(false);
             SetNPCChatObjectsActive(false);
+            FindObjectOfType<PlayerScript>().SetArrow(Tree);
             //fishingpole.SetActive(true);
         }
 
@@ -105,6 +111,8 @@ namespace Assets.Scripts.Underwater2
             if (collision.gameObject.tag != Constants.TagNames.Player) return;
 
             FindObjectOfType<PlayerScript>().SetPlayerActive(false);
+            FindObjectOfType<PlayerScript>().StopMovement();
+            FindObjectOfType<PlayerScript>().LockMovement();
             playerResponseParent.SetActive(true);
             chatMode = true;
             currentChat = npcChatStart;
@@ -137,6 +145,11 @@ namespace Assets.Scripts.Underwater2
             responseAText.enabled = !string.IsNullOrEmpty(chat.ResponseA);
             responseBText.enabled = !string.IsNullOrEmpty(chat.ResponseB);
             responseCText.enabled = !string.IsNullOrEmpty(chat.ResponseC);
+        }
+
+        void Start()
+        {
+            FindObjectOfType<PlayerScript>().Options_ShowTargetingArrow = false;
         }
     }
 }
