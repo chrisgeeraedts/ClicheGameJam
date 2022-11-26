@@ -166,9 +166,14 @@ namespace Assets.Scripts.Fishing
             ResetAimPositions();
             DestroyCurrentFish();
             caughtFish.ShowCatch(numberOfFishHits);
+            if(numberOfFishHits > 1)
+            {                
+                MapManager.GetInstance().GainCoins(1 + (2 * numberOfFishHits));
+            }
+
             if (numberOfFishHits > 1 && numberOfFishHits < maximumFishLevelCaught) numberOfCaughtFish++; // 0 and 1 are not fish (Old Boot and Seaweed), Max is Treasure chest
             numberOfFishHits = 0;
-            numberOfCaughtFishTextfield.text = $"Fish caught: {numberOfCaughtFish}";
+            numberOfCaughtFishTextfield.text = $"Fish caught: <color=#fede34>{numberOfCaughtFish}</color>";
         }
 
         private void CheckAchievements()
