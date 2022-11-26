@@ -264,29 +264,29 @@ namespace Assets.Scripts.FinalBossScene
 
         IEnumerator DoBossDeathStage1Talking()
         {     
-            yield return new WaitForSeconds(1f);   
-                FinalBossScript.Say("No... It cannot end like this!", 0.125f, false, false, 5f);  
-            yield return new WaitForSeconds(3f);   
-                FinalBossScript.Say("I...WILL...NOT...FALL!", 0.125f, false, false, 6f);  
+            yield return new WaitForSeconds(2f);   
+                FinalBossScript.Say("No... It cannot end like this!", 0.075f, false, false, 3f);  
             yield return new WaitForSeconds(6f);   
+                FinalBossScript.Say("I...WILL...NOT...FALL!", 0.075f, false, false, 8f);  
+            yield return new WaitForSeconds(8f);   
             ChangeStage(22);
         }
 
         IEnumerator DoBossEvilTalking()
         {     
             yield return new WaitForSeconds(1f);   
-            FinalBossScript.Say("You made it", 0.125f, false, true, 3f);
+            FinalBossScript.Say("You made it", 0.125f, false, false, 3f);
             yield return new WaitForSeconds(4f);   
-            FinalBossScript.Say("You will not stop my cliche master plan!", 0.125f, false, true, 5f);
-            yield return new WaitForSeconds(6f);   
-            FinalBossScript.Say("The world will be destroyed!", 0.125f, false, true, 5f);
-            yield return new WaitForSeconds(6f);   
-            FinalBossScript.Say("Muahahaha!", 0.125f, false, true, 3f);
+            FinalBossScript.Say("You will not stop my cliche master plan!", 0.075f, false, false, 5f);
+            yield return new WaitForSeconds(5f);   
+            FinalBossScript.Say("The world will be destroyed!", 0.075f, false, false, 5f);
+            yield return new WaitForSeconds(5f);   
+            FinalBossScript.Say("Muahahaha!", 0.075f, false, false, 3f);
             EvilLaughAudio.Play();            
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(16); //boss transformations
             yield return new WaitForSeconds(4f);   
-            FinalBossScript.Say("Now... you die!", 0.125f, false, true, 3f);
-            yield return new WaitForSeconds(4f);   
+            FinalBossScript.Say("Now... you die!", 0.075f, false, false, 3f);
+            yield return new WaitForSeconds(3f);   
             PlayerScript.KnockBack(transform.position.x > PlayerScript.gameObject.transform.position.x);
             yield return new WaitForSeconds(1f);               
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(10); //Boss speeches
@@ -296,6 +296,7 @@ namespace Assets.Scripts.FinalBossScene
 
         IEnumerator DoBossRandomTalk()
         {     
+            yield return new WaitForSeconds(3f);  
             int talkChoice = UnityEngine.Random.Range(0, 4);
             if(talkChoice == 0)
             {

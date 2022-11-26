@@ -284,16 +284,24 @@ namespace Assets.Scripts.FinalBossScene
             InitialSpellcastingParticles.gameObject.SetActive(toggled);
         }
 
-        public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = false, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
+        private bool isShowingSayPopup = false;
+        public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
         {
-            Speaking_Textbox.Show(gameObject, 6.5f);
-            StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, canSkipText, waitForButtonClick, timeToWaitAfterTextIsDisplayed));
-            StartCoroutine(HideSay(message));
+            if (!isShowingSayPopup)
+            {
+                Debug.Log("Blocking more popups");
+                isShowingSayPopup = true;
+                Speaking_Textbox.Show(gameObject, 6.5f);
+                StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, canSkipText, waitForButtonClick, timeToWaitAfterTextIsDisplayed));
+                StartCoroutine(HideSay(message, timeBetweenCharacters, timeToWaitAfterTextIsDisplayed));
+            }
         }
 
-        IEnumerator HideSay(string message)
+        IEnumerator HideSay(string message, float duration, float timeToWaitAfterTextIsDisplayed)
         {
-            yield return new WaitForSeconds(Speaking_TextVisibleDuration + (0.125f*message.Length)); 
+            yield return new WaitForSeconds((duration * message.Length) + timeToWaitAfterTextIsDisplayed);
+            Debug.Log("Can show popups again");
+            isShowingSayPopup = false;
             Speaking_Textbox.Hide();
         }
 

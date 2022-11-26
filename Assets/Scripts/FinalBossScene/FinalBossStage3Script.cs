@@ -250,13 +250,15 @@ namespace Assets.Scripts.FinalBossScene
 
                 if(Time.time>=nextUpdate)  // If the next update is reached
                 {                
-
+                    Debug.Log("ATTACK TIMER " + CurrentEyeBeamTimeInSeconds);
                     float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
 
                     nextUpdate=Mathf.FloorToInt(Time.time)+1;    
                     TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
 
-                    EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));        
+                    EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss")); 
+
+                    CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds -1;       
                 }
 
 
