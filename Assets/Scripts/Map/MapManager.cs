@@ -13,8 +13,8 @@ namespace Assets.Scripts.Map
 
     public class MapManager : MonoBehaviour
     {
-        [SerializeField]public int BossDamageWhenMinigameWon;
-        [SerializeField]public int HeroDamageWhenMinigameLost;
+        [SerializeField] public int BossDamageWhenMinigameWon;
+        [SerializeField] public int HeroDamageWhenMinigameLost;
 
         public float HeroMaxHP;
         public float HeroHP;
@@ -27,6 +27,7 @@ namespace Assets.Scripts.Map
         public bool LastGameWasWon = false;
         public bool SpawnPlayerAtPierInUnderwater = false;
         public int NumberOfFishInInventory = 0;
+        public bool FishingGameStartedFromMap = false;
 
         // LOOT
         public bool HasFishingPole = false;
@@ -38,11 +39,11 @@ namespace Assets.Scripts.Map
 
         public float GetHeroHPForFill()
         {
-            return (1/HeroMaxHP)*HeroHP;
+            return (1 / HeroMaxHP) * HeroHP;
         }
         public float GetBossHPForFill()
         {
-            return (1/BossMaxHP)*BossHP;
+            return (1 / BossMaxHP) * BossHP;
         }
 
         [SerializeField] List<MinigameInfo> minigameInfos;
@@ -51,7 +52,7 @@ namespace Assets.Scripts.Map
 
         private List<int> unusedMinigameInfoIndexes;
         private MinigameInfo[,] minigames;
-        
+
         private List<FinishedMinigameInfoXY> FirstFinishedMinigames;
 
         public void SetMaxStage(int stage)
@@ -100,11 +101,13 @@ namespace Assets.Scripts.Map
 
             minigameStartedX = x;
             minigameStartedY = y;
-            if(!isInitialized)
+            if (!isInitialized)
             {
                 GetMinigames();
             }
             var currentMinigame = minigames[minigameStartedX, minigameStartedY];
+
+            FishingGameStartedFromMap = (currentMinigame.SceneName == Constants.SceneNames.FishingScene);
             GameSceneChanger.Instance.ChangeScene(currentMinigame.SceneName);
         }
 
@@ -115,27 +118,27 @@ namespace Assets.Scripts.Map
 
         public void FinishMinigame(bool isWon)
         {
-            if(!isInitialized)
+            if (!isInitialized)
             {
                 GetMinigames();
             }
             var currentMinigame = minigames[minigameStartedX, minigameStartedY];
             currentMinigame.FinishGame(isWon);
 
-            if (isWon && minigameStartedX >= maxStageUnlocked) 
+            if (isWon && minigameStartedX >= maxStageUnlocked)
             {
                 maxStageUnlocked = minigameStartedX + 1;
             }
 
             LastGameWasLost = !isWon;
             LastGameWasWon = isWon;
-            if(!isWon)
+            if (!isWon)
             {
                 HeroHP = HeroHP - HeroDamageWhenMinigameLost;
                 Debug.Log("HERO TOOK " + HeroDamageWhenMinigameLost + " damage");
             }
             else
-            
+
             {
                 BossHP = BossHP - BossDamageWhenMinigameWon;
                 Debug.Log("BOSS TOOK " + BossDamageWhenMinigameWon + " damage");
@@ -161,7 +164,7 @@ namespace Assets.Scripts.Map
         {
             return _basBikiniArmor;
         }
-        
+
         private bool _basBikiniArmor = false;
         public void BikiniArmorBought()
         {
@@ -171,23 +174,23 @@ namespace Assets.Scripts.Map
         public void Heal(float healAmount)
         {
             HeroHP = HeroHP + healAmount;
-            if(HeroHP > HeroMaxHP)
+            if (HeroHP > HeroMaxHP)
             {
                 HeroHP = HeroMaxHP;
             }
         }
-        
+
         private void GenerateMinigames()
         {
             HeroHP = HeroMaxHP; //Lazy fix for health being 0 after GameOver -> Restart ?
             FillUnusedMinigameinfoIndexes();
-            Debug.Log("Generating minigames: " + "width:" + mapWidth + " height:" +  mapHeight);
+            Debug.Log("Generating minigames: " + "width:" + mapWidth + " height:" + mapHeight);
             for (int x = 0; x < mapWidth; x++)
             {
                 for (int y = 0; y < mapHeight; y++)
                 {
                     var minigameInfo = GetRandomMinigameInfo();
-                Debug.Log("minigame: " + "x:" + x + " y:" +  y);
+                    Debug.Log("minigame: " + "x:" + x + " y:" + y);
                     minigames[x, y] = minigameInfo;
                 }
             }
