@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Shared;
 
@@ -26,8 +25,6 @@ public class NPCScript : MonoBehaviour, INPC
             animator.runtimeAnimatorController = Idle;  
         }
     }
-
-        
 
     public bool IsNPCActive()
     {
@@ -108,5 +105,14 @@ public class NPCScript : MonoBehaviour, INPC
      public void SetMoving()
     {        
         animator.runtimeAnimatorController = Moving;  
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag != Constants.TagNames.Player) return;
+
+        //GetComponent<CapsuleCollider2D>().enabled = false;
+        gameObject.layer = LayerMask.NameToLayer(Constants.LayerNames.NoCollisionWithPlayer);
+        Say("Don't push me please!");
     }
 }
