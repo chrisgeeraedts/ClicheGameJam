@@ -38,7 +38,7 @@ namespace Assets.Scripts.Shop
             if (numberOfCorrectInputs == numberOfRequiredInputs)
             {
                 cheatAchieved = true;
-                MapManager.GetInstance().GainCoins(1000);
+                MapManager.GetInstance().GainCoins(500);
                 GlobalAchievementManager.GetInstance().SetAchievementCompleted(24);
             }
         }
