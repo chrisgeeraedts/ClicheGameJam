@@ -11,6 +11,7 @@ namespace Assets.Scripts.Tutorial
         public Sprite YesStateSprite;
         public AudioSource LeverPulledAudio;
         public GameObject BridgeObject;
+        public GameObject LeverTutorialInteractable;
 
         public SpriteRenderer LeverSpriteRenderer;
 
@@ -35,6 +36,7 @@ namespace Assets.Scripts.Tutorial
             {
                 Debug.Log("Interacting with " + GetObjectName());
                 Toggle(true);
+                LeverTutorialInteractable.SetActive(false);
             }
         }
 
