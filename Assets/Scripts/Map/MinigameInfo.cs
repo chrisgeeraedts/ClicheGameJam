@@ -8,6 +8,7 @@ namespace Assets.Scripts.Map
         [SerializeField] string minigameName;
         [SerializeField] string sceneName;
         [SerializeField] Sprite mapSprite;
+        [SerializeField] public bool isOpenSpace;
         private bool isWon;
         private bool isFinished;
         private bool wasLastFinished;

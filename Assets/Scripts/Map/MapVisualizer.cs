@@ -292,7 +292,8 @@ namespace Assets.Scripts.Map
                     var minigameInfo = minigames[x,y];
                     var mapNode = mapNodeGameObject.GetComponent<MapNode>();
                     mapNode.X = x;
-                    mapNode.Y = y;
+                    mapNode.X = x;
+                    mapNode.ParentObject = mapNodeGameObject;
                     mapNode.SetLocked(x > maxStageUnlocked);
                     mapNode.SetWon(minigameInfo.IsWon);
 
@@ -719,12 +720,19 @@ namespace Assets.Scripts.Map
 
         private bool MoveIsImpossible(Direction direction)
         {
-            
             switch (direction)
             {
                 case Direction.Up:
+                    if(selectedX == 0)
+                    {
+                        return true;
+                    }
                     return selectedY >= mapHeight - 1;
                 case Direction.Down:
+                    if(selectedX == 0)
+                    {
+                        return true;
+                    }
                     return selectedY <= 0;
                 case Direction.Left:
                     return selectedX <= 0;

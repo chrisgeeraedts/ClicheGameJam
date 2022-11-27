@@ -14,7 +14,8 @@ namespace Assets.Scripts.Map
         [SerializeField] TextMeshProUGUI selectionTextField;
         [SerializeField] GameObject minigameLockedHolder;
         [SerializeField] GameObject minigameWonHolder;
-        [SerializeField] public Button MinigameButton;        
+        [SerializeField] public Button MinigameButton;  
+        [SerializeField] public GameObject ParentObject;        
 
         public int X;
         public int Y;
@@ -58,9 +59,21 @@ namespace Assets.Scripts.Map
 
         private void SetMinigameInfo()
         {
-            minigameImageHolder.GetComponent<SpriteRenderer>().sprite = minigameInfo.MapSprite;
-            textField.text = minigameInfo.MinigameName;
-            selectionTextField.text = minigameInfo.MinigameName;
+            if(!minigameInfo.isOpenSpace)
+            {
+                minigameImageHolder.GetComponent<SpriteRenderer>().sprite = minigameInfo.MapSprite;
+                textField.text = minigameInfo.MinigameName;
+                selectionTextField.text = minigameInfo.MinigameName;
+            }
+            else
+            {
+                minigameImageHolder.SetActive(false);
+                ParentObject.SetActive(false);
+                MinigameButton.enabled = false;
+                textField.text = "";
+                selectionTextField.text = "";
+            }
+            
         }
 
         public void OnPointerEnter (PointerEventData eventData) 

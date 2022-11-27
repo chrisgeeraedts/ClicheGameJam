@@ -79,6 +79,7 @@ namespace Assets.Scripts.Shared
         [SerializeField] private BoxCollider2D Movement_FeetCollider;
         [SerializeField] float Movement_LandGravity;
         [SerializeField] RuntimeAnimatorController LandController;
+        [SerializeField] RuntimeAnimatorController FishingPoleController;
         [Space(10)]
         #endregion
 
@@ -338,7 +339,14 @@ namespace Assets.Scripts.Shared
 
         public void SetWalkingMode()
         {
-            Base_Animator.runtimeAnimatorController = LandController;
+            if(Options_HasFishingpole)
+            {
+                Base_Animator.runtimeAnimatorController = FishingPoleController;
+            }
+            else
+            {                
+                Base_Animator.runtimeAnimatorController = LandController;
+            }
         }
 
         public void SetDeadMode()
@@ -812,13 +820,13 @@ namespace Assets.Scripts.Shared
         public void ShowTooltip(string gameEntityToUse, string useKey)
         {
             string message = string.Format("Press <color=#910000>[{0}]</color> to activate <color=#910000>[{1}]</color>", useKey, gameEntityToUse);
-            Speaking_Textbox.Show(gameObject, 3f);
+            Speaking_Textbox.Show(gameObject, TextBox_Y_Offset);
             StartCoroutine(Speaking_Textbox.EasyMessage(message, 0f, false, false, 100f));
         }
 
         public void ShowTooltip(string tooltipText)
         {
-            Speaking_Textbox.Show(gameObject, 3f);
+            Speaking_Textbox.Show(gameObject, TextBox_Y_Offset);
             StartCoroutine(Speaking_Textbox.EasyMessage(tooltipText, 0.125f));
         }
 
@@ -873,6 +881,15 @@ namespace Assets.Scripts.Shared
             Movement_Grounded = false;
             Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
             Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce);
+            Movement_GroundSensor.Disable(0.2f);
+        }
+
+        public void MinorJump()
+        {   
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Movement_Grounded = false;
+            Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
+            Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce/3f);
             Movement_GroundSensor.Disable(0.2f);
         }
 
