@@ -40,6 +40,10 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] Volume GlobalVolume;
         [SerializeField] GameObject EnergyOrb;
         [SerializeField] GameObject AbsorbedEnergyOrb;
+        [SerializeField] GameObject InformationCanvas;
+        [SerializeField] GameObject EnergyShield;
+        [SerializeField] GameObject EnergyShieldCollider;
+        [SerializeField] AudioSource AttackAgainstShield;        
         
 
         [Space(10)]
@@ -92,6 +96,14 @@ namespace Assets.Scripts.FinalBossScene
         [SerializeField] private LineRenderer LaserRightTop; 
         [SerializeField] private LineRenderer LaserRightMiddle; 
         [SerializeField] private LineRenderer LaserRightBottom; 
+
+        [SerializeField] private GameObject ContainerLaserLeftTop; 
+        [SerializeField] private GameObject ContainerLaserLeftMiddle; 
+        [SerializeField] private GameObject ContainerLaserLeftBottom; 
+        [SerializeField] private GameObject ContainerLaserRightTop; 
+        [SerializeField] private GameObject ContainerLaserRightMiddle; 
+        [SerializeField] private GameObject ContainerLaserRightBottom; 
+
         [SerializeField] private int DamageAmountPerLaser = 11111;
         [Space(10)]
         #endregion
@@ -145,12 +157,23 @@ namespace Assets.Scripts.FinalBossScene
 
         // Start is called before the first frame update
         void Start()
-        {            
+        {         
+            
+            ContainerLaserLeftTop.SetActive(false);
+            ContainerLaserLeftMiddle.SetActive(false);
+            ContainerLaserLeftBottom.SetActive(false);
+            ContainerLaserRightTop.SetActive(false); 
+            ContainerLaserRightMiddle.SetActive(false);
+            ContainerLaserRightBottom.SetActive(false);
+            
+            InformationCanvas.SetActive(false);
             BossCamera.enabled = false;
             PlayerCamera.enabled = true;
             BossTextbox.Hide();
             EnergyOrb.SetActive(false);
             AbsorbedEnergyOrb.SetActive(false);
+            EnergyShield.SetActive(true);
+            EnergyShieldCollider.SetActive(true);
             DamagingZoneLeftTop.GetComponent<DamagingZoneScript>().Toggle(false);
             DamagingZoneLeftMiddle.GetComponent<DamagingZoneScript>().Toggle(false);
             DamagingZoneLeftBottom.GetComponent<DamagingZoneScript>().Toggle(false);
@@ -182,140 +205,155 @@ namespace Assets.Scripts.FinalBossScene
         // Update is called once per frame
         void Update()
         {
-            if (!_bossIsDead)
+            if(_isShowingHeadsup)
             {
-                if(BattleStage == 0)
-                {                
-                    CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds;
-                    float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
-                    TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
-                    EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.R))
+                {
+                    _isShowingHeadsup = false;    
+                    InformationCanvas.SetActive(false);                
+                    Time.timeScale = 1;  
+                    Phase3Music.Play();
+                    ChangeStage(2);
+                }
+            }
+            else
+            {
+                if (!_bossIsDead)
+                {
+                    if(BattleStage == 0)
+                    {                
+                        CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds;
+                        float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
+                        TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
+                        EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
+                        
+                        LaserEyes.SetActive(false);
+
+                        StartCoroutine(DoHeroIntroTalking());
+                        GlobalAchievementManager.GetInstance().SetAchievementCompleted(11); //boss transformations
+                        ChangeStage(1);
+                    }
+                    if(BattleStage == 1) 
+                    {
+                        //wait
+                    }                
+                    if(BattleStage == 2) // Combat phase with boss
+                    {
+                        // keep arrow on closest control
+                        PlayerScript.SetArrow(GetClosestEnergyControl(EnergyControls).gameObject);
+                        PlayerScript.Options_ShowTargetingArrow = true;
+                    }
+                    if(CurrentEyeBeamTimeInSeconds <= 0)
+                    {
+                        // define random platform
+                        int portalChoice = UnityEngine.Random.Range(0, 6);
+
+                        if(portalChoice == 0)
+                        {
+                            AttackPlatform(DamagingZoneLeftTop);
+                        }
+                        else if(portalChoice == 1)
+                        {
+                            AttackPlatform(DamagingZoneLeftMiddle);
+                        }
+                        else if(portalChoice == 2)
+                        {
+                            AttackPlatform(DamagingZoneLeftBottom);
+                        }
+                        else if(portalChoice == 3)
+                        {
+                            AttackPlatform(DamagingZoneRightTop);
+                        }
+                        else if(portalChoice == 4)
+                        {
+                            AttackPlatform(DamagingZoneRightMiddle);
+                        }
+                        else if(portalChoice == 5)
+                        {
+                            AttackPlatform(DamagingZoneRightBottom);
+                        }
+                        
+
+                        // Reset timer
+                        CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds; 
+                        TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
+                        float progressValue = 1f;
+                        EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
+                    }
                     
-                    LaserEyes.SetActive(false);
 
-                   
+                    if(Time.time>=nextUpdate)  // If the next update is reached
+                    {                
+                        Debug.Log("ATTACK TIMER " + CurrentEyeBeamTimeInSeconds);
+                        float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
 
-                    StartCoroutine(DoHeroIntroTalking());
-                    GlobalAchievementManager.GetInstance().SetAchievementCompleted(11); //boss transformations
-                    ChangeStage(1);
-                }
-                if(BattleStage == 1) 
-                {
-                    //wait
-                }                
-                if(BattleStage == 2) // Combat phase with boss
-                {
-                    // keep arrow on closest control
-                    PlayerScript.SetArrow(GetClosestEnergyControl(EnergyControls).gameObject);
-                    PlayerScript.Options_ShowTargetingArrow = true;
-                }
-                if(CurrentEyeBeamTimeInSeconds <= 0)
-                {
-                    // define random platform
-                    int portalChoice = UnityEngine.Random.Range(0, 6);
+                        nextUpdate=Mathf.FloorToInt(Time.time)+1;    
+                        TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
 
-                    if(portalChoice == 0)
-                    {
-                        AttackPlatform(DamagingZoneLeftTop);
+                        EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss")); 
+
+                        CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds -1;       
                     }
-                    else if(portalChoice == 1)
-                    {
-                        AttackPlatform(DamagingZoneLeftMiddle);
-                    }
-                    else if(portalChoice == 2)
-                    {
-                        AttackPlatform(DamagingZoneLeftBottom);
-                    }
-                    else if(portalChoice == 3)
-                    {
-                        AttackPlatform(DamagingZoneRightTop);
-                    }
-                    else if(portalChoice == 4)
-                    {
-                        AttackPlatform(DamagingZoneRightMiddle);
-                    }
-                    else if(portalChoice == 5)
-                    {
-                        AttackPlatform(DamagingZoneRightBottom);
-                    }
+
+
+
                     
-
-                    // Reset timer
-                    CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds; 
-                    TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
-                    float progressValue = 1f;
-                    EyeBeamTimer.InitFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss"));
-                }
-                
-
-                if(Time.time>=nextUpdate)  // If the next update is reached
-                {                
-                    Debug.Log("ATTACK TIMER " + CurrentEyeBeamTimeInSeconds);
-                    float progressValue = (float)(CurrentEyeBeamTimeInSeconds/EyeBeamInitialTimeInSeconds);
-
-                    nextUpdate=Mathf.FloorToInt(Time.time)+1;    
-                    TimeSpan time = TimeSpan.FromSeconds(CurrentEyeBeamTimeInSeconds);
-
-                    EyeBeamTimer.SetFill(progressValue, "Next attack: " + time.ToString(@"mm\:ss")); 
-
-                    CurrentEyeBeamTimeInSeconds = CurrentEyeBeamTimeInSeconds -1;       
-                }
-
-
-
-                
-                if(BattleStage == 3) //all 6 energy
-                {
-                    for (int i = 0; i < PlatformLightElements.Length; i++)
+                    if(BattleStage == 3) //all 6 energy
                     {
-                        PlatformLightElements[i].color = Color.blue;
+                        for (int i = 0; i < PlatformLightElements.Length; i++)
+                        {
+                            PlatformLightElements[i].color = Color.blue;
+                        }
+
+
+                        // Say
+                        PlayerScript.Say("I've sapped his energy. Now to collect it!", 0.075f, false, false, 1f);  
+                        
+                        //orb spawns 
+                        EnergyOrb.SetActive(true);
+                        
+                        //set arrow to orb
+                        PlayerScript.SetArrow(EnergyOrb);
+                        PlayerScript.Options_ShowTargetingArrow = true;
+
+                        EnergyShield.SetActive(false);
+                        EnergyShieldCollider.SetActive(false);
+
+                        ChangeStage(4);
                     }
-
-
-                    // Say
-                    PlayerScript.Say("I've sapped his energy. Now to collect it!", 0.075f, false, false, 1f);  
-                    
-                    //orb spawns 
-                    EnergyOrb.SetActive(true);
-                    
-                    //set arrow to orb
-                    PlayerScript.SetArrow(EnergyOrb);
-                    PlayerScript.Options_ShowTargetingArrow = true;
-
-                    ChangeStage(4);
-                }
-                if(BattleStage == 4)
-                {
-                    // wait for collision
-                }
-                if(BattleStage == 5) // received orb
-                {
-                    //Change player blue
-                    //Change player larger
-                    //Increase Jump range player
-                    PlayerScript.Empower(10000);
-                    EnergyOrbAbsorbing.Play();
-                    EnergyOrb.SetActive(false);
-                    AbsorbedEnergyOrb.SetActive(true);
-                    
-                    PlayerScript.Say("I feel so strong! Lets slay this beast!", 0.075f, false, false); 
-                    // Disable bad aura
-                    BossDamagingZone.SetActive(false);
-                    ChangeStage(6);
-                }
-                if(BattleStage == 6) // ready to finish boss
-                {
-                    //Player attack boss
-                    //Collide boss on attack
-                    //Boss takes 5000 damage
-                }
-                if(BattleStage == 7) // Boss finally hit
-                {
-                    DamageBoss(10000);
-                    ChangeStage(7);
-                }
-                if(BattleStage == 8) // Boss finally hit
-                {
+                    if(BattleStage == 4)
+                    {
+                        // wait for collision
+                    }
+                    if(BattleStage == 5) // received orb
+                    {
+                        //Change player blue
+                        //Change player larger
+                        //Increase Jump range player
+                        PlayerScript.Empower(10000);
+                        EnergyOrbAbsorbing.Play();
+                        EnergyOrb.SetActive(false);
+                        AbsorbedEnergyOrb.SetActive(true);
+                        
+                        PlayerScript.Say("I feel so strong! Lets slay this beast!", 0.075f, false, false); 
+                        // Disable bad aura
+                        BossDamagingZone.SetActive(false);
+                        ChangeStage(6);
+                    }
+                    if(BattleStage == 6) // ready to finish boss
+                    {
+                        //Player attack boss
+                        //Collide boss on attack
+                        //Boss takes 5000 damage
+                    }
+                    if(BattleStage == 7) // Boss finally hit
+                    {
+                        DamageBoss(10000);
+                        ChangeStage(7);
+                    }
+                    if(BattleStage == 8) // Boss finally hit
+                    {
+                    }
                 }
             }
         }
@@ -328,7 +366,8 @@ namespace Assets.Scripts.FinalBossScene
             }
             else
             {
-                DamageBoss(1);
+                AttackAgainstShield.Play();
+                //DamageBoss(0);
             }
         }
 
@@ -340,7 +379,7 @@ namespace Assets.Scripts.FinalBossScene
             {
                 // Shake screen
                 CinemachineCameraShake.ShakeCamera(5f, 1.5f);
-                BloomController.StartBloom(60f);
+                BloomController.StartBloom(10f);
 
                 // Play Audio
                 EyeBeamAudio.Play();
@@ -391,15 +430,22 @@ namespace Assets.Scripts.FinalBossScene
         }
 
 
+        private bool _isShowingHeadsup = false;
         IEnumerator DoHeroIntroTalking()
-        {     
+        {    
+            _isShowingHeadsup = true;
+            Phase3Music.Pause();
+            InformationCanvas.SetActive(true);
+            Time.timeScale = 0;
+
             yield return new WaitForSeconds(1f);   
                 BossStart.Play();
-                PlayerScript.Say("I can't stay near him! He is too strong!", 0.075f, false, false);  
-            yield return new WaitForSeconds(6f);   
-                PlayerScript.Say("Perhaps I can use his energy against him!", 0.075f, false, false);  
-            yield return new WaitForSeconds(6f);   
-            ChangeStage(2);
+                PlayerScript.Say("His Shield is too strong!", 0.025f, false, false);  
+            yield return new WaitForSeconds(4f);   
+                PlayerScript.Say("Perhaps I can use his energy against him!", 0.025f, false, false);  
+            yield return new WaitForSeconds(4f);   
+
+
         }
 
         
@@ -475,6 +521,7 @@ namespace Assets.Scripts.FinalBossScene
 
             if(energyId == 1)
             {
+                ContainerLaserLeftBottom.SetActive(true);
                 LaserLeftBottom.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerLaser);
@@ -483,6 +530,7 @@ namespace Assets.Scripts.FinalBossScene
             }
             else if(energyId == 2)
             {
+                ContainerLaserLeftMiddle.SetActive(true);
                 LaserLeftMiddle.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerLaser);
@@ -491,6 +539,7 @@ namespace Assets.Scripts.FinalBossScene
             }
             else if(energyId == 3)
             {
+                ContainerLaserLeftTop.SetActive(true);
                 LaserLeftTop.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerLaser);
@@ -499,6 +548,7 @@ namespace Assets.Scripts.FinalBossScene
             }
             else if(energyId == 4)
             {
+                ContainerLaserRightBottom.SetActive(true);
                 LaserRightBottom.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerLaser);
@@ -507,6 +557,7 @@ namespace Assets.Scripts.FinalBossScene
             }
             else if(energyId == 5)
             {
+                ContainerLaserRightMiddle.SetActive(true);
                 LaserRightMiddle.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerLaser);
@@ -515,6 +566,7 @@ namespace Assets.Scripts.FinalBossScene
             }
             else if(energyId == 6)
             {
+                ContainerLaserRightTop.SetActive(true);
                 LaserRightTop.material = blueMaterial;
                 LightElements[energyId-1].color = Color.blue;
                 DamageBoss(DamageAmountPerLaser);
@@ -528,11 +580,13 @@ namespace Assets.Scripts.FinalBossScene
                 CurrentEyeBeamTimeInSeconds = 4f;
                 BattleStage = 3;  
             }            
-            else if(energyId < 7){                
+            else if(energyId < 7){   
+                prevEyeBeamInitialTimeInSeconds = EyeBeamInitialTimeInSeconds;           
                 CurrentEyeBeamTimeInSeconds -=3f;
-                EyeBeamInitialTimeInSeconds = CurrentEyeBeamTimeInSeconds;
+                CurrentEyeBeamTimeInSeconds = prevEyeBeamInitialTimeInSeconds;
             }
         }
+        float prevEyeBeamInitialTimeInSeconds;
 
         EnergyControlBox GetClosestEnergyControl(EnergyControlBox[] energyControls)
         {

@@ -275,6 +275,8 @@ namespace Assets.Scripts.FinalBossScene
         IEnumerator DoBossEvilTalking()
         {     
             yield return new WaitForSeconds(1f);   
+            PlayerScript.Options_ShowTargetingArrow = false;
+            PlayerScript.ToggleTargetingArrow(false);
             FinalBossScript.Say("You made it", 0.125f, false, false, 3f);
             yield return new WaitForSeconds(4f);   
             FinalBossScript.Say("You will not stop my cliche master plan!", 0.075f, false, false, 5f);
