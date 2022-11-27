@@ -92,7 +92,7 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerGainGun()
         {
-            tutorialTextField.text = $"Fine!, have a gun. Just be careful.{Environment.NewLine}Just like the sword you use [<color=#E97419>LMB</color>] or [<color=#E97419>Enter</color>] to fire a bullet..";
+            tutorialTextField.text = $"Fine!, have a gun. Just be careful.{Environment.NewLine}Just like the sword you use [<color=#E97419>Enter</color>] or [<color=#E97419>Left Mouse Button</color>] to fire a bullet.";
             player.Options_CanAttackMelee = false;
             player.Options_CanFireGun = true;
             player.PlayerEquipment = PlayerEquipment.Gun;
