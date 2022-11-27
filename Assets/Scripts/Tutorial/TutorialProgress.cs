@@ -74,8 +74,15 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerWASD()
         {
-            tutorialTextField.text = $"Look at that, your first achievement!{Environment.NewLine}I bet you are amazing at finding all the cliches in this world.";
+            StartCoroutine(ShowDelayedAchievementText());
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(23);
+        }
+
+        private IEnumerator ShowDelayedAchievementText()
+        {
+            yield return new WaitForSeconds(0.8f);
+
+            tutorialTextField.text = $"Look at that, your first achievement!{Environment.NewLine}I bet you are amazing at finding all the cliches in this world.";
         }
 
         private void TriggerPlayerWantsGun()
