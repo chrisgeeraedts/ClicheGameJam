@@ -12,23 +12,31 @@ public class MainMenuManager : MonoBehaviour
     public Button ExitButton;
     public GameObject NewAchievementCircle;
 
+    private bool isNavigating = false;
+
     public GameObject MainMenuHero;
     void Update()
     {
+        if (isNavigating) return;
+
         if (Input.GetKeyDown(KeyCode.N))
         {
+            isNavigating = true;
             NavigateToMap();
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
+            isNavigating = true;
             NavigationToAchievements();
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
+            isNavigating = true;
             NavigationToCredits();
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
+            isNavigating = true;
             ExitGame();
         }
 
@@ -45,33 +53,34 @@ public class MainMenuManager : MonoBehaviour
     }
 
     IEnumerator InitiateNewMap()
-    {        
+    {
         NewRunButton.interactable = false;
-        yield return new WaitForSeconds(3f);        
-        NewRunButton.interactable = true;        
+        yield return new WaitForSeconds(3f);
+        NewRunButton.interactable = true;
         GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.StoryScene);
     }
 
     public void NavigationToAchievements()
-    {        
+    {
         buttonClickAudioSource.Play();
         AchievementButton.interactable = false;
-        if(!GlobalAchievementManager.GetInstance().IsAchievementCompleted(33))
+        if (!GlobalAchievementManager.GetInstance().IsAchievementCompleted(33))
         {
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(33); //achievements
-            StartCoroutine(GoToAchievements());  
-        }            
-        else{
+            StartCoroutine(GoToAchievements());
+        }
+        else
+        {
             AchievementButton.interactable = true;
-            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);   
+            GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
         }
     }
 
     IEnumerator GoToAchievements()
-    {     
-        yield return new WaitForSeconds(4f);  
-        AchievementButton.interactable = true; 
-        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);  
+    {
+        yield return new WaitForSeconds(4f);
+        AchievementButton.interactable = true;
+        GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.AchievementsScene, LoadSceneMode.Additive);
     }
 
     public void NavigationToCredits()
@@ -81,10 +90,10 @@ public class MainMenuManager : MonoBehaviour
     }
 
     public void ExitGame()
-    {        
+    {
         buttonClickAudioSource.Play();
         Debug.Log(Application.platform);
-        if(Application.platform == RuntimePlatform.WebGLPlayer)
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
             GameSceneChanger.Instance.ChangeScene(Constants.SceneNames.WebGLExitScene);
         }
@@ -96,14 +105,14 @@ public class MainMenuManager : MonoBehaviour
 
     private int DEBUG_ACHIEVEMENTID;
     public void DEBUGACHIEVEMENT()
-    {        
-            GlobalAchievementManager.GetInstance().SetAchievementCompleted(DEBUG_ACHIEVEMENTID); 
-            DEBUG_ACHIEVEMENTID++;
+    {
+        GlobalAchievementManager.GetInstance().SetAchievementCompleted(DEBUG_ACHIEVEMENTID);
+        DEBUG_ACHIEVEMENTID++;
     }
 
-    
+
     public void DEBUGTUTORIAL()
-    {        
-            GlobalAchievementManager.GetInstance().TutorialCompleted(); 
+    {
+        GlobalAchievementManager.GetInstance().TutorialCompleted();
     }
 }
