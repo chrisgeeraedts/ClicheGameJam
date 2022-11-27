@@ -15,6 +15,9 @@ namespace Assets.Scripts.Underwater2
         [SerializeField] ChatUnderwaterSO playerHasThreeFishChat;
         [SerializeField] TextMeshProUGUI responseAText, responseBText, responseCText;
         [SerializeField] GameObject playerResponseParent;
+        [SerializeField] GameObject playerResponseParentButton1;
+        [SerializeField] GameObject playerResponseParentButton2;
+        [SerializeField] GameObject playerResponseParentButton3;        
         [SerializeField] string npcMoveOnChatText;
         [SerializeField] List<GameObject> gameObjectsToActivateOnChat;
         [SerializeField] GameObject Tree;
@@ -143,8 +146,11 @@ namespace Assets.Scripts.Underwater2
             responseCText.text = $"{chatKeyHintPrefix.Replace("^key^", "D")}{chat.ResponseC}";
 
             responseAText.enabled = !string.IsNullOrEmpty(chat.ResponseA);
+            playerResponseParentButton1.SetActive(!string.IsNullOrEmpty(chat.ResponseA));
             responseBText.enabled = !string.IsNullOrEmpty(chat.ResponseB);
+            playerResponseParentButton2.SetActive(!string.IsNullOrEmpty(chat.ResponseB));
             responseCText.enabled = !string.IsNullOrEmpty(chat.ResponseC);
+            playerResponseParentButton3.SetActive(!string.IsNullOrEmpty(chat.ResponseC));
         }
 
         void Start()

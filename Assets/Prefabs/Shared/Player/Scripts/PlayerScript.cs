@@ -27,6 +27,7 @@ namespace Assets.Scripts.Shared
         [SerializeField] public bool Options_CanChopTrees = false;
         [SerializeField] public bool Options_CanCraftFishingpole = false;
         [SerializeField] public bool Options_HasFishingpole = false;
+        [SerializeField] public bool Options_IsImmortal = false;
         [SerializeField] private KeyCode InteractionKey = KeyCode.E;
         [Space(10)]
         #endregion
@@ -35,6 +36,12 @@ namespace Assets.Scripts.Shared
         [Header("Base Configuration")]
         [SerializeField] private Animator Base_Animator;
         [SerializeField] private Rigidbody2D Base_RigidBody2D;
+        
+        [SerializeField] private Collider2D Base_WalkingCollider1;
+        [SerializeField] private Collider2D Base_WalkingCollider2;
+        [SerializeField] private Collider2D Base_SwimmingCollider;
+
+        [SerializeField] private Light2D Base_PlayerLight;
         [Space(10)]
         #endregion
 
@@ -73,6 +80,7 @@ namespace Assets.Scripts.Shared
 
         #region Walking
         [Header("Walking Configuration")]
+        [SerializeField] private float Walking_Light_Intensity = 0.5f;
         [SerializeField] private float Movement_Speed = 10f;
         [SerializeField] private float Movement_JumpForce = 10f;
         [SerializeField] private PlayerSensor Movement_GroundSensor;
@@ -85,10 +93,13 @@ namespace Assets.Scripts.Shared
 
         #region Swimming    
         [Header("Swimming Configuration")]
+        [SerializeField] private float Swimming_Light_Intensity = 2.5f;
         [SerializeField] private float Swimming_Speed = 3f;
         [SerializeField] RuntimeAnimatorController WaterController;
         [SerializeField] float Swimming_WaterGravity;
         [SerializeField] GameObject Swimming_Bubbles_Prefab;
+        [SerializeField] AudioSource PlayerAudio_Dive;
+        
         [Space(10)]
         #endregion
 
@@ -334,11 +345,44 @@ namespace Assets.Scripts.Shared
 
         public void SetSwimmingMode()
         {
+            if(Base_PlayerLight != null)
+            {
+                Base_PlayerLight.intensity = Swimming_Light_Intensity;
+            } 
             Base_Animator.runtimeAnimatorController = WaterController;
+            if(Base_WalkingCollider1 != null)
+            {
+                Base_WalkingCollider1.enabled = false;
+            }
+            if(Base_WalkingCollider2 != null)
+            {
+                Base_WalkingCollider2.enabled = false;
+            }
+            if(Base_SwimmingCollider != null)
+            {
+                Base_SwimmingCollider.enabled = true;
+            }
         }
 
         public void SetWalkingMode()
-        {
+        {           
+            if(Base_PlayerLight != null)
+            {
+                Base_PlayerLight.intensity = Walking_Light_Intensity;
+            } 
+            if(Base_WalkingCollider1 != null)
+            {
+                Base_WalkingCollider1.enabled = true;
+            }         
+            if(Base_WalkingCollider2 != null)
+            {
+                Base_WalkingCollider2.enabled = true;
+            }
+            if(Base_SwimmingCollider != null)
+            {
+                Base_SwimmingCollider.enabled = false;
+            }
+
             if(Options_HasFishingpole)
             {
                 Base_Animator.runtimeAnimatorController = FishingPoleController;
@@ -445,7 +489,7 @@ namespace Assets.Scripts.Shared
         private float Health_CurrentHealth;
         public void Damage(float amount)
         {
-            if (!isImmuneToDamage && _isActive)
+            if (!isImmuneToDamage && _isActive && !Options_IsImmortal)
             {
                 if (amount > 0)
                 {
@@ -630,6 +674,10 @@ namespace Assets.Scripts.Shared
                     Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
                     Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x + KnockBackForceOnX, Movement_JumpForce);
                     Movement_GroundSensor.Disable(0.2f);
+                }
+                else if(PlayerMovementMode == PlayerMovementMode.Swimming)
+                {
+                    Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Swimming_Speed);
                 }
             }
         }
@@ -875,13 +923,32 @@ namespace Assets.Scripts.Shared
 
         public void JumpOutOfWater(float power = 1)
         {
+            LockMovement();
+
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
             int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Jumping.Length);
             AudioSources_Jumping[randomAudioNumber].Play();
             Movement_Grounded = false;
-            Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
+            //Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
             Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce * power);
             Movement_GroundSensor.Disable(0.2f);
             Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
+
+            UnlockMovement();            
         }
 
         public void MinorJump()
@@ -958,14 +1025,19 @@ namespace Assets.Scripts.Shared
             {
                 CreateSwimmingBubbles();
                 PlayerMovementMode = PlayerMovementMode.Swimming;
+                if(PlayerAudio_Dive != null)
+                {
+                    PlayerAudio_Dive.Play();
+                }
             }
             else if (other.tag == WaterExitTagName && PlayerMovementMode != PlayerMovementMode.Walking && PlayerMovementMode != PlayerMovementMode.Dead)
             {
                 if (PlayerMovementMode == PlayerMovementMode.Swimming)
                 {
+                    PlayerMovementMode = PlayerMovementMode.Walking;
                     JumpOutOfWater();
                 }
-                PlayerMovementMode = PlayerMovementMode.Walking;
+                
             }
             else if (other.tag == KillZoneTagName && PlayerMovementMode != PlayerMovementMode.Dead)
             {

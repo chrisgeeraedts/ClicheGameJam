@@ -23,6 +23,9 @@ namespace Assets.Scripts.Fishing
         [SerializeField] int maximumFishLevelCaught = 9;
         [SerializeField] TextMeshProUGUI numberOfCaughtFishTextfield;
         [SerializeField] GameObject treasureChestAsGoalParent;
+        [SerializeField] AudioSource fishCaughtAudio;
+        [SerializeField] AudioSource completedAudio;
+        [SerializeField] AudioSource failedAudio;
 
         public bool isActive = true;
         public bool HorizontalAimActive = false;
@@ -41,6 +44,7 @@ namespace Assets.Scripts.Fishing
         public void FishHit()
         {
             numberOfFishHits++;
+            fishCaughtAudio.Play();
             if (numberOfFishHits >= maximumFishLevelCaught)
             {
                 StopFishing();
@@ -169,6 +173,11 @@ namespace Assets.Scripts.Fishing
             if(numberOfFishHits > 1)
             {                
                 MapManager.GetInstance().GainCoins(1 + (2 * numberOfFishHits));
+                completedAudio.Play();
+            }
+            else
+            {
+                failedAudio.Play();
             }
 
             if (numberOfFishHits > 1 && numberOfFishHits < maximumFishLevelCaught) numberOfCaughtFish++; // 0 and 1 are not fish (Old Boot and Seaweed), Max is Treasure chest

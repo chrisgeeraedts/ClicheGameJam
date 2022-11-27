@@ -331,6 +331,7 @@ namespace Assets.Scripts.FinalBossScene
                         //Change player larger
                         //Increase Jump range player
                         PlayerScript.Empower(10000);
+                        PlayerScript.Options_IsImmortal = true;
                         EnergyOrbAbsorbing.Play();
                         EnergyOrb.SetActive(false);
                         AbsorbedEnergyOrb.SetActive(true);
@@ -413,6 +414,7 @@ namespace Assets.Scripts.FinalBossScene
 
             // disable eye beams untill next attack
             LaserEyes.SetActive(false);
+            objectToMove.transform.position = new Vector3(6.77f, 31.91f, 0f);
         }
 
         IEnumerator ActivateDamageZone(float delay, GameObject damagingZone)
@@ -580,13 +582,19 @@ namespace Assets.Scripts.FinalBossScene
                 CurrentEyeBeamTimeInSeconds = 4f;
                 BattleStage = 3;  
             }            
-            else if(energyId < 7){   
+            else if(energyId < 7){  
                 prevEyeBeamInitialTimeInSeconds = EyeBeamInitialTimeInSeconds;           
-                CurrentEyeBeamTimeInSeconds -=3f;
-                CurrentEyeBeamTimeInSeconds = prevEyeBeamInitialTimeInSeconds;
+                EyeBeamInitialTimeInSeconds -=3f;
+                //CurrentEyeBeamTimeInSeconds = prevEyeBeamInitialTimeInSeconds;
+                CurrentEyeBeamTimeInSeconds = EyeBeamInitialTimeInSeconds;
+                Debug.Log("Lowering beam time: " + EyeBeamInitialTimeInSeconds);
             }
         }
         float prevEyeBeamInitialTimeInSeconds;
+
+        //EyeBeamInitialTimeInSeconds
+        //prevEyeBeamInitialTimeInSeconds
+        //CurrentEyeBeamTimeInSeconds
 
         EnergyControlBox GetClosestEnergyControl(EnergyControlBox[] energyControls)
         {
