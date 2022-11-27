@@ -19098,7 +19098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1202237721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.4196987, y: 1.8870381, z: -10.013918}
+  m_LocalPosition: {x: -3.418004, y: 1.8870381, z: -10.013918}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33120,7 +33120,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3648aa931e5bb4520ba74a922b905455, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6e53212bc317c5b40a56a507e82f25ac, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -46247,6 +46247,7 @@ MonoBehaviour:
   Movement_FeetCollider: {fileID: 1078043845911172624}
   Movement_LandGravity: 2
   LandController: {fileID: 9100000, guid: 27b42d284ff4da64092eafe8a2e82fce, type: 2}
+  FishingPoleController: {fileID: 0}
   Swimming_Speed: 3
   WaterController: {fileID: 9100000, guid: 5444b2030ffca544c8926310ff5195ac, type: 2}
   Swimming_WaterGravity: -0.5

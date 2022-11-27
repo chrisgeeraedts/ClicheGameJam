@@ -1140,8 +1140,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -117.29, y: -265.23178}
-  m_SizeDelta: {x: 328.42, y: 106.79}
+  m_AnchoredPosition: {x: -205.9, y: -265.23178}
+  m_SizeDelta: {x: 150, y: 106.79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &513259069
 GameObject:
@@ -1720,10 +1720,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Catch fish by stopping your aim lines on top of the fish locations\nUse
-    the Space Bar to stop an aim line. \nIf you hit, a new fish location will appear
-    and your aim lines will start moving again. \nEach time you hit a fish location,
-    the level of fish you catch goes up.\n\nPress <color=#fede34>[Space Bar]</color>
-    to start & Good Luck !"
+    the [<color=#fede34>Space Bar</color>] to stop an aim line. \nIf you hit, a new
+    fish location will appear and your aim lines will start moving again. \nEach
+    time you hit a fish location, the level of fish you catch goes up.\n\n\nPress
+    [<color=#fede34>Space Bar</color>] to start & Good Luck !"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
@@ -2203,7 +2203,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.0405, y: -72.778496}
+  m_AnchoredPosition: {x: -1.0405, y: -39}
   m_SizeDelta: {x: 467.9191, y: 28.757}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1348669295
@@ -2226,7 +2226,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Your goal is to catch a treasure chest or at least 5 fish
+  m_text: 'Your goal is to catch a [<color=#fede34>Treasure Chest</color>] or at
+    least [<color=#fede34>5 fish</color>]
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
@@ -2512,7 +2515,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press R to exit or Space to fish again
+  m_text: 'Press [<color=#fede34>Space Bar</color>] to fish again
+
+    Press [<color=#fede34>R</color>]
+    to exit'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
   m_sharedMaterial: {fileID: 5858621096575250172, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}

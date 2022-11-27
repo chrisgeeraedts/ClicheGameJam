@@ -606,10 +606,10 @@ namespace Assets.Scripts.Map
 
         private void HandlePlayerInput()
         {
-            if (Input.GetKeyDown(KeyCode.W)) MoveSelectedMapNode(Direction.Down);
-            if (Input.GetKeyDown(KeyCode.A)) MoveSelectedMapNode(Direction.Left);
-            if (Input.GetKeyDown(KeyCode.S)) MoveSelectedMapNode(Direction.Up);
-            if (Input.GetKeyDown(KeyCode.D)) MoveSelectedMapNode(Direction.Right);
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) MoveSelectedMapNode(Direction.Down);
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) MoveSelectedMapNode(Direction.Left);
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) MoveSelectedMapNode(Direction.Up);
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) MoveSelectedMapNode(Direction.Right);
             if (Input.GetKeyDown(KeyCode.Return)) StartSelectedGame();
             if (Input.GetKeyDown(KeyCode.Space)) StartSelectedGame();
         }
