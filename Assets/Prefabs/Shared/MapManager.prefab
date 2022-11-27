@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossDamageWhenMinigameWon: 100
-  HeroDamageWhenMinigameLost: 50
+  HeroDamageWhenMinigameLost: 25
   HeroMaxHP: 200
   HeroHP: 200
   BossMaxHP: 1400

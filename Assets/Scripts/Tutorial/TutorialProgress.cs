@@ -105,7 +105,7 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerVines()
         {
-            tutorialTextField.text = $"These vines are blocking our way{Environment.NewLine}Use [<color=#E97419>LMB</color>] or [<color=#E97419>Enter</color>] to hack at them with your sword.";
+            tutorialTextField.text = $"These vines are blocking our way{Environment.NewLine}Use [<color=#E97419>Enter</color>] or [<color=#E97419>Left Mouse Button</color>] to hack at them with your sword.";
             player.Options_CanAttackMelee = true;
         }
 
