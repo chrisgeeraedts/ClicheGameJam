@@ -24,6 +24,7 @@ namespace Assets.Scripts.Underwater2
 
         public void Interact()
         {
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(18); // escort quests
             MapManager.GetInstance().FinishMinigame(true);
             SceneManager.LoadScene(Constants.SceneNames.MapScene);
         }
