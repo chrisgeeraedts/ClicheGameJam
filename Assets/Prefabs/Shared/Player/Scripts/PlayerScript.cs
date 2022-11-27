@@ -873,15 +873,15 @@ namespace Assets.Scripts.Shared
             OnPlayerDeath?.Invoke(this, new PlayerDeathEventArgs());
         }
 
-        public void JumpOutOfWater()
+        public void JumpOutOfWater(float power = 1)
         {
             int randomAudioNumber = UnityEngine.Random.Range(0, AudioSources_Jumping.Length);
             AudioSources_Jumping[randomAudioNumber].Play();
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
             Movement_Grounded = false;
             Base_Animator.SetBool(PlayerConstants.Animation_Grounded, Movement_Grounded);
-            Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce);
+            Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce * power);
             Movement_GroundSensor.Disable(0.2f);
+            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
         }
 
         public void MinorJump()

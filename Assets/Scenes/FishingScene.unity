@@ -986,7 +986,7 @@ MonoBehaviour:
   verticalAimStartPosition: {x: 0, y: 5.2}
   explanationParentGameObject: {fileID: 1765820066}
   maximumFishLevelCaught: 9
-  numberOfCaughtFishTextfield: {fileID: 157883744}
+  numberOfCaughtFishTextfield: {fileID: 510896085}
   treasureChestAsGoalParent: {fileID: 1348669293}
   isActive: 1
   HorizontalAimActive: 0
@@ -1603,6 +1603,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6307710331925972468, guid: 70995a272776bfd41805954dc07e538c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6307710331925972469, guid: 70995a272776bfd41805954dc07e538c, type: 3}
       propertyPath: m_RootOrder
       value: 14
