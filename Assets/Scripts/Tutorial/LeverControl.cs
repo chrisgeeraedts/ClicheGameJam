@@ -10,6 +10,7 @@ namespace Assets.Scripts.Tutorial
         public Sprite NoStateSprite;
         public Sprite YesStateSprite;
         public AudioSource LeverPulledAudio;
+        public AudioSource BridgeDroppedAudio;
         public GameObject BridgeObject;
         public GameObject LeverTutorialInteractable;
 
@@ -71,6 +72,7 @@ namespace Assets.Scripts.Tutorial
                 LeverSpriteRenderer.sprite = NoStateSprite;
             }
 
+            BridgeDroppedAudio.Play();
             BridgeObject.SetActive(true);
         }
     }
