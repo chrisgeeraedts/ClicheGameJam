@@ -27,9 +27,11 @@ namespace Assets.Scripts.Shop
         [SerializeField] int AppleHealingAmount = 10;
         #endregion
 
-        private bool isShowingText = false;
+        public bool isShowingText = false;
         private List<string> adviceList = new List<string>();
         private int totalNumberOfAdvices;
+        private float timeBetweenCharacters = 0.033f;
+        private float waitTime = 1.5f;
 
         IEnumerator canShowTextAgain(float waitTime, string messageSend, float durationPerCharacter)
         {
@@ -44,8 +46,8 @@ namespace Assets.Scripts.Shop
                 isShowingText = true;
                 Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
                 string message = $"It seems you don't have enough coins to buy <color=#dd0000>{itemName}</color>";
-                StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
-                StartCoroutine(canShowTextAgain(2f, message, 0.075f));
+                StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, false, false, waitTime));
+                StartCoroutine(canShowTextAgain(waitTime - 1f, message, timeBetweenCharacters));
             }
         }
 
@@ -63,8 +65,8 @@ namespace Assets.Scripts.Shop
                 isShowingText = true;
                 Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
                 string message = $"Sure, break my furniture and pay me with money you find in there.";
-                StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
-                StartCoroutine(canShowTextAgain(2f, message, 0.075f));
+                StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, false, false, waitTime));
+                StartCoroutine(canShowTextAgain(waitTime - 1f, message, timeBetweenCharacters));
             }
 
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(21);
@@ -129,8 +131,10 @@ namespace Assets.Scripts.Shop
                 isShowingText = true;
                 Speaking_Textbox.Show(Speaking_Textbox_SpawnPoint, 0f);
 
-                StartCoroutine(Speaking_Textbox.EasyMessage(message, 0.075f, false, false, 3f));
-                StartCoroutine(canShowTextAgain(2f, message, 0.075f));
+                Debug.Log($"Message {message}");
+
+                StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, false, false, waitTime));
+                StartCoroutine(canShowTextAgain(waitTime - 1f, message, timeBetweenCharacters));
             }
         }
 

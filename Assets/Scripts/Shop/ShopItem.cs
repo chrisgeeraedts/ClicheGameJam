@@ -37,7 +37,8 @@ namespace Assets.Scripts.Shop
 
         public void OnClick()
         {
-            if (bought) return;
+            var shopkeeper = FindObjectOfType<Shopkeeper>();
+            if (bought || shopkeeper.isShowingText) return;
 
             Debug.Log($"Tried to buy {shopItemSo.ItemName}");
             if (MapManager.GetInstance().SpendCoins(shopItemSo.Price))
@@ -46,11 +47,11 @@ namespace Assets.Scripts.Shop
                 itemIcon.sprite = soldOutSprite;
                 bought = true;
                 AudioSource.PlayClipAtPoint(soldClip, transform.position);
-                FindObjectOfType<Shopkeeper>()?.SetPurchaseText(shopItemSo.ItemName);
+                shopkeeper.SetPurchaseText(shopItemSo.ItemName);
             }
             else
             {
-                FindObjectOfType<Shopkeeper>()?.SetCannotAffordItemText(shopItemSo.ItemName);
+                shopkeeper.SetCannotAffordItemText(shopItemSo.ItemName);
             }
         }
     }
