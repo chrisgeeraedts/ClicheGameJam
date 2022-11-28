@@ -7,6 +7,9 @@ namespace Assets.Scripts.OneManArmy
     public class Enemy : MonoBehaviour
     {
         private bool isReady = false;
+        public AudioSource[] ZombieDeathAudio;
+        public AudioSource[] ZombieGrowlAudio;
+        public UnityEngine.Rendering.Universal.Light2D Light2D;
         public void InitEnemy(int maxHealth, GameObject playerToBeTargeted, GameObject miniGameManager)
         {
             MaxHealth = maxHealth;
@@ -49,6 +52,16 @@ namespace Assets.Scripts.OneManArmy
                 float angle = Vector3.SignedAngle(neutralDir, direction, Vector3.forward) + 90f;
                 direction = Quaternion.AngleAxis(angle, Vector3.forward) * neutralDir;
                 transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+
+
+                int makeSound = UnityEngine.Random.Range(0, 4000);
+                if(makeSound == 0)
+                {
+                    int growlSound = UnityEngine.Random.Range(0, 4);
+                    ZombieGrowlAudio[growlSound].Play();
+                }
+                
+
             }
             else
             {
@@ -78,6 +91,8 @@ namespace Assets.Scripts.OneManArmy
             CurrentHealth+=-1;
             if (CurrentHealth == 0)
             {
+                int deathSound = UnityEngine.Random.Range(0, 4);
+                ZombieDeathAudio[deathSound].Play();
                 Killed();
             }
         }
@@ -86,8 +101,22 @@ namespace Assets.Scripts.OneManArmy
         {
             // play audio            
             _miniGameManager.GetComponent<MinigameManager>().KilledZombie();
-            
-            Destroy(gameObject);
+            isReady = false;
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Rigidbody2D>().simulated = false;
+            GetComponent<CircleCollider2D>().enabled = false;
+            Destroy(Light2D);
+            StartCoroutine(ActuallyDestroy());
+        }
+
+        IEnumerator ActuallyDestroy()
+        {
+            yield return new WaitForSeconds(2f);
+            try
+            {
+                Destroy(gameObject);
+            }   
+            catch{}         
         }
     }
 }

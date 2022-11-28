@@ -145,7 +145,7 @@ namespace Assets.Scripts.OneManArmy
             {
                 if (zombie != null)
                 {
-                    zombie.SetActive(false);
+                    zombie.SetActive(false);                    
                     Destroy(zombie);
                 }
             }
