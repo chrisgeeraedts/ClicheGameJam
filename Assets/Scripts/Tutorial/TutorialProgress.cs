@@ -87,7 +87,7 @@ namespace Assets.Scripts.Tutorial
 
         private void TriggerPlayerWantsGun()
         {
-            player.Say("But I WANT a gun !");
+            player.Say("But I WANT a gun !", 0.075f, false, false, 3f);
         }
 
         private void TriggerGainGun()
