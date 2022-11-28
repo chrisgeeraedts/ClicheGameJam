@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Escort
@@ -10,9 +8,7 @@ namespace Assets.Scripts.Escort
 
         void OnTriggerEnter2D(Collider2D col)
         {
-            Debug.Log(MinigameManager.GetComponent<MinigameManager>());
             MinigameManager.GetComponent<MinigameManager>().WaterHit(col);
-            Destroy(gameObject);
         }
     }
 }
