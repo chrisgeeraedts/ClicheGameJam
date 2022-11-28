@@ -119976,7 +119976,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1642325604}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.4428053, y: 0.1456418, z: -10}
+  m_LocalPosition: {x: -6.4428062, y: 0.14563751, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -130780,6 +130780,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 280769997}
     m_Modifications:
+    - target: {fileID: 2007162512520959379, guid: b28b4e3c7fa328943a5718724c6980aa, type: 3}
+      propertyPath: m_Size.x
+      value: 0.41645753
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007162512520959379, guid: b28b4e3c7fa328943a5718724c6980aa, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0062081143
+      objectReference: {fileID: 0}
     - target: {fileID: 4763602943771776884, guid: b28b4e3c7fa328943a5718724c6980aa, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -130827,6 +130835,10 @@ PrefabInstance:
     - target: {fileID: 7101494201298736101, guid: b28b4e3c7fa328943a5718724c6980aa, type: 3}
       propertyPath: m_Name
       value: Exploding Barrel (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320928259630902402, guid: b28b4e3c7fa328943a5718724c6980aa, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b28b4e3c7fa328943a5718724c6980aa, type: 3}
