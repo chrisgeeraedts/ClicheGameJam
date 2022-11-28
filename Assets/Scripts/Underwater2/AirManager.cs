@@ -20,6 +20,9 @@ namespace Assets.Scripts.Underwater2
         public float MaxAir;
         public float CurrentAir;
         public BreathTimer BreathTimer;
+        public float AirPerTick = 3;
+        public float DamagePerTick = 5;
+        public AudioSource AirBubbles;
 
         // Start is called before the first frame update
         void Start()
@@ -36,17 +39,33 @@ namespace Assets.Scripts.Underwater2
             {             
                 if(PlayerScript.IsInWater())
                 {
-                    Debug.Log("Breath Tick: " + CurrentAir + "/" + MaxAir);
-                    float progressValue = (float)(CurrentAir/MaxAir);  
-                    CurrentAir = CurrentAir -1;
-                    nextUpdate=Mathf.FloorToInt(Time.time)+1;  
-                    BreathTimer.SetFill(progressValue, progressValue + "%"); 
+                    BreathTimer.gameObject.SetActive(true);
+                    if(CurrentAir > 0)
+                    {
+                        Debug.Log("Breath Tick: " + CurrentAir + "/" + MaxAir);
+                        float progressValue = (float)(CurrentAir/MaxAir);  
+                        CurrentAir = CurrentAir - AirPerTick;
+                        nextUpdate=Mathf.FloorToInt(Time.time)+1;  
+                        BreathTimer.SetFill(progressValue, progressValue * 100 + "%"); 
+                    }
                 }   
+                else
+                {
+                    BreathTimer.gameObject.SetActive(false);
+                }
+
+                
+            }
+
+            if(CurrentAir <= 0)
+            {
+                PlayerScript.Damage(5);
             }
         }
 
         public void GiveAir()
         {
+            AirBubbles.Play();
             CurrentAir = MaxAir;
         }
     }
