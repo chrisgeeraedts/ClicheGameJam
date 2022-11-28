@@ -57,11 +57,11 @@ namespace Assets.Scripts.Tutorial
 
         void Start()
         {
-            InternalToggle();
+            InternalToggle(false);
             BridgeObject.SetActive(false);
         }
 
-        void InternalToggle()
+        void InternalToggle(bool playAudio = true)
         {
             if (Toggled)
             {
@@ -72,7 +72,10 @@ namespace Assets.Scripts.Tutorial
                 LeverSpriteRenderer.sprite = NoStateSprite;
             }
 
-            BridgeDroppedAudio.Play();
+            if (playAudio)
+            {
+                BridgeDroppedAudio.Play();
+            }
             BridgeObject.SetActive(true);
         }
     }
