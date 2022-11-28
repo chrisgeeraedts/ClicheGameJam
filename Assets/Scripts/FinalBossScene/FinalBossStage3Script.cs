@@ -435,13 +435,14 @@ namespace Assets.Scripts.FinalBossScene
         private bool _isShowingHeadsup = false;
         IEnumerator DoHeroIntroTalking()
         {    
+            BossStart.Play();
+            yield return new WaitForSeconds(2f); 
+
             _isShowingHeadsup = true;
             Phase3Music.Pause();
             InformationCanvas.SetActive(true);
             Time.timeScale = 0;
-
-            yield return new WaitForSeconds(1f);   
-                BossStart.Play();
+ 
                 PlayerScript.Say("His Shield is too strong!", 0.025f, false, false);  
             yield return new WaitForSeconds(4f);   
                 PlayerScript.Say("Perhaps I can use his energy against him!", 0.025f, false, false);  

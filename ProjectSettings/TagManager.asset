@@ -22,6 +22,7 @@ TagManager:
   - LaserTarget
   - Fish
   - EnergyOrb
+  - AirBubbles
   layers:
   - Default
   - TransparentFX

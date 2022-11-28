@@ -81,6 +81,7 @@ namespace Assets.Scripts.Underwater2
             if (chat.NpcChat.Equals(npcMoveOnChatText, StringComparison.InvariantCultureIgnoreCase))
             {
                 var player = FindObjectOfType<PlayerScript>();
+                MapManager.GetInstance().NumberOfFishInInventory = MapManager.GetInstance().NumberOfFishInInventory - 3;
                 player.Options_CanJump = true; //Allow player to jump, workaround for not flat tilemap collider, but player has dealt with NPC so jumping is fine
                 //TODO NICE: Move player to house and make disappear
                 Debug.Log("NPC Happy, move to house plz");

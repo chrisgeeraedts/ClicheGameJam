@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98b558df1dc3423584272e6be4a9d07548dbadad07cf71bbb3896b63341d6cca140f051a3abd9dce7c6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb68729d18aa2f89f4d6665da0adda
+  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98272e6be403d82e9ca9d07548dbadad07697c3622c3423584b558df1dcf71bbb3896b63341d6cca140f051a3abd9dce7c6f715a19ddde007a6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb687289f4d6669d18aa2f7133615a5da0adda
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98b558df1dc3423584272e6be4a9d07548dbadad07cf71bbb3896b63341d6cca140f051a3abd9dce7c6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb68729d18aa2f89f4d6665da0adda
+  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98272e6be403d82e9ca9d07548dbadad07697c3622c3423584b558df1dcf71bbb3896b63341d6cca140f051a3abd9dce7c6f715a19ddde007a6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb687289f4d6669d18aa2f7133615a5da0adda
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -715,8 +715,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508442201}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.010741709}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.00000017136335, y: 0, z: 0.0107421875}
   m_LocalScale: {x: 3, y: 3, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -782,7 +782,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1165185033
-  m_SortingLayer: 15
+  m_SortingLayer: 19
   m_SortingOrder: 0
   m_Sprite: {fileID: -458850249, guid: 360880ab68bb26340ba059dc12fe9365, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1133,7 +1133,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98b558df1dc3423584272e6be4a9d07548dbadad07cf71bbb3896b63341d6cca140f051a3abd9dce7c6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb68729d18aa2f89f4d6665da0adda
+  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98272e6be403d82e9ca9d07548dbadad07697c3622c3423584b558df1dcf71bbb3896b63341d6cca140f051a3abd9dce7c6f715a19ddde007a6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb687289f4d6669d18aa2f7133615a5da0adda
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1368,7 +1368,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98b558df1dc3423584272e6be4a9d07548dbadad07cf71bbb3896b63341d6cca140f051a3abd9dce7c6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb68729d18aa2f89f4d6665da0adda
+  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98272e6be403d82e9ca9d07548dbadad07697c3622c3423584b558df1dcf71bbb3896b63341d6cca140f051a3abd9dce7c6f715a19ddde007a6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb687289f4d6669d18aa2f7133615a5da0adda
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1501,7 +1501,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98b558df1dc3423584272e6be4a9d07548dbadad07cf71bbb3896b63341d6cca140f051a3abd9dce7c6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb68729d18aa2f89f4d6665da0adda
+  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98272e6be403d82e9ca9d07548dbadad07697c3622c3423584b558df1dcf71bbb3896b63341d6cca140f051a3abd9dce7c6f715a19ddde007a6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb687289f4d6669d18aa2f7133615a5da0adda
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1652,7 +1652,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1919470435
-  m_SortingLayer: 23
+  m_SortingLayer: 27
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 259074ad865495c40831e457bd0bf0e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1869,7 +1869,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1919470435
-  m_SortingLayer: 23
+  m_SortingLayer: 27
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a87af74226f62734a9401ac8393da486, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2008,9 +2008,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1165185033
-  m_SortingLayer: 15
+  m_SortingLayer: 19
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 2005803399, guid: e83376ea5173728498540d8fa69f53c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2018,7 +2018,7 @@ SpriteRenderer:
   m_Size: {x: 1.6, y: 1.11}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1282871593
@@ -2240,7 +2240,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98b558df1dc3423584272e6be4a9d07548dbadad07cf71bbb3896b63341d6cca140f051a3abd9dce7c6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb68729d18aa2f89f4d6665da0adda
+  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98272e6be403d82e9ca9d07548dbadad07697c3622c3423584b558df1dcf71bbb3896b63341d6cca140f051a3abd9dce7c6f715a19ddde007a6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb687289f4d6669d18aa2f7133615a5da0adda
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2412,7 +2412,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1493745799
-  m_SortingLayer: 17
+  m_SortingLayer: 21
   m_SortingOrder: 0
   m_Sprite: {fileID: -1169959572, guid: 908a946106b94c245a387c2bb351cb1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2608,7 +2608,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1919470435
-  m_SortingLayer: 23
+  m_SortingLayer: 27
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 3b290abebd884514c9e1bf1db2d6a845, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2713,7 +2713,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1919470435
-  m_SortingLayer: 23
+  m_SortingLayer: 27
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8fafb0f7ac835417d9ad4d4337d461ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2799,7 +2799,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98b558df1dc3423584272e6be4a9d07548dbadad07cf71bbb3896b63341d6cca140f051a3abd9dce7c6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb68729d18aa2f89f4d6665da0adda
+  m_ApplyToSortingLayers: 0000000045c2af9247377a36256e0c98272e6be403d82e9ca9d07548dbadad07697c3622c3423584b558df1dcf71bbb3896b63341d6cca140f051a3abd9dce7c6f715a19ddde007a6bf2ef6ff7af8cba99f3266d793ff7a6a94d58974d4f7284975ac9b05f4bf8468708113163cb687289f4d6669d18aa2f7133615a5da0adda
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2951,7 +2951,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1919470435
-  m_SortingLayer: 23
+  m_SortingLayer: 27
   m_SortingOrder: 0
   m_Sprite: {fileID: 4723107735738678597, guid: 0e3502a80399d164ea01f1868f65acbf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3253,10 +3253,10 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1831269273
-  m_SortingLayer: 16
+  m_SortingLayer: 20
   m_SortingOrder: 0
   m_Sprite: {fileID: 655074992, guid: 7968ff66871f7914fb79a808d1723dfb, type: 3}
-  m_Color: {r: 0.8862745, g: 0.6372174, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3338,7 +3338,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1919470435
-  m_SortingLayer: 23
+  m_SortingLayer: 27
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 63e7d4a5311d1c8448ba2a2792e69676, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3429,10 +3429,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=150%>Cliche Hunter</size>\r\n<size=50%>\r(Our first game-jam game!)</size>\r\n\n\n_\r\n\n\r\n\r\nA
+  m_text: "<size=150%>Cliche Hunter</size>\r\n<size=50%>\r\n(Our first game-jam game!)</size>\r\n\r\n\r\n_\r\n\r\n\r\n\r\nA
     game for \r\n[<color=#fede34>Game off 2022</color>]\r\n<size=70%>(https://itch.io/jam/game-off-2022)</size>\r\n\r\n\r\n\r\n\r\n<size=120%>Developed
     by:</size>\r\n<color=#fede34>NjitRam</color> [Development]\r\n<color=#fede34>CG-Gaming</color>
-    [Development]\r\n\r\n\r\n\r\n<size=120%>Resources used:</size>\r\n\r\n<color=#fede34>Dark
+    [Development]\r\n\r\n\r\n<size=120%>Tested by:</size>\r\n\r\n\r\n<color=#fede34>\r\nDeefNL</color>
+    (Gameplay Testing)\r\n<color=#fede34>\r\n[NAME]</color> (Gameplay Testing)\r\n<color=#fede34>\r\n[NAME]</color>
+    (Gameplay Testing)\r\n\r\n\r\n<size=120%>Resources used:</size>\r\n\r\n<color=#fede34>Dark
     Future Music</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/music/electronic/dark-future-music-3777)</size>\r\n\r\n<color=#fede34>Gothicvania
     Swamp</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/gothicvania-swamp-152865)</size>\r\n\r\n<color=#fede34>Underwater
     Ambient</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/ambient/underwater-ambient-66498)</size>\r\n\r\n<color=#fede34>Dynamic
@@ -3446,9 +3448,7 @@ MonoBehaviour:
     Menu SFX</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/sound-fx/fantasy-menu-sfx-57238)</size>\r\n\r\n<color=#fede34>Pixel
     Art Icon Pack - RPG</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/gui/icons/pixel-art-icon-pack-rpg-158343)</size>\r\n\r\n<color=#fede34>RPG
     Unitframes #1 - POWERFUL METAL</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/gui/icons/rpg-unitframes-1-powerful-metal-95252)</size>\r\n\r\n<color=#fede34>Medieval
-    King pack 2</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/medieval-king-pack-2-174863)</size>\r\n\r\n\r\n\r\n\r\n<size=120%>Special
-    credits:</size>\r\n\r\n\r<color=#fede34>[NAME]</color> (Gameplay Testing)\n<color=#fede34>\r[NAME]</color>
-    (Gameplay Testing)\n<color=#fede34>\r[NAME]</color> (Gameplay Testing)\n\r\n\n\n\n\r\n\r\n<size=150%>Thank
+    King pack 2</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/medieval-king-pack-2-174863)</size>\r\n\r\n\r\r\r\n\r\n\r\n\r\n<size=150%>Thank
     you for playing!</size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}

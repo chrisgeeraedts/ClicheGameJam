@@ -99,6 +99,8 @@ namespace Assets.Scripts.Shared
         [SerializeField] float Swimming_WaterGravity;
         [SerializeField] GameObject Swimming_Bubbles_Prefab;
         [SerializeField] AudioSource PlayerAudio_Dive;
+        [SerializeField] public float Swimming_Max_Air;
+        [SerializeField] public float Swimming_Current_Air;
         
         [Space(10)]
         #endregion
@@ -244,7 +246,6 @@ namespace Assets.Scripts.Shared
                     }
 
                     FlipCharacter(Input.GetAxis("Horizontal"));
-
                     HandleJump();
                     HandleAttack();
                     HandleInteract();
@@ -282,6 +283,7 @@ namespace Assets.Scripts.Shared
             }
         }
 
+
         public void SetArrow(GameObject target)
         {
             TargetingArrow_Target = target;
@@ -291,6 +293,7 @@ namespace Assets.Scripts.Shared
 
         private void HandleSetup()
         {
+            SetGravity();
             Base_Animator.SetBool(PlayerConstants.Animation_GunEquiped, PlayerEquipment == PlayerEquipment.Gun);
             if (PlayerMovementMode == PlayerMovementMode.Swimming && Base_Animator.runtimeAnimatorController != WaterController)
             {
@@ -933,22 +936,13 @@ namespace Assets.Scripts.Shared
             Base_RigidBody2D.velocity = new Vector2(Base_RigidBody2D.velocity.x, Movement_JumpForce * power);
             Movement_GroundSensor.Disable(0.2f);
             Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
-            Base_Animator.SetTrigger(PlayerConstants.Animation_Jump);
 
             UnlockMovement();            
+        }
+
+        public bool IsInWater()
+        {
+            return PlayerMovementMode == PlayerMovementMode.Swimming;
         }
 
         public void MinorJump()
