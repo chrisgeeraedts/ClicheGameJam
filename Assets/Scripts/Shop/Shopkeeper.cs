@@ -134,7 +134,7 @@ namespace Assets.Scripts.Shop
                 Debug.Log($"Message {message}");
 
                 StartCoroutine(Speaking_Textbox.EasyMessage(message, timeBetweenCharacters, false, false, waitTime));
-                StartCoroutine(canShowTextAgain(waitTime - 1f, message, timeBetweenCharacters));
+                StartCoroutine(canShowTextAgain(waitTime, message, timeBetweenCharacters));
             }
         }
 
