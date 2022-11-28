@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Shared;
+using Assets.Scripts.Map;
 using UnityEngine;
 
 namespace Assets.Scripts.Underwater2
@@ -12,13 +13,13 @@ namespace Assets.Scripts.Underwater2
         public bool CanInteract()
         {
             var player = FindObjectOfType<PlayerScript>();
-            return !isChopped && player.Options_CanChopTrees;
+            return !isChopped && player.Options_CanChopTrees && !MapManager.GetInstance().HasFishingPole;
         }
 
         public bool CanShowInteractionDialog()
         {
             var player = FindObjectOfType<PlayerScript>();
-            return !isChopped && player.Options_CanChopTrees;
+            return !isChopped && player.Options_CanChopTrees && !MapManager.GetInstance().HasFishingPole;
         }
 
         public string GetObjectName()
@@ -40,6 +41,15 @@ namespace Assets.Scripts.Underwater2
             if (!isChopped)
             {
                 Debug.Log("Can interact with " + GetObjectName());
+            }
+        }
+
+        void Start()
+        {
+            if(MapManager.GetInstance().HasFishingPole)
+            {
+                isChopped = true;
+                GetComponent<SpriteRenderer>().sprite = ChoppedTree;
             }
         }
     }

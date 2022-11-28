@@ -18,26 +18,53 @@ public class CompletedGameManager : MonoBehaviour
     public AudioSource BadMusic;
     public GameObject PartyParticles;
 
+    public GameObject Princess;
+    public GameObject CapturesPrincess;
+
+    bool _buttonpressed = false;
+
     public void ExitGame()
     {
-        buttonClickAudioSource.Play();
-        newRunButton.interactable = false;
-        PartyParticles.SetActive(false);
-        StartCoroutine(MoveOverSeconds(TitleImage, TitleImageTarget.transform.position, 2));
-        StartCoroutine(TuttySpeech());
-        Music.Stop();
-        BadMusic.Play();
-        TuttyVictory.TurnRed();
-        TuttyVictory.Turn();
-        FlyCenter();
-        
+        if(!_buttonpressed)
+        {
+            _buttonpressed = true;
+            buttonClickAudioSource.Play();
+            newRunButton.interactable = false;
+            StartCoroutine(MoveOverSeconds(TitleImage, TitleImageTarget.transform.position, 2));
+            if(!GlobalAchievementManager.GetInstance().AreAllAchievementsCompleted())
+            {
+                PartyParticles.SetActive(false);
+                StartCoroutine(TuttySpeechEvil());
+                Music.Stop();
+                BadMusic.Play();
+                FlyCenter();
+                TuttyVictory.TurnRed();
+                TuttyVictory.Turn();
+            }
+            else
+            {
+                StartCoroutine(TuttySpeechGood());
+                
+                FlyCenter();
+            }
+        }
     }
 
-    IEnumerator TuttySpeech()
+    void Start()
+    {
+        Princess.SetActive(true);
+        CapturesPrincess.SetActive(false);
+    }
+
+    IEnumerator TuttySpeechEvil()
     {
         yield return new WaitForSeconds(2f); 
         TuttyVictory.Say("Hahaha!", 0.125f, false, false, 2f);
         yield return new WaitForSeconds(4f); 
+
+        Princess.SetActive(false);
+        CapturesPrincess.SetActive(true);
+
         TuttyVictory.Say("You fell for my master plan!", 0.125f, false, false, 2f);
         yield return new WaitForSeconds(6f); 
         TuttyVictory.Say("You will never find all the cliche's! Better try again!", 0.125f, false, false, 3f);
@@ -45,6 +72,15 @@ public class CompletedGameManager : MonoBehaviour
         TuttyVictory.Say("Hahaha!", 0.125f, false, false, 2f);
         GlobalAchievementManager.GetInstance().SetAchievementCompleted(17);
         yield return new WaitForSeconds(2f); 
+        FlyAway();
+        ActuallyExitGame();
+    }
+
+    IEnumerator TuttySpeechGood()
+    {
+        yield return new WaitForSeconds(2f); 
+        TuttyVictory.Say("Goodjob! Thanks for playing!", 0.075f, false, false, 100f);        
+        yield return new WaitForSeconds(5f); 
         FlyAway();
         ActuallyExitGame();
     }

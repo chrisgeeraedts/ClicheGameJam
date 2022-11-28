@@ -21,6 +21,7 @@ namespace Assets.Scripts.Underwater2
         [SerializeField] string npcMoveOnChatText;
         [SerializeField] List<GameObject> gameObjectsToActivateOnChat;
         [SerializeField] GameObject Tree;
+        [SerializeField] GameObject Exit;
 
 
 
@@ -85,7 +86,9 @@ namespace Assets.Scripts.Underwater2
                 player.Options_CanJump = true; //Allow player to jump, workaround for not flat tilemap collider, but player has dealt with NPC so jumping is fine
                 //TODO NICE: Move player to house and make disappear
                 Debug.Log("NPC Happy, move to house plz");
-                ExitChat();
+                ExitChat();                
+                FindObjectOfType<PlayerScript>().SetArrow(Exit);
+                FindObjectOfType<PlayerScript>().Options_ShowTargetingArrow = false;
                 return;
             }
 

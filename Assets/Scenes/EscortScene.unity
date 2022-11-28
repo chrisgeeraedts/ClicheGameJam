@@ -19098,7 +19098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1202237721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.418004, y: 1.8870381, z: -10.013918}
+  m_LocalPosition: {x: -3.420724, y: 1.8870381, z: -10.013918}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46220,9 +46220,14 @@ MonoBehaviour:
   Options_CanChopTrees: 0
   Options_CanCraftFishingpole: 0
   Options_HasFishingpole: 0
+  Options_IsImmortal: 0
   InteractionKey: 101
   Base_Animator: {fileID: 9096179725590910244}
   Base_RigidBody2D: {fileID: 2809551096267720886}
+  Base_WalkingCollider1: {fileID: 0}
+  Base_WalkingCollider2: {fileID: 0}
+  Base_SwimmingCollider: {fileID: 0}
+  Base_PlayerLight: {fileID: 0}
   TargetingArrow_Arrow: {fileID: 6965130369589993656}
   TargetingArrow_Target: {fileID: 267884024}
   TargetingArrow_MaximumDistanceToShow: 4
@@ -46241,17 +46246,22 @@ MonoBehaviour:
   - {fileID: 3022521901860113787}
   - {fileID: 7903767371820420904}
   - {fileID: 3850981009605025376}
+  Walking_Light_Intensity: 0.5
   Movement_Speed: 12
   Movement_JumpForce: 18
   Movement_GroundSensor: {fileID: 143595948965730050}
   Movement_FeetCollider: {fileID: 1078043845911172624}
-  Movement_LandGravity: 2
+  Movement_LandGravity: 4
   LandController: {fileID: 9100000, guid: 27b42d284ff4da64092eafe8a2e82fce, type: 2}
   FishingPoleController: {fileID: 0}
+  Swimming_Light_Intensity: 2.5
   Swimming_Speed: 3
   WaterController: {fileID: 9100000, guid: 5444b2030ffca544c8926310ff5195ac, type: 2}
   Swimming_WaterGravity: -0.5
   Swimming_Bubbles_Prefab: {fileID: 1801604868145782, guid: e969aaa734be044efad60bd50e7fb070, type: 3}
+  PlayerAudio_Dive: {fileID: 0}
+  Swimming_Max_Air: 0
+  Swimming_Current_Air: 0
   Attacking_Gun_BulletPrefab: {fileID: 4959113931770922728, guid: 64ce0ce75c1eae34ba87e68c9f8d4ff4, type: 3}
   Attacking_Gun_ShootStartPoint: {fileID: 7212550912643226578}
   AudioSources_Attacking_GunFire:

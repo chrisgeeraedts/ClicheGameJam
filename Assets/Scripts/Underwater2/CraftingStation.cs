@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Shared;
+using Assets.Scripts.Map;
 using UnityEngine;
 
 namespace Assets.Scripts.Underwater2
@@ -11,13 +12,13 @@ namespace Assets.Scripts.Underwater2
         public bool CanInteract()
         {
             var player = FindObjectOfType<PlayerScript>();
-            return !hasCrafted && player.Options_CanCraftFishingpole;
+            return !hasCrafted && player.Options_CanCraftFishingpole && !MapManager.GetInstance().HasFishingPole;
         }
 
         public bool CanShowInteractionDialog()
         {
             var player = FindObjectOfType<PlayerScript>();
-            return !hasCrafted && player.Options_CanCraftFishingpole;
+            return !hasCrafted && player.Options_CanCraftFishingpole && !MapManager.GetInstance().HasFishingPole;
         }
 
         public string GetObjectName()
@@ -28,6 +29,7 @@ namespace Assets.Scripts.Underwater2
         public void Interact()
         {
             FindObjectOfType<PlayerScript>().Options_HasFishingpole = true;
+            MapManager.GetInstance().HasFishingPole = true;
             FindObjectOfType<PlayerScript>().Say("I now have the fishing pole!", 0.075f, false, true, 3f);
             FindObjectOfType<PlayerScript>().SetArrow(Pier);
             FindObjectOfType<PlayerScript>().SetWalkingMode();

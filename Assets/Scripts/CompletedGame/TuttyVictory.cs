@@ -31,6 +31,12 @@ public class TuttyVictory : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.red;
     }
 
+    public void TurnBlue()
+    {        
+        transform.localScale = new Vector3(4,4,4);
+        GetComponent<SpriteRenderer>().color = Color.blue;
+    }
+
     private bool isShowingSayPopup = false;
     public void Say(string message, float timeBetweenCharacters = 0.125f, bool canSkipText = true, bool waitForButtonClick = true, float timeToWaitAfterTextIsDisplayed = 1f)
     {
