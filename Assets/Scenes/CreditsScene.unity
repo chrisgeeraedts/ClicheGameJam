@@ -3429,12 +3429,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=150%>Cliche Hunter</size>\r\n<size=50%>\r\n(Our first game-jam game!)</size>\r\n\r\n\r\n_\r\n\r\n\r\n\r\nA
+  m_text: "<size=150%>Cliche Hunter</size>\r\n<size=50%>\r\n(Our first game-jam game!)</size>\r\n\r\n\r\n\r\n\r\n\r\n\r\nA
     game for \r\n[<color=#fede34>Game off 2022</color>]\r\n<size=70%>(https://itch.io/jam/game-off-2022)</size>\r\n\r\n\r\n\r\n\r\n<size=120%>Developed
     by:</size>\r\n<color=#fede34>NjitRam</color> [Development]\r\n<color=#fede34>CG-Gaming</color>
     [Development]\r\n\r\n\r\n<size=120%>Tested by:</size>\r\n\r\n\r\n<color=#fede34>\r\nDeefNL</color>
-    (Gameplay Testing)\r\n<color=#fede34>\r\n[NAME]</color> (Gameplay Testing)\r\n<color=#fede34>\r\n[NAME]</color>
-    (Gameplay Testing)\r\n\r\n\r\n<size=120%>Resources used:</size>\r\n\r\n<color=#fede34>Dark
+    (Gameplay Testing)\r\n<color=#fede34>\r\nMick</color> (Gameplay Testing)\r\n<color=#fede34>\r\nSander
+    #1</color> (Gameplay Testing)\r\n<color=#fede34>\r\nSander #2</color> (Gameplay
+    Testing)\r\n\r\n\r\n<size=120%>Resources used:</size>\r\n\r\n<color=#fede34>Dark
     Future Music</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/music/electronic/dark-future-music-3777)</size>\r\n\r\n<color=#fede34>Gothicvania
     Swamp</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/gothicvania-swamp-152865)</size>\r\n\r\n<color=#fede34>Underwater
     Ambient</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/ambient/underwater-ambient-66498)</size>\r\n\r\n<color=#fede34>Dynamic
@@ -3448,7 +3449,13 @@ MonoBehaviour:
     Menu SFX</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/sound-fx/fantasy-menu-sfx-57238)</size>\r\n\r\n<color=#fede34>Pixel
     Art Icon Pack - RPG</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/gui/icons/pixel-art-icon-pack-rpg-158343)</size>\r\n\r\n<color=#fede34>RPG
     Unitframes #1 - POWERFUL METAL</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/gui/icons/rpg-unitframes-1-powerful-metal-95252)</size>\r\n\r\n<color=#fede34>Medieval
-    King pack 2</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/medieval-king-pack-2-174863)</size>\r\n\r\n\r\r\r\n\r\n\r\n\r\n<size=150%>Thank
+    King pack 2</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/medieval-king-pack-2-174863)</size>\r\n\r\n<color=#fede34>Easy
+    Expandable Text Box</color>\r\n<size=50%>(https://assetstore.unity.com/packages/tools/gui/easy-expandable-text-box-177995)</size>\r\n\r\n<color=#fede34>Dark
+    Fantasy Music Pack 2 (mini-pack)</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/ambient/fantasy/dark-fantasy-music-pack-2-mini-pack-124182)</size>\r\n\r\n<color=#fede34>RPG
+    Game Music</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/music/rpg-game-music-63051)</size>\r\n\r\n<color=#fede34>2D
+    ITEMS SET - HANDPAINTED</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/gui/icons/2d-items-set-handpainted-210729)</size>\r\n\r\n<color=#fede34>Lost
+    Crypt - 2D Sample Project</color>\r\n<size=50%>(https://assetstore.unity.com/packages/essentials/tutorial-projects/lost-crypt-2d-sample-project-158673)</size>\r\n\r\n<color=#fede34>Panda
+    BT Free</color>\r\n<size=50%>(https://assetstore.unity.com/packages/tools/ai/panda-bt-free-33057)</size>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<size=150%>Thank
     you for playing!</size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
@@ -3561,7 +3568,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -2, y: 1457}
+  m_AnchoredPosition: {x: -2, y: 2390}
   m_SizeDelta: {x: 510.4275, y: 3097.5713}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2086861796
@@ -3584,10 +3591,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<size=150%>Cliche Hunter</size>\r\n<size=50%>\r(Our first game-jam game!)</size>\r\n\n\n_\r\n\n\r\n\r\nA
+  m_text: "<size=150%>Cliche Hunter</size>\r\n<size=50%>\r\n(Our first game-jam game!)</size>\r\n\r\n\r\n\r\n\r\n\r\n\r\nA
     game for \r\n[<color=#fede34>Game off 2022</color>]\r\n<size=70%>(https://itch.io/jam/game-off-2022)</size>\r\n\r\n\r\n\r\n\r\n<size=120%>Developed
     by:</size>\r\n<color=#fede34>NjitRam</color> [Development]\r\n<color=#fede34>CG-Gaming</color>
-    [Development]\r\n\r\n\r\n\r\n<size=120%>Resources used:</size>\r\n\r\n<color=#fede34>Dark
+    [Development]\r\n\r\n\r\n<size=120%>Tested by:</size>\r\n\r\n\r\n<color=#fede34>\r\nDeefNL</color>
+    (Gameplay Testing)\r\n<color=#fede34>\r\nMick</color> (Gameplay Testing)\r\n<color=#fede34>\r\nSander
+    #1</color> (Gameplay Testing)\r\n<color=#fede34>\r\nSander #2</color> (Gameplay
+    Testing)\r\n\r\n\r\n<size=120%>Resources used:</size>\r\n\r\n<color=#fede34>Dark
     Future Music</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/music/electronic/dark-future-music-3777)</size>\r\n\r\n<color=#fede34>Gothicvania
     Swamp</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/gothicvania-swamp-152865)</size>\r\n\r\n<color=#fede34>Underwater
     Ambient</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/ambient/underwater-ambient-66498)</size>\r\n\r\n<color=#fede34>Dynamic
@@ -3601,9 +3611,13 @@ MonoBehaviour:
     Menu SFX</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/sound-fx/fantasy-menu-sfx-57238)</size>\r\n\r\n<color=#fede34>Pixel
     Art Icon Pack - RPG</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/gui/icons/pixel-art-icon-pack-rpg-158343)</size>\r\n\r\n<color=#fede34>RPG
     Unitframes #1 - POWERFUL METAL</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/gui/icons/rpg-unitframes-1-powerful-metal-95252)</size>\r\n\r\n<color=#fede34>Medieval
-    King pack 2</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/medieval-king-pack-2-174863)</size>\r\n\r\n\r\n\r\n\r\n<size=120%>Special
-    credits:</size>\r\n\r\n\r<color=#fede34>[NAME]</color> (Gameplay Testing)\n<color=#fede34>\r[NAME]</color>
-    (Gameplay Testing)\n<color=#fede34>\r[NAME]</color> (Gameplay Testing)\n\r\n\n\n\n\r\n\r\n<size=150%>Thank
+    King pack 2</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/characters/medieval-king-pack-2-174863)</size>\r\n\r\n<color=#fede34>Easy
+    Expandable Text Box</color>\r\n<size=50%>(https://assetstore.unity.com/packages/tools/gui/easy-expandable-text-box-177995)</size>\r\n\r\n<color=#fede34>Dark
+    Fantasy Music Pack 2 (mini-pack)</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/ambient/fantasy/dark-fantasy-music-pack-2-mini-pack-124182)</size>\r\n\r\n<color=#fede34>RPG
+    Game Music</color>\r\n<size=50%>(https://assetstore.unity.com/packages/audio/music/rpg-game-music-63051)</size>\r\n\r\n<color=#fede34>2D
+    ITEMS SET - HANDPAINTED</color>\r\n<size=50%>(https://assetstore.unity.com/packages/2d/gui/icons/2d-items-set-handpainted-210729)</size>\r\n\r\n<color=#fede34>Lost
+    Crypt - 2D Sample Project</color>\r\n<size=50%>(https://assetstore.unity.com/packages/essentials/tutorial-projects/lost-crypt-2d-sample-project-158673)</size>\r\n\r\n<color=#fede34>Panda
+    BT Free</color>\r\n<size=50%>(https://assetstore.unity.com/packages/tools/ai/panda-bt-free-33057)</size>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<size=150%>Thank
     you for playing!</size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f1c477b6371f9ae4ab0477fc5ae63203, type: 2}
