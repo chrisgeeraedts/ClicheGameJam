@@ -34,6 +34,7 @@ namespace Assets.Scripts.FinalBossScene
 
         #region Stage 2
         [Header("Stage 2")] //Fighting boss stage 1
+        [SerializeField] private AudioSource Knockback;
         [SerializeField] private AudioSource Phase2Music;
         [SerializeField] private AudioSource EvilLaughAudio;
         [SerializeField] private LaserDamagingZoneScript LaserDamagingZoneScript_LeftDoor;
@@ -277,20 +278,21 @@ namespace Assets.Scripts.FinalBossScene
             yield return new WaitForSeconds(1f);   
             PlayerScript.Options_ShowTargetingArrow = false;
             PlayerScript.ToggleTargetingArrow(false);
-            FinalBossScript.Say("You made it", 0.125f, false, false, 3f);
+            FinalBossScript.Say("You made it", 0.075f, false, false, 3f);
+            yield return new WaitForSeconds(3f);   
+            FinalBossScript.Say("You will not stop my cliche master plan!", 0.075f, false, false, 4f);
             yield return new WaitForSeconds(4f);   
-            FinalBossScript.Say("You will not stop my cliche master plan!", 0.075f, false, false, 5f);
-            yield return new WaitForSeconds(5f);   
-            FinalBossScript.Say("The world will be destroyed!", 0.075f, false, false, 5f);
-            yield return new WaitForSeconds(5f);   
+            FinalBossScript.Say("The world will be destroyed!", 0.075f, false, false, 3f);
+            yield return new WaitForSeconds(3f);   
             FinalBossScript.Say("Muahahaha!", 0.075f, false, false, 3f);
             EvilLaughAudio.Play();            
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(16); //boss transformations
-            yield return new WaitForSeconds(4f);   
-            FinalBossScript.Say("Now... you die!", 0.075f, false, false, 3f);
             yield return new WaitForSeconds(3f);   
+            FinalBossScript.Say("Now... you die!", 0.075f, false, false, 2f);
+            yield return new WaitForSeconds(2f);   
+            Knockback.Play();
             PlayerScript.KnockBack(transform.position.x > PlayerScript.gameObject.transform.position.x);
-            yield return new WaitForSeconds(1f);               
+            yield return new WaitForSeconds(0.1f);               
             GlobalAchievementManager.GetInstance().SetAchievementCompleted(10); //Boss speeches
             ChangeStage(13);
         }
