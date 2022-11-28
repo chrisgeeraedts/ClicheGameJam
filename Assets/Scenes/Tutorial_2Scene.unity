@@ -7842,8 +7842,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1271061, y: -0.055177398}
-  m_Size: {x: 0.13875438, y: 0.2572299}
+  m_Offset: {x: 0.12710643, y: -0.035610847}
+  m_Size: {x: 0.1387539, y: 0.32815835}
   m_Direction: 0
 --- !u!58 &386469065
 CircleCollider2D:
@@ -18465,7 +18465,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03765022, y: -0.43966064}
+  m_Offset: {x: 0.013091132, y: -0.43966064}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -18476,7 +18476,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.26639968, y: 0.0956735}
+  m_Size: {x: 0.3315347, y: 0.0956735}
   m_EdgeRadius: 0
 --- !u!61 &1072288581
 BoxCollider2D:
@@ -18528,9 +18528,14 @@ MonoBehaviour:
   Options_CanChopTrees: 0
   Options_CanCraftFishingpole: 0
   Options_HasFishingpole: 0
+  Options_IsImmortal: 0
   InteractionKey: 101
   Base_Animator: {fileID: 1072288585}
   Base_RigidBody2D: {fileID: 1072288583}
+  Base_WalkingCollider1: {fileID: 0}
+  Base_WalkingCollider2: {fileID: 0}
+  Base_SwimmingCollider: {fileID: 0}
+  Base_PlayerLight: {fileID: 0}
   TargetingArrow_Arrow: {fileID: 1027211963}
   TargetingArrow_Target: {fileID: 0}
   TargetingArrow_MaximumDistanceToShow: 4
@@ -18549,6 +18554,7 @@ MonoBehaviour:
   - {fileID: 742977978}
   - {fileID: 1212174597}
   - {fileID: 170074248}
+  Walking_Light_Intensity: 0.5
   Movement_Speed: 6
   Movement_JumpForce: 18
   Movement_GroundSensor: {fileID: 386469063}
@@ -18556,10 +18562,12 @@ MonoBehaviour:
   Movement_LandGravity: 2
   LandController: {fileID: 9100000, guid: 27b42d284ff4da64092eafe8a2e82fce, type: 2}
   FishingPoleController: {fileID: 0}
+  Swimming_Light_Intensity: 2.5
   Swimming_Speed: 3
   WaterController: {fileID: 9100000, guid: 5444b2030ffca544c8926310ff5195ac, type: 2}
   Swimming_WaterGravity: -0.5
   Swimming_Bubbles_Prefab: {fileID: 1801604868145782, guid: e969aaa734be044efad60bd50e7fb070, type: 3}
+  PlayerAudio_Dive: {fileID: 0}
   Attacking_Gun_BulletPrefab: {fileID: 4959113931770922728, guid: 64ce0ce75c1eae34ba87e68c9f8d4ff4, type: 3}
   Attacking_Gun_ShootStartPoint: {fileID: 2028372929}
   AudioSources_Attacking_GunFire:
@@ -20833,7 +20841,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511221152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.73384, y: -5.6480956, z: -9.969824}
+  m_LocalPosition: {x: -4.7328224, y: -5.6478543, z: -9.969824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
