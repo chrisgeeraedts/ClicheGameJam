@@ -66,6 +66,7 @@ namespace Assets.Scripts.Fishing
             caughtFish.HideCatch();
 
             ShowTreasureChestGoal();
+            GlobalAchievementManager.GetInstance().SetAchievementCompleted(19);
         }
 
         private void ShowTreasureChestGoal()
