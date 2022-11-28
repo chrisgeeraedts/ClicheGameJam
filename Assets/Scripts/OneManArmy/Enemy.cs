@@ -91,8 +91,12 @@ namespace Assets.Scripts.OneManArmy
             CurrentHealth+=-1;
             if (CurrentHealth == 0)
             {
-                int deathSound = UnityEngine.Random.Range(0, 4);
-                ZombieDeathAudio[deathSound].Play();
+                if (0 == Random.Range(0, 4))
+                {
+                    int deathSound = UnityEngine.Random.Range(0, 4);
+                    ZombieDeathAudio[deathSound].Play();
+                }
+
                 Killed();
             }
         }
