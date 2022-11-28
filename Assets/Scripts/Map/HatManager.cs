@@ -28,7 +28,7 @@ namespace Assets.Scripts.Map
 
         public void SwapHats()
         {
-            if (MapManager.GetInstance() != null || !MapManager.GetInstance().HasSillyHat) return;
+            if (MapManager.GetInstance() == null || !MapManager.GetInstance().HasSillyHat) return;
             MapManager.GetInstance().IsWearingSillyHat = !MapManager.GetInstance().IsWearingSillyHat;
             ApplyHat();
         }
