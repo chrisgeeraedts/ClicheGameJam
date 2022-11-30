@@ -91,21 +91,16 @@ namespace Assets.Scripts.Map
             {
                 minigames = new MinigameInfo[mapWidth, mapHeight];
                 GenerateMinigames();
-                FinishStage1();
+                FinishTutorial();
             }
 
             return minigames;
         }
 
-        private void FinishStage1()
+        private void FinishTutorial()
         {
             minigameStartedX = 0;
             minigameStartedY = 0;
-
-            FinishMinigame(true);
-
-            minigameStartedX = 0;
-            minigameStartedY = 1;
 
             FinishMinigame(true);
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.Shared;
 using Assets.Scripts.Map;
+using System;
 
 public class CompletedGameManager : MonoBehaviour
 {
@@ -67,7 +68,7 @@ public class CompletedGameManager : MonoBehaviour
 
         TuttyVictory.Say("You fell for my master plan!", 0.125f, false, false, 2f);
         yield return new WaitForSeconds(6f); 
-        TuttyVictory.Say("You will never find all the cliche's! Better try again!", 0.125f, false, false, 3f);
+        TuttyVictory.Say("You will never find all the cliches! Better try again!", 0.125f, false, false, 3f);
         yield return new WaitForSeconds(5f);
         TuttyVictory.Say("Hahaha!", 0.125f, false, false, 2f);
         GlobalAchievementManager.GetInstance().SetAchievementCompleted(17);
@@ -79,7 +80,7 @@ public class CompletedGameManager : MonoBehaviour
     IEnumerator TuttySpeechGood()
     {
         yield return new WaitForSeconds(2f); 
-        TuttyVictory.Say("Goodjob! Thanks for playing!", 0.075f, false, false, 100f);        
+        TuttyVictory.Say($"Amazing, you actually found all the cliches !{Environment.NewLine}You truly are the ultimate CLICHE HUNTER !", 0.075f, false, false, 100f);        
         yield return new WaitForSeconds(5f); 
         FlyAway();
         ActuallyExitGame();
